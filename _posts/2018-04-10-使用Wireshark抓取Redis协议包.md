@@ -42,3 +42,6 @@ tags:
 - 2.客户端netstat -an|grep 7003
 tcp4       0      0  192.168.124.79.50405   10.50.2.16.7003        TIME_WAIT
 - 3.状态会显示一段时间，等2MSL后才会消失
+
+
+> 本文首次发布于 [Stuart's Blog](http://stuartlau.github.io), 作者 [@stuartlau](http://github.com/stuartlau) ,转载请保留原文链接.

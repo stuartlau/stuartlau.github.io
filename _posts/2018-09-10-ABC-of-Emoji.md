@@ -147,3 +147,5 @@ them as code points
 - https://en.wikipedia.org/wiki/UTF-8
 - https://vinoit.me/2016/10/07/codePoint-in-java-and-utf16/
 - https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/
+
+> 本文首次发布于 [Stuart's Blog](http://stuartlau.github.io), 作者 [@stuartlau](http://github.com/stuartlau) ,转载请保留原文链接.
