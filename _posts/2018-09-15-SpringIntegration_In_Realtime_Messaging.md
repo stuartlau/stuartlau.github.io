@@ -4,14 +4,14 @@ title:      Spring Integration in Realtime Messaging
 subtitle:   Spring Integration and its usage in realtime messaging system
 date:       2018-09-15
 author:     SL
-header-img: img/post-spring-integration.jpg
+header-img: img/post-bg-spring-integration.jpg
 catalog: true
 tags:
     - Messaging
     - EPI
 ---
 
-## Table of Content
+### Table of Content
 * Realtime Submission Messaging Brief
 * Old Design with Self-Implemented Framework
 * Spring Integration Introduction
@@ -64,7 +64,7 @@ Spring Integration is guided by the following principles:
 
 
 
-## Basic Component
+### Basic Component
 * Message
 * Channel
 * Filter
@@ -76,7 +76,7 @@ Spring Integration is guided by the following principles:
 * Gateway
 
 
-###1.Message
+#### 1.Message
 
 ![Message](http://docs.spring.io/spring-integration/reference/htmlsingle/images/message.jpg)
 
@@ -85,7 +85,7 @@ Spring Integration is guided by the following principles:
 * *Header* takes additional K-V data, like *Context* in Web development which takes IP, SessionId, or fields like cc, bcc, title in an Email scenario that don't belong to text body
 * PreDefined fields: *UUID*, *Timestamp*, *ReplyChannel*, *CorrelationId*
 
-### 2.Channel
+#### 2.Channel
 * *Queue* that holds *Message*
 * Decouple producer and consumer, no need to invoke put() or get(), all encapsulated internally
 * *Point2Point*&*PubSub* 
@@ -116,7 +116,7 @@ e.g. or you can use a wire-tap with a pattern, no need to configure inside a cha
 
 
 
-### 3.Filter
+#### 3.Filter
 * Filter out invalid *Messages*, lessen the load of backend service
 * Ignore invalid *Messages* using exception or throw them using another *Channel*, depends on your business
 * Exception *Channel* for *Subscribers* to consume
@@ -133,7 +133,7 @@ e.g. filter invalid *Message* and throw them into *filterErrorChannel*
 
 
 
-### 4.Splitter
+#### 4.Splitter
 * Split composition message to component messages
 * From Object to a collection of Objects
 
@@ -142,7 +142,7 @@ e.g. *splitter* splits *Message* from *markdownRequestChannel1* and put the piec
 ```
 <int:splitter id="splitter" ref="markdownRequestSplitter" input-channel="markdownRequestChannel1" output-channel="markdownRequestChannel2/>
 ```
-### 5.Router
+#### 5.Router
 ![Router](http://docs.spring.io/spring-integration/reference/htmlsingle/images/router.jpg)
 
 * Route different messages in a *Channel* to different *Channels*
@@ -168,7 +168,7 @@ public String route(InputWrapper inputWrapper) {
 ```
 
 
-### 6.Transformer
+#### 6.Transformer
 * Change the content of the *Payload* of *Message*, e.g. add, edit or delete values
 * Change to another type of Payload type, e.g. BatchelorBean to MasterBean, MasterBean to DoctorBean
 
@@ -196,7 +196,7 @@ public InputWrapper transform(Message<InputWrapper> message) {
 
 
 
-### 7.Activator
+#### 7.Activator
 * Endpoint to handle *Message*
 * *Inbound* Channel must be provided
 * Outsourcing behavior can be controlled by *Outbound* Channel if provided, or else no output
@@ -216,7 +216,7 @@ e.g. no output at all
 ```
 
 
-### 8.Chain
+#### 8.Chain
 * Combine the above components as a big entity that work together like a flow
 * Single Inbound Channel and OutBound Channel for the whole components
 * All components in a *Chain* are executed in a sequential order
@@ -238,7 +238,7 @@ e.g. a chain to process InputData(from the very beginning data to the final busi
 </int:chain>
 ```
 
-### 9.Gateway
+#### 9.Gateway
 * Place *Message* into a *Channel* and kick off the rest of Spring Integration components
 * Dependency to insourcing service
 
