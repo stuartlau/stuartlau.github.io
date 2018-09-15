@@ -4,7 +4,7 @@ title:      使用Wireshark抓取Redis协议包
 subtitle:   你得做一个合格的工程师
 date:       2018-04-10
 author:     SL
-header-img: img/post-bg-universe.png
+header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
     - Test
@@ -12,7 +12,7 @@ tags:
 ---
 # 测试一
 
-![wireshark_view-0](http://stuartlau.github.io/img/in-post/wireshark_view-0.jpg)
+![wireshark-view-0](http://stuartlau.github.io/img/in-post/wireshark-view-0.jpg)
 
 本地连接服务器Redis服务，保持了很久，确定连接超过超时时间后再次发送info命令，发现:
 - 1.原来的端口连接被重置了，服务器发送RST，且win=0，len=0
@@ -27,7 +27,7 @@ tags:
 
 # 测试三
 
-![wireshark_view-2](http://stuartlau.github.io/img/in-post/wireshark_view-2.jpg)
+![wireshark-view-2](http://stuartlau.github.io/img/in-post/wireshark-view-2.jpg)
 
 - 1.客户端发送get “A” 
 - 2.服务端cluster回复MOVED 10.50.2.16 7003，即表示这个key的slot不在7001这里而在7003那里
@@ -37,7 +37,7 @@ tags:
 
 # 测试四
 
-![wireshark_view-3](http://stuartlau.github.io/img/in-post/wireshark_view-3.jpg)
+![wireshark-view-3](http://stuartlau.github.io/img/in-post/wireshark-view-3.jpg)
 - 1.发exit命令断开连接
 - 2.客户端netstat -an|grep 7003
 tcp4       0      0  192.168.124.79.50405   10.50.2.16.7003        TIME_WAIT
