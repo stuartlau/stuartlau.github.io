@@ -17,8 +17,6 @@ tags:
 - Can we get the emoji calling “😀c”.substring(0,1)? 
 - Can we execute insert into tb(‘name’) values(‘😀’) in MySQL?
 
-# Character
-
 # How to Define Character
 - Character set - defines all readable characters
 - Coded character set - use a code point to delegate a character in character repertoire
@@ -36,6 +34,7 @@ tags:
 - e.g. U+4E2D -  中, 2 bytes, char c = ‘中’
 - Code points between U+10000 and U+10FFFF are the supplementary characters which char in Java can
  not hold
+
 # BOM
 - BOM = Byte Order Mark
 - Appear at the start of Unicode text
@@ -87,15 +86,15 @@ tags:
 In 1999, Shigetaka Kurita created the first 180 emoji collection for a Japanese mobile web platform
 
 
-#Text&Color Shape
+# Text&Color Shape
 Emoji character can have two main kinds of presentation:
 - An emoji presentation, with colorful and perhaps whimsical shapes, even animated
 - A text presentation, such as black & white
 
 # Emoji Modifiers
-- Emoji modifier - A character that can be used to modify the appearance of a preceding emoji in an emoji modifier sequence
-- Emoji modifier base - A character whose appearance can be modified by a subsequent emoji modifier in an emoji modifier sequence
-- Emoji modifier sequence - A sequence of the following form: emoji_modifier_sequence := emoji_modifier_base emoji_modifier
+- **Emoji modifier** - A character that can be used to modify the appearance of a preceding emoji in an emoji modifier sequence
+- **Emoji modifier base** - A character whose appearance can be modified by a subsequent emoji modifier in an emoji modifier sequence
+- **Emoji modifier sequence** - A sequence of the following form: emoji_modifier_sequence := emoji_modifier_base emoji_modifier
 
 # Fitzpatrick Modifiers
 - When one of these characters follows certain characters, then a font should show the sequence as a single glyph with the specified skin tone
@@ -138,7 +137,7 @@ them as code points
 - Character.isSurrogatePair(char, char):boolean
 - …
 
-#References
+# References
 - https://en.wikipedia.org/wiki/Emoji
 - http://stn.audible.com/abcs-of-unicode
 - https://twitter.github.io/twemoji/preview.html

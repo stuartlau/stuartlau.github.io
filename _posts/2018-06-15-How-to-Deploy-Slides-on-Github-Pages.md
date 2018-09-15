@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      How to deploy slides on Github Pages
+title:      How to Deploy Slides on Github Pages
 subtitle:   Use reveal.js to make magic happen 
 date:       2018-06-15
 author:     SL
@@ -23,6 +23,7 @@ tags:
 ## Creating branch
 	$ git branch gh-pages
 	$ git push origin gh-pages
+
 All the updated files must be merged from master to gh-pages(the name can not be changed)	
 
 The url is built from the following pattern: <br>
