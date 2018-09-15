@@ -95,12 +95,12 @@ Spring Integration is guided by the following principles:
 * *Priority* Channel, using Comparator
 * *Subscribable* Channel, message driven
 * DataType setting supported, no chance for messy data
-* Interceptor supported, e.g. preSend, preReceive, afterReceiveCompletion, etc. Usage: logging, counting, etc.
+* Interceptor supported, e.g. `preSend`, `preReceive`, `afterReceiveCompletion`, etc. Usage: `logging`, `counting`, etc.
 * Wire-tap *Message* to another *Channel*(same data)
 e.g. you can make the *Messages* in a *Channel* also flow to another one at the same time
 
 
-```
+```xml
 <int:channel id="submissionChannel" datatype="io.github.stuartlau.si.model
 .InputWrapper">
         <int:interceptors>
@@ -110,7 +110,7 @@ e.g. you can make the *Messages* in a *Channel* also flow to another one at the 
 ```
 e.g. or you can use a wire-tap with a pattern, no need to configure inside a channel
 
-```
+```xml
 <int:wire-tap pattern="*ActionChannel, markdownRequestChannel" order="0" channel="metricsWiretapChannel"/>
 ```
 
@@ -125,7 +125,7 @@ e.g. or you can use a wire-tap with a pattern, no need to configure inside a cha
 
 e.g. filter invalid *Message* and throw them into *filterErrorChannel*
 
-```
+```xml
 <int:channel id="filterErrorChannel" />
 
 <int:filter ref="markdownRequestFilter" throw-exception-on-rejection="false" discard-channel="filterErrorChannel" />
@@ -139,7 +139,7 @@ e.g. filter invalid *Message* and throw them into *filterErrorChannel*
 
 e.g. *splitter* splits *Message* from *markdownRequestChannel1* and put the pieces to *markdownRequestChannel2*
 
-```
+```xml
 <int:splitter id="splitter" ref="markdownRequestSplitter" input-channel="markdownRequestChannel1" output-channel="markdownRequestChannel2/>
 ```
 #### 5.Router
@@ -152,13 +152,13 @@ e.g. route messages in *submissionChannel* to different channels using self-defi
 
 XML
 
-```
+```xml
 <int:router input-channel="submissionChannel" ref="markdownActionRouter" default-output-channel="defaultRouterChannel" />
 ```
 
 Interface
 
-```
+```java
 public String route(InputWrapper inputWrapper) {
     String channelName;
     // choose with channel this message should be sent to
@@ -183,7 +183,7 @@ XML
 Interface
 
 
-```
+```java
 public InputWrapper transform(Message<InputWrapper> message) {
 		InputWrapper inputWrapper = message.getPayload();
         GetDataByFnskuScopeResponse response = sdvpServiceInvoker.getInventoryInfoData(inputWrapper);
@@ -204,14 +204,14 @@ public InputWrapper transform(Message<InputWrapper> message) {
 e.g an *Activator* consuming a channel and output the result to another channel
 
 
-```
+```xml
 <int:service-activator input-channel="createActionChannel" output-channel="publishChannel" ref="createMarkdownProcessor" >
 </int:service-activator>
 ```
 
 e.g. no output at all
 
-```
+```xml
 <int:service-activator input-channel="metricsWiretapChannel" ref="monitorActivator" />
 ```
 
@@ -225,7 +225,7 @@ e.g. no output at all
 
 e.g. a chain to process InputData(from the very beginning data to the final business data) and output to another channel for its subscribers to consume
 
-```
+```xml
 <int:chain id="inputCollectionSubmissionChain" input-channel="inputCollectionSubmissionChannel" output-channel="submissionChannel">
         <int:poller task-executor="inputCollectionExecutor" fixed-rate="1" error-channel="inputErrorChannel"/>
         <int:header-enricher>
@@ -244,13 +244,13 @@ e.g. a chain to process InputData(from the very beginning data to the final busi
 
 XML
 
-```
+```xml
 <int:gateway id="messagePlacer" service-interface="io.github.stuartlau.si.gateway.MessagePlacer" default-request-channel="markdownRequestChannel" />
 ```
 
 Interface
 
-```
+```java
 public interface MessagePlacer {
     void place(MarkdownRequest request);
 }
@@ -264,6 +264,10 @@ public interface MessagePlacer {
 * Easy to test each component, no coupling, the gluing is under the flow
 * Construct structures using XML is more readable and deployment friendly
 * A standard framework focusing on message processing: routing, filtering, splitting, transforming, aggregating and exception handling can be achieved with less code(and UT) and has more extensibility
+
+## Messaging Flow
+
+![Messaging_Flow](http://stuartlau.github.io/img/in-post/messaging_flow.jpg)
 
 ## Pro and Con
 * When your problem is broken into lots of small ones, and the boundaries are clear, you need a 
