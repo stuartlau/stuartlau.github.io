@@ -1,3 +1,13 @@
+---
+layout:     post
+title:      使用lombok的@Builder的注解的坑
+subtitle:   总有一个坑你要跳进去
+date:       2018-04-03
+author:     SL
+header-img: img/post-bg-rwd.jpg
+catalog: true
+tags:
+    - TroubleShooting
 # Background
 在增加某feature的时候需要给某类添加一个小方法，该方法使用了内部成员变量，并且该成员变量在定义的时候就已经实例化：<br>
     
