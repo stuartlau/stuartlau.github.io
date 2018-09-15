@@ -4,11 +4,12 @@ title:      Spring Integration in Realtime Messaging
 subtitle:   Spring Integration and its usage in realtime messaging system
 date:       2018-09-15
 author:     SL
-header-img: img/post-bg-spring-integration.jpg
+header-img: img/post-bg-spring-integration.png
 catalog: true
 tags:
     - Messaging
     - EPI
+    - Spring
 ---
 
 ### Table of Content
