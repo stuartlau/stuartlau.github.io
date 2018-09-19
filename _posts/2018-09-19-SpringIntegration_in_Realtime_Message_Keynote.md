@@ -2,7 +2,7 @@
 layout:     keynote
 title:      企业模型集成EPI在实践中的应用——Spring Integration
 subtitle:   Slides: Spring Integration in Realtime Messaging
-iframe:     "http://stuartlau.github.io/spring_integration_in_realtime_messaging/"
+iframe:     "//stuartlau.github.io/spring_integration_in_realtime_messaging/"
 date:       2018-09-19
 author:     SL
 header-img: img/post-bg-spring-integration.png
