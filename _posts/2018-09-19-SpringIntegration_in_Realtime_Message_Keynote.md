@@ -1,6 +1,7 @@
 ---
-layout:     post
-title:      [Keynote]Spring Integration in Realtime Messaging
+layout:     keynote
+iframe:     "http://stuartlau.github.io/spring_integration_in_realtime_messaging/"
+title:      Keynote: Spring Integration in Realtime Messaging
 subtitle:   对应的Keynote演示文稿
 date:       2018-09-19
 author:     SL
