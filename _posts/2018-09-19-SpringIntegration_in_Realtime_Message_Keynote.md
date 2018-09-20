@@ -38,3 +38,5 @@ tags:
 ### Thanks
 
 [Reveal.js](http://lab.hakim.se/reveal-js)
+
+> 本文首次发布于 [Stuart's Blog](http://stuartlau.github.io), 作者 [@stuartlau](http://github.com/stuartlau) ,转载请保留原文链接.
