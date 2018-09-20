@@ -283,7 +283,7 @@ standard way to manage them efficiently, use SI
 * [http://projects.spring.io/spring-integration/](http://projects.spring.io/spring-integration/)
 * [https://github.com/spring-projects/spring-integration-samples/](https://github.com/spring-projects/spring-integration-samples/)
 * [https://docs.spring.io/spring-integration/docs/](https://docs.spring.io/spring-integration/docs/)
-* [www.eaipatterns.com](www.eaipatterns.com)
+* [http://www.eaipatterns.com](http://www.eaipatterns.com)
 * [http://camel.apache.org/](http://camel.apache.org/)
 * [https://www.mulesoft.com](https://www.mulesoft.com)
 

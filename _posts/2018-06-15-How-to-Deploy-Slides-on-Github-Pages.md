@@ -14,7 +14,8 @@ tags:
 
 	$ git clone https://github.com/hakimel/reveal.js.git
 	$ cd reveal.js
-	$ rm -RF.git
+	$ rm -rf .git
+	$ git init
 	$ git remote add origin git@github.com:yourname/repo-name.git
 	$ git add .
 	$ git commit -m "Initial commit"
