@@ -32,3 +32,4 @@ The url is built from the following pattern: <br>
 
 ## Reference
 - https://www.tikalk.com/posts/2013/11/05/deploy-reveal-js-slideshow-on-github-pages/
+- https://www.chenhuijing.com/blog/revealjs-and-github-pages/

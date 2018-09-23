@@ -4,7 +4,7 @@ title:      "Resources Access Protection Using Multiple Level Limiter"
 subtitle:   "How to control IP access rate limit with multiple limiter"
 date:       2018-09-23
 author:     SL
-header-img: img/post-bg-universe.png
+header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
     - 
@@ -28,3 +28,5 @@ counter when the layers that is lower than it exceeds its limit.
 We use **Max**, **Period** to display the limiter's maximum access times for an single IP in a 
 specified time range. Bellow is the diagram I draw to show how multiple level limiters work.
 ![IP Frequency Limiter Group](http://stuartlau.github.io/img/in-post/ip-frequency-limiter.jpg)
+
+> 本文首次发布于 [Stuart's Blog](http://stuartlau.github.io), 作者 [@stuartlau](http://github.com/stuartlau) ,转载请保留原文链接.
