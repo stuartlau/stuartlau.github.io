@@ -62,9 +62,9 @@ disqus_username: stuartlau
 # Gitalk
 gitalk:
   enable: true    #是否开启Gitalk评论
-  clientID: 61ef90e3e4a1ed78fd6f                            #生成的clientID
-  clientSecret: afe702f22cb8e7ebe3f5e39a2696389ab9867951    #生成的clientSecret
-  repo: elsef.com    #仓库名称
+  clientID: a54fb41dd4100d0274ce                            #生成的clientID
+  clientSecret: da8ee405ccb0eb06d1ca0e8df1eedda1690c8db6    #生成的clientSecret
+  repo: stuartlau.github.io    #仓库名称
   owner: stuartlau    #github用户名
   admin: stuartlau
   distractionFreeMode: true #是否启用类似FB的阴影遮罩
