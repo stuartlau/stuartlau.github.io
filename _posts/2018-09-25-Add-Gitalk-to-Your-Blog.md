@@ -23,7 +23,7 @@ Gitalk uses your GitHub account to log in and it supports `MarkDown`.
 - Both personal and organization github projects can be used to store comments
 - Localization, support multiple languages [en, zh-CN, zh-TW, es-ES, fr, ru]
 - Facebook-like distraction free mode (Can be enabled via the distractionFreeMode option)
-- Hotkey submit comment (cmd|ctrl + enter)
+- Hotkey submit comment (cmd or ctrl + enter)
 
 ## Install
 Two ways.
@@ -43,10 +43,10 @@ Two ways.
 
     npm i --save gitalk
     
-```java
-import 'gitalk/dist/gitalk.css'
-import Gitalk from 'gitalk'
-```
+    
+    import 'gitalk/dist/gitalk.css'
+    import Gitalk from 'gitalk'
+    
 
 ### Integration with Gitalk
 
@@ -54,9 +54,9 @@ import Gitalk from 'gitalk'
 ```js
 <!-- Gitalk start  -->
 {% if site.gitalk.enable %}
-<!-- Link Gitalk 的支持文件  -->
+<!-- Link Gitalk files  -->
 <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"/></script>
 
 <div id="gitalk-container"></div>
     <script type="text/javascript">
@@ -122,3 +122,6 @@ Refresh your pages and you will see Gitalk plugin is in effect.
 ![Empty Comment](https://stuartlau.github.io/img/in-post/empty-comment.jpg)
 You can sort the comment by time.
 ![Empty Comment with Menu](https://stuartlau.github.io/img/in-post/empty-comment-with-menu.jpg)
+
+## Reference
+- https://upupming.site/2018/02/28/build-hexo/
