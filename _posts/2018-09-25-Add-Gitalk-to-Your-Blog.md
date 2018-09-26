@@ -111,7 +111,7 @@ Get `Client ID` and `Client Secret` to fill in _config.xml related to Gitalk
 ```
 
 When all settings are done and push to your GitHub repo, wait for 
-a while refresh your page and you can see Gitalk is in effect.
+a while and try to refresh your pages and boom! Gitalk is in effect.
 
 But there is still something we need to do or you may get the following
 ![Issues Not Found](https://stuartlau.github.io/img/in-post/issues-not-found.jpg)
