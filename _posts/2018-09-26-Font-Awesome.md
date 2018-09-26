@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Font Awesome is really awesome"
+title:      "Font Awesome is Really Awesome"
 subtitle:   "The web’s most popular icon set and toolkit"
 date:       2018-09-26
 author:     SL
@@ -30,6 +30,8 @@ To use the Font Awesome icons, add the following line inside the `<head>` sectio
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 # Add Wexin Icon
+I want to add Wechat Icon to my blog and share my account QR code with public, just add the 
+following to my footer:
 
     <span class="fa-stack fa-lg">
         <i class="fa fa-circle fa-stack-2x"></i>
