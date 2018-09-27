@@ -4,13 +4,17 @@ title:      How to Deploy Slides on Github Pages
 subtitle:   Use reveal.js to make magic happen 
 date:       2018-06-15
 author:     SL
+permalink:  How-to-Deploy-Slides-on-Github-Pages
 header-img: img/post-bg-desk.jpg
 catalog: true
 tags:
     - Tutorial
 ---
+It's cool to have your keynote display in your blog, Github Pages has the ability to make this 
+happen integrated with reveal.js.
+Follow steps bellow and you can enjoy your slides on your blog too, just like [me]().
 
-## Build from scratch
+## Build from Scratch
 
 	$ git clone https://github.com/hakimel/reveal.js.git
 	$ cd reveal.js
@@ -21,7 +25,7 @@ tags:
 	$ git commit -m "Initial commit"
 	$ git push -u origin master
 
-## Creating branch
+## Creating Branch
 	$ git branch gh-pages
 	$ git push origin gh-pages
 
