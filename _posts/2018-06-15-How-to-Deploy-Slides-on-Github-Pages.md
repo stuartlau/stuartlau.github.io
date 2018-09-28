@@ -37,3 +37,5 @@ The url is built from the following pattern: <br>
 - https://www.tikalk.com/posts/2013/11/05/deploy-reveal-js-slideshow-on-github-pages/
 - https://www.chenhuijing.com/blog/revealjs-and-github-pages/
 - https://www.youtube.com/watch?v=DUXD2q0meSw&feature=youtu.be
+
+> 本文首次发布于 [Stuart's Blog](http://stuartlau.github.io), 作者 [@stuartlau](http://github.com/stuartlau) ,转载请保留原文链接.
