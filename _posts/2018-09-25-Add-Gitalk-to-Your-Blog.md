@@ -115,13 +115,17 @@ a while and try to refresh your pages and boom! Gitalk is in effect.
 
 But there is still something we need to do or you may get the following
 ![Issues Not Found](https://stuartlau.github.io/img/in-post/issues-not-found.jpg)
-Link your repository to Gitalk.
+You need to authorize Gitalk can create issues on your repository
 ![Link Repository Oauth](https://stuartlau.github.io/img/in-post/link-repository-oauth.jpg)
 
-Refresh your pages and you will see Gitalk plugin is in effect.
+After all these steps, go refresh your blog and you will see Gitalk plugin is in effect.
 ![Empty Comment](https://stuartlau.github.io/img/in-post/empty-comment.jpg)
 You can sort the comment by time.
 ![Empty Comment with Menu](https://stuartlau.github.io/img/in-post/empty-comment-with-menu.jpg)
+
+## Edit
+What Gitalk does when you first refresh your blog is that it creates an `Issue` in your repository
+![Empty Comment with Menu](https://stuartlau.github.io/img/in-post/github-issues.jpg)
 
 ## Reference
 - https://upupming.site/2018/02/28/build-hexo/
