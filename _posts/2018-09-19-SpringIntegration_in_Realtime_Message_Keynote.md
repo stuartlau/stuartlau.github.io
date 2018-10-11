@@ -1,6 +1,6 @@
 ---
 layout:     keynote
-title:      "企业模型集成EPI在实践中的应用——Spring Integration"
+title:      "企业模型集成EIP在实践中的应用——Spring Integration"
 subtitle:   "Slides: Spring Integration in Realtime Messaging"
 iframe:     "https://elsef.com/spring_integration_in_realtime_messaging/"
 date:       2018-09-19
@@ -9,7 +9,7 @@ header-img: img/post-bg-debug.png
 catalog: true
 tags:
     - Messaging
-    - EPI
+    - EIP
     - Spring
 ---
 
