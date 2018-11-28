@@ -26,7 +26,7 @@ OK，那是不是使用了REPEATABLE-READ隔离级别就万事大吉了呢？
 
 # REPEATABLE-READ的误解
 
-##误解一
+## 误解一
 > REPEATABLE-READ肯定不会读到隔壁事务已经提交的数据，即使某个数据已经由隔壁事务提交，当前事务插入不会报错，否则就是发生了幻读。
 
 简单来说前半句话是对的，后半句有什么问题呢？可REPEATABLE-READ
@@ -71,6 +71,15 @@ locking锁住了，那只能等待当前事务释放锁了。
 以下任意一种均：
 - SELECT * FROM table1 LOCK IN SHARE MODE;
 - SELECT * FROM table1 FOR UPDATE;
+
+但这里要说明的是这样做跟SERIALIZABLE没有什么区别，即读也加了锁，性能大打折扣。
+
+## 误解四
+> REPEATABLE-READ解决了幻读
+
+其实这个也不对，像我在上一条举例的那样，我们仍然可以从REPEATABLE-READ事务中读取别的事务写入的数据，所以并不是你用了REPEATABLE-READ就万事大吉了，你自己不好好写SQL
+仍然可以读到最新的非本事务读取到的数据。当然，这里这么举例子可能有人觉得不对，主要是没人提查询的时候要加锁，你开始不加后来又加，确实可能读到不一样的数据。
+所以这个观点我保留。
   
   
 # 参考
