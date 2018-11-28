@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "经常被误解的MySQL隔离级别REPEATABLE-READ"
-subtitle:   "MySQL and PhantomRead Misconception"
+title:      "很少有人说清楚的MySQL如何用REPEATABLE-READ解决幻读问题"
+subtitle:   "MySQL's REPEATABLE-READ and PhantomRead Misconception"
 date:       2018-11-28
 author:     SL
 header-img: img/post-bg-universe.jpg
@@ -12,17 +12,37 @@ tags:
     - Isolation
 ---
 
-# 啥是幻读
-> The so-called phantom problem occurs within a transaction when the same query produces different sets of rows at different times. For example, if a SELECT is executed twice, but returns a row the second time that was not returned the first time, the row is a “phantom” row.
-
 # MySQL解决幻读
 
+## 啥是幻读
+> The so-called phantom problem occurs within a transaction when the same query produces different sets of rows at different times. For example, if a SELECT is executed twice, but returns a row the second time that was not returned the first time, the row is a “phantom” row.
+
+## MySQL的隔离级别
 MySQL的InnoDb存储引擎默认的隔离级别是REPEATABLE-READ
 ，即可重复读。那什么是可重复读呢，简单来说就是一个事务里的两个相同条件的查询查到的结果应该是一致的，即结果是「可以重复读到的」，所以就解决了「幻读」。
 如果做不到可重复读，如READ-COMMITTED
 隔离级别，由于一个事务执行过程中可能读到其他事务已经提交的数据，那么按照上面的描述「一个事务里的两个相同条件的查询查到的结果应该是一致的」这个就无法达到了，因为结果集合可以新增，跟之前读的结果不一样多，就幻觉读了。
 
-OK，那是不是使用了REPEATABLE-READ隔离级别就万事大吉了呢？
+## 如何解决
+OK，听起来很简单，一个隔离级别就可以搞定了，但是内部的机制和原理并不简单，并且有些概念的作用可能大家并不知道具体解决了什么问题。
+
+首先还是了解一下InnoDb的锁机制，InnoDB有三种行锁的算法：
+- Record Lock：单个行记录上的锁
+- Gap Lock：间隙锁，锁定一个范围，但不包括记录本身。GAP锁的目的，是为了防止同一事务的两次当前读，出现幻读的情况
+- Next-Key Lock：前两个锁的加和，锁定一个范围，并且锁定记录本身。对于行的查询，都是采用该方法，主要目的是解决幻读的问题
+
+关于「幻读」，有一个点需要注意，它只跟读有关系：
+- MVCC(Multi-Version Concurrency Control多版本并发控制)
+如果是简单的SELECT * FROM table1 WHERE 
+这种语句为什么读不到隔壁事务的提交数据的原因是，InnoDb使用了MVCC机制，为了提高并发，提供了这个非锁定读，即不需要等待访问行上的锁释放，读取行的一个快照即可。
+但是，它也不会阻止隔壁事务去插入新的数据，因为它并未有加锁操作，但当前事务读不到而已（其实想读也可以读到，请看后部分）。
+
+- Next-Key Lock
+如果是带排他锁操作（除了INSERT/UPDATE/DELETE这种，还包括SELECT FOR UPDATE等），它们默认都在操作的记录上加了Next-Key 
+Lock。只有使用了这里的操作后才会在相应的记录周围和记录本上加锁，即Record Lock+ Gap Lock，所以会导致冲突的事务阻塞或超时失败。
+PS.想说，隔离级别越高并发度越差，性能越差，虽然默认的是RR，但是如果业务不需要严格的没有「幻读」现象，是可以降低为RC的或修改innodb_locks_unsafe_for_binlog为1。
+注意有的时候会进行优化，并退化为只加Record Lock，不加Gap Lock，如相关字段为主键的时候。
+
 
 # REPEATABLE-READ的误解
 
@@ -66,6 +86,7 @@ locking锁住了，那只能等待当前事务释放锁了。
 > 凡是REPEATABLE-READ中的读都无法读取最新的数据。
 
 这个观点也是错误的，虽然我们读取的记录都是可重复读取的，但是如果你想读取最新的记录可以用加锁的方式读。
+
 > If you want to see the “freshest” state of the database, you should use either the READ COMMITTED isolation level or a locking read:
 
 以下任意一种均：
@@ -74,16 +95,8 @@ locking锁住了，那只能等待当前事务释放锁了。
 
 但这里要说明的是这样做跟SERIALIZABLE没有什么区别，即读也加了锁，性能大打折扣。
 
-## 误解四
-> REPEATABLE-READ解决了幻读
-
-其实这个也不对，像我在上一条举例的那样，我们仍然可以从REPEATABLE-READ事务中读取别的事务写入的数据，所以并不是你用了REPEATABLE-READ就万事大吉了，你自己不好好写SQL
-仍然可以读到最新的非本事务读取到的数据。当然，这里这么举例子可能有人觉得不对，主要是没人提查询的时候要加锁，你开始不加后来又加，确实可能读到不一样的数据。
-所以这个观点我保留。
-  
-  
 # 参考
-- https://dev.mysql.com/doc/refman/5.0/en/innodb-record-level-locks.html
 - https://dev.mysql.com/doc/refman/8.0/en/innodb-next-key-locking.html
+- https://dev.mysql.com/doc/refman/8.0/en/innodb-consistent-read.html
 
 > 本文首次发布于 [ElseF's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,转载请保留原文链接.
