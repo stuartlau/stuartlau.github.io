@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "MySQL的ON-DUPLICATE语法和批量提交的问题"
-subtitle:   "MySQL's ON-DUPLICATE with BatchUpdate"
+title:      "MySQL的ON-DUPLICATE-KEY语法和批量提交的问题"
+subtitle:   "MySQL's ON-DUPLICATE-KEY with BatchUpdate"
 date:       2018-12-18
 author:     SL
 header-img: img/post-bg-universe.jpg
@@ -9,18 +9,23 @@ catalog: true
 tags:
     - MySQL
 ---
-## INSERT..ON DUPLICATE
+## INSERT...ON DUPLICATE KEY
 这个是MySQL的一个语法，在发生主键冲突或者唯一索引冲突的时候可以对部分属性进行更新，如
-> INSERT INTO t1 (a,b,c) VALUES (1,2,3)
-    ON DUPLICATE KEY UPDATE c=c+1;
-  UPDATE t1 SET c=c+1 WHERE a=1;
+```sql
+INSERT INTO t1 (a,b,c) VALUES (1,2,3) 
+ON DUPLICATE KEY UPDATE c=c+1;
+
+UPDATE t1 SET c=c+1 WHERE a=1;
+```
   
 上面两句是一个效果。假设此时因为a为唯一索引且1已经存在则会执行*UPDATE c=c+1*的操作保证c可以被更新为新的value。
 
 ## VALUES函数
 该函数在INSERT..ON DUPLICATE时有效，如VALUES(c)标识INSERT的VALUES(..)里对应的c字段的值，即待插入的值。如
-> INSERT INTO t1 (a,b,c) VALUES (1,2,3),(4,5,6)
-    ON DUPLICATE KEY UPDATE c=VALUES(a)+VALUES(b);
+```sql
+INSERT INTO t1 (a,b,c) VALUES (1,2,3),(4,5,6)
+ON DUPLICATE KEY UPDATE c=VALUES(a)+VALUES(b);
+```
 
 通过一条SQL完成了对两个主键或唯一索引冲突时的数据变更其他字段。
 所以对于批量插入或更新的操作可以直接使用上述语法来完成功能，因为这个语法可以被MySQL driver层面进行合并成一个SQL。
@@ -112,7 +117,7 @@ spring-jdbc-5.1.3.RELEASE中的实现如下：
 		return result;
 	}
 ```
-对应的execute方法如下
+对应的execute方法如下：
 ```java
 public <T> T execute(PreparedStatementCreator psc, PreparedStatementCallback<T> action)
 			throws DataAccessException {
@@ -352,27 +357,8 @@ public <T> T execute(PreparedStatementCreator psc, PreparedStatementCallback<T> 
         }
     }
 ```
-
-## 观察general_log_file
-通过如下命令可以查看MySQL Server的gereral log是否开启：
-> SHOW VARIABLES LIKE 'general%';
-general_log：日志功能是否开启，默认关闭OFF
-general_log_file：日志文件保存位置
-
-如果未开启可以通过如下命令开启：
-> set GLOBAL general_log='ON';
-
-此时便可以通过观察对应的general_log_file的文本内容来看MySQL到底是执行了什么样的SQL了，是一条还是分开多条执行一目了然。
-
-> mysql> INSERT INTO t6 (a,b,c) VALUES (1,2,3),(4,5,6)   ON DUPLICATE KEY UPDATE c=VALUES(a)+VALUES(b);
-  Query OK, 2 rows affected (0.06 sec)
-  Records: 2  Duplicates: 0  Warnings: 0
-  
-观察general_log_file：
-> 2018-12-18T09:30:00.338741Z         9 Query     INSERT INTO t1 (a,b,c) VALUES (1,2,3)
-    ON DUPLICATE KEY UPDATE c=3
-  2018-12-18T09:30:01.071056Z         9 Query     INSERT INTO t1 (a,b,c) VALUES (4,5,6)
-    ON DUPLICATE KEY UPDATE c=9
+## References
+- https://dev.mysql.com/doc/refman/5.7/en/insert-on-duplicate.html
 
 > 本文首次发布于 [ElseF's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
