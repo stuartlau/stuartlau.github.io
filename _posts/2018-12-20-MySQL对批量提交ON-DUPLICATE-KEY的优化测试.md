@@ -9,7 +9,7 @@ catalog: true
 tags:
     - MySQL
 ---
-> 接上一篇对MySQL内部对批量提交的ON-DUPLICATE-KEY的优化的分析，本文用实际例子测试一下。
+> 接上一篇对MySQL内部对批量提交的ON-DUPLICATE-KEY的优化的分析，本文通过实际测试看一下内部执行SQL时是否会做优化处理。MySQL版本：Mac 5.7.21-log。
 # 正常的批量提交
 如果是合法的SQL语句，则在batchUpdate提交时无论下面哪种方式都会成功执行。
 SQL1
@@ -26,335 +26,19 @@ private static final String INSERT_SQL1 = "INSERT INTO %s"
 SQL2
 ```java
 private static final String INSERT_SQL2 = "INSERT INTO %s"
-            + "(`group_id`,`user_id`,`status`,`member_role`,`inviter_id`,`group_member_setting`,`nickname`,"
+            + "(`app_id`,`group_id`,`user_id`,`status`,`member_role`,`inviter_id`,`group_member_setting`,`nickname`,"
             + " `create_time`,`update_time`,`last_join_time`)"
-            + " VALUES(:group_id,:user_id,:status,:member_role,:inviter_id,:group_member_setting,:nickname,"
+            + " VALUES(:app_id,:group_id,:user_id,:status,:member_role,:inviter_id,:group_member_setting,:nickname,"
             + " :create_time,:update_time,:last_join_time) "
             + " ON DUPLICATE KEY UPDATE `status`=:status,`member_role` =:member_role,"
             + " `inviter_id`=:inviter_id,`group_member_setting`=:group_member_setting,`nickname`=:nickname,"
             + " `update_time`=:update_time,`last_join_time`=:last_join_time ";
 ```
-二者其实并无本质区别，一个使用了VALUES()函数，一个直接通过占位符的方式，这两种方式spring-jdbc均可以正常处理。
+二者的区别在于，一个使用了MySQL内置的VALUES()函数，一个通过占位符的方式，这两种方式spring-jdbc均可以正常处理。我们需要验证在MySQL内部前一种写法在批量提交时是否会被拼成一个SQL执行，而后者由于写法的限制，只能是当做多条SQL执行。
 
-## 场景1
-我们模拟batchUpdate插入三条数据的case，其中包括两个新的不存在的唯一索引的数据。其中第一第二条数据的唯一索引冲突了，所以会用第二条SQL中相关字段的记录更新第一条SQL中对应的唯一索引的相关字段的值。 第三条记录是一条独立的记录，会正常插入。
-
-### SQL1 BINLOG
-通过下面的BINGLOG内容可以看到MySQL内部是分为三个事务进行提交的，里面有个三组**begin-commit**，同时可以看到三个xid。
-```bash
-#181221 10:23:14 server id 1  end_log_pos 1342 CRC32 0x770435dc 	Anonymous_GTID	last_committed=3	sequence_number=4	rbr_only=yes
-/*!50718 SET TRANSACTION ISOLATION LEVEL READ COMMITTED*//*!*/;
-SET @@SESSION.GTID_NEXT= 'ANONYMOUS'/*!*/;
-# at 1342
-#181221 10:23:14 server id 1  end_log_pos 1414 CRC32 0x8dd29e0b 	Query	thread_id=38	exec_time=0	error_code=0
-SET TIMESTAMP=1545358994/*!*/;
-BEGIN
-/*!*/;
-# at 1414
-#181221 10:23:14 server id 1  end_log_pos 1485 CRC32 0x5dbf4bfb 	Table_map: `test`.`group_member_0` mapped to number 108
-# at 1485
-#181221 10:23:14 server id 1  end_log_pos 1595 CRC32 0xbfc1ad5a 	Write_rows: table id 108 flags: STMT_END_F
-
-BINLOG '
-kk4cXBMBAAAARwAAAM0FAAAAAGwAAAAAAAEABHRlc3QADmdyb3VwX21lbWJlcl8wAAwIAwgIDwgB
-CAEICAgCAAQQAPtLv10=
-kk4cXB4BAAAAbgAAADsGAAAAAGwAAAAAAAEAAgAM//8A8JwAAAAAAAAAAgAAAG8AAAAAAAAAbwAA
-AAAAAAAAAAAAAAAAAAAAAW8AAAAAAAAAAszlks5nAQAAzOWSzmcBAADM5ZLOZwEAAFqtwb8=
-'/*!*/;
-### INSERT INTO `test`.`group_member_0`
-### SET
-###   @1=156 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @2=2 /* INT meta=0 nullable=0 is_null=0 */
-###   @3=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @4=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @5='' /* VARSTRING(1024) meta=1024 nullable=1 is_null=0 */
-###   @6=0 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @7=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @8=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @9=2 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @10=1545358992844 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @11=1545358992844 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @12=1545358992844 /* LONGINT meta=0 nullable=0 is_null=0 */
-# at 1595
-#181221 10:23:14 server id 1  end_log_pos 1626 CRC32 0x8090f2c0 	Xid = 424
-COMMIT/*!*/;
-# at 1626
-#181221 10:23:14 server id 1  end_log_pos 1691 CRC32 0x34570b22 	Anonymous_GTID	last_committed=4	sequence_number=5	rbr_only=yes
-/*!50718 SET TRANSACTION ISOLATION LEVEL READ COMMITTED*//*!*/;
-SET @@SESSION.GTID_NEXT= 'ANONYMOUS'/*!*/;
-# at 1691
-#181221 10:23:14 server id 1  end_log_pos 1763 CRC32 0x53b0854a 	Query	thread_id=38	exec_time=0	error_code=0
-SET TIMESTAMP=1545358994/*!*/;
-BEGIN
-/*!*/;
-# at 1763
-#181221 10:23:14 server id 1  end_log_pos 1834 CRC32 0x2b7df73b 	Table_map: `test`.`group_member_0` mapped to number 108
-# at 1834
-#181221 10:23:14 server id 1  end_log_pos 2020 CRC32 0x5a99e93b 	Update_rows: table id 108 flags: STMT_END_F
-
-BINLOG '
-kk4cXBMBAAAARwAAACoHAAAAAGwAAAAAAAEABHRlc3QADmdyb3VwX21lbWJlcl8wAAwIAwgIDwgB
-CAEICAgCAAQQADv3fSs=
-kk4cXB8BAAAAugAAAOQHAAAAAGwAAAAAAAEAAgAM/////wDwnAAAAAAAAAACAAAAbwAAAAAAAABv
-AAAAAAAAAAAAAAAAAAAAAAABbwAAAAAAAAACzOWSzmcBAADM5ZLOZwEAAMzlks5nAQAAAPCcAAAA
-AAAAAAIAAABvAAAAAAAAAG8AAAAAAAAAAAAAAAAAAAAAAAFvAAAAAAAAAAHP5ZLOZwEAAMzlks5n
-AQAAz+WSzmcBAAA76Zla
-'/*!*/;
-### UPDATE `test`.`group_member_0`
-### WHERE
-###   @1=156 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @2=2 /* INT meta=0 nullable=0 is_null=0 */
-###   @3=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @4=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @5='' /* VARSTRING(1024) meta=1024 nullable=1 is_null=0 */
-###   @6=0 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @7=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @8=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @9=2 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @10=1545358992844 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @11=1545358992844 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @12=1545358992844 /* LONGINT meta=0 nullable=0 is_null=0 */
-### SET
-###   @1=156 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @2=2 /* INT meta=0 nullable=0 is_null=0 */
-###   @3=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @4=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @5='' /* VARSTRING(1024) meta=1024 nullable=1 is_null=0 */
-###   @6=0 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @7=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @8=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @9=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @10=1545358992847 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @11=1545358992844 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @12=1545358992847 /* LONGINT meta=0 nullable=0 is_null=0 */
-# at 2020
-#181221 10:23:14 server id 1  end_log_pos 2051 CRC32 0x3f81ca33 	Xid = 425
-COMMIT/*!*/;
-# at 2051
-#181221 10:23:14 server id 1  end_log_pos 2116 CRC32 0x1b6cd5c9 	Anonymous_GTID	last_committed=5	sequence_number=6	rbr_only=yes
-/*!50718 SET TRANSACTION ISOLATION LEVEL READ COMMITTED*//*!*/;
-SET @@SESSION.GTID_NEXT= 'ANONYMOUS'/*!*/;
-# at 2116
-#181221 10:23:14 server id 1  end_log_pos 2188 CRC32 0x08a72434 	Query	thread_id=38	exec_time=0	error_code=0
-SET TIMESTAMP=1545358994/*!*/;
-BEGIN
-/*!*/;
-# at 2188
-#181221 10:23:14 server id 1  end_log_pos 2259 CRC32 0x51f99111 	Table_map: `test`.`group_member_0` mapped to number 108
-# at 2259
-#181221 10:23:14 server id 1  end_log_pos 2369 CRC32 0x011360c7 	Write_rows: table id 108 flags: STMT_END_F
-
-BINLOG '
-kk4cXBMBAAAARwAAANMIAAAAAGwAAAAAAAEABHRlc3QADmdyb3VwX21lbWJlcl8wAAwIAwgIDwgB
-CAEICAgCAAQQABGR+VE=
-kk4cXB4BAAAAbgAAAEEJAAAAAGwAAAAAAAEAAgAM//8A8J4AAAAAAAAAAgAAAG8AAAAAAAAAcAAA
-AAAAAAAAAAAAAAAAAAAAAW8AAAAAAAAAAc/lks5nAQAAz+WSzmcBAADP5ZLOZwEAAMdgEwE=
-'/*!*/;
-### INSERT INTO `test`.`group_member_0`
-### SET
-###   @1=158 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @2=2 /* INT meta=0 nullable=0 is_null=0 */
-###   @3=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @4=112 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @5='' /* VARSTRING(1024) meta=1024 nullable=1 is_null=0 */
-###   @6=0 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @7=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @8=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @9=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @10=1545358992847 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @11=1545358992847 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @12=1545358992847 /* LONGINT meta=0 nullable=0 is_null=0 */
-# at 2369
-#181221 10:23:14 server id 1  end_log_pos 2400 CRC32 0x9c24bea7 	Xid = 426
-COMMIT/*!*/;
-SET @@SESSION.GTID_NEXT= 'AUTOMATIC' /* added by mysqlbinlog */ /*!*/;
-DELIMITER ;
-# End of log file
-/*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
-/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;
-```
-### SQL2 BINLOG
-通过下面的BINGLOG内容可以看到MySQL内部是分为三个事务进行提交的，里面有个三组**begin-commit**，同时可以看到三个xid。
-```bash
-#181221 10:34:35 server id 1  end_log_pos 3588 CRC32 0xdd63cafb 	Anonymous_GTID	last_committed=9	sequence_number=10	rbr_only=yes
-/*!50718 SET TRANSACTION ISOLATION LEVEL READ COMMITTED*//*!*/;
-SET @@SESSION.GTID_NEXT= 'ANONYMOUS'/*!*/;
-# at 3588
-#181221 10:34:35 server id 1  end_log_pos 3660 CRC32 0xa07b4211 	Query	thread_id=42	exec_time=0	error_code=0
-SET TIMESTAMP=1545359675/*!*/;
-BEGIN
-/*!*/;
-# at 3660
-#181221 10:34:35 server id 1  end_log_pos 3731 CRC32 0xf8ade96d 	Table_map: `test`.`group_member_0` mapped to number 108
-# at 3731
-#181221 10:34:35 server id 1  end_log_pos 3841 CRC32 0xdb88d38c 	Write_rows: table id 108 flags: STMT_END_F
-
-BINLOG '
-O1EcXBMBAAAARwAAAJMOAAAAAGwAAAAAAAEABHRlc3QADmdyb3VwX21lbWJlcl8wAAwIAwgIDwgB
-CAEICAgCAAQQAG3prfg=
-O1EcXB4BAAAAbgAAAAEPAAAAAGwAAAAAAAEAAgAM//8A8KIAAAAAAAAAAgAAAG8AAAAAAAAAcwAA
-AAAAAAAAAAAAAAAAAAAAAXMAAAAAAAAAAhZPnc5nAQAAFk+dzmcBAAAWT53OZwEAAIzTiNs=
-'/*!*/;
-### INSERT INTO `test`.`group_member_0`
-### SET
-###   @1=162 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @2=2 /* INT meta=0 nullable=0 is_null=0 */
-###   @3=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @4=115 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @5='' /* VARSTRING(1024) meta=1024 nullable=1 is_null=0 */
-###   @6=0 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @7=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @8=115 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @9=2 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @10=1545359675158 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @11=1545359675158 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @12=1545359675158 /* LONGINT meta=0 nullable=0 is_null=0 */
-# at 3841
-#181221 10:34:35 server id 1  end_log_pos 3872 CRC32 0x2feed4bc 	Xid = 470
-COMMIT/*!*/;
-# at 3872
-#181221 10:34:35 server id 1  end_log_pos 3937 CRC32 0x2d75ab93 	Anonymous_GTID	last_committed=10	sequence_number=11	rbr_only=yes
-/*!50718 SET TRANSACTION ISOLATION LEVEL READ COMMITTED*//*!*/;
-SET @@SESSION.GTID_NEXT= 'ANONYMOUS'/*!*/;
-# at 3937
-#181221 10:34:35 server id 1  end_log_pos 4009 CRC32 0x7d80dee7 	Query	thread_id=42	exec_time=0	error_code=0
-SET TIMESTAMP=1545359675/*!*/;
-BEGIN
-/*!*/;
-# at 4009
-#181221 10:34:35 server id 1  end_log_pos 4080 CRC32 0xd944f8b6 	Table_map: `test`.`group_member_0` mapped to number 108
-# at 4080
-#181221 10:34:35 server id 1  end_log_pos 4266 CRC32 0xd8353f20 	Update_rows: table id 108 flags: STMT_END_F
-
-BINLOG '
-O1EcXBMBAAAARwAAAPAPAAAAAGwAAAAAAAEABHRlc3QADmdyb3VwX21lbWJlcl8wAAwIAwgIDwgB
-CAEICAgCAAQQALb4RNk=
-O1EcXB8BAAAAugAAAKoQAAAAAGwAAAAAAAEAAgAM/////wDwogAAAAAAAAACAAAAbwAAAAAAAABz
-AAAAAAAAAAAAAAAAAAAAAAABcwAAAAAAAAACFk+dzmcBAAAWT53OZwEAABZPnc5nAQAAAPCiAAAA
-AAAAAAIAAABvAAAAAAAAAHMAAAAAAAAAAAAAAAAAAAAAAAFzAAAAAAAAAAEZT53OZwEAABZPnc5n
-AQAAGU+dzmcBAAAgPzXY
-'/*!*/;
-### UPDATE `test`.`group_member_0`
-### WHERE
-###   @1=162 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @2=2 /* INT meta=0 nullable=0 is_null=0 */
-###   @3=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @4=115 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @5='' /* VARSTRING(1024) meta=1024 nullable=1 is_null=0 */
-###   @6=0 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @7=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @8=115 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @9=2 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @10=1545359675158 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @11=1545359675158 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @12=1545359675158 /* LONGINT meta=0 nullable=0 is_null=0 */
-### SET
-###   @1=162 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @2=2 /* INT meta=0 nullable=0 is_null=0 */
-###   @3=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @4=115 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @5='' /* VARSTRING(1024) meta=1024 nullable=1 is_null=0 */
-###   @6=0 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @7=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @8=115 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @9=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @10=1545359675161 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @11=1545359675158 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @12=1545359675161 /* LONGINT meta=0 nullable=0 is_null=0 */
-# at 4266
-#181221 10:34:35 server id 1  end_log_pos 4297 CRC32 0xd1cb3846 	Xid = 471
-COMMIT/*!*/;
-# at 4297
-#181221 10:34:35 server id 1  end_log_pos 4362 CRC32 0x3ee724b3 	Anonymous_GTID	last_committed=11	sequence_number=12	rbr_only=yes
-/*!50718 SET TRANSACTION ISOLATION LEVEL READ COMMITTED*//*!*/;
-SET @@SESSION.GTID_NEXT= 'ANONYMOUS'/*!*/;
-# at 4362
-#181221 10:34:35 server id 1  end_log_pos 4434 CRC32 0xf9b9c7a1 	Query	thread_id=42	exec_time=0	error_code=0
-SET TIMESTAMP=1545359675/*!*/;
-BEGIN
-/*!*/;
-# at 4434
-#181221 10:34:35 server id 1  end_log_pos 4505 CRC32 0x95d973a9 	Table_map: `test`.`group_member_0` mapped to number 108
-# at 4505
-#181221 10:34:35 server id 1  end_log_pos 4615 CRC32 0xfbd1d523 	Write_rows: table id 108 flags: STMT_END_F
-
-BINLOG '
-O1EcXBMBAAAARwAAAJkRAAAAAGwAAAAAAAEABHRlc3QADmdyb3VwX21lbWJlcl8wAAwIAwgIDwgB
-CAEICAgCAAQQAKlz2ZU=
-O1EcXB4BAAAAbgAAAAcSAAAAAGwAAAAAAAEAAgAM//8A8KQAAAAAAAAAAgAAAG8AAAAAAAAAdAAA
-AAAAAAAAAAAAAAAAAAAAAXMAAAAAAAAAARlPnc5nAQAAGU+dzmcBAAAZT53OZwEAACPV0fs=
-'/*!*/;
-### INSERT INTO `test`.`group_member_0`
-### SET
-###   @1=164 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @2=2 /* INT meta=0 nullable=0 is_null=0 */
-###   @3=111 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @4=116 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @5='' /* VARSTRING(1024) meta=1024 nullable=1 is_null=0 */
-###   @6=0 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @7=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @8=115 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @9=1 /* TINYINT meta=0 nullable=0 is_null=0 */
-###   @10=1545359675161 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @11=1545359675161 /* LONGINT meta=0 nullable=0 is_null=0 */
-###   @12=1545359675161 /* LONGINT meta=0 nullable=0 is_null=0 */
-# at 4615
-#181221 10:34:35 server id 1  end_log_pos 4646 CRC32 0x318d4b9c 	Xid = 472
-COMMIT/*!*/;
-SET @@SESSION.GTID_NEXT= 'AUTOMATIC' /* added by mysqlbinlog */ /*!*/;
-DELIMITER ;
-# End of log file
-/*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
-/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;
-```
-
-### SQL1 general_log
-```sql
-2018-12-21T02:34:35.676438Z        42 Connect   root@localhost on test using TCP/IP
-2018-12-21T02:34:35.685920Z        42 Query     /* mysql-connector-java-5.1.43 ( Revision: 1d14b699eff3e6112aaedb1cbe5a151ab81f98f1 ) */SELECT  @@session.auto_increment_increment AS auto_increment_increment, @@character_set_client AS character_set_client, @@character_set_connection AS character_set_connection, @@character_set_results AS character_set_results, @@character_set_server AS character_set_server, @@collation_server AS collation_server, @@init_connect AS init_connect, @@interactive_timeout AS interactive_timeout, @@license AS license, @@lower_case_table_names AS lower_case_table_names, @@max_allowed_packet AS max_allowed_packet, @@net_buffer_length AS net_buffer_length, @@net_write_timeout AS net_write_timeout, @@have_query_cache AS have_query_cache, @@sql_mode AS sql_mode, @@system_time_zone AS system_time_zone, @@time_zone AS time_zone, @@tx_isolation AS tx_isolation, @@wait_timeout AS wait_timeout
-2018-12-21T02:34:35.773230Z        42 Query     SHOW WARNINGS
-2018-12-21T02:34:35.775109Z        42 Query     SELECT @@query_cache_size AS query_cache_size, @@query_cache_type AS query_cache_type
-2018-12-21T02:34:35.775433Z        42 Query     SHOW WARNINGS
-2018-12-21T02:34:35.776315Z        42 Query     SET character_set_results = NULL
-2018-12-21T02:34:35.776784Z        42 Query     SELECT @@session.autocommit
-2018-12-21T02:34:35.808049Z        42 Query     select @@session.tx_read_only
-2018-12-21T02:34:35.809397Z        42 Query     INSERT INTO group_member_0(`app_id`,`group_id`,`user_id`,`status`,`member_role`,`inviter_id`,`group_member_setting`,`nickname`, `create_time`,`update_time`,`last_join_time`) VALUES(2, 111,115,1,2,115,0,'', 1545359675158,1545359675158,1545359675158)  ON DUPLICATE KEY UPDATE `status`=1,`member_role` =2, `inviter_id`=115,`group_member_setting`=0,`nickname`='', `update_time`=1545359675158,`last_join_time`=1545359675158
-2018-12-21T02:34:35.837184Z        42 Query     INSERT INTO group_member_0(`app_id`,`group_id`,`user_id`,`status`,`member_role`,`inviter_id`,`group_member_setting`,`nickname`, `create_time`,`update_time`,`last_join_time`) VALUES(2, 111,115,1,1,115,0,'', 1545359675161,1545359675161,1545359675161)  ON DUPLICATE KEY UPDATE `status`=1,`member_role` =1, `inviter_id`=115,`group_member_setting`=0,`nickname`='', `update_time`=1545359675161,`last_join_time`=1545359675161
-2018-12-21T02:34:35.852355Z        42 Query     INSERT INTO group_member_0(`app_id`,`group_id`,`user_id`,`status`,`member_role`,`inviter_id`,`group_member_setting`,`nickname`, `create_time`,`update_time`,`last_join_time`) VALUES(2, 111,116,1,1,115,0,'', 1545359675161,1545359675161,1545359675161)  ON DUPLICATE KEY UPDATE `status`=1,`member_role` =1, `inviter_id`=115,`group_member_setting`=0,`nickname`='', `update_time`=1545359675161,`last_join_time`=1545359675161
-2018-12-21T02:34:35.865664Z        42 Quit
-```
-### SQL2 general_log
-```sql
-2018-12-21T02:23:13.778736Z        38 Connect   root@localhost on test using TCP/IP
-2018-12-21T02:23:13.959697Z        38 Query     /* mysql-connector-java-5.1.43 ( Revision: 1d14b699eff3e6112aaedb1cbe5a151ab81f98f1 ) */SELECT  @@session.auto_increment_increment
- AS auto_increment_increment, @@character_set_client AS character_set_client, @@character_set_connection AS character_set_connection, @@character_set_results AS character_set_res
-ults, @@character_set_server AS character_set_server, @@collation_server AS collation_server, @@init_connect AS init_connect, @@interactive_timeout AS interactive_timeout, @@lice
-nse AS license, @@lower_case_table_names AS lower_case_table_names, @@max_allowed_packet AS max_allowed_packet, @@net_buffer_length AS net_buffer_length, @@net_write_timeout AS n
-et_write_timeout, @@have_query_cache AS have_query_cache, @@sql_mode AS sql_mode, @@system_time_zone AS system_time_zone, @@time_zone AS time_zone, @@tx_isolation AS tx_isolation
-, @@wait_timeout AS wait_timeout
-2018-12-21T02:23:14.055050Z        38 Query     SHOW WARNINGS
-2018-12-21T02:23:14.063517Z        38 Query     SELECT @@query_cache_size AS query_cache_size, @@query_cache_type AS query_cache_type
-2018-12-21T02:23:14.063949Z        38 Query     SHOW WARNINGS
-2018-12-21T02:23:14.109542Z        38 Query     SET character_set_results = NULL
-2018-12-21T02:23:14.122132Z        38 Query     SELECT @@session.autocommit
-2018-12-21T02:23:14.157878Z        38 Query     select @@session.tx_read_only
-2018-12-21T02:23:14.186629Z        38 Query     INSERT INTO group_member_0(app_id, group_id, user_id, status, member_role, inviter_id, group_member_setting, nickname, create_time
-, update_time, last_join_time) VALUES(2, 111, 111, 1, 2, 111, 0, '', 1545358992844, 1545358992844, 1545358992844) ON DUPLICATE KEY UPDATE status = VALUES(status), member_role = V
-ALUES(member_role), inviter_id = VALUES(inviter_id), group_member_setting = VALUES(group_member_setting), nickname = VALUES(nickname), update_time = VALUES(update_time), last_joi
-n_time = VALUES(last_join_time)
-2018-12-21T02:23:14.472182Z        38 Query     INSERT INTO group_member_0(app_id, group_id, user_id, status, member_role, inviter_id, group_member_setting, nickname, create_time
-, update_time, last_join_time) VALUES(2, 111, 111, 1, 1, 111, 0, '', 1545358992847, 1545358992847, 1545358992847) ON DUPLICATE KEY UPDATE status = VALUES(status), member_role = V
-ALUES(member_role), inviter_id = VALUES(inviter_id), group_member_setting = VALUES(group_member_setting), nickname = VALUES(nickname), update_time = VALUES(update_time), last_joi
-n_time = VALUES(last_join_time)
-2018-12-21T02:23:14.493742Z        38 Query     INSERT INTO group_member_0(app_id, group_id, user_id, status, member_role, inviter_id, group_member_setting, nickname, create_time
-, update_time, last_join_time) VALUES(2, 111, 112, 1, 1, 111, 0, '', 1545358992847, 1545358992847, 1545358992847) ON DUPLICATE KEY UPDATE status = VALUES(status), member_role = V
-ALUES(member_role), inviter_id = VALUES(inviter_id), group_member_setting = VALUES(group_member_setting), nickname = VALUES(nickname), update_time = VALUES(update_time), last_joi
-n_time = VALUES(last_join_time)
-2018-12-21T02:23:14.509421Z        38 Quit
-```
-
-## 场景2
+## 场景
 我们模拟batchUpdate更新三条数据的case，其中包括两个已经存在的唯一索引的数据，即其中第一第二条SQL数据的唯一索引冲突，并且和数据库内已存在数据唯一索引冲突，第三条SQL只和数据库内已存在数据唯一索引冲突。
+
 ### SQL1 BINLOG
 ```sql
 #181221 10:58:21 server id 1  end_log_pos 6058 CRC32 0x992efebc 	Query	thread_id=44	exec_time=0	error_code=0
@@ -514,6 +198,7 @@ DELIMITER ;
 /*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
 /*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;
 ```
+
 ### SQL2 BINLOG
 ```sql
 #181221 10:51:10 server id 1  end_log_pos 4711 CRC32 0x8bb9a5a2 	Anonymous_GTID	last_committed=12	sequence_number=13	rbr_only=yes
@@ -677,6 +362,7 @@ DELIMITER ;
 /*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
 /*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;
 ```
+
 ### SQL1 general_log
 ```sql
 2018-12-21T02:58:21.189301Z        44 Connect   root@localhost on test using TCP/IP
@@ -692,6 +378,7 @@ DELIMITER ;
 2018-12-21T02:58:21.315700Z        44 Query     INSERT INTO group_member_0(app_id, group_id, user_id, status, member_role, inviter_id, group_member_setting, nickname, create_time, update_time, last_join_time) VALUES(2, 111, 116, 1, 1, 115, 0, '', 1545361100559, 1545361100559, 1545361100559) ON DUPLICATE KEY UPDATE status = VALUES(status), member_role = VALUES(member_role), inviter_id = VALUES(inviter_id), group_member_setting = VALUES(group_member_setting), nickname = VALUES(nickname), update_time = VALUES(update_time), last_join_time = VALUES(last_join_time)
 2018-12-21T02:58:21.333553Z        44 Quit
 ```
+
 ### SQL2 general_log
 ```sql
 2018-12-21T02:51:10.235590Z        43 Connect   root@localhost on test using TCP/IP
@@ -707,8 +394,10 @@ DELIMITER ;
 2018-12-21T02:51:10.485740Z        43 Query     INSERT INTO group_member_0(`app_id`,`group_id`,`user_id`,`status`,`member_role`,`inviter_id`,`group_member_setting`,`nickname`, `create_time`,`update_time`,`last_join_time`) VALUES(2, 111,116,1,1,115,0,'', 1545360669706,1545360669706,1545360669706)  ON DUPLICATE KEY UPDATE `status`=1,`member_role` =1, `inviter_id`=115,`group_member_setting`=0,`nickname`='', `update_time`=1545360669706,`last_join_time`=1545360669706
 2018-12-21T02:51:10.498312Z        43 Quit
 ```
+### 总结
+可以通过上面的BINLOG和general_log看到两个SQL在MySQL内部执行时都是分成了3条独立的事务执行，有不同的事务ID。默认情况下**SELECT @@session.autocommit**返回值为1，即开启了自动提交，而由于我们使用的是writer库，所以**select @@session.tx_read_only**返回值为0，即不是read_only模式。
 
-### 开启事务 SQL1BINLOG
+### 开启事务 SQL1 BINLOG
 ```sql
 #181221 10:58:21 server id 1  end_log_pos 7196 CRC32 0xa6c18e7a 	Xid = 500
 COMMIT/*!*/;
@@ -850,6 +539,7 @@ DELIMITER ;
 /*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
 /*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;
 ```
+可以看到内部只启动了一个事务，Xid=514，内部是按照三条SQL分别执行的。
 
 ### 开启事务 SQL2 BINLOG
 ```sql
@@ -991,6 +681,7 @@ DELIMITER ;
 /*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
 /*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;
 ```
+这里也是一样，执行了一次事务，内部分三个UPDATE执行。
 
 ### 开启事务SQL1 general_log
 ```sql
@@ -1013,7 +704,9 @@ DELIMITER ;
 2018-12-21T03:28:30.333496Z        45 Query     select @@session.tx_read_only
 2018-12-21T03:28:30.341584Z        45 Quit
 ```
-开启事务SQL2 general_log
+可以看到内部先 **SET autocommit=0**，即关闭了自动提交，一直到全部SQL执行完毕才打开**SET autocommit=1**。
+
+### 开启事务SQL2 general_log
 ```sql
 2018-12-21T03:31:51.067874Z        46 Connect   root@localhost on test using TCP/IP
 2018-12-21T03:31:51.073603Z        46 Query     /* mysql-connector-java-5.1.43 ( Revision: 1d14b699eff3e6112aaedb1cbe5a151ab81f98f1 ) */SELECT  @@session.auto_increment_increment AS auto_increment_increment, @@character_set_client AS character_set_client, @@character_set_connection AS character_set_connection, @@character_set_results AS character_set_results, @@character_set_server AS character_set_server, @@collation_server AS collation_server, @@init_connect AS init_connect, @@interactive_timeout AS interactive_timeout, @@license AS license, @@lower_case_table_names AS lower_case_table_names, @@max_allowed_packet AS max_allowed_packet, @@net_buffer_length AS net_buffer_length, @@net_write_timeout AS net_write_timeout, @@have_query_cache AS have_query_cache, @@sql_mode AS sql_mode, @@system_time_zone AS system_time_zone, @@time_zone AS time_zone, @@tx_isolation AS tx_isolation, @@wait_timeout AS wait_timeout
@@ -1033,6 +726,11 @@ DELIMITER ;
 2018-12-21T03:32:02.793580Z        46 Query     select @@session.tx_read_only
 2018-12-21T03:32:02.799811Z        46 Quit
 ```
+可以看到内部先 **SET autocommit=0**，即关闭了自动提交，一直到全部SQL执行完毕才打开**SET autocommit=1**。
+
+### 总结
+通过在事务中执行批量提交可以保证原子性，但是内部仍然是通过多个SQL执行的。
+
 ## 异常的批量提交
 如果在一个批量提交中有部分SQL是有语法错误或者数值不符合规范的，如int类型的field却赋值了varchar，则这两种SQL的执行却是截然不同的。
 
@@ -1178,7 +876,7 @@ x_allowed_packet AS max_allowed_packet, @@net_buffer_length AS net_buffer_length
 2018-12-21T03:51:54.554391Z        50 Quit
 ```
 
-### SQL2 BINLOG
+### SQL2 BIN LOG
 ```sql
 #181221 11:49:01 server id 1  end_log_pos 9139 CRC32 0xa772b006 	Anonymous_GTID	last_committed=20	sequence_number=21	rbr_only=yes
 /*!50718 SET TRANSACTION ISOLATION LEVEL READ COMMITTED*//*!*/;
