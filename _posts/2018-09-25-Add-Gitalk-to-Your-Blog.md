@@ -7,7 +7,7 @@ author:     SL
 header-img: img/post-bg-keyboard.jpg
 catalog: true
 tags:
-    - Blog
+    - Site
 ---
 
 

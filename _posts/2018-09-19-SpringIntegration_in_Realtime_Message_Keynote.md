@@ -9,8 +9,6 @@ header-img: img/post-bg-debug.png
 catalog: true
 tags:
     - Messaging
-    - EIP
-    - Spring
 ---
 
 > 下滑这里查看更多内容

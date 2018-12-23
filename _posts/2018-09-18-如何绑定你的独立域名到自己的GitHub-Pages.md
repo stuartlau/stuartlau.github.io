@@ -7,7 +7,7 @@ author:     SL
 header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
-    - Domain
+    - Site
 ---
 
 之前一直使用GitHub Pages的域名下的二级域名来管理博客，现在决定用自己的域名来进行管理。

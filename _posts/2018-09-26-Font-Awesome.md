@@ -7,7 +7,7 @@ author:     SL
 header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
-    - Blog
+    - Site
 ---
 # Font Awesome
 [Font Awesome](https://fontawesome.com) is a website provides free icons.

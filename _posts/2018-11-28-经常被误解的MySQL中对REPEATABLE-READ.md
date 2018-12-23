@@ -8,8 +8,6 @@ header-img: img/post-bg-universe.jpg
 catalog: true
 tags: 
     - MySQL
-    - PhantomRead
-    - Isolation
 ---
 
 # MySQL解决幻读

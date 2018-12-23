@@ -8,8 +8,6 @@ header-img: img/post-bg-spring-integration.png
 catalog: true
 tags:
     - Messaging
-    - EPI
-    - Spring
 ---
 
 ### Table of Content

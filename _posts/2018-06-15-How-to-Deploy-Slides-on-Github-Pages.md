@@ -7,7 +7,7 @@ author:     SL
 header-img: img/post-bg-desk.jpg
 catalog: true
 tags:
-    - Tutorial
+    - Site
 ---
 It's cool to have your keynote display in your blog, Github Pages has the ability to make this 
 happen integrated with reveal.js.
