@@ -7,7 +7,7 @@ author:     SL
 header-img: img/post-bg-desk.jpg
 catalog: true
 tags:
-    - 
+    - MySQL
 ---
 > 为什么讨论这个问题，我参与的一个业务的MySQL集群的拓扑图是一条线，跟我之前的理解不太一致，于是研究了一下这样做的好处，然后又研究了一下如何才能做成这样的拓扑，首先遇到了log-slave
 -updates...
