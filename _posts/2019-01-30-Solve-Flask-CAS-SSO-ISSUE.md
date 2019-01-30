@@ -44,7 +44,9 @@ CAS协议：https://apereo.github.io/cas/5.0.x/protocol/CAS-Protocol.html
 >attributes["cas:memberOf"] = attributes["cas:memberOf"].lstrip('[').rstrip(']').split(',')
 > 修改为
 >attributes["cas:memberOf"] = str(attributes["cas:memberOf"]).lstrip('[').rstrip(']').split(',')
+
 如果这方法仍然解决不了问题，那么请按照这个[commit](https://github.com/cameronbwhite/Flask-CAS/pull/36/files)修改
+
 ### 2、遇到KeyError: 'cas:attributes'报错
 
 原因：使用pip安装flask-CAS时默认安装的时1.0.0，bug在1.0.1版本中被修复
