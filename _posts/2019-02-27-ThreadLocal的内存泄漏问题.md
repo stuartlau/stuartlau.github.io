@@ -10,7 +10,7 @@ tags:
     - Java
 ---
     
-> 本文说明说明时候ThreadLocal变量的使用会导致内存泄漏
+> 本文说明当使用Thread和ThreadLocal的方式不当的时候，可能会会导致内存泄漏问题，并提供解决方案。
 
 ThreadLocal通过采用「以空间换时间」的方式避免了并发中使用锁来控制多线程对共享变量的操作，使用线程「本地」变量的方式让多线程中的并发数据访问变得更加简单。
 但是如果对ThreadLocal使用不当则会造成内存泄漏问题，本文主要分析内存泄漏出现的场景以及正确的使用ThreadLocal的方式。
@@ -65,7 +65,9 @@ ThreadLocalMap的JavaDoc如下：
 ```java
     /**
      * Construct a new map initially containing (firstKey, firstValue).
+     * 
      * ThreadLocalMaps are constructed lazily, so we only create
+     * 
      * one when we have at least one entry to put in it.
      */
     ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
@@ -81,10 +83,15 @@ ThreadLocalMap的JavaDoc如下：
 ```java
     /**
      * The entries in this hash map extend WeakReference, using
+     * 
      * its main ref field as the key (which is always a
+     * 
      * ThreadLocal object).  Note that null keys (i.e. entry.get()
+     * 
      * == null) mean that the key is no longer referenced, so the
+     * 
      * entry can be expunged from table.  Such entries are referred to
+     * 
      * as "stale entries" in the code that follows.
      */
     static class Entry extends WeakReference<ThreadLocal<?>> {
@@ -104,13 +111,19 @@ ThreadLocalMap的JavaDoc如下：
 ```java
     /**
      * Expunge a stale entry by rehashing any possibly colliding entries
+     * 
      * lying between staleSlot and the next null slot.  This also expunges
+     * 
      * any other stale entries encountered before the trailing null.  See
+     * 
      * Knuth, Section 6.4
      *
      * @param staleSlot index of slot known to have null key
+     * 
      * @return the index of the next null slot after staleSlot
+     * 
      * (all between staleSlot and this slot will have been checked
+     * 
      * for expunging).
      */
     private int expungeStaleEntry(int staleSlot) {
@@ -153,12 +166,17 @@ ThreadLocalMap的JavaDoc如下：
 。所以当我们显式调用这些方法的时候内部会自动帮我们清理那些已经被垃圾回收的key对应的Entry。
 
 ## 解决方案
-如上面介绍的，因为WeakReference类型key被垃圾回收，但其对应的Entry仍然在table中保留，如果没有及时清理并且对应的线程是线程池里的一个long-live线程，则会造成内存泄漏。
+正如上面介绍的，因为WeakReference类型key被垃圾回收，但其对应的Entry仍然在table中保留，如果没有及时清理并且对应的线程是线程池里的一个long-live
+线程，则会造成内存泄漏。
+如果是一个new Thread生成的线程则不会有这种问题，原因是线程的生命周期随着`run`方法的结束就结束了，GC会帮我们回收该thread引用的内存。
 错误的使用方式：使用ThreadLocal作为内部变量，导致其被垃圾回收，进而导致所有线程中已经实例化的ThreadLocalMap的实例中都包含该ThreadLocal实例对应的key
 的Entry实例。
-- 解决方案1：使用全局static类型修饰ThreadLocal，让其不会被垃圾回收。
-- 解决方案2：如果非要作为内部变量，且每次都new一个新的ThreadLocal对象，则需要在使用前先调用，如`remove`方法，保证可以触发ThreadLocalMap内部的`expunge
-`机制，对map内已经「无效」的Entry进行清理，从而避免Thread实例中持有的ThreadLocalMap产生无法回收的内存，进而造成内存泄漏。
+有两种方式可以帮你避免OOM的问题：
+- 解决方案1：使用全局static类型修饰ThreadLocal，让其不会被垃圾回收，从而避免撑满ThreadLocalMap。
+- 解决方案2：如果非要作为局部变量声明，即每次都new一个新的ThreadLocal对象，则需要在使用前先调用可以触发「清理方法」的方法，如`remove
+`方法，保证可以触发ThreadLocalMap
+内部的`expunge
+`机制，它会对map内已经「无效」的Entry进行清理，从而避免Thread实例中持有的ThreadLocalMap产生无法回收的内存，进而造成内存泄漏。
 
 
 
