@@ -27,17 +27,17 @@ Web 认证系统，企业内部passport
 - 下游系统： 待接入CAS认证的Web系统，如git，jira，wiki等
 
 ### 协议文档
-参考文档： https://apereo.github.io/cas/5.0.x/planning/Architecture.html
-CAS协议：https://apereo.github.io/cas/5.0.x/protocol/CAS-Protocol.html
+- 架构文档： https://apereo.github.io/cas/5.0.x/planning/Architecture.html
+- CAS协议：https://apereo.github.io/cas/5.0.x/protocol/CAS-Protocol.html
 
 ### 官方Python实现
-第三方CAS client：https://github.com/cameronbwhite/Flask-CAS
-客户端示例程序： https://github.com/cas-projects/cas-sample-python-webapp
+- Flask-CAS client：https://github.com/cameronbwhite/Flask-CAS
+- 客户端示例程序：https://github.com/cas-projects/cas-sample-python-webapp
 
 ## 使用问题：
 
 ### 1、flask_cas在解析sso返回的xml数据的时候，有个bug
-.一般的xml解析在解析相同的组数据会有两种情况，只有一条数据的时候返回字符串，多条数据的时候返回数组。但是在下面取验证信息的时候，flask_cas没有对这两种情况同时处理。需要对源码进行修改一下，同时兼容两种数据类型。
+一般的xml解析在解析相同的组数据会有两种情况，只有一条数据的时候返回字符串，多条数据的时候返回数组。但是在下面取验证信息的时候，flask_cas没有对这两种情况同时处理。需要对源码进行修改一下，同时兼容两种数据类型。
 
 最简单的修改方式，在routing.py中的128行
 
