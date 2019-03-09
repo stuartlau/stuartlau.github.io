@@ -10,33 +10,35 @@ tags:
     - Java
 ---
     
-> 本文说明当使用Thread和ThreadLocal的方式不当的时候，可能会会导致内存泄漏问题，并提供解决方案。
+> 本文说明当使用Thread和ThreadLocal的方式不当的时候，可能会导致内存泄漏问题，并提供解决方案。
 
 ThreadLocal通过采用「以空间换时间」的方式避免了并发中使用锁来控制多线程对共享变量的操作，使用线程「本地」变量的方式让多线程中的并发数据访问变得更加简单。
 但是如果对ThreadLocal使用不当则会造成内存泄漏问题，本文主要分析内存泄漏出现的场景以及正确的使用ThreadLocal的方式。
 
 ## ThreadLocal基础
 
-每个Thread实例都含有一个ThreadLocalMap变量，该变量定义在ThreadLocal中，访问权限为`package private`。
+每个Thread实例都含有一个ThreadLocal.ThreadLocalMap变量`threadLocals`，注意该类定义在ThreadLocal类中，访问权限为`package 
+private`，它保存了所有ThreadLocal对象在当前线程中存储的值。
 
 ```java
-/* ThreadLocal values pertaining to this thread. This map is maintained
-     * by the ThreadLocal class. */
+    /* ThreadLocal values pertaining to this thread. This map is maintained by the ThreadLocal 
+    class. */
     ThreadLocal.ThreadLocalMap threadLocals = null;
 ```
 
 ThreadLocalMap的JavaDoc如下：
+
+> ThreadLocalMap is a customized hash map suitable only for maintaining thread local values. 
+> No operations are exported maintaining thread local values. No operations are exported
+> outside of the ThreadLocal class. The class is package private to allow declaration of 
+> fields in class Thread.  To help deal with very large and long-lived usages, the hash 
+> table entries use WeakReferences for keys. However, since reference queues are not
+> used, stale entries are guaranteed to be removed only when the table starts running 
+> out of space.
+
+默认table entries使用`WeakReference`作为key，但是由于没有使用`ReferenceQueue`，所以过期的entries只有在JVM内存吃紧的时候才会被释放。 
+
 ```java
-    /**
-     * ThreadLocalMap is a customized hash map suitable only for
-     * maintaining thread local values. No operations are exported
-     * outside of the ThreadLocal class. The class is package private to
-     * allow declaration of fields in class Thread.  To help deal with
-     * very large and long-lived usages, the hash table entries use
-     * WeakReferences for keys. However, since reference queues are not
-     * used, stale entries are guaranteed to be removed only when
-     * the table starts running out of space.
-     */
     static class ThreadLocalMap {
         /**
          * The initial capacity -- MUST be a power of two.
@@ -65,9 +67,7 @@ ThreadLocalMap的JavaDoc如下：
 ```java
     /**
      * Construct a new map initially containing (firstKey, firstValue).
-     * 
      * ThreadLocalMaps are constructed lazily, so we only create
-     * 
      * one when we have at least one entry to put in it.
      */
     ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
@@ -78,22 +78,14 @@ ThreadLocalMap的JavaDoc如下：
         setThreshold(INITIAL_CAPACITY);
     }
 ```
-可知内部通过维护了一个Entry数组，每个Entry用于保存ThreadLocal为key的value的值。初始化的数组大小为16。
+可知内部通过维护了一个Entry数组，每个Entry保存key为ThreadLocal对象，value为具体的ThreadLocal<T>泛型T的实例对象。初始化的数组大小为16。
 
+> The entries in this hash map extend WeakReference, using its main ref field as the key (which 
+> is always a ThreadLocal object). Note that null keys (i.e. entry.get() == null) mean that 
+> the key is no longer referenced, so the entry can be expunged from table.  Such entries 
+> are referred to as "stale entries" in the code that follows.
+       
 ```java
-    /**
-     * The entries in this hash map extend WeakReference, using
-     * 
-     * its main ref field as the key (which is always a
-     * 
-     * ThreadLocal object).  Note that null keys (i.e. entry.get()
-     * 
-     * == null) mean that the key is no longer referenced, so the
-     * 
-     * entry can be expunged from table.  Such entries are referred to
-     * 
-     * as "stale entries" in the code that follows.
-     */
     static class Entry extends WeakReference<ThreadLocal<?>> {
         /** The value associated with this ThreadLocal. */
         Object value;
@@ -172,7 +164,7 @@ ThreadLocalMap的JavaDoc如下：
 错误的使用方式：使用ThreadLocal作为内部变量，导致其被垃圾回收，进而导致所有线程中已经实例化的ThreadLocalMap的实例中都包含该ThreadLocal实例对应的key
 的Entry实例。
 有两种方式可以帮你避免OOM的问题：
-- 解决方案1：使用全局static类型修饰ThreadLocal，让其不会被垃圾回收，从而避免撑满ThreadLocalMap。
+- 解决方案1：使用全局static类型修饰ThreadLocal，让其不会被垃圾回收，从而避免引实例化过多「短寿」ThreadLocal对象撑满ThreadLocalMap。
 - 解决方案2：如果非要作为局部变量声明，即每次都new一个新的ThreadLocal对象，则需要在使用前先调用可以触发「清理方法」的方法，如`remove
 `方法，保证可以触发ThreadLocalMap
 内部的`expunge
