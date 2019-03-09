@@ -1,1 +1,1 @@
-#### This blog is forked from qiubaiying/qiubaiying.github.io
+please visit my blog at https://elsef.com
