@@ -11,9 +11,9 @@ tags:
     - TroubleShooting
 ---
     
-> 本文记录在使用Flask开发Web服务时遇到的CAS单点登录的接入问题以及解决方案
+> 最近在使用Flask开发IM中台的运营平台，在解决身份为题时接入了公司的SSO服务，Flask的CSA的实现是插件叫flask-cas，但是这个插件的源码存在bug导致在认证的时候会有异常，本文主要解决flask-cas中源码的异常问题并提供解决方案。
 
-## CAS简介
+## 一分钟介绍CAS
 CAS是一个企业SSO系统，支持CAS/OpenId/Oauth/SAML等协议，用于企业内部Web系统的SSO。
 
 ### CAS是什么
@@ -24,9 +24,9 @@ Web 认证系统，企业内部passport
 - 权限管理： CAS不负责应用内部的权限管理。应用需要负责管理哪些用户可以登录，哪些不可以；并且需要负责应用内部权限控制。
 
 ### 概念定义：
-- 下游系统： 待接入CAS认证的Web系统，如git， jira，wiki等
+- 下游系统： 待接入CAS认证的Web系统，如git，jira，wiki等
 
-### 相关文档
+### 协议文档
 参考文档： https://apereo.github.io/cas/5.0.x/planning/Architecture.html
 CAS协议：https://apereo.github.io/cas/5.0.x/protocol/CAS-Protocol.html
 
