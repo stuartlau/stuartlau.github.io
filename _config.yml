@@ -1,7 +1,7 @@
 # Site settings
 title: ElseF's Blog
 SEOTitle: ElseF's Blog | ElseF Blog
-header-img: img/post-bg-desk.jpg
+header-img: img/post-bg-universe.jpg
 #email: surelau@gmail.com
 description: "Every failure is leading towards success."
 keyword: "ElseF, ElseF Blog, ElseF的博客"
@@ -33,7 +33,7 @@ twitter_username:   shuoleo
 permalink: pretty
 paginate: 20
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
-anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
+anchorjs: true                          # if you want to customize anchor. check out line:181 of `j`
 
 
 
