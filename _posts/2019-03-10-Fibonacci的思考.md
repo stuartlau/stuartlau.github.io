@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Fibonacci的优化思考"
-subtitle:   "Fibonacci"
+subtitle:   "Fibonacci Optimization"
 date:       2019-03-10
 author:     SL
 header-img: img/post-bg-universe.jpg
