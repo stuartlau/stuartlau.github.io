@@ -159,7 +159,8 @@ ThreadLocalMap的JavaDoc如下：
 
 ## 解决方案
 正如上面介绍的，因为WeakReference类型key被垃圾回收，但其对应的Entry仍然在table中保留，如果没有及时清理并且对应的线程是线程池里的一个long-live
-线程，则会造成内存泄漏。
+线程，则会造成内存泄漏，因为long live线程引用的ThreadLocalMap中的value的Class可能会强引用对应的ClassLoader，导致ClassLoader
+无法卸载进而导致其无法卸载其加载的Class实例。
 如果是一个new Thread生成的线程则不会有这种问题，原因是线程的生命周期随着`run`方法的结束就结束了，GC会帮我们回收该thread引用的内存。
 错误的使用方式：使用ThreadLocal作为内部变量，导致其被垃圾回收，进而导致所有线程中已经实例化的ThreadLocalMap的实例中都包含该ThreadLocal实例对应的key
 的Entry实例。
