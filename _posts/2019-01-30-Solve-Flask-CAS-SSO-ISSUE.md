@@ -42,7 +42,9 @@ Web 认证系统，企业内部passport
 最简单的修改方式，在routing.py中的128行
 
 >attributes["cas:memberOf"] = attributes["cas:memberOf"].lstrip('[').rstrip(']').split(',')
+>
 > 修改为
+>
 >attributes["cas:memberOf"] = str(attributes["cas:memberOf"]).lstrip('[').rstrip(']').split(',')
 
 如果这方法仍然解决不了问题，那么请按照这个[commit](https://github.com/cameronbwhite/Flask-CAS/pull/36/files)修改
