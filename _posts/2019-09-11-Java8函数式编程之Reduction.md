@@ -20,7 +20,7 @@ tags:
 `Stream` 带有一个 `reduce` 方法，通过该方法我们可以实现 `count` 、 `max` 、`min` 、 `sum` 等功能，非常强大。
 规约操作可以将流的所有元素组合成一个结果，该方法有三种重载版本。
 
-#### 1. 一个参数
+#### 1. 一个参数版本
 
 > Optional<T> reduce(BinaryOperator<T> accumulator)
 
@@ -40,7 +40,7 @@ return result;
 
 这里的 `identity` 其实就是第一个元素，整体计算次数为 `n - 1` 。计算的顺序为，a[0]与a[1]进行二合运算，结果与a[2]做二合运算，一直到最后与a[n-1]做二合运算。
 
-#### 2. 两个参数
+#### 2. 两个参数版本
 
 > T reduce(T identity, BinaryOperator<T> accumulator)
 
@@ -59,13 +59,23 @@ return result;
 
 注意区分与一个参数的 `reduce` 方法的不同：它多了一个初始化的值，因此计算的顺序是`identity` 与a[0]进行二合运算，结果与a[1]再进行二合运算...，最终与a[n-1]进行二合运算，一共计算 `n` 次。
 
-#### 3. 三个参数
+举一个小例子：
+```java
+int value = Stream.of(1, 2, 3, 4).reduce(100, (sum, item) -> sum + item);
+Assert.assertSame(value, 110);
+/* 或者使用方法引用 */
+value = Stream.of(1, 2, 3, 4).reduce(100, Integer::sum);
+```
+
+#### 3. 三个参数版本
 
 > \<U\> U reduce(U identity, BiFunction<U,? super T,U> accumulator, BinaryOperator<U> combiner)
 
-- supplier：一个能创造目标类型实例的方法
-- accumulator：一个将当元素添加到目标中的方法
-- combiner：一个将中间状态的多个结果整合到一起的方法（并发的时候会用到）
+- `identity` - the identity value for the combiner function
+- `accumulator` - an associative, non-interfering, stateless function for incorporating an 
+additional element into a result
+- `combiner` - an associative, non-interfering, stateless function for combining two values, which 
+must be compatible with the accumulator function
 
 乍一看与两个参数的 `reduce` 方法几乎一致，但是 `accumulator` 的类型变成了 `BiFunction` 而不是 `BinaryOperator` ，并且还多了一个 `combiner` 参数，而它的类型是第二个方法里 `accumulator` 参数的类型—— `BinaryOperator` 。
 其实`BinaryOperator`接口是实现了`BiFunction`接口的，定义如下：
@@ -98,6 +108,65 @@ Integer ageSum = persons
 
 其实这个组合器是在 `并行流` 的执行方式时被调用的，因为累加器会被并行调用，所以需要组合器用于计算各个子累加值的总和。
 
+在上面的参数描述中，我们看到了一些特性：
+1. `associative`，可组合的，`JavaDoc` 中的描述如下：
+```
+Associativity
+An operator or function op is associative if the following holds:
+      (a op b) op c == a op (b op c)
+  
+The importance of this to parallel evaluation can be seen if we expand this to four terms:
+      a op b op c op d == (a op b) op (c op d)
+  
+So we can evaluate (a op b) in parallel with (c op d), and then invoke op on the results.
+Examples of associative operations include numeric addition, min, and max, and string concatenation.
+```
+可见我们常用的数学计算，如加减乘数，求最大最小值都符合这一类「可组合」的条件，在并行计算时这种特性可以被充分利用。
+
+2. `Non-interference`，无干扰，`JavaDoc` 中的描述如下：
+```
+Streams enable you to execute possibly-parallel aggregate operations over a variety of data sources, 
+including even non-thread-safe collections such as ArrayList. This is possible only if we can prevent 
+interference with the data source during the execution of a stream pipeline. 
+```
+举一个 `interference` 的例子：
+```
+For well-behaved stream sources, the source can be modified before the terminal operation commences 
+and those modifications will be reflected in the covered elements. For example, consider the following code:
+      List<String> l = new ArrayList(Arrays.asList("one", "two"));
+      Stream<String> sl = l.stream();
+      l.add("three");
+      String s = sl.collect(joining(" "));
+  
+First a list is created consisting of two strings: "one"; and "two". Then a stream is created from 
+that list. Next the list is modified by adding a third string: "three". Finally the elements of the 
+stream are collected and joined together. Since the list was modified before the terminal collect 
+operation commenced the result will be a string of "one two three". 
+```
+由于在未调用`terminal` 操作之前，是可以对`stream source` 进行操作的，如添加或删除元素，该行为会在 `terminal`操作的时候反映在结果中。
+
+3.`Stateless`，无状态，`JavaDoc` 中的描述如下：
+```
+  Stream pipeline results may be nondeterministic or incorrect if the behavioral parameters to the 
+  stream operations are stateful. A stateful lambda (or other object implementing the appropriate 
+  functional interface) is one whose result depends on any state which might change during the 
+  execution of the stream pipeline. An example of a stateful lambda is the parameter to map() in:
+        Set<Integer> seen = Collections.synchronizedSet(new HashSet<>());
+        stream.parallel().map(e -> { if (seen.add(e)) return 0; else return e; })...
+    
+  Here, if the mapping operation is performed in parallel, the results for the same input could vary
+   from run to run, due to thread scheduling differences, whereas, with a stateless lambda expression
+    the results would always be the same.
+  Note also that attempting to access mutable state from behavioral parameters presents you with a 
+  bad choice with respect to safety and performance; if you do not synchronize access to that state, 
+  you have a data race and therefore your code is broken, but if you do synchronize access to that 
+  state, you risk having contention undermine the parallelism you are seeking to benefit from. 
+  The best approach is to avoid stateful behavioral parameters to stream operations entirely; 
+  there is usually a way to restructure the stream pipeline to avoid statefulness.
+```
+无状态，保证了在并行执行的时候可以得到相同的结果，如果依赖中间的状态，则由于并发调度的顺序不同，每次得到的结果是不同的。
+
+
 ### Stream#collect()
 
 该方法是负责处理可变式规约——`Mutable Reduction`的，`JavaDoc`中该定义解释如下：
@@ -124,32 +193,38 @@ Integer ageSum = persons
 >
 > strings. We can use the same technique to parallelize mutable reduction as we do with ordinary reduction.
 
-里面提到了一种实现拼接字符串的方法，它采用了每次创建一个新的字符串的方式（String::concat方法每次生成一个新的字符串），这样非常浪费内存空间。而`collect`方法本质上是变更了数据的状态，而不是对它进行了替换，这也就是为什么要求存储变量的容器是`a mutable result container`。
-用伪代码标识上述规约过程如下，注意`result`是一个状态可变的对象，即`mutable`的：
+里面提到了一种实现拼接字符串的方法，它采用了每次创建一个新的字符串的方式（ `String::concat` 方法每次生成一个新的字符串），这样非常浪费内存空间。而`collect`方法本质上是变更了数据的状态，而不是对它进行了替换，这也就是为什么要求存储变量的容器是`a mutable result container`。
+用伪代码标识上述规约过程如下，注意 `result` 是一个状态可变的对象，即 `mutable` 的：
 
 ```java
 R result = supplier.get();
-          for (T element : this stream)
-              accumulator.accept(result, element);
-          return result;
+for (T element : this stream)
+    accumulator.accept(result, element);
+return result;
 ```
-
+#### 1. 三个参数版本
 它的三参数方法声明如下：   
 
 > \<R\> R collect(Supplier<R> supplier, BiConsumer<R,? super T> accumulator, BiConsumer<R,R> combiner)
 
-- supplier：一个能创造目标类型实例的方法
-- accumulator：一个将当元素添加到目标中的方法
-- combiner：一个将中间状态的多个结果整合到一起的方法（并发的时候会用到）
+- `supplier` - a function that creates a new result container. For a parallel execution, this 
+function may be called multiple times and must return a fresh value each time.
+- `accumulator` - an associative, non-interfering, stateless function for incorporating an 
+additional element into a result
+- `combiner` - an associative, non-interfering, stateless function for combining two values, which 
+must be compatible with the accumulator function
 
-所以对于字符串拼接来说，可以用下面的代码实现：
+上述三个参数和之前的`Stream#reduce` 方法的三参数版本的说明除了 `supplier` 要求是一个新容器之外的描述是一致的，只不过类型不一样而已。
+
+
+好了，有了这些知识我们来看一下之前的例子，对于字符串拼接来说，如果用 `collect` 方法来实现的版本为：
 
 ```java
 String concat = stringStream.collect(StringBuilder::new, StringBuilder::append,
                                                StringBuilder::append).toString();
 ```
 
-再举一个例子：
+再举一个 `Collection` 例子，这个例子即为过滤大于2的元素，将剩余结果收集到一个新的list中：
 
 ```java
 Stream<Integer> stream = Stream.of(1, 2, 3, 4).filter(p -> p > 2);
@@ -157,14 +232,24 @@ List<Integer> result = stream.collect(() -> new ArrayList<>(), (list, item) -> l
 /* 或者使用方法引用 */
 result = stream.collect(ArrayList::new, List::add, List::addAll);
 ```
+我们来分析一下 `collect` 方法中三个参数的实例化：
+- 第一个参数即`supplier`，要求每次都生成一个新的 `ArrayList` ，这里直接 `new` 了一个对象
+- 第二个参数即`accumulator`，类型为 `BiConsumer<R,? super T>` ，它的第一个参数是前面生成的 `ArrayList` 对象，第二个参数是stream中包含的元素，方法体就是把stream中的元素加入ArrayList
+对象中。第二个方法被反复调用直到原stream的元素被消费完毕；
+- 第三个参数即`combiner`，类型为 `BiConsumer<R, 
+R>`，它的两个参数都是 `ArrayList` 类型的，方法体就是把第二个 `ArrayList` 全部加入到第一个中；
 
-这个例子即为过滤大于2的元素，将剩余结果收集到一个新的list中。
+可见`reduce`和`collect`方法中后两个变量的区别：
+- `accumulator`：收集器，对于规约来说，它需要对两个参数进行操作，如加和、比较等，并有一个返回结果；对于收集来说，它需要将一个参数加入到另外一个 `container` 里，没有返回值
+- `combiner`：组合器，同上，对于规约来说，它需要对部分中间结果进行合并并返回最终的结果；对于收集来说，它需要对部分中间结果进行合并，没有返回值
 
-- 第一个方法即`supplier`生成一个新的ArrayList；
-- 第二个方法即`accumulator`中第一个参数是前面生成的ArrayList对象，第二个参数是stream中包含的元素，方法体就是把stream中的元素加入ArrayList对象中。第二个方法被反复调用直到原stream的元素被消费完毕；
-- 第三个方法即`combiner`也是接受两个参数，这两个都是ArrayList类型的，方法体就是把第二个ArrayList全部加入到第一个中；
+> 也就是说 `collect` 需要自己提供返回结果的 `container` 对象的创建过程，而 `reduce` 
+不需要，它是一步一步将中间结果计算后返回的，不计算到最后不知道这个结果是如何构造出来的。
+
 
 该方法的参数较多，代码有点繁琐，其实 `collect` 还有另外一个重载方法:
+
+#### 2. 一个参数版本
 
 > <R, A> R collect(Collector<? super T, A, R> collector)
 
@@ -196,12 +281,17 @@ result = stream.collect(ArrayList::new, List::add, List::addAll);
     BinaryOperator<A> combiner();
 ```
 
-可以看到其实它的内部三个方法跟`collect`三个参数版本的中的三个参数： `supplier` 、 `accumulator` 、 `combiner` 是一一对应的。
-那么上面代码就可以变成下面这种写法：
+可以看到其实它的内部三个方法跟`collect`三个参数版本的中的三个参数： `supplier` 、 `accumulator` 、 `combiner` 
+是一一对应的，只不过 `combiner` 是`BinaryOperator` 类型，而不是 `BiConsumer` 类型，这个参数类型和 `reduce` 
+方法的三参数版本中的 `combiner` 是一样的。
 
-> List<Integer> list = Stream.of(1, 2, 3, 4).filter(p -> p > 2).collect(Collectors.toList());
+那么上面复杂的三参数实现的收集集合信息的代码就可以变成下面这种简洁的写法：
 
-该方法默认返回一个 `Collector` ，让我们来看一下`toList` 方法是如何实现这个接口的：
+```java
+List<Integer> list = Stream.of(1, 2, 3, 4).filter(p -> p > 2).collect(toList());
+```
+
+ `toList`方法是 `Collectors` 类提供的一个工具方法，它默认返回一个 `Collector` 对象，让我们来看一下`toList` 方法是如何实现这个接口的：
 
 ```java
 public static <T>
@@ -212,55 +302,75 @@ public static <T>
     }
 ```
 
-- `supplier`：生成了一个可变集合 new ArrayList()
-- `accumulator`：将每个元素加入到可变集合中 List::add
-- `combiner`：将规约中产生的子集合进行合并，主要是并行流中会使用
+- `supplier`：生成了一个可变集合 `ArrayList`
+- `accumulator`：将每个元素加入到可变集合中 `List::add`
+- `combiner`：将收集过程中产生的多个中间结果子集合进行合并，并返回结果，主要是并行流中会使用
 
 ### 分组和分片
 
-对具有相同特性的值进行分组是一个很常见的任务，Collectors提供了一个 `groupingBy` 方法，方法签名为：
+对具有相同特性的值进行分组是一个很常见的任务，`Collectors` 提供了一个 `groupingBy` 方法，方法签名为：
 
 > \<T,K,A,D\> Collector<T,?,Map<K,D>> groupingBy(Function<? super T,? extends K> classifier, Collector<? super T,A,D> downstream)
 
 - `classifier` ：分类器是一个`Function`，负责将数据按照某一规则进行分类并生成对应的 `Key`
 - `downstream` ：下行流收集器是一个`Collector`，对分类后的数据集进行收集 `reduce` 操作
 
-假如要根据年龄来分组：
+下面举几个例子：
+1. 假如要根据年龄来分组并得到元素自身的类实例：
+```java
+Map<Integer, List<Person>> peopleByAge = people.stream().collect(groupingBy(p -> p.age, toList()));
+```
+因为是收集元素实例本身，所以直接使用 `toList` 即可。
 
-> Map<Integer, List<Person>> peopleByAge = people.stream().collect(groupingBy(p -> p.age, toList()));
+2. 假如我想要根据年龄分组，年龄对应的键值，List存储 `Person` 的姓名:
+```java
+Map<Integer, List<String>> peopleByAge = people.stream().collect(groupingBy(p -> p.age, mapping((Person p) -> p.name, toList())));
+```
+由于并不是收集元素本身的类实例，需要做一层转换，这里用到了 `mapping` 方法。
+`mapping` 方法即为对各 `组` 进行 `投影` 操作，和 `Stream` 的 `map` 方法基本一致。
 
-假如我想要根据年龄分组，年龄对应的键值List存储的为 `Person` 的姓名:
-
-> Map<Integer, List<String>> peopleByAge = people.stream().collect(groupingBy(p -> p.age, mapping((Person p) -> p.name, toList())));
-
- `mapping` 方法即为对各 `组` 进行 `投影` 操作，和 `Stream` 的 `map` 方法基本一致。
-
-注意到方法的返回值其实也是一个`Collector`，也就是 `groupingBy` 的第二个参数一样，这说明我们可以使用多级的分组：
+注意到 `groupingBy` 方法的返回值其实也是一个 `Collector` ，而 `groupingBy` 的第二个参数也是 `Collector` 类型，那么说明我们可以使用多级的分组：
 
 ```java
 Map<String, Map<String, List<Person>>> peopleByStateAndCity
-              = personStream.collect(groupingBy(Person::getState, 		groupingBy(Person::getCity)));
+              = personStream.collect(groupingBy(Person::getState, groupingBy(Person::getCity)));
             
 ```
 
-假如要根据姓名分组，获取每个姓名下人的年龄总和：
+3. 假如要根据姓名分组，并获取每个姓名下人的年龄总和：
 
+注意这里并不是简单的返回某种数据收集后的结果，而是对这些数据进行某类计算操作后再返回，是不是想到了「规约」？
 ```java
 Map<String, Integer> sumAgeByName = people.stream().collect(groupingBy(p -> p.name, reducing(0, (Person p) -> p.age, Integer::sum)));
 /* 或者使用summingInt方法 */
 sumAgeByName = people.stream().collect(groupingBy(p -> p.name, summingInt((Person p) -> p.age)));
 
 ```
-
-这里的`reducing` 方法是`Collectors` 类的，和我们上面介绍的 `Stream` 的 `reduce` 方法在三个参数定义上有些不同：
+这里使用的`reducing` 方法是`Collectors` 类提供的工具方法，它的签名和我们上面介绍的 `Stream` 的 `reduce` 方法在三个参数定义上有些不同：
 
 > Collector<T, ?, U> reducing(U identity, Function<? super T, ? extends U> mapper, BinaryOperator<U> op) {
 
-`identity`：循环计算的初始值
-`mapper`：类型转换器，将参数T转换为U类型，当然这两个可以一样
-`op`：用于做 `reduce` 操作的 `BinaryOperator` 变量
+`identity`：循环计算的初始值，这个和 `reduce` 方法的第一个参数一样
+`mapper`：类型转换器，将参数T转换为U类型，这个地方不太一样，主要是用于做类型转换，`reduce` 方法没这个概念，因为数据流在创建开始就是固定了类型的，无需转换
+`op`：用于做 `reduce` 操作的 `BinaryOperator` 变量，这个 `op` 其实对应 `reduce` 方法中的二参数版本中的 `accumulator` 即对数据流中的数据进行聚合
 
-这个方法在「多维度」的规约计算时很有用，比如`groupingBy` 或 `partitionBy`，在对一般的`Stream`进行规约时，直接用它自带的 `reduce` 方法即可，以下摘自 `JavaDoc` ：
+代码示例中给出的另外一个实现方法，即使用 `summingInt` 方法，它返回的其实是一个 `Collector` 实现，完成了规约的功能： 
+```java
+public static <T> Collector<T, ?, Integer>
+    summingInt(ToIntFunction<? super T> mapper) {
+        return new CollectorImpl<>(
+                () -> new int[1],
+                (a, t) -> { a[0] += mapper.applyAsInt(t); },
+                (a, b) -> { a[0] += b[0]; return a; },
+                a -> a[0], CH_NOID);
+    }
+```
+它的参数是一个 `ToIntFunction` 实例，其实就是`reducing` 中的 `mapper` 参数，另外因为是通过 `collect` 方式实现的规约，所以需要提供：
+- `supplier`，即`new int[1]`
+- `accumulator`，即a[0] += mapper.applyAsInt(t)
+- `combiner`，即a[0] += b[0]
+
+这个方法在「多维」的规约计算时很有用，比如`groupingBy` 或 `partitionBy`，在对一般的`Stream`进行规约时，直接用它自带的 `reduce` 方法即可，以下摘自 `JavaDoc` ：
 
 > The reducing() collectors are most useful when used in a multi-level reduction, downstream of groupingBy or partitioningBy.
 >
