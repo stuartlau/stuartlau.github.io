@@ -110,7 +110,7 @@ Integer ageSum = persons
 
 在上面的参数描述中，我们看到了一些特性：
 1. `associative`，可组合的，`JavaDoc` 中的描述如下：
-```
+```java
 Associativity
 An operator or function op is associative if the following holds:
       (a op b) op c == a op (b op c)
@@ -130,7 +130,7 @@ including even non-thread-safe collections such as ArrayList. This is possible o
 interference with the data source during the execution of a stream pipeline. 
 ```
 举一个 `interference` 的例子：
-```
+```java
 For well-behaved stream sources, the source can be modified before the terminal operation commences 
 and those modifications will be reflected in the covered elements. For example, consider the following code:
       List<String> l = new ArrayList(Arrays.asList("one", "two"));
@@ -146,7 +146,7 @@ operation commenced the result will be a string of "one two three".
 由于在未调用`terminal` 操作之前，是可以对`stream source` 进行操作的，如添加或删除元素，该行为会在 `terminal`操作的时候反映在结果中。
 
 3.`Stateless`，无状态，`JavaDoc` 中的描述如下：
-```
+```java
   Stream pipeline results may be nondeterministic or incorrect if the behavioral parameters to the 
   stream operations are stateful. A stateful lambda (or other object implementing the appropriate 
   functional interface) is one whose result depends on any state which might change during the 
