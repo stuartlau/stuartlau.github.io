@@ -110,60 +110,90 @@ Integer ageSum = persons
 
 在上面的参数描述中，我们看到了一些特性：
 1. `associative`，可组合的，`JavaDoc` 中的描述如下：
-```java
-Associativity
-An operator or function op is associative if the following holds:
-      (a op b) op c == a op (b op c)
-  
-The importance of this to parallel evaluation can be seen if we expand this to four terms:
-      a op b op c op d == (a op b) op (c op d)
-  
-So we can evaluate (a op b) in parallel with (c op d), and then invoke op on the results.
-Examples of associative operations include numeric addition, min, and max, and string concatenation.
-```
+> Associativity
+>
+> An operator or function op is associative if the following holds:
+>
+>      (a op b) op c == a op (b op c)
+>  
+>  
+>The importance of this to parallel evaluation can be seen if we expand this to four terms:
+>
+>      a op b op c op d == (a op b) op (c op d)
+>  
+>  
+> So we can evaluate (a op b) in parallel with (c op d), and then invoke op on the results.
+>
+> Examples of associative operations include numeric addition, min, and max, and string concatenation.
+
 可见我们常用的数学计算，如加减乘数，求最大最小值都符合这一类「可组合」的条件，在并行计算时这种特性可以被充分利用。
 
 2. `Non-interference`，无干扰，`JavaDoc` 中的描述如下：
-```
-Streams enable you to execute possibly-parallel aggregate operations over a variety of data sources, 
-including even non-thread-safe collections such as ArrayList. This is possible only if we can prevent 
-interference with the data source during the execution of a stream pipeline. 
-```
+
+>Streams enable you to execute possibly-parallel aggregate operations over a variety of data sources,
+> 
+>including even non-thread-safe collections such as ArrayList. This is possible only if we can prevent
+> 
+>interference with the data source during the execution of a stream pipeline. 
+
 举一个 `interference` 的例子：
-```java
-For well-behaved stream sources, the source can be modified before the terminal operation commences 
-and those modifications will be reflected in the covered elements. For example, consider the following code:
-      List<String> l = new ArrayList(Arrays.asList("one", "two"));
-      Stream<String> sl = l.stream();
-      l.add("three");
-      String s = sl.collect(joining(" "));
+> For well-behaved stream sources, the source can be modified before the terminal operation commences
+> 
+> and those modifications will be reflected in the covered elements. For example, consider the
+> 
+> following code:
+>
+>      List<String> l = new ArrayList(Arrays.asList("one", "two"));
+>
+>      Stream<String> sl = l.stream();
+>
+>      l.add("three");
+>
+>      String s = sl.collect(joining(" "));
   
-First a list is created consisting of two strings: "one"; and "two". Then a stream is created from 
-that list. Next the list is modified by adding a third string: "three". Finally the elements of the 
-stream are collected and joined together. Since the list was modified before the terminal collect 
-operation commenced the result will be a string of "one two three". 
-```
+> First a list is created consisting of two strings: "one"; and "two". Then a stream is created from
+> 
+> that list. Next the list is modified by adding a third string: "three". Finally the elements of
+ the
+> 
+> stream are collected and joined together. Since the list was modified before the terminal collect
+> 
+> operation commenced the result will be a string of "one two three".
+ 
 由于在未调用`terminal` 操作之前，是可以对`stream source` 进行操作的，如添加或删除元素，该行为会在 `terminal`操作的时候反映在结果中。
 
 3.`Stateless`，无状态，`JavaDoc` 中的描述如下：
-```java
-  Stream pipeline results may be nondeterministic or incorrect if the behavioral parameters to the 
-  stream operations are stateful. A stateful lambda (or other object implementing the appropriate 
-  functional interface) is one whose result depends on any state which might change during the 
-  execution of the stream pipeline. An example of a stateful lambda is the parameter to map() in:
-        Set<Integer> seen = Collections.synchronizedSet(new HashSet<>());
-        stream.parallel().map(e -> { if (seen.add(e)) return 0; else return e; })...
-    
-  Here, if the mapping operation is performed in parallel, the results for the same input could vary
-   from run to run, due to thread scheduling differences, whereas, with a stateless lambda expression
-    the results would always be the same.
-  Note also that attempting to access mutable state from behavioral parameters presents you with a 
-  bad choice with respect to safety and performance; if you do not synchronize access to that state, 
-  you have a data race and therefore your code is broken, but if you do synchronize access to that 
-  state, you risk having contention undermine the parallelism you are seeking to benefit from. 
-  The best approach is to avoid stateful behavioral parameters to stream operations entirely; 
-  there is usually a way to restructure the stream pipeline to avoid statefulness.
-```
+>  Stream pipeline results may be nondeterministic or incorrect if the behavioral parameters to the
+> 
+>  stream operations are stateful. A stateful lambda (or other object implementing the appropriate
+> 
+>  functional interface) is one whose result depends on any state which might change during the
+> 
+>  execution of the stream pipeline. An example of a stateful lambda is the parameter to map() in:
+>
+>        Set<Integer> seen = Collections.synchronizedSet(new HashSet<>());
+>
+>        stream.parallel().map(e -> { if (seen.add(e)) return 0; else return e; })...
+>
+>    
+>  Here, if the mapping operation is performed in parallel, the results for the same input could vary
+>
+>   from run to run, due to thread scheduling differences, whereas, with a stateless lambda expression
+>
+>   the results would always be the same.
+>
+>  Note also that attempting to access mutable state from behavioral parameters presents you with a
+> 
+>  bad choice with respect to safety and performance; if you do not synchronize access to that state,
+> 
+>  you have a data race and therefore your code is broken, but if you do synchronize access to that
+> 
+>  state, you risk having contention undermine the parallelism you are seeking to benefit from.
+> 
+>  The best approach is to avoid stateful behavioral parameters to stream operations entirely;
+> 
+>  there is usually a way to restructure the stream pipeline to avoid statefulness.
+
 无状态，保证了在并行执行的时候可以得到相同的结果，如果依赖中间的状态，则由于并发调度的顺序不同，每次得到的结果是不同的。
 
 
