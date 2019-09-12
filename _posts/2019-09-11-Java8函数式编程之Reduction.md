@@ -15,6 +15,62 @@ tags:
 >
 > 本文以「规约」为线索，先从Stream的reduce方法说起，然后延展到collect方法，以及Collectors中的groupingBy等方法。
 
+### 什么是规约
+先来看一段`Java Doc` 中对规约操作的说明：
+> Reduction operations
+>
+>  A reduction operation (also called a fold) takes a sequence of input elements and combines
+> 
+> them into a single summary result by repeated application of a combining operation, such as
+> 
+> finding the sum or maximum of a set of numbers, or accumulating elements into a list. The
+> 
+> streams classes have multiple forms of general reduction operations, called reduce() and 
+>
+> collect(), as well as multiple specialized reduction forms such as sum(), max(), or count().
+>
+> Of course, such operations can be readily implemented as simple sequential loops, as in:
+>       int sum = 0;
+>
+>       for (int x : numbers) {
+>
+>          sum += x;
+>
+>       }
+
+可知，规约操作又称为 `fold` 折叠，它将一个序列的输入元素进行聚合后生成一个结果，操作过程是不断的重复「聚合操作」，比如比较数字大小或者加和操作。
+虽然可以通过串行循环的方式执行上述计算，但是性能确实不高。
+> However, there are good reasons to prefer a reduce operation over a mutative accumulation
+> 
+> such as the above. Not only is a reduction "more abstract" -- it operates on the stream as a
+> 
+> whole rather than individual elements -- but a properly constructed reduce operation is
+> 
+> inherently parallelizable, so long as the function(s) used to process the elements are 
+>
+> associative and stateless.
+
+因为规约操作是一种抽象的操作，它将数据流看成一个整体而不是独立的一个一个元素，所以并行计算在规约操作中十分常见，前提是代操作的元素和函数是无状态的和可组合的。
+
+> Reduction parallellizes well because the implementation can operate on subsets of the data in
+> 
+> parallel, and then combine the intermediate results to get the final correct answer. (Even if
+> 
+> the language had a "parallel for-each" construct, the mutative accumulation approach would still
+>
+> required the developer to provide thread-safe updates to the shared accumulating variable sum,
+> 
+> and the required synchronization would then likely eliminate any performance gain from
+> 
+> parallelism.) Using reduce() instead removes all of the burden of parallelizing the reduction
+> 
+> operation, and the library can provide an efficient parallel implementation with no additional
+> 
+> synchronization required.
+
+而规约操作在并行执行时一般都需要考虑线程安全问题，如并发更新操作可能因为不同的调度导致结果不同，导致开发者还需要考虑各种同步的问题，这样会降低并行计算带来的好处。
+但 `Java` 提供的`reduce()` 函数可以免去开发者对数据和操作进行额外的同步控制，一切都由底层自动帮我们完成，非常的方便。
+ 
 ### Stream#reduce()
 
 `Stream` 带有一个 `reduce` 方法，通过该方法我们可以实现 `count` 、 `max` 、`min` 、 `sum` 等功能，非常强大。
@@ -197,9 +253,17 @@ Integer ageSum = persons
 无状态，保证了在并行执行的时候可以得到相同的结果，如果依赖中间的状态，则由于并发调度的顺序不同，每次得到的结果是不同的。
 
 
+#### 特点
+> `reduce()` performs an immutable reduction (i.e reduction produces a new value/object).
+  
+`reduce` 方法每次总是返回一个新的值，`accumulator` 也是每次处理元素的时候返回一个新值。所以如果你想将流中的元素规约成一个更复杂的对象，如集合，这样的效率就非常低了。
+比如每次你都要将元素加到集合中，那么每次`accumulator` 都会生成一个新的集合对象，仅包含这次处理的元素，堆内存也造成了一定的浪费。
+
+如果你想用更高效的方法，应该每次更新一个已有集合的状态，也就是下面引出的 `Stream.collect` 。
+
 ### Stream#collect()
 
-该方法是负责处理可变式规约——`Mutable Reduction`的，`JavaDoc`中该定义解释如下：
+虽然都是处理「规约」，但是它与`reduce` 的一个中最重要的区别就是该方法是负责处理可变式规约——`Mutable Reduction`的，`Java Doc`中该定义解释如下：
 
 > A mutable reduction operation accumulates input elements into a mutable result container,
 >
@@ -223,15 +287,30 @@ Integer ageSum = persons
 >
 > strings. We can use the same technique to parallelize mutable reduction as we do with ordinary reduction.
 
-里面提到了一种实现拼接字符串的方法，它采用了每次创建一个新的字符串的方式（ `String::concat` 方法每次生成一个新的字符串），这样非常浪费内存空间。而`collect`方法本质上是变更了数据的状态，而不是对它进行了替换，这也就是为什么要求存储变量的容器是`a mutable result container`。
-用伪代码标识上述规约过程如下，注意 `result` 是一个状态可变的对象，即 `mutable` 的：
+对于字符串拼接的例子来说，如果用传统的 `reduce` 方式实现，每次创建一个新的字符串的方式（ `String::concat` 方法每次生成一个新的字符串），
+这样非常浪费内存空间。而 `collect` 方法本质上是「变更」了「container」的状态，而不是用新的值去替换旧值，
+这也就是为什么要求存储变量的容器是`a mutable result container`。
 
+所以使用`Collection` 或 `StringBuilder` 这种可变的容器来解决这类问题效果要好很多：
 ```java
 R result = supplier.get();
 for (T element : this stream)
     accumulator.accept(result, element);
 return result;
 ```
+上述伪代码展示了这种实现的好处，只是用一个 `result` 参与计算并作为结果返回。
+
+好了，有了这些知识我们来看一下之前的例子，对于字符串拼接来说，如果用 `collect` 方法来实现的版本为：
+
+```java
+String concat = stringStream.collect(StringBuilder::new, StringBuilder::append,
+                                               StringBuilder::append).toString();
+```
+#### 特点
+`collect` 方法执行的是「可变规约」：
+> Performs a mutable reduction (i.e. mutates the resulting object). Needed to apply a reduction 
+performed by a mutating method of a mutable type.
+
 #### 1. 三个参数版本
 它的三参数方法声明如下：   
 
@@ -246,13 +325,6 @@ must be compatible with the accumulator function
 
 上述三个参数和之前的`Stream#reduce` 方法的三参数版本的说明除了 `supplier` 要求是一个新容器之外的描述是一致的，只不过类型不一样而已。
 
-
-好了，有了这些知识我们来看一下之前的例子，对于字符串拼接来说，如果用 `collect` 方法来实现的版本为：
-
-```java
-String concat = stringStream.collect(StringBuilder::new, StringBuilder::append,
-                                               StringBuilder::append).toString();
-```
 
 再举一个 `Collection` 例子，这个例子即为过滤大于2的元素，将剩余结果收集到一个新的list中：
 
@@ -422,35 +494,10 @@ Map<String, Map<String, List<Person>>> peopleByStateAndCity
               = personStream.collect(groupingBy(Person::getState, groupingBy(Person::getCity)));
             
 ```
-在这里，第二个收集器我们称之为「下游收集器」，它是生成部分结果的配方，主收集器中会用到下游收集器。
-如 `counting` 也是一个收集器：
-```java
-public static <T> Collector<T, ?, Long>
-    counting() {
-        return reducing(0L, e -> 1L, Long::sum);
-    }
-```
-它通过 `reducing` 方法实现了收集，在这里它的三个参数为：
-- `identity`：初始值，这里是0
-- `mapper`：一个mapping函数，会对每一个元素执行转换，这里直接返回1
-- `op`：一个 `BinaryOperator` 函数，这里对所有中间结果进行规约，加和
+在这里，第二个收集器我们称之为「下游收集器」，它是生成部分结果的配方，主收集器中会用到下游收集器。`groupingBy(classifier)` 内部使用了 `toList` 作为了 
+`downstream` 的 `Collector` 。
 
-来看一下它的实现，其实也是底层实例化了 `Collector` 接口，并将 `identity` 变成 `supplier` 的返回结果，并将 `mapper` 在 `accumulator` 
-中对 `T` 类型元素 `t` 和 `U` 类型 `container` 进行运算。
-```java
-public static <T, U>
-    Collector<T, ?, U> reducing(U identity,
-                                Function<? super T, ? extends U> mapper,
-                                BinaryOperator<U> op) {
-        return new CollectorImpl<>(
-                boxSupplier(identity),
-                (a, t) -> { a[0] = op.apply(a[0], mapper.apply(t)); },
-                (a, b) -> { a[0] = op.apply(a[0], b[0]); return a; },
-                a -> a[0], CH_NOID);
-    }
-```
-
-再来看一个例子，`averagingInt` 方法，它直接实现了 `Collector` 接口：
+再来看一个内置 `Collector` 的例子 —— `averagingInt` 方法，它内部直接实例化了 `Collector` 接口：
 ```java
 public static <T> Collector<T, ?, Double>
     averagingInt(ToIntFunction<? super T> mapper) {
@@ -466,6 +513,8 @@ public static <T> Collector<T, ?, Double>
 - `combiner`：一个 `BinaryOperator` 函数，这里对所有中间结果进行规约，加和，包括两个元素
 - `finisher`：对最终结果进行计算平均值
 
+
+#### reducing
 3. 假如要根据姓名分组，并获取每个姓名下人的年龄总和：
 
 注意这里并不是简单的返回某种数据收集后的结果，而是对这些数据进行某类计算操作后再返回，是不是想到了「规约」？
@@ -483,7 +532,22 @@ sumAgeByName = people.stream().collect(groupingBy(p -> p.name, summingInt((Perso
 `mapper`：类型转换器，将参数T转换为U类型，这个地方不太一样，主要是用于做类型转换，`reduce` 方法没这个概念，因为数据流在创建开始就是固定了类型的，无需转换
 `op`：用于做 `reduce` 操作的 `BinaryOperator` 变量，这个 `op` 其实对应 `reduce` 方法中的二参数版本中的 `accumulator` 即对数据流中的数据进行聚合
 
-代码示例中给出的另外一个实现方法，即使用 `summingInt` 方法，它返回的其实是一个 `Collector` 实现，完成了规约的功能： 
+来看一下它的实现，其实也是底层实例化了 `Collector` 接口，并将 `identity` 变成 `supplier` 每次返回的结果，并将 `mapper` 在 `accumulator` 
+中对 `T` 类型元素 `t` 和 `U` 类型 `container` 进行运算：
+```java
+public static <T, U>
+    Collector<T, ?, U> reducing(U identity,
+                                Function<? super T, ? extends U> mapper,
+                                BinaryOperator<U> op) {
+        return new CollectorImpl<>(
+                boxSupplier(identity),
+                (a, t) -> { a[0] = op.apply(a[0], mapper.apply(t)); },
+                (a, b) -> { a[0] = op.apply(a[0], b[0]); return a; },
+                a -> a[0], CH_NOID);
+    }
+```
+
+代码示例中给出的另外一个实现方法，即使用 `summingInt` 方法，它返回的是一个 `Collector` 实现，完成了规约的功能： 
 ```java
 public static <T> Collector<T, ?, Integer>
     summingInt(ToIntFunction<? super T> mapper) {
@@ -498,6 +562,55 @@ public static <T> Collector<T, ?, Integer>
 - `supplier`，即`new int[1]`
 - `accumulator`，即a[0] += mapper.applyAsInt(t)
 - `combiner`，即a[0] += b[0]
+
+再看一个例子如 `counting` 也是一个收集器：
+```java
+public static <T> Collector<T, ?, Long>
+    counting() {
+        return reducing(0L, e -> 1L, Long::sum);
+    }
+```
+它通过 `reducing` 方法实现了收集，在这里它的三个参数为：
+- `identity`：初始值，这里是0
+- `mapper`：一个mapping函数，会对每一个元素执行转换，这里直接返回1
+- `op`：一个 `BinaryOperator` 函数，这里对所有中间结果进行规约，加和
+
+
+
+再来看一个例子，`averagingInt` 方法，它直接实现了 `Collector` 接口：
+```java
+public static <T> Collector<T, ?, Double>
+    averagingInt(ToIntFunction<? super T> mapper) {
+        return new CollectorImpl<>(
+                () -> new long[2],
+                (a, t) -> { a[0] += mapper.applyAsInt(t); a[1]++; },
+                (a, b) -> { a[0] += b[0]; a[1] += b[1]; return a; },
+                a -> (a[1] == 0) ? 0.0d : (double) a[0] / a[1], CH_NOID);
+}
+```
+它的各个参数的分析：
+- `supplier`：提供初始值，这里实例化一个int数组，长度为2，第一个元素表示sum，第二个元素表示个数
+- `accumulator`：一个 `BiConsumer` 函数，通过 `mapper` 对元素进行类型转化后与 `container` 计算，并累加个数
+- `combiner`：一个 `BinaryOperator` 函数，这里对所有中间结果进行规约，加和，包括两个元素
+- `finisher`：对最终结果进行计算平均值
+
+这个方法在「多维」的规约计算时很有用，比如`groupingBy` 或 `partitionBy`，在对一般的`Stream`进行规约时，直接用它自带的 `reduce` 方法即可，以下摘自 `JavaDoc` ：
+
+> The reducing() collectors are most useful when used in a multi-level reduction, downstream of groupingBy or partitioningBy.
+>
+> To perform a simple reduction on a stream, use Stream.reduce(BinaryOperator) instead.
+>
+> For example, given a stream of Person, to calculate tallest person in each city:
+>
+> ```
+>     Comparator<Person> byHeight = Comparator.comparing(Person::getHeight);
+> 
+>     Map<City, Person> tallestByCity
+> 
+>         = people.stream().collect(groupingBy(Person::getCity, reducing(BinaryOperator.maxBy(byHeight))));
+> ```
+
+
 `Collectors` 类提供很多类似的收集器：
 > averagingDouble:求平均值，Stream的元素类型为double
 > 
@@ -525,27 +638,11 @@ public static <T> Collector<T, ?, Integer>
 > 
 > summingLong:求和，Stream的元素类型为long
 
-#### reducing
-这个方法在「多维」的规约计算时很有用，比如`groupingBy` 或 `partitionBy`，在对一般的`Stream`进行规约时，直接用它自带的 `reduce` 方法即可，以下摘自 `JavaDoc` ：
-
-> The reducing() collectors are most useful when used in a multi-level reduction, downstream of groupingBy or partitioningBy.
->
-> To perform a simple reduction on a stream, use Stream.reduce(BinaryOperator) instead.
->
-> For example, given a stream of Person, to calculate tallest person in each city:
->
-> ```
->     Comparator<Person> byHeight = Comparator.comparing(Person::getHeight);
-> 
->     Map<City, Person> tallestByCity
-> 
->         = people.stream().collect(groupingBy(Person::getCity, reducing(BinaryOperator.maxBy(byHeight))));
-> ```
 
 ### References
 
-- https://blog.csdn.net/icarusliu/article/details/79504602
-- https://my.oschina.net/voole/blog/1475737
+- https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#Reduction
+- https://mohammadrasoolshaik.wordpress.com/2017/03/21/java-8-streams-collect-vs-reduce/
 
 > 本文首次发布于 [ElseF's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 > 转载请保留原文链接.
