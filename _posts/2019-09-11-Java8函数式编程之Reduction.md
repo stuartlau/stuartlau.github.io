@@ -13,7 +13,7 @@ tags:
 
 > Java8中引入了函数式计算以及Lambda和Stream等特性，其中的流式计算引入了收集器、组合器等规约操作用到概念，非常值得我们好好学习。
 >
-> 本文以「规约」为线索，先从Stream的reduce方法说起，然后延展到collect方法，以及Collectors中的groupingBy等方法。
+> 本文以「规约」为线索，先从Stream的reduce方法说起，然后延展到collect方法，以及Collector接口即Collectors中常用的规约方法。
 
 ### 什么是规约
 先来看一段`Java Doc` 中对规约操作的说明：
