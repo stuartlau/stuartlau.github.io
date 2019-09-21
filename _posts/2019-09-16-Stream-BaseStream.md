@@ -19,21 +19,23 @@ tags:
 > 本文会对Stream的实现原理进行剖析。
 
 ### Stream的组成与特点
-要想实现计算，所有对流的操作都会被放入一个 `pipeline` 当中（类似linux）中的操作。
 
-而一个流管道（pipeline）包含：
-- source(源)： 数组，集合，迭代器，I/O 操作等等
-- 0个或者多个中间操作（intermediate operation）： 将一个流转成另外一个流
-- 1个终止操作(terminal operation) : 产生一个结果 or 修改传入对象的属性。
+Stream（流）是一个来自数据源的元素队列并支持聚合操作
 
-注意：流是`Lazy`的，不加「终止操作」流的操作，该流计算就不会被执行。
+- 元素是特定类型的对象，形成一个队列。 `Java`中的`Stream`并不会向集合那样存储和管理元素，而是按需计算
+- 数据源 流的来源。 可以是集合`Collection`、数组`Array`、`I/O channel`， 产生器`generator` 等
+- 聚合操作 类似`SQL`语句一样的操作， 比如`filter`, `map`, `reduce`, `find`, `match`, `sorted`等
 
-### 集合和Stream的区别
-- 集合： 注重「存储」，主要考虑元素的「访问」与「管理」。
-- Stream ：注重「计算」，主要考虑以一种「描述性」的语言来对「源」进行一系列的操作，并将操作「聚合」起来。
+和以前的`Collection`操作不同， Stream操作还有两个基础的特征：
 
-### BaseStream
-`BaseStream`是所有流实现的顶层接口，它的定义如下：
+- Pipelining: 中间操作都会返回流对象本身。 这样多个操作可以串联成一个管道， 如同流式风格（fluent style）。 这样做可以对操作进行优化， 比如延迟执行(`laziness
+ evaluation`)
+和短路( `short-circuiting`)
+- 内部迭代： 以前对集合遍历都是通过`Iterator`或者`For-Each`的方式, 显式的在集合外部进行迭代， 这叫做外部迭代。 `Stream`提供了内部迭代的方式， 通过访问者模式
+(`Visitor`)实现。
+
+### BaseStream接口
+`Stream`的父接口是`BaseStream`，后者是所有流实现的顶层接口，定义如下：
 ```java
 public interface BaseStream<T, S extends BaseStream<T, S>>
         extends AutoCloseable {
@@ -67,12 +69,12 @@ public interface BaseStream<T, S extends BaseStream<T, S>>
 
 也就是说这里的`S`是`BaseStream`的一个实现类，它同样是一个流，比如`Stream`、`IntStream`、`LongStream`等。
 
-### Stream
-再来看一下我们经常使用的`Stream`的类声明：
+### Stream接口
+再来看一下`Stream`的接口声明：
 ```java
 public interface Stream<T> extends BaseStream<T, Stream<T>> 
 ```
-参考上面的解释，这里不难理解，即`Stream<T>`可以继续拆分为`Stream<T>`，我们可以通过它的一些方法来证实：
+参考上面的解释这里不难理解：即`Stream<T>`可以继续拆分为`Stream<T>`，我们可以通过它的一些方法来证实：
 ```java
     Stream<T> filter(Predicate<? super T> predicate);
     <R> Stream<R> map(Function<? super T, ? extends R> mapper);
