@@ -128,6 +128,17 @@ S onClose(Runnable closeHandler);
 
 所以多次调用同样的方法并不会生成新的流，而是直接复用当前的流对象。
 
+下面的例子里以最后一次调用`parallel()`为准，最终是并行地计算`sum`：
+```java
+stream.parallel()
+   .filter(...)
+   .sequential()
+   .map(...)
+   .parallel()
+   .sum();
+
+```
+
 > Stream的底层实现是怎样的？将通过下一篇文章继续讲解——Spliterator(分割迭代器)
 
 ### References
