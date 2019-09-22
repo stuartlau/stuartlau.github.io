@@ -157,7 +157,7 @@ public class SpliteratorTest {
 }
 ```
 它的工作原理可以用下面的这张图来描述：
-[!a](https://java8tips.readthedocs.io/en/stable/_images/parallel_proc_1.png)
+![parallel_proc](https://java8tips.readthedocs.io/en/stable/_images/parallel_proc_1.png)
 
 ### 注意
 `Parallel Stream`使用了`ForkJoinPool`和`Spliterator
