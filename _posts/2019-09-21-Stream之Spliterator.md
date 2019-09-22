@@ -7,7 +7,7 @@ author:     SL
 header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
-    - Algorithm
+    - Java
 ---
    
 > Spliterator是一个可分割迭代器(Splittable Iterator)，JDK8发布后，对于并行处理的能力大大增强，Spliterator就是为了并行遍历&分割序列而设计的一个迭代器。本文对其进行分析。

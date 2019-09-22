@@ -7,7 +7,7 @@ author:     SL
 header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
-    - Algorithm
+    - Java
 ---
    
 > Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。

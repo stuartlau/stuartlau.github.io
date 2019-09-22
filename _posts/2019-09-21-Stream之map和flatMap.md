@@ -7,7 +7,7 @@ author:     SL
 header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
-    - Algorithm
+    - Java
 ---
    
 > Java8的Stream中引入了对流的各种计算方法，其中map和flatMap的区别常常把人搞的晕头转向，本文对此进行分析。
