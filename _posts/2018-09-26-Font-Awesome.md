@@ -4,7 +4,7 @@ title:      "Font Awesome is Really Awesome"
 subtitle:   "The web’s most popular icon set and toolkit"
 date:       2018-09-26
 author:     SL
-header-img: img/post-bg-universe.jpg
+header-img: img/home-bg-o.jpg
 catalog: true
 tags:
     - Site

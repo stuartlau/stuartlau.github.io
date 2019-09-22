@@ -4,7 +4,7 @@ title:      "Skip Level Talk in Amazon"
 subtitle:   "Skip Level Talk in Amazon"
 date:       2018-11-29
 author:     SL
-header-img: img/post-bg-universe.jpg
+header-img: img/home-bg-o.jpg
 catalog: true
 tags: 
     - Talk

@@ -4,7 +4,7 @@ title:      "Stream中map和flatMap差异分析"
 subtitle:   "map versus flatMap in Stream"
 date:       2019-09-21
 author:     SL
-header-img: img/post-bg-universe.jpg
+header-img: img/home-bg-o.jpg
 catalog: true
 tags:
     - Java

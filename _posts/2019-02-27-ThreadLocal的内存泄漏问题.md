@@ -4,7 +4,7 @@ title:      "ThreadLocal原理分析和注意事项"
 subtitle:   "Deep Dive into ThreadLocal"
 date:       2019-02-27
 author:     SL
-header-img: img/post-bg-universe.jpg
+header-img: img/home-bg-o.jpg
 catalog: true
 tags:
     - Java

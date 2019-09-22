@@ -4,7 +4,7 @@ title:      "详细分析MySQL如何用REPEATABLE-READ解决幻读问题"
 subtitle:   "MySQL's REPEATABLE-READ and PhantomRead Misconception"
 date:       2018-11-28
 author:     SL
-header-img: img/post-bg-universe.jpg
+header-img: img/home-bg-o.jpg
 catalog: true
 tags: 
     - MySQL

@@ -4,7 +4,7 @@ title:      The ABC's of Emoji
 subtitle:   Unicode, character encoding, etc.
 date:       2018-09-10
 author:     SL
-header-img: img/post-bg-universe.jpg
+header-img: img/home-bg-o.jpg
 catalog: true
 tags:
     - Encoding

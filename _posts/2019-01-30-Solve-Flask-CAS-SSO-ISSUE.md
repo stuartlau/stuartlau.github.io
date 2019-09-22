@@ -4,7 +4,7 @@ title:      "解决Flask-CAS接入SSO的报KeyError问题"
 subtitle:   "Solve Flask-CAS Thrown KeyError Issue"
 date:       2019-01-30
 author:     SL
-header-img: img/post-bg-universe.jpg
+header-img: img/home-bg-o.jpg
 catalog: true
 tags:
     - Flask

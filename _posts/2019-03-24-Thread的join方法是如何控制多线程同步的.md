@@ -4,7 +4,7 @@ title:      "Thread的join()是如何控制多线程同步的"
 subtitle:   "join() in Class Thread with monitor lock"
 date:       2019-03-24
 author:     SL
-header-img: img/post-bg-universe.jpg
+header-img: img/home-bg-o.jpg
 catalog: true
 tags:
     - Java

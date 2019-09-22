@@ -4,7 +4,7 @@ title:      "Java8函数式编程之Reduction"
 subtitle:   "Reduction in Java8"
 date:       2019-09-11
 author:     SL
-header-img: img/post-bg-universe.jpg
+header-img: img/home-bg-o.jpg
 catalog: true
 tags:
     - Algorithm

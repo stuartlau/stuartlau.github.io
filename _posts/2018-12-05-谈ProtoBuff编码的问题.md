@@ -4,7 +4,7 @@ title:      "ProtoBuf3.0编码的FAQ"
 subtitle:   "ProtoBuf3.0 Encoding FAQ"
 date:       2018-12-06
 author:     SL
-header-img: img/post-bg-universe.jpg
+header-img: img/home-bg-o.jpg
 catalog: true
 tags:
     - Encoding
