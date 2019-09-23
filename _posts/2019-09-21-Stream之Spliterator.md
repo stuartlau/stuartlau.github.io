@@ -55,11 +55,11 @@ System.out.println("Parallel: " + max);
 调用并行流的调用栈如下：
 > parallelStream()
 >
->     StreamSupport.stream(spliterator(), true);
+>     StreamSupport.stream(spliterator(), true)
 >
 >         ArrayList.spliterator()
 >
->             ArrayListSpliterator<>();
+>             ArrayListSpliterator<>()
 
 由`Spliterator`来实现分割逻辑，一直到无法继续分割，再对子结果集进行合并。
 ### Spliterator
@@ -95,7 +95,192 @@ this method is called by some forkjoin tasks like AbstractTask to check size bef
 - *characteristics* method reports a set of characteristics of its structure, source, and elements
  from among ORDERED, DISTINCT, SORTED, SIZED, NONNULL, IMMUTABLE, CONCURRENT, and SUBSIZED. These helps the Spliterator clients to control, specialize or simplify computation. For example, a Spliterator for a Collection would report SIZED, a Spliterator for a Set would report DISTINCT, and a Spliterator for a SortedSet would also report SORTED.
   
+### ArrayListSpliterator
+#### 源码
+下面我们来看一下`ArrayList`对`Spliterator`的实现：
+```java
+/**
+ * 基于索引的、二分的、懒加载器
+ * Index-based split-by-two, lazily initialized Spliterator
+ */
+static final class ArrayListSpliterator<E> implements Spliterator<E> {
 
+    // 用于存放ArrayList对象
+    private final ArrayList<E> list;
+    // 当前位置（包含），advance/spilt操作时会被修改
+    private int index; // current index, modified on advance/split
+    // 结束位置（不包含），-1表示到最后一个元素
+    private int fence; // -1 until used; then one past last index
+    // 用于存放list的modCount
+    private int expectedModCount; // initialized when fence set
+    /**
+     * Create new spliterator covering the given  range
+     */
+    ArrayListSpliterator(ArrayList<E> list, int origin, int fence,
+                         int expectedModCount) {
+        this.list = list; // OK if null unless traversed
+        this.index = origin;
+        this.fence = fence;
+        this.expectedModCount = expectedModCount;
+    }
+    // 第一次使用时实例化结束位置
+    private int getFence() { // initialize fence to size on first use
+        int hi; // (a specialized variant appears in method forEach)
+        ArrayList<E> lst;
+        // 第一次初始化时，fence才会小于0
+        if ((hi = fence) < 0) {
+            // 如果集合中没有元素
+            if ((lst = list) == null)
+                hi = fence = 0;
+            else {
+                expectedModCount = lst.modCount;
+                hi = fence = lst.size;
+            }
+        }
+        return hi;
+    }
+    // 分割list，返回一个新分割出的spilterator实例
+    // 相当于二分法，这个方法会递归
+    // 1. ArrayListSpilterator本质还是对原list进行操作，只是通过index和fence来控制每次处理的范围
+    public ArrayListSpliterator<E> trySplit() {
+        // hi结束位置（不包括） lo:开始位置 mid中间位置
+        int hi = getFence(), lo = index, mid = (lo + hi) >>> 1;
+        // 当lo >= mid， 表示不能再分割
+        // 当lo < mid时，表示可以分割，切割(lo, mid)出去，同时更新index = mid
+        return (lo >= mid) ? null : // divide range in half unless too small
+                new ArrayListSpliterator<E>(list, lo, index = mid,
+                        expectedModCount);
+    }
+    /**
+     * 返回true时，表示可能还有元素未处理
+     * 返回falsa时，没有剩余元素处理了
+     *
+     * @param action
+     * @return
+     */
+    public boolean tryAdvance(Consumer<? super E> action) {
+        if (action == null)
+            throw new NullPointerException();
+        int hi = getFence(), i = index;
+        if (i < hi) {
+            index = i + 1;
+            @SuppressWarnings("unchecked") E e = (E) list.elementData[i];
+            action.accept(e);
+            if (list.modCount != expectedModCount)
+                throw new ConcurrentModificationException();
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 顺序遍历处理所有剩下的元素
+     *
+     * @param action
+     */
+    public void forEachRemaining(Consumer<? super E> action) {
+        int i, hi, mc; // hoist accesses and checks from loop
+        ArrayList<E> lst;
+        Object[] a;
+        if (action == null)
+            throw new NullPointerException();
+        // 如果list不为空，且list中的元素不为空
+        if ((lst = list) != null && (a = lst.elementData) != null) {
+            // 当fence < 0 时，表示fence和exceptModCount未初始化
+            if ((hi = fence) < 0) {
+                mc = lst.modCount;
+                hi = lst.size;
+            } else
+                mc = expectedModCount;
+            if ((i = index) >= 0 && (index = hi) <= a.length) {
+                for (; i < hi; ++i) {
+                    @SuppressWarnings("unchecked") E e = (E) a[i];
+                    action.accept(e);
+                }
+                if (lst.modCount == mc)
+                    return;
+            }
+        }
+        throw new ConcurrentModificationException();
+    }
+    // 估算大小
+    public long estimateSize() {
+        return (long) (getFence() - index);
+    }
+    // 返回特征值
+    public int characteristics() {
+        return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED;
+    }
+}
+```
+#### 例子
+```java
+import java.util.ArrayList;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
+public class IteratorTest {
+    public static void main(String[] args) {
+        ArrayList<String> arrays = new ArrayList<String>();
+
+        arrays.add("a");
+        arrays.add("b");
+        arrays.add("c");
+        arrays.add("d");
+        arrays.add("e");
+        arrays.add("f");
+        arrays.add("g");
+        arrays.add("h");
+        arrays.add("i");
+        arrays.add("j");
+
+        arrays.remove("j");
+
+        Spliterator<String> p = arrays.spliterator();
+
+        Spliterator<String> s1 = p.trySplit();
+
+        Spliterator<String> s2 = p.trySplit();
+
+        System.out.println("p.consume :");
+        p.forEachRemaining(new Consumer<String>() {
+            public void accept(String s) {
+                System.out.println(s);
+            }
+        });
+
+        System.out.println("s1.consume");
+        s1.forEachRemaining(new Consumer<String>() {
+            public void accept(String s) {
+                System.out.println(s);
+            }
+        });
+
+        System.out.println("s2.consume");
+        s2.forEachRemaining(new Consumer<String>() {
+            public void accept(String s) {
+                System.out.println(s);
+            }
+        });
+    }
+}
+```
+p刚开是集合默认的`Spliterator`，然后分别调用了两次`trySplit`方法，并分别赋值给了`s1`和`s2`，根据对源码的分析我们知道，每次进行`trySplit
+`都会对当前的迭代分割器进行二分分割。
+输出结果：
+```java
+p.consume :
+g
+h
+i
+s1.consume :
+a
+b
+c
+d
+s2.consume :
+e
+f
+```
 ### 用Spliterator求最大值 
 这里的例子同样摘自上述博客，通过`Spliterator`实现并行计算整数元素序列的最大值。
 ```java
