@@ -351,6 +351,7 @@ public class SpliteratorTest {
 ### References 
 - https://java8tips.readthedocs.io/en/stable/parallelization.html
 - https://java8tips.readthedocs.io/en/stable/forkjoin.html
+- https://blog.csdn.net/jiangmingzhi23/article/details/78927552
 
 > 本文首次发布于 [ElseF's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
