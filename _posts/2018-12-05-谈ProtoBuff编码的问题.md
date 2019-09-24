@@ -125,5 +125,5 @@ ProtoBuf使用sint32/sint64类型专门用于编码负数。如果使用int32/in
 ，即两个字节，第一个字节的最高位为1，即1000 0010，第二个字节为最后一个自己，最高为0，即0000 0001，加起来就是1000 0010 0000 0001两个字节。
 
 
-> 本文首次发布于 [ElseF's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
+> 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.

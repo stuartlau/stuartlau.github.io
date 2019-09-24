@@ -53,5 +53,5 @@ Stream<String> stringStream = stream1.flatMap(strings1 -> Arrays.stream(strings1
 可见，`flapMap`的转换函数虽然也是生成了一个`Stream<String>`，但是它内部会将这些流进行`扁平化`，最终返回的是`Stream<String>`，
 而不是`Stream<Stream<String>>`。
 
-> 本文首次发布于 [ElseF's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
+> 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
