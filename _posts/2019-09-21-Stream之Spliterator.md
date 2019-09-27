@@ -3,7 +3,7 @@ layout:     post
 title:      "Stream之Spliterator"
 subtitle:   "Spliterator in Stream"
 date:       2019-09-21
-author:     SL
+author:     S.L
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -37,7 +37,7 @@ spliterator.
 ```java
 // Creates a late-binding and fail-fast Spliterator over the elements in this list.
 public Spliterator<E> spliterator() {
-    return new ArrayListSpliterator<>(this, 0, -1, 0);
+    return new ArrayListSpliterator<>(this, 0, -1, 0); // 将当前List实例传进去，origin=0，expectModCount=0
 }
 ```
 它有两个特点：
@@ -133,7 +133,8 @@ static final class ArrayListSpliterator<E> implements Spliterator<E> {
             if ((lst = list) == null)
                 hi = fence = 0;
             else {
-                expectedModCount = lst.modCount;
+                // 其他场景直接使用fence为list的长度，expectedModCount为list的modCount
+                expectedModCount = lst.modCount; // 使用list的modCount初始化
                 hi = fence = lst.size;
             }
         }
@@ -153,7 +154,7 @@ static final class ArrayListSpliterator<E> implements Spliterator<E> {
     }
     /**
      * 返回true时，表示可能还有元素未处理
-     * 返回falsa时，没有剩余元素处理了
+     * 返回false时，表示没有剩余元素处理了
      *
      * @param action
      * @return
@@ -166,6 +167,7 @@ static final class ArrayListSpliterator<E> implements Spliterator<E> {
             index = i + 1;
             @SuppressWarnings("unchecked") E e = (E) list.elementData[i];
             action.accept(e);
+            //遍历时，结构发生变更，抛错
             if (list.modCount != expectedModCount)
                 throw new ConcurrentModificationException();
             return true;
@@ -200,6 +202,7 @@ static final class ArrayListSpliterator<E> implements Spliterator<E> {
                     return;
             }
         }
+        // list为null表示已经被修改，直接抛异常
         throw new ConcurrentModificationException();
     }
     // 估算大小
@@ -212,6 +215,7 @@ static final class ArrayListSpliterator<E> implements Spliterator<E> {
     }
 }
 ```
+由于实现是基于数组下标的分割来切分`Spliterator`的，每部分可以交给不同的线程去执行，所以是线程安全的。
 #### 例子
 ```java
 import java.util.ArrayList;
@@ -237,9 +241,9 @@ public class IteratorTest {
 
         Spliterator<String> p = arrays.spliterator();
 
-        Spliterator<String> s1 = p.trySplit();
+        Spliterator<String> s1 = p.trySplit(); // 先从p中分割一部分
 
-        Spliterator<String> s2 = p.trySplit();
+        Spliterator<String> s2 = p.trySplit(); // 再将切分后的p再进行一次分割
 
         System.out.println("p.consume :");
         p.forEachRemaining(new Consumer<String>() {
@@ -290,7 +294,7 @@ public class SpliteratorTest {
       Random random = new Random(100);
       int[] array = IntStream.rangeClosed(1, 1_000_000).map(random::nextInt)
                              .map(i -> i * i + i).skip(20).toArray();
-      int max = StreamSupport.stream(new FindMaxSpliterator(array, 0, array.length - 1), true)
+      int max = StreamSupport.stream(new FindMaxSpliterator(array, 0, array.length - 1), true) //注意这里是并行流
                              .reduce(0, Integer::max, Integer::max);
       System.out.println(max);
    }
@@ -317,14 +321,14 @@ public class SpliteratorTest {
 
       @Override
       public Spliterator<Integer> trySplit() {
-          if (end - start < 1000) {
+          if (end - start < 1000) { // 小于1000则不再切分
               return null;
           }
 
-          int mid = (start + end) / 2; // 可能会溢出，取中间值
+          int mid = start + (end - start)/2; // 分两半
           int oldstart = start;
-          start = mid + 1;
-          return new FindMaxSpliterator(arr, oldstart, mid);
+          start = mid + 1; // 重新修改了start，当前Spliterator只处理[mid+1, end]的部分
+          return new FindMaxSpliterator(arr, oldstart, mid); // 分割出去前半部分，可以用于并行处理
       }
 
       @Override
@@ -354,7 +358,7 @@ public class SpliteratorTest {
 - https://blog.csdn.net/jiangmingzhi23/article/details/78927552
 - https://www.ibm.com/developerworks/cn/java/j-java-streams-5-brian-goetz/index.html
 - https://www.ibm.com/developerworks/cn/java/j-java-streams-3-brian-goetz/index.html
-
+- https://www.baeldung.com/java-spliterator
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
