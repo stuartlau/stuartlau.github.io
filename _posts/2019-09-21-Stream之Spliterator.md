@@ -529,6 +529,71 @@ static final class IntArraySpliterator implements Spliterator.OfInt {
     }
 }
 ```
+### 一个有趣的地方
+注意到两个 `tryAdvance` 的参数不一样，一个是 `IntConsumer` ， 这个方法来自 `OfPrimitive` 接口，另外一个 `tryAdvance` 的参数是 
+`Consumer<? super Integer>` 它是 `Spliterator` 接口中的定义。
+
+但后者却可以直接转换为前者方法的参数进行调用，但 `Consumer` 接口和 `IntConsumer` 接口是两个没有继承关系的独立接口，只是接口的声明很像。
+
+`IntConsumer` 接口的定义：
+```java
+@FunctionalInterface
+public interface IntConsumer {
+
+    void accept(int value);
+
+    default IntConsumer andThen(IntConsumer after) {
+        Objects.requireNonNull(after);
+        return (int t) -> { accept(t); after.accept(t); };
+    }
+}
+
+``` 
+`Consumer` 接口的定义：
+```java
+@FunctionalInterface
+public interface Consumer<T> {
+
+    void accept(T t);
+
+    default Consumer<T> andThen(Consumer<? super T> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> { accept(t); after.accept(t); };
+    }
+}
+```
+什么情况下下面的条件会返回 `true` 呢？
+```java
+private static void test(Consumer<? super Integer> consumer) {
+    System.out.println(consumer instanceof IntConsumer);
+}
+```
+下面几种方式都会打印出 `false` ，为什么？
+```java
+Consumer<Integer> consumer = i -> System.out.println(i);
+IntConsumer intConsumer = i -> System.out.println(i);
+
+test(consumer);  // 面向对象的方式
+test(consumer::accept); // 函数式的方式
+test(intConsumer::accept); // 函数式的方式
+```
+前两种方式不需要解释，为什么第三种也不行呢？答案在于 `test` 方法的参数是 `Consumer` 接口，而它与 `IntConsumer` 接口没有关系，所以不会返回 `true` 。
+那为什么会赋值成功呢？
+> 因为lambda表达式是通过上下文进行推断的。`intConsumer::accept` 会被自动推断为是 `Consumer` 类型。
+
+那么怎么才能达到我们的目的呢？答案是————同时实现两个接口：
+```java
+lass MyConsumer<Integer> implements IntConsumer, Consumer<Integer> {
+    public void accept(int value) {
+        System.out.println(value);
+    }
+    public void accept(Integer t) {
+        System.out.println(t);
+    }
+}
+```
+所以该实例传递为参数后，既满足 `Consumer` 类型的入参，又满足内部对 `IntConsumer` 类型的判断。
+
 ### References 
 - https://java8tips.readthedocs.io/en/stable/parallelization.html
 - https://java8tips.readthedocs.io/en/stable/forkjoin.html
@@ -537,6 +602,7 @@ static final class IntArraySpliterator implements Spliterator.OfInt {
 - https://www.ibm.com/developerworks/cn/java/j-java-streams-3-brian-goetz/index.html
 - https://www.baeldung.com/java-spliterator
 - https://blog.csdn.net/lh513828570/article/details/56673804
+- http://movingon.cn/2017/05/03/jdk8-%E4%B8%80%E4%B8%AA%E9%A2%A0%E8%A6%86%E4%BA%86%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%A4%E7%9F%A5%E7%9A%84%E4%BE%8B%E5%AD%90/
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
