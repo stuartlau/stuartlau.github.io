@@ -285,7 +285,7 @@ s2.consume :
 e
 f
 ```
-### 用Spliterator求最大值 
+#### 用Spliterator求最大值 
 这里的例子同样摘自上述博客，通过`Spliterator`实现并行计算整数元素序列的最大值。
 ```java
 public class SpliteratorTest {
@@ -348,10 +348,187 @@ public class SpliteratorTest {
 它的工作原理可以用下面的这张图来描述：
 ![parallel_proc](https://java8tips.readthedocs.io/en/stable/_images/parallel_proc_1.png)
 
-### 注意
+#### 注意
 `Parallel Stream`使用了`ForkJoinPool`和`Spliterator
 `的特性实现了并行计算，但是需要注意使用它的场景：只适用集合数据量大的场景，比如只有几千个元素的场景使用并行流的方式计算将小高更多的资源，因为分割和合并会消耗很大的资源，而串行计算则不需要。
 
+### Spliterator.OfPrimitive
+`OfPrimitive` 接口定义了原始数据的分割迭代器，注意接口参数的声明 `T_SPLITR` 本质上还是 `OfPrimitive` ， 通过 `trySplit` 
+方法的返回值可知，分割后的可分割迭代器必须和之前的类型相同：
+```java
+public interface OfPrimitive<T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
+            extends Spliterator<T> {
+        @Override
+        T_SPLITR trySplit();
+
+        boolean tryAdvance(T_CONS action);
+
+        default void forEachRemaining(T_CONS action) {
+            do { } while (tryAdvance(action));
+        }
+    }
+
+```
+#### Spliterator.IntOf
+来看一下 `IntOf` 的实现：
+```java
+public interface OfInt extends OfPrimitive<Integer, IntConsumer, OfInt> {
+
+        @Override
+        OfInt trySplit();
+
+        @Override
+        boolean tryAdvance(IntConsumer action);
+
+        @Override
+        default void forEachRemaining(IntConsumer action) {
+            do { } while (tryAdvance(action));
+        }
+
+        /**
+         * {@inheritDoc}
+         * @implSpec
+         * If the action is an instance of {@code IntConsumer} then it is cast
+         * to {@code IntConsumer} and passed to
+         * {@link #tryAdvance(java.util.function.IntConsumer)}; otherwise
+         * the action is adapted to an instance of {@code IntConsumer}, by
+         * boxing the argument of {@code IntConsumer}, and then passed to
+         * {@link #tryAdvance(java.util.function.IntConsumer)}.
+         */
+        @Override
+        default boolean tryAdvance(Consumer<? super Integer> action) {
+            if (action instanceof IntConsumer) {
+                return tryAdvance((IntConsumer) action);
+            }
+            else {
+                if (Tripwire.ENABLED)
+                    Tripwire.trip(getClass(),
+                                  "{0} calling Spliterator.OfInt.tryAdvance((IntConsumer) action::accept)");
+                return tryAdvance((IntConsumer) action::accept);
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         * @implSpec
+         * If the action is an instance of {@code IntConsumer} then it is cast
+         * to {@code IntConsumer} and passed to
+         * {@link #forEachRemaining(java.util.function.IntConsumer)}; otherwise
+         * the action is adapted to an instance of {@code IntConsumer}, by
+         * boxing the argument of {@code IntConsumer}, and then passed to
+         * {@link #forEachRemaining(java.util.function.IntConsumer)}.
+         */
+        @Override
+        default void forEachRemaining(Consumer<? super Integer> action) {
+            if (action instanceof IntConsumer) {
+                forEachRemaining((IntConsumer) action);
+            }
+            else {
+                if (Tripwire.ENABLED)
+                    Tripwire.trip(getClass(),
+                                  "{0} calling Spliterator.OfInt.forEachRemaining((IntConsumer) action::accept)");
+                forEachRemaining((IntConsumer) action::accept);
+            }
+        }
+    }
+```
+注意里面的两个 `tryAdvance` 方法，一个是实现了父接口 `OfPrimitive` 的：
+```java
+@Override
+boolean tryAdvance(IntConsumer action);
+```
+一个是自己接口的：
+```java
+@Override
+default boolean tryAdvance(Consumer<? super Integer> action) {
+    if (action instanceof IntConsumer) {
+        return tryAdvance((IntConsumer) action);
+    }
+    else {
+        if (Tripwire.ENABLED)
+            Tripwire.trip(getClass(),
+                          "{0} calling Spliterator.OfInt.tryAdvance((IntConsumer) action::accept)");
+        return tryAdvance((IntConsumer) action::accept);
+    }
+}
+```
+它的参数是 `Consumer<? super Integer>` ，如果它是 `IntConsumer` 实例的则直接转换为 `IntConsumer` 进行调用第一个 
+`tryAdvance` 方法；否则将其适配成 `IntConsumer` 通过将其参数进行封箱操作 `boxing` 后传递给第一个 `tryAdvance` 方法。
+> otherwise the action is adapted to an instance of {@code IntConsumer}, by boxing the argument of
+> 
+> {@code IntConsumer}, and then passed to{@link #tryAdvance(java.util.function.IntConsumer)}
+
+### Spliterator.OfInt的实现
+在 `Spliterators` 类中，已经实现了针对 `int[]` 数据分割迭代器，和 `ArrayList` 差不多，可以简单的看一下：
+
+```java
+//与ArrayList不同的是，array是实现声明的，因此不必担心遍历过程中发生结构变更。
+static final class IntArraySpliterator implements Spliterator.OfInt {
+    private final int[] array;
+    private int index;       
+    private final int fence;
+    //用于记录特征值
+    private final int characteristics;
+    
+    // 初始构造器
+    public IntArraySpliterator(int[] array, int additionalCharacteristics) {
+      this(array, 0, array.length, additionalCharacteristics);
+    }
+    
+    public IntArraySpliterator(int[] array, int origin, int fence, int additionalCharacteristics) {
+      this.array = array;
+      this.index = origin;
+      this.fence = fence;
+      this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
+    }
+    
+    @Override
+    public OfInt trySplit() {
+      //分割，上面做个介绍，不在赘述
+      int lo = index, mid = (lo + fence) >>> 1;
+      return (lo >= mid)
+             ? null
+             : new IntArraySpliterator(array, lo, index = mid, characteristics);
+    }
+    
+    @Override
+    public void forEachRemaining(IntConsumer action) {
+      int[] a; int i, hi; // hoist accesses and checks from loop
+      if (action == null)
+          throw new NullPointerException();  
+      if ((a = array).length >= (hi = fence) &&
+          (i = index) >= 0 && i < (index = hi)) {
+          do { action.accept(a[i]); } while (++i < hi);
+      }
+    }
+    
+    @Override
+    public boolean tryAdvance(IntConsumer action) {
+      if (action == null)
+          throw new NullPointerException();
+      if (index >= 0 && index < fence) {
+          action.accept(array[index++]);
+          return true;
+      }
+      return false;
+    }
+    
+    @Override
+    public long estimateSize() { return (long)(fence - index); }
+    
+    @Override
+    public int characteristics() {
+      return characteristics;
+    }
+    
+    @Override
+    public Comparator<? super Integer> getComparator() {
+      if (hasCharacteristics(Spliterator.SORTED))
+          return null;
+      throw new IllegalStateException();
+    }
+}
+```
 ### References 
 - https://java8tips.readthedocs.io/en/stable/parallelization.html
 - https://java8tips.readthedocs.io/en/stable/forkjoin.html
@@ -359,6 +536,7 @@ public class SpliteratorTest {
 - https://www.ibm.com/developerworks/cn/java/j-java-streams-5-brian-goetz/index.html
 - https://www.ibm.com/developerworks/cn/java/j-java-streams-3-brian-goetz/index.html
 - https://www.baeldung.com/java-spliterator
+- https://blog.csdn.net/lh513828570/article/details/56673804
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
