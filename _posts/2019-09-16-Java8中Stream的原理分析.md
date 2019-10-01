@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "浅谈Stream"
-subtitle:   "Stream Introduction"
+title:      "Java8中Stream原理分析"
+subtitle:   "Stream Summary in Java8"
 date:       2019-09-16
 author:     S.L
 header-img: img/home-bg-o.jpg
