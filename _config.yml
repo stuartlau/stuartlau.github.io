@@ -7,7 +7,7 @@ description: "Every failure is leading towards success."
 keyword: "S.L, S.L Blog, S.L的博客"
 url: "http://elsef.com"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
-github_repo: "https://github.com/stuartlau/stuartlau.github.io.git" # you code repository
+#github_repo: "https://github.com/stuartlau/stuartlau.github.io.git" # you code repository
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
@@ -18,12 +18,12 @@ sidebar-avatar: /img/elsef-qrcode.jpg      # use absolute URL, seeing it's used 
 
 # SNS settings
 RSS: true
-weibo_username:     stuartlau
-zhihu_username:     stuartlau
-github_username:    stuartlau
+# weibo_username:     stuartlau
+# zhihu_username:     stuartlau
+# github_username:    stuartlau
 # facebook_username:  baiying.qiu.7
-jianshu_username:   aff657c47bf1
-twitter_username:   shuoleo
+# jianshu_username:   aff657c47bf1
+# twitter_username:   shuoleo
 
 
 
