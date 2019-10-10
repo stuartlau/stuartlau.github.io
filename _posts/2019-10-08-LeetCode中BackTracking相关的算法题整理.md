@@ -34,7 +34,7 @@ public List<List<Integer>> subsets(int[] nums) {
 }
 
 private void backtrack(List<List<Integer>> list , List<Integer> tempList, int [] nums, int start){
-    // 每次产生一个新的list，就直接加到结果里（饿汉子法）
+    // 每次产生一个新的list，就直接加到结果里（饥渴型）
     list.add(new ArrayList<>(tempList)); // use new
     // 注意start要作为一个循环的开头，每次start加一，每个start开始都是一组set，里面包含当前的start，和后面出现或者不出现的每个数字
     // 每一个循环开始时都不包括之前的位置的元素，只从当前位置开始
@@ -76,7 +76,8 @@ private void backtrack(List<List<Integer>> res, int[] nums, int pos, List<Intege
 }
 ```
 ### Subset(90)
-> 思路和78题的思路一一样，因为需要去重，所以使用 `for` 循环的方式比较方便。
+> 思路和78题的思路一一样，因为需要去重，所以先排序后处理起来比较方便，而前后相邻元素要进行比对，所以使用 `for` 循环的方式引入下标会比较方便。
+
 ```java
 public List<List<Integer>> subsetsWithDup(int[] nums) {
     List<List<Integer>> list = new ArrayList<>();
@@ -86,10 +87,13 @@ public List<List<Integer>> subsetsWithDup(int[] nums) {
     return list;
 }
 
-private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] nums, int start){
+private void backtrack(List<List<Integer>> list, List<Integer> tempList, int[] nums, int start){
+    // 每次产生一个新的list，就直接加到结果里（饥渴型）
     list.add(new ArrayList<>(tempList)); // use new
     for(int i = start; i < nums.length; i++){
-        if(i > start && nums[i] == nums[i-1]) continue; // skip duplicates
+        if(i > start && nums[i] == nums[i-1]) 
+            continue; // skip if duplicates with previous
+            
         tempList.add(nums[i]);
         backtrack(list, tempList, nums, i + 1);
         tempList.remove(tempList.size() - 1);
@@ -114,8 +118,8 @@ private void backtrack(int[] candidates, int target, int pos, List<Integer> comb
         return;
     }
     for (int i = pos; i < candidates.length; i++) {
-        int newTarget = target - candidates[i];
-        if (newTarget >= 0) {
+        int newTarget = target - candidates[i]; // remaining after current counted
+        if (newTarget >= 0) { // still not the end
             comb.add(candidates[i]);
             // Note i, numbers can be used unlimited number of times
             backtrack(candidates, newTarget, i, comb, res); 
@@ -155,7 +159,7 @@ public void dfs(int[] num, int target, int index, List<Integer> comb, List<List<
             dfs(num, newTarget, i + 1, comb, result);
             comb.remove(comb.size() - 1); // remove the last
         } else {
-            break;
+            break; // Too big
         }
         
         // Skip duplicates
@@ -174,17 +178,18 @@ public void dfs(int[] num, int target, int index, List<Integer> comb, List<List<
 public List<List<Integer>> permute(int[] nums) {
    List<List<Integer>> list = new ArrayList<>();
    // Arrays.sort(nums); // not necessary
-   // 因为顺序重要 元素的数量不重要，所以我们就不使用start变量去控制有多少元素存在于templist中
+   // 因为[顺序重要] [元素的数量不重要]，所以我们就不使用start变量去控制有多少元素存在于templist中
    backtrack(list, new ArrayList<>(), nums);
    return list;
 }
 
 private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] nums){
-   if(tempList.size() == nums.length){ // 懒汉行，只有在长度满足数组长度时才记录结果
+   if(tempList.size() == nums.length){ // 懒汉型，只有在长度满足数组长度时才记录结果
       list.add(new ArrayList<>(tempList)); // use new
    } else{
       for(int i = 0; i < nums.length; i++){ 
-         if(tempList.contains(nums[i])) continue; // element already exists, skip
+         if(tempList.contains(nums[i])) 
+             continue; // element already exists, skip
          tempList.add(nums[i]);
          backtrack(list, tempList, nums);
          tempList.remove(tempList.size() - 1);
@@ -196,7 +201,7 @@ private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] 
 ### Permutations 2(46)
 ```java
 public List<List<Integer>> permuteUnique(int[] nums) {
-    List<List<Integer>> list = new ArrayList<>();
+    final List<List<Integer>> list = new ArrayList<>();
     Arrays.sort(nums);
     backtrack(list, new ArrayList<>(), nums, new boolean[nums.length]);
     return list;
@@ -207,6 +212,8 @@ private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] 
         list.add(new ArrayList<>(tempList));
     } else{
         for(int i = 0; i < nums.length; i++){
+            // 如果当前位置已经被使用，或者它和前面的位置的元素相同且前面位置的元素未被使用则继续循环
+            // 前面的未被使用的原因就是发生了冲突，否则会跳过if设置对应的used[i]
             if(used[i] || i > 0 && nums[i] == nums[i-1] && !used[i - 1]) continue;
             used[i] = true; 
             tempList.add(nums[i]);
