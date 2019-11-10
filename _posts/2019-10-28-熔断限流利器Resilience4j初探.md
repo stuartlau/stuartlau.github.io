@@ -197,7 +197,7 @@ public class DemoRetry {
 通过测试可以发现我们模拟了前几次的失败，`Retry` 会自动根据配置帮我们重试，直到达到了 `maxAttempts`，同时可以观察到
 重试的时间间隔是受 `intervalFunction` 函数控制的，这里是按照指数增长。
 
-### CircuitBreaker
+#### CircuitBreaker
 `CircuitBreaker` 实际上是一个「状态机」，内部有3种状态：`Closed` ，`Open` ，`Half-Open` 。默认处于 `Closed` 状态，允许通过所有请求，
 一旦请求的失败率达到某个阈值时，断路器就会变成 `Open` 状态，之后所有请求都会失败，经过一段时间后，断路器会进入 `Half-Open` 状态，
 允许所有请求通过，再根据失败率判断进入 `Closed` 还是 `Open` 状态。
@@ -288,7 +288,7 @@ CircuitBreakerRegistry circuitBreakerRegistry = CircuitBreakerRegistry.ofDefault
 除了失败率阈值 `failureRateThreshold`，还提供了类似慢调用耗时阈值 `slowCallRateThreshold` ，触发统计为 `Open` 的最小失败调用次数阈值
 `minimumNumberOfCalls` 以及可以忽略的异常类型 `ignoreException` 等， 更多参数可以参考[doc](https://resilience4j.readme.io/docs/circuitbreaker)。
 
-## References
+### References
 - https://resilience4j.readme.io
 - https://medium.com/@storozhuk.b.m/circuit-breaker-implementation-in-resilience4j-992af908c413
 - https://medium.com/@storozhuk.b.m/achieving-fault-tolerance-with-resilience4j-21fcd7fef6c
