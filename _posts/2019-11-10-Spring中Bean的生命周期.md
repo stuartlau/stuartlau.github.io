@@ -1,13 +1,13 @@
 ---
 layout:     post
-title:      "理解Java中的Integer的实例化"
-subtitle:   "Initialization Integer in Java"
+title:      "谈Spring中Bean的生命周期管理"
+subtitle:   "Bean Management in Spring"
 date:       2019-11-10
 author:     S.L
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
-    - Java
+    - Spring
 ---
 > Spring的IoC容器功能非常强大，负责Spring的Bean的创建和管理等功能。了解Spring Bean的生命周期对我们了解整个Spring框架会有很大的帮助。
 >
