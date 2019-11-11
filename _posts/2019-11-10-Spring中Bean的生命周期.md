@@ -55,9 +55,49 @@ Spring 继续对这些 Bean 进行后续的生命管理；
 >
 > 甚至还可以使用@PostConstruct、@PreDestroy注解来完成相同的方法标记工作，它们是由InitDestroyAnnotationBeanPostProcessor后处理器实现的。
 
+```java
+package org.springframework.beans.factory;
+
+public interface BeanFactory {
+
+    /**
+     * 用来引用一个实例，或把它和工厂产生的Bean区分开，就是说，如果一个FactoryBean的名字为a，那么，&a会得到那个Factory
+     */
+    String FACTORY_BEAN_PREFIX = "&";
+
+    /*
+     * 四个不同形式的getBean方法，获取实例
+     */
+    Object getBean(String name) throws BeansException;
+
+    <T> T getBean(String name, Class<T> requiredType) throws BeansException;
+
+    <T> T getBean(Class<T> requiredType) throws BeansException;
+
+    Object getBean(String name, Object... args) throws BeansException;
+
+    boolean containsBean(String name); // 是否存在
+
+    boolean isSingleton(String name) throws NoSuchBeanDefinitionException;// 是否为单实例
+
+    boolean isPrototype(String name) throws NoSuchBeanDefinitionException;// 是否为原型（多实例）
+
+    boolean isTypeMatch(String name, Class<?> targetType)
+            throws NoSuchBeanDefinitionException;// 名称、类型是否匹配
+
+    Class<?> getType(String name) throws NoSuchBeanDefinitionException; // 获取类型
+
+    String[] getAliases(String name);// 根据实例的名字获取实例的别名
+
+}
+
+```
+BeanFactory有着庞大的继承、实现体系，有众多的子接口、实现类。来看一下BeanFactory的基本类体系结构（接口为主）：
+![继承体系](https://images2015.cnblogs.com/blog/249993/201609/249993-20160907110538348-921805562.png)
 #### ApplicationContext中Bean的生命周期
-Bean 在应用上下文中的生命周期和再 BeanFactory 中生命周期类似，不同的是，如果 Bean 实现了 ApplicationContextAware 接口，会增加一个调用该接口的
-setApplicationContext()方法的步骤。
+
+Bean 在ApplicationContext 中的生命周期和在 BeanFactory 中生命周期类似，不同的是，如果 Bean 实现了 ApplicationContextAware 
+接口，会增加一个调用该接口的setApplicationContext()方法的步骤。
 此外，如果配置文件中声明了工厂后处理器接口 BeanFactoryPostProcessor 的实现类，则应用上下文在装载配置文件之后初始化 Bean 实例之前将调用
 这些 BeanFactoryPostProcessor 对配置信息进行加工处理，如 Spring 自带的后工厂处理器 
 PropertyPlaceholderConfigurer、CustomEditorConfigurer等。
@@ -68,9 +108,69 @@ BeanPostProcessor、InstantiationAwareBeanPostProcessor和 BeanFactoryPostProces
 
 所以一般我们都是用 ApplicationContext，只需要在配置文件中配置对应的 <bean> 即可。
 
+ApplicationContext接口作为BeanFactory的派生，提供BeanFactory所有的功能。而且ApplicationContext
+还在功能上做了扩展，相较于BeanFactory，ApplicationContext还提供了以下的功能： 
+
+-（1）MessageSource, 提供国际化的消息访问  
+-（2）资源访问，如URL和文件  
+-（3）事件传播特性，即支持aop特性
+-（4）载入多个（有继承关系）上下文 ，使得每一个上下文都专注于一个特定的层次，比如应用的Web层 
+
+看一下接口声明就知道了：
+```java
+public interface ApplicationContext extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory,
+		MessageSource, ApplicationEventPublisher, ResourcePatternResolver {...}
+```
+### BeanFactory对比ApplicationContext
+#### 特性对比
+| Feature                            | BeanFactory | ApplicationContext |
+| ---------------------------------- | ----------- | ------------------ |
+| Bean实例化/装配                    | 是          | 是                 |
+| 集成生命周期管理                   | 是          | 是                 |
+| 自动 BeanPostProcessor 注册        | 否          | 是                 |
+| 自动 BeanFactoryPostProcessor 注册 | 否          | 是                 |
+| 方便 MessageSource 访问（内部化）  | 否          | 是                 |
+| 内置 ApplicationEvent 发布机制     | 否          | 是                 |
+
+
+BeanFactory主要是面对与 Spring 框架的基础设施，面对 Spring 自己。而 ApplicationContext 主要面对与 Spring 使用的开发者。基本都会使用 
+ApplicationContext 并非 BeanFactory。
+
+通过BeanFactory启动IoC容器时，并不会初始化配置文件中定义的Bean，初始化动作发生在第一个调用时。
+
+BeanFactory接口提供了配置框架及基本功能，但是无法支持 Spring 的 AOP 功能和 Web 应用。
+
+BeanFactory采用的是「延迟加载」形式来注入Bean的，即只有在使用到某个Bean时(调用getBean()方法)
+，才对该Bean进行加载实例化，这样我们就不能及时发现一些存在的Spring的配置问题。而ApplicationContext则相反，它是在容器启动时，一次性创建了所有的Bean
+。这样，在容器启动时，我们就可以发现Spring中存在的配置错误。 相对于基本的BeanFactory，ApplicationContext 唯一的不足是占用内存空间。当应用程序配置Bean较多时，程序启动较慢。
+
+BeanFactory和ApplicationContext都支持BeanPostProcessor、BeanFactoryPostProcessor
+的使用，但两者之间的区别是：BeanFactory需要手动注册，而ApplicationContext则是自动注册。
+
+#### 使用方式对比    
+   
+- BeanFactory
+```java
+DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
+beanDefinitionReader.loadBeanDefinitions(new ClassPathResource("applicationContext.xml"));
+DemoServiceImpl demo = (DemoServiceImpl) beanFactory.getBean("demo");
+```    
+- ApplicationContext
+```java
+ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+DemoService demo = (DemoService) ctx.getBean("demo");
+```
+可以看到使用 ApplicationContext 更简单。
+
+> 两者比较看出，BeanFactory 其实只有基本只有跟 Bean 相关的功能。所以在实际开发中，我们使用 ApplicationContext 就可以使用相关 Spring 功能。如果使用
+ BeanFactory 其实也可以也实现这些功能，但是这个时候我们就需要知道其中很多相关细节。作为一个框架而言，其自然做到是开箱即用，而无需让使用者考虑其内部相关细节。所以 Spring 
+ 做了相关封装，最后成了我们经常使用的 ApplicationContext。
+ 
 ### References
 - 《Spring 3.x——企业应用开发实战》，陈雄华、林开雄著
-
+- [Spring系列之beanFactory与ApplicationContext](https://www.cnblogs.com/xiaoxi/p/5846416.html)
+- [](https://juejin.im/post/5b77d33151882542d23a0823)
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
