@@ -123,16 +123,6 @@ public interface ApplicationContext extends EnvironmentCapable, ListableBeanFact
 ```
 ### BeanFactory对比ApplicationContext
 #### 特性对比
-| Feature                            | BeanFactory | ApplicationContext |
-| ---------------------------------- | ----------- | ------------------ |
-| Bean实例化/装配                    | 是          | 是                 |
-| 集成生命周期管理                   | 是          | 是                 |
-| 自动 BeanPostProcessor 注册        | 否          | 是                 |
-| 自动 BeanFactoryPostProcessor 注册 | 否          | 是                 |
-| 方便 MessageSource 访问（内部化）  | 否          | 是                 |
-| 内置 ApplicationEvent 发布机制     | 否          | 是                 |
-
-
 BeanFactory主要是面对与 Spring 框架的基础设施，面对 Spring 自己。而 ApplicationContext 主要面对与 Spring 使用的开发者。基本都会使用 
 ApplicationContext 并非 BeanFactory。
 
@@ -170,7 +160,6 @@ DemoService demo = (DemoService) ctx.getBean("demo");
 ### References
 - 《Spring 3.x——企业应用开发实战》，陈雄华、林开雄著
 - [Spring系列之beanFactory与ApplicationContext](https://www.cnblogs.com/xiaoxi/p/5846416.html)
-- [](https://juejin.im/post/5b77d33151882542d23a0823)
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
