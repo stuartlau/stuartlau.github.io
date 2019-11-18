@@ -355,6 +355,7 @@ message Test4 {
 如果没有特别的理由，不要使用 sint64 等
 #### oneof - 异构类型
 有的时候，对于某些 payload，不一定知道很明确的类型，而是有一些可能的类型，比如说 feed 可以是直播，或者视频，这种时候适合使用 oneof
+
 ```proto
 message LiveStreamFeed {
     string live_stream_id = 1;
