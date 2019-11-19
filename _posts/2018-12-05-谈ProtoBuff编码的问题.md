@@ -354,55 +354,9 @@ message Test4 {
 对于所有取非负数的，比如 photoId，userId 等，尽量声明成 uint64，而不是 int64
 如果没有特别的理由，不要使用 sint64 等
 #### oneof - 异构类型
-有的时候，对于某些 payload，不一定知道很明确的类型，而是有一些可能的类型，比如说 feed 可以是直播，或者视频，这种时候适合使用 oneof
+有的时候，对于某些 payload，不一定知道很明确的类型，而是有一些可能的类型，比如说 Fruit 可以是Apple，或者Pear，这种时候适合使用 oneof
 
-```proto
-message LiveStreamFeed {
-    string live_stream_id = 1;
-}
- 
-message PhotoFeed {
-    uint64 photo_id = 1;
-}
- 
-message FeedShow {
-    oneof feed {
-        LiveStreamFeed live_stream = 1;
-        PhotoFeed photo = 2;
-    }
-    uint64 time = 3;
-}
-```
-```java
-private static void testOneof(FeedShow show) {
-    switch (show.getFeedCase()) {
-        case LIVE_STREAM:
-            String liveStreamId = show.getLiveStream().getLiveStreamId();
-            System.out.println(liveStreamId);
-            break;
-        case PHOTO:
-            long photoId = show.getPhoto().getPhotoId();
-            System.out.println(photoId);
-            break;
-        case FEED_NOT_SET:
-            break;
-    }
-}
-```
 需要区别未设置和默认值，protobuf 默认是不保存默认值的。而有时候，需要区别一下默认值和未设置。比如说某项打分，打分 0 和未打分是有区别的
-```proto
-message Photo {
-    oneof opt_feature {
-        uint64 feature = 1;
-    }
-}
-```
-```java
-Photo photo = Photo.newBuilder().setFeture(0).build();
-if (photo.getOptFeatureCase() == Photo.OptFeatureCase.FEATURE) { // 默认不设置不会走到if
-    System.out.println(photo.getFeature());
-}
-```
 
 #### 不推荐使用Any类型
 google 原生提供了any 类型数据结构，但是该数据结构在序列化时会产生一个开销很大的 string 作为 ndescriptor，并且反序列化时依然要提供 Class<?>（对于Java），并不能自动识别指定的类型，只是提供了简单的校验。在这种场景下，就不如自己维护 enum/int type + byteString 更有效。如果是异构数据类型，也更推荐上面的 oneof 关键字
@@ -410,22 +364,22 @@ google 原生提供了any 类型数据结构，但是该数据结构在序列化
 - 使用 src/main/proto 作为 proto 的资源文件夹
 - 使用 全小写下划线作为文件名的格式，例如 fruit_grpc_context.proto
 - 使用 proto3 语法
-- 使用 com.xxx.protobuf.* 作为编译后 java 文件的包名前缀，例如 com.xxx.protobuf.lemon
+- 使用 com.xxx.protobuf.* 作为编译后 java 文件的包名前缀，例如 com.xxx.protobuf.fruit
 - 设置 java_multiple_files = true，每个类型单独生成一个类，便于 import 和应对未来可能发生的迁移
-- proto 的文件路径与 package 对应，例如 package 为 xxx.lemontree，则文件应放到 src/main/proto/xxx/lemon 目录下
+- proto 的文件路径与 package 对应，例如 package 为 xxx.fruit，则文件应放到 src/main/proto/xxx/fruit 目录下
 - objective-c 中设置生成的 class 前缀，例如 objc_class_prefix = "Elsef"
 - 设置 java_outer_classname = "类名Proto"，例如 fruit_grpc_context.proto 的类名FruitGrpcContextProto
 
 #### 语法规范 
-- message 名称使用 首字母大写驼峰 格式，例如 RpcMonitorItem
-- message 字段名称使用 全小写下划线 格式，例如 service_type
-- oneof 是一种异构类型，oneof 修饰的字段与 message 字段执行相同规范，使用 全小写下划线 格式，例如 service_type
+- message 名称使用 首字母大写驼峰 格式
+- message 字段名称使用 全小写下划线 格式
+- oneof 是一种异构类型，oneof 修饰的字段与 message 字段执行相同规范，使用 全小写下划线 格式
 - message 字段类型（包括 oneof）不能使用 any
-- enum 名称使用 首字母大写驼峰 格式，例如 LanguageType
-- enum 字段名称使用 全大写下划线 格式，例如 OBJECTIVE_C
-- enum 字段名称 不能以 'VALUE' 结尾，例如反例
-- service 名称使用 首字母大写驼峰 格式，例如 RpcMonitorReportService
-- gRPC 方法名称使用 首字母大写驼峰 格式，例如 ReportMessage()
+- enum 名称使用 首字母大写驼峰 格式
+- enum 字段名称使用 全大写下划线 格式
+- enum 字段名称 不能以 'VALUE' 结尾
+- service 名称使用 首字母大写驼峰 格式
+- gRPC 方法名称使用 首字母大写驼峰 格式
 - repeated 修饰的字段，建议名称使用单数，因为生成的 Java 代码会自动增加 List 后缀
 
 ### References
