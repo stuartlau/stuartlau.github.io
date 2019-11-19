@@ -415,6 +415,7 @@ google 原生提供了any 类型数据结构，但是该数据结构在序列化
 - proto 的文件路径与 package 对应，例如 package 为 xxx.lemontree，则文件应放到 src/main/proto/xxx/lemon 目录下
 - objective-c 中设置生成的 class 前缀，例如 objc_class_prefix = "Elsef"
 - 设置 java_outer_classname = "类名Proto"，例如 fruit_grpc_context.proto 的类名FruitGrpcContextProto
+
 #### 语法规范 
 - message 名称使用 首字母大写驼峰 格式，例如 RpcMonitorItem
 - message 字段名称使用 全小写下划线 格式，例如 service_type
