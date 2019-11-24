@@ -95,6 +95,13 @@ linux下，修改 ~/.pip/pip.conf (没有就创建一个)， 修改 index-url，
 > python3 -m venv myvenv
 
 #### gRPC
+执行如下命令安装 `grpcio` ，它会自动安装 `protobuf` 包：
+> pip install grpcio
+
+生成proto文件对应的Python文件执行如下命令（使用了protobuf的编译器）：
+> python -m grpc_tools.protoc -I../ --python_out=. --grpc_python_out=. ./grpchello.proto
+
+结果将保存到当前目录下，包括grpchello_pb2.py和grpchello_pb2_grpc.py两个文件。
 
 ### References
 - pip用户指南: https://pip.pypa.io/en/stable/user_guide/
