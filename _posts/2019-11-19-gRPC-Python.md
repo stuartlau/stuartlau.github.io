@@ -102,6 +102,28 @@ linux下，修改 ~/.pip/pip.conf (没有就创建一个)， 修改 index-url，
 > python -m grpc_tools.protoc -I../ --python_out=. --grpc_python_out=. ./grpchello.proto
 
 结果将保存到当前目录下，包括grpchello_pb2.py和grpchello_pb2_grpc.py两个文件。
+#### 中文乱码
+即默认情况下，打印protobuf对象时，对于非asc码，会以转义符方式打印，[issue](https://github.com/google/protobuf/issues/2277)
+> I'm pretty sure that's working as intended: by default we print all non-ascii characters in escaped sequence. 
+  
+只需要添加两行：
+> from google.protobuf import text_format
+>
+> print(text_format.MessageToString(msg, as_utf8 = True))
+
+这样msg结构里的文本属性会自动解析为正确的汉字。
+
+如果需要单独获得desc内容进行其他操作则只能用一种过渡的方式，即定义一个单独的PB结构用于存放这个string类型属性，
+然后将desc的内容赋值给它，然后再text_format.MessageToString(newPbMsg, as_utf8=True)，e.g.
+
+```python
+# 初始化一个PB结构TestMessage，内部属性只有string类型的属性，即text字段
+# 这里将原来的PB对象的字符串属性desc赋值给TextMessage的text字段，然后实例化TextMessage对象
+text_msg = im_ks_message_notice_pb2.TestMessage(text=somePbObj.desc) 
+# 转化pb为文本，用utf8编码
+text = text_format.MessageToString(text_msg, as_utf8=True)
+print(text)
+```
 
 ### References
 - pip用户指南: https://pip.pypa.io/en/stable/user_guide/
