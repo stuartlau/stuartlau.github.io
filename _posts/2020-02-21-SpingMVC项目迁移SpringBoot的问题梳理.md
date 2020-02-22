@@ -69,7 +69,7 @@ WebMvcConfigurer webMvcConfigurer() {
 
 ```
 
-### 消息转换器
+#### 消息转换器
 SpringMVC需要使用 *<mvc:message-converters/>* 标签来声明消息转换类型，如：
 ```xml
 <mvc:annotation-driven>
@@ -115,8 +115,9 @@ class SpringMvcSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //  disable csrf Protection because it is enabled by default in spring security
+        // disable csrf Protection because it is enabled by default in spring security
         http.cors().and().csrf().disable();
+        // disable default http headers spring security sets 
         http.headers().defaultsDisabled().cacheControl();
     
         http.addFilterAfter(encodingFilter(), BasicAuthenticationFilter.class);
@@ -141,6 +142,28 @@ add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, DELETE, PUT";
 ```
 所以如果Nginx设置了，后端服务就可以禁用。
 
+#### Cache Controller Header
+Spring Security默认为我们增加了很多缓存控制头，其中就有：
+> X-Content-Type-Options: nosniff
+
+这个东西是啥呢？以下摘自 *JerryQu* 的[blog](https://imququ.com/post/web-security-and-response-header.html)：
+```
+互联网上的资源有各种类型，通常浏览器会根据响应头的Content-Type字段来分辨它们的类型。例如："text/html"代表html文档，
+"image/png"是PNG图片，"text/css"是CSS样式文档。然而，有些资源的Content-Type是错的或者未定义。这时，某些浏览器会
+启用MIME-sniffing来猜测该资源的类型，解析内容并执行。
+```
+在测试的时候发现下载资源的时候浏览器会直接将文件的数据内容展示在页面中而不是像之前一样直接下载成一个文件，原因就是Reponse中多了上面的header
+使得浏览器不会去猜测下载的文件是什么类型，甚至不知道下载的是否是一个文件，所以直接将内容展示出来。
+
+为啥浏览器会要通过 *sniff* 来判断得到的数据流的内容，原因是服务器返回数据文件内容的时候并没有设置对应MIME类型。
+
+以下摘自[mozilla](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
+```
+In the absence of a MIME type, or in certain cases where browsers believe they are incorrect, browsers may perform MIME sniffing — guessing the correct MIME type by looking at the bytes of the resource.
+
+Each browser performs MIME sniffing differently and under different circumstances. (For example, Safari will look at the file extension in the URL if the sent MIME type is unsuitable.) There are security concerns as some MIME types represent executable content. Servers can prevent MIME sniffing by sending the X-Content-Type-Options header.
+
+```
 #### Tomcat
 内置容器默认使用Tomcat，我们线上服务也是使用的Tomcat，但是是8.0版本，而SpringBoot2默认的内置Tomcat已经升级到9.x版本，这里也为我们埋下了一个小坑。
 
@@ -253,6 +276,7 @@ location ^~ /rest/api/applyToken {
 ### References
 - [Spring Boot 2.0 Release Notes](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Release-Notes)
 - [springboot系列文章之实现跨域请求(CORS)](https://juejin.im/post/5b99dcca6fb9a05d3154f8b7)
+- [Spring Security – Cache Control Headers](https://www.baeldung.com/spring-security-cache-control-headers)
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
