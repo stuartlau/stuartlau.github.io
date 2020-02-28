@@ -42,22 +42,14 @@ connectionUploadTimeout="10000"
 
 ```
 $ time telnet localhost 8080
->
 Trying ::1...
->
 Connected to localhost.
->
 Escape character is '^]'.
->
 Connection closed by foreign host.
->
->
+
 real	0m2.037s
->
 user	0m0.001s
->
 sys	0m0.001s
->
 ```
 
 可以看到经过了大概2s的时间后连接被服务器断了。
@@ -66,30 +58,18 @@ sys	0m0.001s
 
 ```
 $ time telnet localhost 8080
->
 Trying ::1...
->
 Connected to localhost.
->
 Escape character is '^]'.
->
 POST /test HTTP/1.1
->
 host: localhost:8080
->
 Content-type:application/x-www-form-urlencoded
->
 Content-length:10
->
 2Connection closed by foreign host.
->
->
+
 real	0m5.383s
->
 user	0m0.001s
->
 sys	0m0.001s
->
 ```
 
 可以发现这次延长到了5s才被服务器关闭，是因为我们增加了一些HTTP报文的传输，但是在输入内容的时候又停住了，等待2s后又被服务器关闭了。
