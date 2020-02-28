@@ -7,7 +7,7 @@ author:     S.L
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
-    - Troubleshooting
+    - Web
 ---
     
 > 本文主要梳理在Web开发时遇到的各种超时问题的总结，主要包括熟悉的Tomcat和Nginx的一些常用配置的解答和测试。
