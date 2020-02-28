@@ -39,35 +39,59 @@ connectionUploadTimeout="10000"
 
 做个试验，我用SpringBoot启动一个内嵌Tomcat9的Web服务，并设置对应的connectionTimeout为2s，通过telnet可以模拟客户端的恶意行为：
 - 连接后不发任何信息
+
 ```
 $ time telnet localhost 8080
+>
 Trying ::1...
+>
 Connected to localhost.
+>
 Escape character is '^]'.
+>
 Connection closed by foreign host.
-
+>
+>
 real	0m2.037s
+>
 user	0m0.001s
+>
 sys	0m0.001s
+>
 ```
+
 可以看到经过了大概2s的时间后连接被服务器断了。
 
 - 连接后发送POST请求并不发送完整数据
+
 ```
 $ time telnet localhost 8080
+>
 Trying ::1...
+>
 Connected to localhost.
+>
 Escape character is '^]'.
+>
 POST /test HTTP/1.1
+>
 host: localhost:8080
+>
 Content-type:application/x-www-form-urlencoded
+>
 Content-length:10
+>
 2Connection closed by foreign host.
-
+>
+>
 real	0m5.383s
+>
 user	0m0.001s
+>
 sys	0m0.001s
+>
 ```
+
 可以发现这次延长到了5s才被服务器关闭，是因为我们增加了一些HTTP报文的传输，但是在输入内容的时候又停住了，等待2s后又被服务器关闭了。
 
 还可以通过一直发送回车的方式保持和服务器的连接，请自行测试。
@@ -98,7 +122,7 @@ sys	0m0.001s
 熟悉Tomcat和Nginx的一些超时的配置对我们处理日常的一些网络超时等错误有非常大的帮助，本文会不断更新对这些看起来你懂但其实就是用不好的配置和参数的解读。
 
 ### References
-- [tomcat-connector的微调(4): 超时相关的参数](http://hongjiang.info/tomcat-connector-tuning-4/
+- [tomcat-connector的微调(4): 超时相关的参数](http://hongjiang.info/tomcat-connector-tuning-4/)
 - [Nginx Documentation - HTTP Proxy Module](http://nginx.org/en/docs/http/ngx_http_proxy_module.html)
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
