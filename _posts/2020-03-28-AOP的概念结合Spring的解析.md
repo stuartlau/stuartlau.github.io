@@ -15,13 +15,13 @@ tags:
 
 ![](https://i.stack.imgur.com/J7Hrh.png)
 ### 概念
-#### JoinPoint
+#### Joinpoint
 > A joinpoint is a candidate point in the Program Execution of the application where an aspect can 
 be plugged in. This point could be a method being called, an exception being thrown, or even a field 
 being modified. These are the points where your aspect’s code can be inserted into the normal flow 
 of your application to add new behavior.
 
-注意JoinPoint并不一定只是方法的执行点，还可以是一个异常的抛出点或者一个属性的变更点，在这些变动上我们都可以进行拦截。
+注意 `Joinpoint` 并不一定只是方法的执行点，还可以是一个异常的抛出点或者一个属性的变更点，在这些变动上我们都可以进行拦截。
 
 下面用一个餐馆的例子来比喻：
 > Join points are the options on the menu and pointcuts are the items you select. A joinpoint is an 
@@ -168,7 +168,8 @@ public interface Pointcut {
 > This is an object which includes API invocations to the system wide concerns 
 representing the action to perform at a joinpoint specified by a point.
 
-说白了， *advice* 就是你作用到 *pointcut* 上的方式，如可以使用Before, After 或者Around等方式。
+中文翻译为「增强」(也有叫「通知」的，但注解里面也说到了是一个*action to perform*，所以个人认为叫增强更好)， 
+*advice* 就是你作用到 *pointcut* 上的方式和行为，如可以使用Before, After或者Around等方式，以及对应的相应的代码逻辑。
 
 spring-aop中的定义如下：
 ```java
@@ -226,21 +227,6 @@ public interface MethodInterceptor extends Interceptor {
 
 看一下spring-aop中的 `Advisor` 接口的定义：
 ```java
-/**
- * Base interface holding AOP <b>advice</b> (action to take at a joinpoint)
- * and a filter determining the applicability of the advice (such as
- * a pointcut). <i>This interface is not for use by Spring users, but to
- * allow for commonality in support for different types of advice.</i>
- *
- * <p>Spring AOP is based around <b>around advice</b> delivered via method
- * <b>interception</b>, compliant with the AOP Alliance interception API.
- * The Advisor interface allows support for different types of advice,
- * such as <b>before</b> and <b>after</b> advice, which need not be
- * implemented using interception.
- *
- * @author Rod Johnson
- * @author Juergen Hoeller
- */
 public interface Advisor {
 
 	Advice EMPTY_ADVICE = new Advice() {};
@@ -264,11 +250,10 @@ users, but to allow for commonality in support for different types of advice.
 > Spring AOP is based around <b>around advice</b> delivered via method <b>interception</b>, 
 compliant with the AOP Alliance interception API.
 
-它有两个接口需要实现：
-- *getAdvice* ，需要提供一个 `Advice` 的实现，默认有一个空实现 *EMPTY_ADVICE*
-- *isPerInstance* ，是否是每个实例生成一个还是统一用一个
+乍一看Advice和Advisor接口没有什么大的区别，后者除了包括前者的一个实现类接口外还有一个是否是每个目标对象都会创建一个代理
+的方法。
 
-更通用的接口 `PointcutAdvisor` 定义如下：
+其实不是一个东西，看一下更通用的接口 `PointcutAdvisor` 就知道了：
 ```java
 public interface PointcutAdvisor extends Advisor {
 
@@ -282,13 +267,220 @@ public interface PointcutAdvisor extends Advisor {
 > Superinterface for all Advisors that are driven by a pointcut. This covers nearly all advisors 
 except introduction advisors, for which method-level matching doesn't apply.
 
-它提供一个接口返回一个 `Pointcut` 对象，这个接口有也是通过 *pointcut* 来驱动 *advisor* 的通用接口。一般我们实现
-这个接口就可以了。比如，我们可以通过实现 `getPointcut` 方法返回一个只 `PointCut` 的实现类，它的 `ClassFilter` 
+这个接口才是我们要用到的那个接口，它提供一个接口要返回一个 `Pointcut` 对象，这个接口是通过 *pointcut* 来驱动 
+的。比如，我们可以通过实现 `getPointcut` 方法返回一个只 `PointCut` 的实现类，让它的 `ClassFilter` 
 和 `MethodMatcher` 实现的功能是： 对Grpc服务类的自有接口进行拦截的。 然后通过实现 `getAdvice` 方法返回一个 
 `MethodInteceptor` 的实现类，默认对执行的方法通过Around的方式进行增强。
 
+所以，Spring AOP中的 *advisor* 都是基于 *pointcut* 来驱动，并需要 *advice* 来完成具体的逻辑的。
+
+#### Aspect
+这个概念和Advisor其实差不多，它更多的出现在说明的文档中，以「切面」的名字示众。为什么说它也是Advisor呢，看一下Spring的
+基于配置文件的注释就知道了：
+```xml
+<bean id="sysAspect" class="com.example.aop.SysAspect"/>
+<!-- 配置AOP -->
+<aop:config>
+    <!-- 配置切点表达式  -->
+    <aop:pointcut id="pointcut" expression="execution(public * com.example.controller.*Controller.*(..))"/>
+    <!-- 配置切面及配置 -->
+    <aop:aspect order="3" ref="sysAspect">
+        <!-- 前置通知 -->
+        <aop:before method="beforMethod"  pointcut-ref="pointcut" />
+        <!-- 后置通知 -->
+        <aop:after method="afterMethod"  pointcut-ref="pointcut"/>
+        <!-- 返回通知 -->
+        <aop:after-returning method="afterReturnMethod" pointcut-ref="pointcut" returning="result"/>
+        <!-- 异常通知 -->
+        <aop:after-throwing method="afterThrowingMethod" pointcut-ref="pointcut" throwing="ex"/>
+        <aop:around method="aroundMethod" pointcut-ref="pointcut"/>
+    </aop:aspect>
+</aop:config>
+```
+该配置通过 `<aop:config>` 、 `<aop:pointcut>` 、 `<aop:aspect>`以及它的子标签 `<aop:before>` 、 `<aop:after>` 
+等将一个类中的各个方法定义为具体的增强的逻辑（当然也可以直接在对应的类中使用各种注解来实现，这里只是用配置的方式做一个讲解）。
+#### Target
+目标对象就是织入 *advice* 的对象，也叫做 *advised object* ，由于Spring是通过运行时代理的方式来实现 *aspect* 的，
+所以 *advised object* 总是一个代理对象（ *proxied object* ）。
+#### Proxy
+一个类被AOP织入 *advice* ，就会产生一个结果类，它是融合了原类和增强逻辑的代理类。在Spring AOP中，一个AOP代理类是一个
+JDK动态代理对象或者一个CGLIB代理对象。
+
+Spring为什么建议基于接口编程？因为它默认使用JDK的动态代理来完成AOP功能，如果是一个普通的类的方法，则只能使用CGLIB来实现。
+但需要引入额外的asm的包。 
+
+如果需要强制使用CGLIB，需要显示通过配置文件的方式设置 `<aop:config>` 标签对应的 `proxy-target-class` 为true：
+```xml
+<aop:config proxy-target-class="true">
+    <!-- other beans defined here... -->
+</aop:config>
+```
+如果是使用@AspectJ注解则需要设置 `<aop:aspectj-autoproxy>` 标签对应的属性为true：
+```xml
+<aop:aspectj-autoproxy proxy-target-class="true"/>
+```
+### Spring AOP和AspectJ
+Spring AOP的目的是提供一个能个Spring IOC紧密集成的代理方式，解决常见的企业及开发应用中的问题，并不像AspectJ那样强大，
+比如细粒度的对象的增强Spring AOP就做不了。
+
+> Spring seamlessly integrates Spring AOP and IoC with AspectJ, to enable all uses of AOP within a 
+consistent Spring-based application architecture. This integration does not affect the Spring AOP 
+API or the AOP Alliance API. Spring AOP remains backward-compatible.
+
+Spring AOP用起来比较简单，虽然它也需要依赖aspectweaver.jar，但是也只是借用了其中的注解和语法。它不需要引入AspectJ
+的compiler/weaver到开发和构建的环节中。如果仅需要对Spring Bean进行切面，直接用Spring AOP即可，如果不是Spring容器
+管理的对象，比如领域对象，则可以考虑使用AspectJ，对于简单方法执行的切面Spring AOP可以搞定，但是对于诸如属性获取和设置
+则需要使用AspectJ来完成。
+#### @AspectJ支持
+Spring有两种方式使用@AspectJ注解来实现AOP，该注解是在AspectJ 5中引入的，需要保证aspectjweaver.jar在classpath中。
+
+使用Java Configuration的方式：
+```java
+@Configuration
+@EnableAspectJAutoProxy
+public class AppConfig{
+}
+```
+
+使用XML方式：
+```xml
+<aop:aspectj-autoproxy/>
+```
+
+> 需要注意的是@AspectJ注解本身并不会被Spring包扫描自动发现，需要使用如@Component注解来使Spring发现。
+
+#### 例子
+除了通过配置文件声明aspects，如使用 `<aop:config>` 或者 `<aop:aspectj-autoproxy>` 之外，还可以通过编程的方式
+创建proxies来完成对目标对象的advised。
+
+一般用AspectJ风格的pointcut表达式我们经常使用，如@Aspect、@Before等这里不再深入，如果用编程的方式实现可以利用 
+`ProxyFactory` 类来实现编程方式的AOP功能。比如下面的例子：
+```java
+import org.springframework.aop.MethodBeforeAdvice;
+import java.lang.reflect.Method;
+
+public class MethodBeforeAdviceBarImpl implements MethodBeforeAdvice {
+    @Override
+    public void before(Method method, Object[] args, Object target) throws Throwable {
+        System.out.println("Bar!");
+    }
+}
+```
+
+使用Spring AOP自带的Advisor实例，只需要引入spring-context.jar即可：
+```java
+import org.springframework.aop.MethodBeforeAdvice;
+import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.support.NameMatchMethodPointcutAdvisor;
+
+public class App {
+
+    public static void main(String[] args) {
+        final MethodBeforeAdvice advice = new MethodBeforeAdviceBarImpl();
+
+        final NameMatchMethodPointcutAdvisor nameMatchMethodPointcutAdvisor = new NameMatchMethodPointcutAdvisor();
+        nameMatchMethodPointcutAdvisor.setMappedName("foo");
+        nameMatchMethodPointcutAdvisor.setAdvice(advice);
+
+        final ProxyFactory proxyFactory = new ProxyFactory();
+        proxyFactory.addAdvisor(nameMatchMethodPointcutAdvisor);
+
+        final Foo foo = new FooImpl();
+        proxyFactory.setTarget(foo);
+
+        final Foo fooProxy = (Foo) proxyFactory.getProxy();
+        fooProxy.foo();
+    }
+}
+
+```
+
+但是如果要使用AspectJ表达式形式的Advisor还需要引入aspectjweaver.jar（否则在运行时会报错），比如下面的例子：
+```java
+import org.springframework.aop.MethodBeforeAdvice;
+import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
+import org.springframework.aop.framework.ProxyFactory;
+
+public class App {
+
+    public static void main(String[] args) {
+        final MethodBeforeAdvice advice = new MethodBeforeAdviceBarImpl();
+
+        final AspectJExpressionPointcutAdvisor aspectJExpressionPointcutAdvisor = new AspectJExpressionPointcutAdvisor();
+        aspectJExpressionPointcutAdvisor.setAdvice(advice);
+        aspectJExpressionPointcutAdvisor.setExpression("execution(void biz.tugay.spashe.Foo.foo())");
+
+        final ProxyFactory proxyFactory = new ProxyFactory();
+        proxyFactory.addAdvisor(aspectJExpressionPointcutAdvisor);
+
+        final Foo foo = new FooImpl();
+        proxyFactory.setTarget(foo);
+
+        final Foo fooProxy = (Foo) proxyFactory.getProxy();
+        fooProxy.foo();
+    }
+}
+```
+`AspectJExpressionPointcutAdvisor` 内部通过 `AspectJExpressionPointcut` 来实现，它引入了很多AspectJ的包：
+```java
+import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.aspectj.weaver.patterns.NamePattern;
+import org.aspectj.weaver.reflect.ReflectionWorld.ReflectionWorldException;
+import org.aspectj.weaver.reflect.ShadowMatchImpl;
+import org.aspectj.weaver.tools.ContextBasedMatcher;
+import org.aspectj.weaver.tools.FuzzyBoolean;
+import org.aspectj.weaver.tools.JoinPointMatch;
+import org.aspectj.weaver.tools.MatchingContext;
+import org.aspectj.weaver.tools.PointcutDesignatorHandler;
+import org.aspectj.weaver.tools.PointcutExpression;
+import org.aspectj.weaver.tools.PointcutParameter;
+import org.aspectj.weaver.tools.PointcutParser;
+import org.aspectj.weaver.tools.PointcutPrimitive;
+import org.aspectj.weaver.tools.ShadowMatch;
+```
+
+#### exposeProxy属性
+在 `ProxyConfig` 类中有一个 *exposeProxy* 属性， 默认为false，它的含义如下：
+
+> Set whether the proxy should be exposed by the AOP framework as a ThreadLocal for retrieval via 
+the AopContext class. This is useful if an advised object needs to call another advised method on 
+itself. (If it uses {@code this}, the invocation will not be advised). Default is "false", in 
+order to avoid unnecessary extra interception. This means that no guarantees are provided that 
+AopContext access will work consistently within any method of the advised object.
+
+这个是一个很经典的问题，即用Spring AOP进行advised的对象在调用目标对象的方法时，其内部如果再调用本身对象的方法，则该方法
+是不会被增强的。
+
+Spring提供了一个解决方案，`AopContext` 工具类，它可以获得当前线程的上下文中的代理对象：
+
+```java
+public class SimplePojo implements Pojo {
+
+    public void foo() {
+        // this works, but... gah!
+        ((Pojo) AopContext.currentProxy()).bar();
+    }
+
+    public void bar() {
+        // some logic...
+    }
+}
+```
+但是这种方式会强制耦合Spring AOP，入侵性强不说，还让上下文显示的知道当前代码要被用在AOP的上下文中，并且需要设置 
+*exposeProxy* 属性为true，否则 `AopContext` 拿不到当前执行的代理对象，也就无法触发植入的逻辑。
+
+除了使用上面的方法外，还有一种比较简洁但是很奇葩的做法就是在当前的Bean中注入自己，然后在相关方法调用自身方法的地方使用
+这个注入的实例来调用相应的方法，即不使用this，因为this已经是对象本身，需要使用proxy对象实现增强，如果拿不到当前对象
+的代理，就自己注入一个，其实和上面的 `AopContext`。
+
+> 需要注意AspectJ就没有这样的问题，因为它并不是一个机遇代理的AOP框架，而是编译和加载时就已经植入了代码到源码中。
+
 ### References
+- https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#aop-introduction-defn
 - https://stackoverflow.com/questions/15447397/spring-aop-whats-the-difference-between-joinpoint-and-pointcut
+- https://stackoverflow.com/questions/11446893/spring-aop-why-do-i-need-aspectjweaver
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
