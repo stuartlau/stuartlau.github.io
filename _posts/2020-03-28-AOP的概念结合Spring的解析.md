@@ -168,7 +168,7 @@ public interface Pointcut {
 > This is an object which includes API invocations to the system wide concerns 
 representing the action to perform at a joinpoint specified by a point.
 
-中文翻译为「增强」(也有叫「通知」的，但注解里面也说到了是一个*action to perform*，所以个人认为叫增强更好)， 
+中文翻译为「声明」(也有叫「通知」的，但注解里面也说到了是一个*action to perform*，所以个人认为叫增强更好)， 
 *advice* 就是你作用到 *pointcut* 上的方式和行为，如可以使用Before, After或者Around等方式，以及对应的相应的代码逻辑。
 
 spring-aop中的定义如下：
@@ -450,10 +450,26 @@ itself. (If it uses {@code this}, the invocation will not be advised). Default i
 order to avoid unnecessary extra interception. This means that no guarantees are provided that 
 AopContext access will work consistently within any method of the advised object.
 
-这个是一个很经典的问题，即用Spring AOP进行advised的对象在调用目标对象的方法时，其内部如果再调用本身对象的方法，则该方法
+如果不设置为true，想通过 `AopContext` 类来获取当前代理对象时会报错：
+> java.lang.IllegalStateException: Cannot find current proxy: Set 'exposeProxy' property on Advised to 'true' to make it available.
+
+设置的方法根据版本不同而不同
+- Spring配置文件
+
+```xml
+<aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
+```
+
+- SpringBoot
+
+```java
+@EnableAspectJAutoProxy(exposeProxy=true, proxyTargetClass=true)
+```
+
+这引出了一个很经典的问题，即用Spring AOP进行advised过的代理对象在调用目标对象的方法时是可以被增强的，但其内部如果再调用本身对象的方法，则该方法
 是不会被增强的。
 
-Spring提供了一个解决方案，`AopContext` 工具类，它可以获得当前线程的上下文中的代理对象：
+`AopContext` 的使用方式如下（来自官网），它可以获得当前线程的上下文中的代理对象：
 
 ```java
 public class SimplePojo implements Pojo {
@@ -471,16 +487,46 @@ public class SimplePojo implements Pojo {
 但是这种方式会强制耦合Spring AOP，入侵性强不说，还让上下文显示的知道当前代码要被用在AOP的上下文中，并且需要设置 
 *exposeProxy* 属性为true，否则 `AopContext` 拿不到当前执行的代理对象，也就无法触发植入的逻辑。
 
-除了使用上面的方法外，还有一种比较简洁但是很奇葩的做法就是在当前的Bean中注入自己，然后在相关方法调用自身方法的地方使用
-这个注入的实例来调用相应的方法，即不使用this，因为this已经是对象本身，需要使用proxy对象实现增强，如果拿不到当前对象
-的代理，就自己注入一个，其实和上面的 `AopContext`。
+Spring AOP通过如下代码将代理对象放入到`Aop`具体代码参考：
+```java
+public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    ... ...
 
-> 需要注意AspectJ就没有这样的问题，因为它并不是一个机遇代理的AOP框架，而是编译和加载时就已经植入了代码到源码中。
+    Object retVal;
+
+    if (this.advised.exposeProxy) {
+        // Make invocation available if necessary.
+        oldProxy = AopContext.setCurrentProxy(proxy); // 内部是一个ThreadLocal对象来维护
+        setProxyContext = true;
+    }
+
+    ... ...
+```
+
+除了使用上面的方法外，还有一种比较简洁但是很奇葩的做法就是在当前的Bean中注入自己，然后在相关方法调用自身方法的地方使用
+这个注入的实例来调用相应的方法，即不使用this（隐式），因为this其实是被代理对象本身，需要使用proxy对象进行调用实现增强，
+如果拿不到当前对象的代理，就自己注入一个，其实和上面的 `AopContext.currentProxy()` 是一个原理。
+
+> 需要注意AspectJ就没有这样的问题，因为它并不是一个基于代理的AOP框架，而是编译和加载时就已经植入了代码到源码中。
+
+其他比较经典的关于AOP失效的例子包括 `@Async` 失效、 `@Transactional` 失效等，都是通过对当前类对象来调用具体的被声明为增强的方法
+但是无法成功。
+
+#### 多线程和事务管理
+Spring的事务处理为了与数据访问解耦，它提供了一套处理数据资源的机制，而这个机制与上文中的原理相差无几，也是采用的ThreadLocal的方式。
+
+在编程中，Service实例都是单例的无状态的，事务管理则需要加入事务控制的相关状态变量，使得Service实例不再是无状态线程安全的，解决这个问题的方式就是使用ThreadLocal。
+
+通过使用ThreadLocal将数据源绑定在当前线程上，在当前线程的事务中，从设定的地方去取连接就会是同一个数据库连接，这样操作事务就会在同一个连接上进行。
+
+但是，ThreadLocal的特性是，绑定在当前线程中的变量不会自动传递到其它线程中（当然，InheritableThreadLocal可以在父子线程中间传递变量值，但是这需要特殊的使用场景），所以当开启子线程时，子线程并没有父线程的数据库连接资源。
 
 ### References
 - https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#aop-introduction-defn
 - https://stackoverflow.com/questions/15447397/spring-aop-whats-the-difference-between-joinpoint-and-pointcut
 - https://stackoverflow.com/questions/11446893/spring-aop-why-do-i-need-aspectjweaver
+- https://www.cnblogs.com/duanxz/p/4367362.html
+- https://stackoverflow.com/questions/6222600/transactional-method-calling-another-method-without-transactional-anotation
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
