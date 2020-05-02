@@ -22,16 +22,15 @@ tags:
 
 `Stream`（流）是一个来自数据源的元素队列并支持聚合操作：
 
-- 元素是特定类型的对象，形成一个队列。 `Java`中的`Stream`并不会向集合那样存储和管理元素，而是按需计算
-- 数据源 流的来源可以是集合`Collection`、数组`Array`、`I/O channel`， 产生器`generator` 等
-- 聚合操作 类似`SQL`语句一样的操作， 比如`filter`, `map`, `reduce`, `find`, `match`, `sorted`等
+- 元素是特定类型的对象，形成一个队列。 `Java`中的`Stream`并*不会*向集合那样存储和管理元素，而是按需计算
+- 数据源流的来源可以是集合`Collection`、数组`Array`、`I/O channel`， 产生器`generator` 等
+- 聚合操作类似`SQL`语句一样的操作， 比如`filter`, `map`, `reduce`, `find`, `match`, `sorted`等
 
 和以前的`Collection`操作不同， Stream操作还有两个基础的特征：
 
-- Pipelining: 中间操作都会返回流对象本身。 这样多个操作可以串联成一个管道， 如同流式风格（fluent style）。 这样做可以对操作进行优化， 比如延迟执行(`laziness
- evaluation`)
-和短路( `short-circuiting`)
-- 内部迭代： 以前对集合遍历都是通过`Iterator`或者`For-Each`的方式, 显式的在集合外部进行迭代， 这叫做外部迭代。 `Stream`提供了内部迭代的方式， 通过访问者模式
+- `Pipelining`: 中间操作都会返回流对象本身。 这样多个操作可以串联成一个管道， 如同流式风格（fluent style）。 这样做可以对操作进行优化， 比如延迟执行(`laziness
+ evaluation`)和短路( `short-circuiting`)
+- `内部迭代`： 以前对集合遍历都是通过`Iterator`或者`For-Each`的方式, 显式的在集合外部进行迭代， 这叫做外部迭代。 `Stream`提供了内部迭代的方式， 通过访问者模式
 (`Visitor`)实现。
 
 和迭代器又不同的是，`Stream` 可以并行化操作，迭代器只能命令式地、串行化操作。顾名思义，当使用串行方式去遍历时，每个 `item` 读完后再读下一个 item。而使用并行去遍历时，数据会被分成多个段，其中每一个都在不同的线程中处理，然后将结果一起输出。
@@ -56,12 +55,13 @@ numbers.parallelStream()
 可以看到一行简单的代码就帮我们实现了并行输出集合中元素的功能，但是由于并行执行的顺序是不可控的所以每次执行的结果不一定相同。
 
 如果非得相同可以使用`forEachOrdered`方法执行终止操作：
-```jav
+```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 numbers.parallelStream()
        .forEachOrdered(out::println);  
 ```
-这里有一个疑问，如果结果需要有序，是否和我们的并行执行的初衷相悖？是的，这个场景下明显无需使用并行流，直接用串行流执行即可，否则性能可能更差。
+这里有一个疑问，如果结果需要有序，是否和我们的并行执行的初衷相悖？是的，这个场景下明显无需使用并行流，直接用串行流执行即可，
+否则性能可能更差，因为最后又强行将所有并行结果进行了排序。
 
 OK，下面我们先介绍一下`Stream`接口的相关知识。
 ### BaseStream接口
@@ -87,13 +87,14 @@ public interface BaseStream<T, S extends BaseStream<T, S>>
 }
 
 ```
-其中，`T`为流中元素的类型，`S`为一个`BaseStream`的实现类，它里面的元素也是`T`并且`S`同样是自己。
+其中，`T`为流中元素的类型，`S`为一个`BaseStream`的实现类，它里面的元素也是`T`并且`S`同样是自己：
+> S extends BaseStream<T, S>
 
 是不是有点晕？
 
 其实很好理解，我们看一下接口中对`S`的使用就知道了：如`sequential()`、`parallel()
 `这两个方法，它们都返回了`S
-`实例，也就是说它们分别支持对当前流进行`串行`或者`并行`的操作，同时返回「改变」后的流对象。
+`实例，也就是说它们分别支持对当前流进行`串行`或者`并行`的操作，并返回「改变」后的流对象。
 
 > 如果是`并行`一定涉及到对当前流的拆分，即将一个流拆分成多个子流，子流肯定和父流的类型是一致的。子流可以继续拆分子流，一直拆分下去...
 
@@ -115,9 +116,9 @@ public interface Stream<T> extends BaseStream<T, Stream<T>>
     Stream<T> skip(long n);
     ...
 ```
-这些都是操作流的`中间操作`，它们的返回结果一定并且必须是流对象本身。
+这些都是操作流的`中间操作`，它们的返回结果必须是流对象本身。
 
-### 关闭流
+### 关闭流操作
 BaseStream 实现了 `AutoCloseable` 接口，也就是 `close()` 方法会在流关闭时被调用。同时，`BaseStream` 中还给我们提供了`onClose()`方法：
 ```java
 /**
@@ -147,7 +148,7 @@ S onClose(Runnable closeHandler);
 - 如果多个 `onClose()` 方法都抛出异常，只展示第一个异常的堆栈，而其他异常会被压缩，只展示部分信息
 
 ### 并行流和串行流
-`BaseStream`接口中分别提供了`并行流`和`串行流`两个方法，这两个方法可以任意调用若干次，也可以混合调用，但最终只会以最后一次方法调用的返回结果为准。
+`BaseStream`接口中分别提供了`并行流`和`串行流`两个方法，`这两个方法可以任意调用若干次，也可以混合调用，但最终只会以最后一次方法调用的返回结果为准`。
 
 参考`parallel()`方法的说明：
 > Returns an equivalent stream that is parallel.  May return
@@ -169,37 +170,58 @@ stream.parallel()
 
 ```
 ### ParallelStream背后的男人：ForkJoinPool
-ForkJoin框架是从jdk7中新特性,它同ThreadPoolExecutor一样，也实现了Executor和ExecutorService接口。它使用了一个无限队列来保存需要执行的任务，而线程的数量则是通过构造函数传入，如果没有向构造函数中传入希望的线程数量，那么当前计算机可用的CPU数量会被设置为线程数量作为默认值。
+ForkJoin框架是从JDK7中新特性，它同ThreadPoolExecutor一样，也实现了Executor和ExecutorService
+接口。它使用了一个「无限队列」来保存需要执行的任务，而线程的数量则是通过构造函数传入，
+*如果没有向构造函数中传入希望的线程数量，那么当前计算机可用的CPU数量会被设置为线程数量作为默认值*。
 
-ForkJoinPool主要用来使用分治法(Divide-and-Conquer Algorithm)来解决问题。典型的应用比如快速排序算法。这里的要点在于，ForkJoinPool需要使用相对少的线程来处理大量的任务。比如要对1000万个数据进行排序，那么会将这个任务分割成两个500万的排序任务和一个针对这两组500万数据的合并任务。以此类推，对于500万的数据也会做出同样的分割处理，到最后会设置一个阈值来规定当数据规模到多少时，停止这样的分割处理。比如，当元素的数量小于10时，会停止分割，转而使用插入排序对它们进行排序。那么到最后，所有的任务加起来会有大概2000000+个。
-> 问题的关键在于，对于一个任务而言，只有当它所有的子任务完成之后，它才能够被执行。
+ForkJoinPool主要用来使用分治法(Divide-and-Conquer Algorithm)
+来解决问题，典型的应用比如*快速排序算法*。这里的要点在于，ForkJoinPool需要使用相对少的线程来处理大量的任务。
+比如要对1000万个数据进行排序，那么会将这个任务分割成`两个500
+万的排序任务`和`一个针对这两组500万数据的合并任务`。以此类推，对于500万的数据也会做出同样的分割处理，到最后会设置一个阈值来规定当数据规模到多少时，停止这样的分割处理。
+比如，当元素的数量小于10时，会停止分割，转而使用插入排序对它们进行排序。那么到最后，所有的任务加起来会有大概2000000+个。
+> 问题的关键在于，对于一个任务而言，只有当它所有的子任务完成之后，它才能够被执行，想象一下归并排序的过程。
 
 所以当使用ThreadPoolExecutor时，使用分治法会存在问题，因为ThreadPoolExecutor中的线程无法向
-任务队列中再添加一个任务并且在等待该任务完成之后再继续执行。而使用ForkJoinPool时，就能够让其中的线程创建新的任务，并挂起当前的任务，此时线程就能够从队列中选择子任务执行。
+任务队列中再添加一个任务并且在等待该任务完成之后再继续执行。而`使用ForkJoinPool时，就能够让其中的线程创建新的任务，并挂起当前的任务，此时线程就能够从队列中选择子任务执行`。
 
 那么使用ThreadPoolExecutor或者ForkJoinPool，会有什么性能的差异呢？
+
 首先，使用ForkJoinPool能够使用数量有限的线程来完成非常多的具有「父子关系」的任务，比如使用4个线程来完成超过200万个任务。使用ThreadPoolExecutor
 时，是不可能完成的，因为ThreadPoolExecutor中的Thread无法选择优先执行子任务，需要完成200万个具有父子关系的任务时，也需要200万个线程，显然这是不可行的。
 
+Work Stealing原理：
+![](https://www.google.com/url?sa=i&url=https%3A%2F%2Fdzone.com%2Farticles%2Fa-look-at-forkjoinpool&psig=AOvVaw3xjlsfKohX3mdlb8qh4Twh&ust=1588487608529000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKisttHHlOkCFQAAAAAdAAAAABAI)
+
+-（1）每个工作线程都有自己的工作队列WorkQueue；
+-（2）这是一个双端队列dequeue，它是线程私有的；
+-（3）ForkJoinTask中fork的子任务，将放入运行该任务的工作线程的队头，工作线程将以LIFO的顺序来处理工作队列中的任务，即堆栈的方式；
+-（4）为了最大化地利用CPU，空闲的线程将从其它线程的队列中「窃取」任务来执行；
+-（5）但是是从工作队列的尾部窃取任务，以减少和队列所属线程之间的竞争；
+-（6）双端队列的操作：push()/pop()仅在其所有者工作线程中调用，poll()是由其它线程窃取任务时调用的；
+-（7）当只剩下最后一个任务时，还是会存在竞争，是通过CAS来实现的；
 
 ### 用ForkJoinPool的眼光来看ParallelStream
-Java 8为ForkJoinPool添加了一个通用线程池，这个线程池用来处理那些没有被显式提交到任何线程池的任务。它是ForkJoinPool类型上的一个静态元素，它拥有的默认线程数量等于运行计算机上的处理器数量。当调用Arrays类上添加的新方法时，自动并行化就会发生。比如用来排序一个数组的并行快速排序，用来对一个数组中的元素进行并行遍历。自动并行化也被运用在Java 8新添加的Stream API中。
-比如下面的代码用来遍历列表中的元素并执行需要的操作：
+Java 8为ForkJoinPool添加了一个通用线程池，这个线程池用来处理那些没有被显式提交到任何线程池的任务。
+它是ForkJoinPool类型上的一个静态元素，它拥有的默认线程数量等于运行计算机上的CPU数量。当调用Arrays
+类上添加的新方法时，自动并行化就会发生。比如用来排序一个数组的并行快速排序，用来对一个数组中的元素进行并行遍历。
+自动并行化也被运用在Java 8新添加的Stream API中。
 
+比如下面的代码用来遍历列表中的元素并执行需要的操作：
 ```java
- List<UserInfo> userInfoList =
+List<UserInfo> userInfoList =
         DaoContainers.getUserInfoDAO().queryAllByList(new UserInfoModel());
-    userInfoList.parallelStream().forEach(RedisUserApi::setUserIdUserInfo);
+userInfoList.parallelStream().forEach(RedisUserApi::setUserIdUserInfo);
 ```
 对于列表中的元素的操作都会以并行的方式执行。`forEach`方法会为每个元素的计算操作创建一个任务，该任务会被前文中提到的`ForkJoinPool
-`中的「通用线程池处」理。以上的并行计算逻辑当然也可以使用`ThreadPoolExecutor`完成，但是就代码的可读性和代码量而言，使用`ForkJoinPool`明显更胜一筹。
+`中的commonPool处理。以上的并行计算逻辑当然也可以使用`ThreadPoolExecutor`完成，但是就代码的可读性和代码量而言，使用`ForkJoinPool
+`明显更胜一筹。
 
 对于`ForkJoinPool`通用线程池的线程数量，通常使用默认值就可以了，即运行时计算机的处理器数量。也可以通过设置系统属性：`-Djava.util.concurrent
 .ForkJoinPool.common.parallelism=N` （N为线程数量）,来调整`ForkJoinPool`的线程数量。
 
-值得注意的是，当前执行的线程也会被用来执行任务，所以最终的线程个数为N+1，1就是当前的`主线程`。
+值得注意的是，当前执行的线程也会被用来执行任务，所以最终的线程个数为`N+1`，1就是当前的`主线程`。
 
-这里就有一个问题，如果你在并行流的执行计算使用了阻塞操作，如I/O，那么很可能会导致一些问题：
+这里就有一个问题，如果你在并行流的执行计算使用了*阻塞操作*，如I/O，那么很可能会导致一些问题：
 ```java
 public static String query(String question) {
   List<String> engines = new ArrayList<String>();
@@ -217,10 +239,10 @@ public static String query(String question) {
 }
 ```
 这个[例子](https://jrebel.com/rebellabs/java-parallel-streams-are-bad-for-your-health/)很典型，让我们来分析一下：
-- 这个并行流计算操作将由主线程和JVM默认的 fork join pool `ForkJoinPool.common().`来共同执行 
-- `map`中是一个阻塞方法，需要通过访问`HTTP`接口并得到它的`response`，所以任何一个线程在执行到这里的时候都会阻塞
-- 目前的`ForkJoinPool`的实现并未考虑补偿等待那些阻塞在等待新生成的线程的工作worker线程，所以最终`ForkJoinPool.common()`中的线程将备用光并且阻塞等待。
-- 所以当此时再调用其他并行流计算方法的时候，将会受到第一个方法的影响。
+- 这个并行流计算操作将由主线程和JVM默认的`ForkJoinPool.commonPool()`来共同执行。
+- `map`中是一个阻塞方法，需要通过访问`HTTP`接口并得到它的`response`，所以任何一个worker线程在执行到这里的时候都会阻塞并等待结果。
+- 所以当此时再其他地方通过并行流方式调用计算方法的时候，将会受到此处阻塞等待的方法的影响。
+- 目前的`ForkJoinPool`的实现并未考虑补偿等待那些阻塞在等待新生成的线程的工作worker线程，所以最终`ForkJoinPool.commonPool()`中的线程将备用光并且阻塞等待。
 
 > 正如我们上面那个列子的情况分析得知，lambda的执行并不是瞬间完成的,所有使用parallel streams的程序都有可能成为阻塞程序的源头，
 并且在执行过程中程序中的其他部分将无法访问这些workers，这意味着任何依赖parallel streams的程序在什么别的东西占用着common 
@@ -252,17 +274,23 @@ ForkJoinPool时将会变得不可预知并且暗藏危机。
 源数据结构分为以下3组：
 - 性能好：`ArrayList`、数组或`IntStream.range`(数据支持随机读取，能轻易地被任意分割)
 - 性能一般：`HashSet`、`TreeSet`(数据不易公平地分解，大部分也是可以的)
-- 性能差：`LinkedList`(难以对半分解)、`Stream.iterate`和`BufferedReader.lines`(长度未知，难以分解)
+- 性能差：`LinkedList`(需要遍历链表，难以对半分解)、`Stream.iterate`和`BufferedReader.lines`(长度未知，难以分解)
 
 注意：下面几个部分节选自：[Streams 的幕后原理](https://www.ibm.com/developerworks/cn/java/j-java-streams-3-brian-goetz/index.html)，顺便感谢一下作者*Brian Goetz*，写的太通透了。
 ### NQ模型
-要确定并行性是否会带来提速，需要考虑的最后两个因素是可用的数据量和针对每个数据元素执行的计算量。
+要确定并行性是否会带来提速，需要考虑的最后两个因素是：可用的数据量和针对每个数据元素执行的计算量。
 
-在我们最初的并行分解描述中，我们采用的概念是拆分来源，直到分段足够小，以致解决该分段上的问题的顺序方法更高效。分段大小必须依赖于所解决的问题，确切的讲，取决于每个元素完成的工作量。例如，计算一个字符串的长度涉及的工作比计算字符串的 `SHA-1` 哈希值要少得多。为每个元素完成的工作越多，“大到足够利用并行性” 的阈值就越低。类似地，拥有的数据越多，拆分的分段就越多，而不会与 “太小” 阈值发生冲突。
+在我们最初的并行分解描述中，我们采用的概念是拆分来源，直到分段足够小，以致解决该分段上的问题的顺序方法更高效。
+分段大小必须依赖于所解决的问题，确切的讲，取决于每个元素完成的工作量。例如，计算一个字符串的长度涉及的工作比计算字符串的
+ `SHA-1` 哈希值要少得多。为每个元素完成的工作越多，“大到足够利用并行性” 的阈值就越低。类似地，拥有的数据越多，
+ 拆分的分段就越多，而不会与 “太小” 阈值发生冲突。
 
-一个简单但有用的并行性能模型是 `NQ` 模型，其中 `N` 是数据元素数量，`Q` 是为每个元素执行的工作量。乘积 `N*Q` 越大，就越有可能获得并行提速。对于具有很小的 `Q` 的问题，比如对数字求和，您通常可能希望看到 `N > 10,000` 以获得提速；随着 `Q` 增加，获得提速所需的数据大小将会减小。
+一个简单但有用的并行性能模型是 `NQ` 模型，其中 `N` 是数据元素数量，`Q` 是为每个元素执行的工作量。
+乘积 `N*Q` 越大，就越有可能获得并行提速。对于具有很小的 `Q` 
+的问题，比如对数字求和，您通常可能希望看到 `N > 10,000` 以获得提速；随着 `Q` 增加，获得提速所需的数据大小将会减小。
 
-并行化的许多阻碍（比如拆分成本、组合成本或遇到顺序敏感性）都可以通过 `Q` 更高的操作来缓解。尽管拆分某个 `LinkedList` 特征的结果可能很糟糕，但只要拥有足够大的 `Q`，仍然可能获得并行提速。
+并行化的许多阻碍（比如拆分成本、组合成本或遇到顺序敏感性）都可以通过 `Q` 更高的操作来缓解。尽管拆分某个 `LinkedList` 
+特征的结果可能很糟糕，但只要拥有足够大的 `Q`，仍然可能获得并行提速。
 ### 遇到顺序
 遇到顺序指的是来源分发元素的顺序是否对计算至关重要。一些来源（比如基于哈希的集合和映射）没有有意义的遇到顺序。
 流标志 `ORDERED` 描述了流是否有有意义的遇到顺序。JDK 集合的 `spliterator` 会根据集合的规范来设置此标志；
@@ -305,6 +333,8 @@ ForkJoinPool时将会变得不可预知并且暗藏危机。
 - https://blog.csdn.net/weixx3/article/details/81266552
 - https://www.ibm.com/developerworks/cn/java/j-java-streams-5-brian-goetz/index.html
 - https://www.ibm.com/developerworks/cn/java/j-java-streams-3-brian-goetz/index.html
+- https://juejin.im/post/5dc5a148f265da4d4f65c191
+- https://stackoverrun.com/cn/q/10341100
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.

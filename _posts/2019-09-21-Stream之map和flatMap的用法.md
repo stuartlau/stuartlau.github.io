@@ -55,9 +55,9 @@ Stream<String> stringStream = stream1.flatMap(stringArray -> Arrays.stream(strin
 可见， `flapMap` 的转换函数虽然也是生成了一个 `Stream<String>` ，但是它内部会将这些流进行 `扁平化` ，最终返回的是 `Stream<String>` ，
 而不是 `Stream<Stream<String>>` 。
 
-对对什么数据进行了 `扁平化` ？是对内部元素为「数组」流对象。
+对什么数据进行了 `扁平化` ？是对Stream内部元素为「数组」的Stream流对象。
 
-`扁平化` 的结果是什么？得到一个新的流对象，它的内部元素为原流对象中元素（数组）中的子元素。
+`扁平化` 的结果是什么？得到一个新的Stream流对象，它的内部元素为原流对象中元素（数组）中的子元素。
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
