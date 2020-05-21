@@ -14,7 +14,7 @@ tags:
 
 ### 按时间聚合
 从官网找一个[例子](https://www.elastic.co/guide/cn/elasticsearch/guide/current/_returning_empty_buckets.html)，最基本的按照时间进行聚合的：
-```json
+```
 {
    "size" : 0,
    "aggs": {
