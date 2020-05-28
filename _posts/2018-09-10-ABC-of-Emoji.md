@@ -119,6 +119,7 @@ fixed-width code units
         - e.g. W1 = 110110yyyyyyyyyy, W1 in D800~DBFF
     - Using W2 to represent the second 10 bits,
         - e.g. W2 = 110111xxxxxxxxxx, W2 in DC00~DFFF
+
  
 # Emoji History
 - In 1999, *Shigetaka Kurita* created the first 180 emoji collection for a Japanese mobile web 
