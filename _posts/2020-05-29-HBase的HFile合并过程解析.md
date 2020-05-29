@@ -13,6 +13,9 @@ tags:
 > Compaction是指一个region 的一个 store 中的多个 HFile 合为一个 HFile 的操作，HBase在执行合并时会对上层业务产生比较大的影响。
 本文对其中的执行原理和过程进行一定的研究。
   
+compaction在以LSM-Tree为架构的系统中是非常关键的模块，log append的方式带来了高吞吐的写，内存中的数据到达上限后不断刷盘，
+数据范围互相交叠的层越来越多，相同key的数据不断积累，引起读性能下降和空间膨胀。因此，compaction机制被引入，
+通过周期性的后台任务不断的回收旧版本数据和将多层合并方式来优化读性能和空间问题。
 ![](https://mapr.com/blog/in-depth-look-hbase-architecture/assets/blogimages/HBaseArchitecture-Blog-Fig19.png)
 ### 合并storefile的原因
 我们知道HBase的数据默认会先写到HLog中，然后写到memstore中，当memstore写成功后就立刻返回给客户端写回成功。
@@ -32,6 +35,7 @@ HBase 根据合并规模将 Compaction 分为了两类：
 
 ### 合并时机
 触发compaction的方式有三种：Memstore刷盘、后台线程周期性检查、手动触发。
+
 1.Memstore Flush:
 
 应该说compaction操作的源头就来自flush操作，Memstore Flush会产生HFile文件，文件越来越多就需要compact。
@@ -65,9 +69,7 @@ HBase 根据合并规模将 Compaction 分为了两类：
 
 ### 合并时的操作
 在合并的过程中会抛弃删除标识的行和版本过旧的行
-
 -（1）可以预先定义版本的个数，超过这个值就抛弃
-
 -（2）还可以预先定义版本的时间长短，超过这个时间就抛弃，合并完后形成更大的storefile，当达到数量再次合并，
 直到storefile容量超过一定阀值后会把当前的Region进行分裂为2个并由HMaster（Hbase数据库主控节点）
 分配到不同的HRegionServer服务器处理实现负载均衡。
@@ -78,8 +80,8 @@ HBase 根据合并规模将 Compaction 分为了两类：
 当合并完成后释放备份的内存空间，返回到原来的状态。
 
 ### Reference
-- [如何跳过es分页这个坑？](https://my.oschina.net/u/1787735/blog/3024051)
-- [search-request-scroll.](https://www.elastic.co/guide/en/elasticsearch/reference/2.0/search-request-scroll.html)
+- [HBase篇（6）-HFile合并过程详解](https://cloud.tencent.com/developer/news/366464)
+- [深入探讨LSM Compaction机制](https://zhuanlan.zhihu.com/p/141186118)
 
 > 本文首次发布于 [S.L's Blog](http://elsef.com), 作者 [@stuartlau](http://github.com/stuartlau) ,
 转载请保留原文链接.
