@@ -1,6 +1,6 @@
 <div class="zh post-container">
     <p>
-       Hey，我是<strong>刘硕</strong>，<strong>现任<a href="https://www.kuaishou.com">快手</a>IM中台服务端技术负责人</strong>，为快手各类产品提供IM、客服类整体解决方案。
+       Hey，我是<strong>刘硕</strong>，<strong>现任<a href="https://www.kuaishou.com">快手</a>小红书社交后端技术负责人</strong>，为快手各类产品提供IM、客服类整体解决方案。
        2012年于<a href="https://www.bupt.edu.cn">北京邮电大学</a>—
        <a href="https://sklnst.bupt.edu.cn/">网络与交换技术国家重点实验室</a>获得工学硕士学位后，先后在<a href="https
        ://www.zdns.cn/">ZDNS</a>、
