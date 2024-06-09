@@ -1,10 +1,10 @@
 <div class="zh post-container">
     <p>
-       Hey，我是<strong>刘硕</strong>，<strong>现任<a href="https://www.kuaishou.com">快手</a>小红书社交后端技术负责人</strong>，为快手各类产品提供IM、客服类整体解决方案。
+       Hey，我是<strong>刘硕</strong>，<strong>现任<a href="https://www.xiaohongshu.com">小红书</a>社交后端团队技术负责人</strong>。
        2012年于<a href="https://www.bupt.edu.cn">北京邮电大学</a>—
        <a href="https://sklnst.bupt.edu.cn/">网络与交换技术国家重点实验室</a>获得工学硕士学位后，先后在<a href="https
        ://www.zdns.cn/">ZDNS</a>、
-       <a href="https:///www.xiaomi.com">小米</a>、<a href="https://www.amazon.com">Amazon</a>工作，
+       <a href="https:///www.xiaomi.com">小米</a>、<a href="https://www.amazon.com">Amazon</a>、<a href="https://www.kuaishou.com">快手</a>工作，
        在互联网行业沉淀10年并具有多年管理经验，同时在IM、社交、短视频、直播、游戏、物流、DNS、网络基础设施等领域拥有
        <strong><a href="https://liushuo.me/archive/?tag=Patent">超过100项专利授权</a></strong>
        ，授权国家包括中国、美国、欧洲、日本和俄罗斯。
@@ -15,6 +15,11 @@
     </p>
     <hr>
     <h5>履历简介</h5>
+    <a href="https://www.xiaohongshu.com">小红书</a>
+    <li>
+    2024年，加入小红书，作为社区社交后端团队技术负责人，提供包括私信、群聊、消息通知、架构、AI产品结合等能力，欢迎联系我加入团队-><a href="https://liushuo.me/hire/">JD</a>。
+    </li>
+    <hr>
     <a href="https://www.kuaishou.com">快手</a>
     <li>
     2018年，加入快手，作为技术负责人带领团队从0到1搭建快手即时通信平台IM云，作为即时通讯一站式解决方案平台，提供包括社交、社群、客服、办公、游戏和付费咨询等众多场景在内的IM+RTC
