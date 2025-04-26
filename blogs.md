@@ -8,8 +8,7 @@ title: Blogs
 
 ### 2024
 
-- [授权专利-CN115277617B-信息处理方法和装置、电子设备、计算机可读存储介质]()   
-- [授权专利-CN115277617B-信息处理方法和装置、电子设备、计算机可读存储介质](https://stuartlau.github.io/blogs/2024-02-23-专利授权)
+- [授权专利-CN115277617B-信息处理方法和装置、电子设备、计算机可读存储介质](https://stuartlau.github.io/blogs/20240223-patent)
 - [22岁，站在人生的交叉路口](https://stuartlau.github.io/blogs/22yrs)
 - [AAAI 2024 温哥华参会实录](https://stuartlau.github.io/blogs/aaai-24/)
 - [24Fall，英国硕士项目申请实录](https://stuartlau.github.io/blogs/24fall/)
