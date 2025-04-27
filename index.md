@@ -3,10 +3,10 @@ layout: page
 ---
 
 # About Me
-<img src="https:/stuartlau.github.io/images/60bc42b3df4945614ef2f7ba63408bb7.jpeg" class="floatpic">
+<img src="/images/60bc42b3df4945614ef2f7ba63408bb7.jpeg" class="floatpic">
 <div class="zh post-container">
     <p>
-       Hey，我是<strong>Stuart Lau</strong>，<strong>现任<a href="https://www.kuaishou.com">快手</a>IM中台服务端技术负责人</strong>，为快手各类产品提供IM、客服类整体解决方案。
+       Hey，this is <strong>Stuart Lau</strong>，<strong>现任<a href="https://www.kuaishou.com">快手</a>IM中台服务端技术负责人</strong>，为快手各类产品提供IM、客服类整体解决方案。
        2012年于<a href="https://www.bupt.edu.cn">北京邮电大学</a>—
        <a href="https://sklnst.bupt.edu.cn/">网络与交换技术国家重点实验室</a>获得工学硕士学位后，先后在<a href="https
        ://www.zdns.cn/">ZDNS</a>、
