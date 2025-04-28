@@ -8,8 +8,11 @@ title: Publications
 authentication model based on CAS</a>
     <em>2011 4th IEEE International Conference on Broadband Network and Multimedia
     Technology(<strong>IEEE</strong>)</em>, 2012
+
 <br>
+
 ---
 ## Patent
 - <a href="https://liu-shuo.notion.site/Patent-c952538ef1e44f1889121a7c173316a0">授权专利列表</a>
+
 <br>
