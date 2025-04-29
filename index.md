@@ -73,7 +73,7 @@ layout: page
 
     <h5 id="contributions">开源贡献</h5>
 
-        <li><a href="https://www.opendnssec.org/2013/06/opendnssec-1-4-1/">OpenDNSSEC 1.4.1
+        <li><a href="https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=180194">OpenDNSSEC 1.4.1
             Bugfixes</a>
         </li>
     <hr>
