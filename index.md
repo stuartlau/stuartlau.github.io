@@ -3,7 +3,7 @@ layout: page
 ---
 
 # About Me
-<img src="/images/stuartlau.jpeg" class="floatpic">
+<img src="/images/apple-touch-icon.png" class="floatpic">
 <div class="zh post-container">
     <p>
        Hey，this is <strong>Stuart Lau</strong>，<strong>现任<a href="https://www.kuaishou.com">快手</a>IM中台服务端技术负责人</strong>，为快手各类产品提供IM、客服类整体解决方案。
