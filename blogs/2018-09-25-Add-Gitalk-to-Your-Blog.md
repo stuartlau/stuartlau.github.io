@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2018-09-25-Add-Gitalk-to-Your-Blog/index.html
 title:      Add Gitalk to Your Blog
 subtitle:   Gitalk is a comment plugin supports Markdown based on GitHub Issue
 date:       2018-09-25

@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-12-08-ConcurrentHashMap弱一致性分析/index.html
 title:      "ConcurrentHashMap的弱一致性分析"
 subtitle:   "ConcurrentHashMap's Weak Consistency"
 date:       2019-12-08

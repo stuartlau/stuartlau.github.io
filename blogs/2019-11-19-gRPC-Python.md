@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-11-19-gRPC-Python/index.html
 title:      "如何使用Python访问gRPC服务"
 subtitle:   "How to use gRPC in Python"
 date:       2019-11-19

@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2018-09-10-ABC-of-Emoji/index.html
 title:      The ABC's of Emoji
 subtitle:   Unicode, character encoding, etc.
 date:       2018-09-10

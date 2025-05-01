@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-09-16-Java8中Stream的原理分析/index.html
 title:      "Java8中Stream原理分析"
 subtitle:   "Stream Summary in Java8"
 date:       2019-09-16

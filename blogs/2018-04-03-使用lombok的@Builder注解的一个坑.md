@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2018-04-03-使用lombok的@Builder注解的一个坑/index.html
 title:      使用lombok的@Builder的注解的一个坑
 subtitle:   总有一个坑你要跳进去
 date:       2018-04-03

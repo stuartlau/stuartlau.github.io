@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-03-10-Fibonacci的思考/index.html
 title:      "Fibonacci的优化思考"
 subtitle:   "Fibonacci Optimization"
 date:       2019-03-10

@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-11-24-关于synchronized关键字/index.html
 title:      "关于synchronized关键字"
 subtitle:   "synchronized in Java"
 date:       2019-11-24

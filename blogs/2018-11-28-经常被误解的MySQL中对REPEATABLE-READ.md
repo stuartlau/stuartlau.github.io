@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2018-11-28-经常被误解的MySQL中对REPEATABLE-READ/index.html
 title:      "详细分析MySQL如何用REPEATABLE-READ解决幻读问题"
 subtitle:   "MySQL's REPEATABLE-READ and PhantomRead Misconception"
 date:       2018-11-28

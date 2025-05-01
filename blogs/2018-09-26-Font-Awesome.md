@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2018-09-26-Font-Awesome/index.html
 title:      "Font Awesome is Really Awesome"
 subtitle:   "The web’s most popular icon set and toolkit"
 date:       2018-09-26

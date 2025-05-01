@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-01-30-Solve-Flask-CAS-SSO-ISSUE/index.html
 title:      "解决Flask-CAS接入SSO的报KeyError问题"
 subtitle:   "Solve Flask-CAS Thrown KeyError Issue"
 date:       2019-01-30

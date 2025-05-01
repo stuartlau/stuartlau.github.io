@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-06-19-Python科学计算库之Numpy/index.html
 title:      "Python科学计算库之Numpy"
 subtitle:   "Numpy"
 date:       2019-06-19

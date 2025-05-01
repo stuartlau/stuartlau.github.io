@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2020-03-28-AOP的概念结合Spring的解析/index.html
 title:      "AOP的概念结合Spring的解析"
 subtitle:   "AOP"
 date:       2020-03-28

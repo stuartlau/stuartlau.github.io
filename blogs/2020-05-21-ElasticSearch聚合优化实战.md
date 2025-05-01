@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2020-05-21-ElasticSearch聚合优化实战/index.html
 title:      "ElasticSearch聚合实战"
 subtitle:   "Aggregation in ES"
 date:       2020-05-21

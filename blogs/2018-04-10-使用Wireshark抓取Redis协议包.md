@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2018-04-10-使用Wireshark抓取Redis协议包/index.html
 title:      使用Wireshark抓取Redis协议包
 subtitle:   你得做一个合格的工程师
 date:       2018-04-10

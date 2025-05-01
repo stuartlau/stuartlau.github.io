@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-11-10-理解Java中Integer的实例化/index.html
 title:      "理解Java中的Integer的实例化"
 subtitle:   "Initialization Integer in Java"
 date:       2019-11-10

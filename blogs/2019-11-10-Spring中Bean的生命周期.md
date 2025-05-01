@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-11-10-Spring中Bean的生命周期/index.html
 title:      "谈Spring中Bean的生命周期管理"
 subtitle:   "Bean Management in Spring"
 date:       2019-11-10

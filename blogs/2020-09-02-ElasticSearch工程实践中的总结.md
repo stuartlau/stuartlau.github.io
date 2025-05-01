@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2020-09-02-ElasticSearch工程实践中的总结/index.html
 title:      "ElasticSearch工程实践中的总结"
 subtitle:   "ES in Action"
 date:       2020-09-02

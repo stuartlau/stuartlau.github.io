@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2020-02-28-大文件下载中的SocketTimeoutException问题定位/index.html
 title:      "大文件下载中的SocketTimeoutException问题定位"
 subtitle:   "SocketTimeout When Downloading Big File"
 date:       2020-02-28

@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2018-12-26-MySQL的log-slave-updates参数/index.html
 title:      MySQL的log-slave-updates参数
 subtitle:   MySQL with log-slave-updates 
 date:       2018-12-26

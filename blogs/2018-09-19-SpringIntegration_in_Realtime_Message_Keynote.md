@@ -1,5 +1,6 @@
 ---
 layout:     keynote
+permalink:  /blogs/2018-09-19-SpringIntegration_in_Realtime_Message_Keynote/index.html
 title:      "企业模型集成EIP在实践中的应用——Spring Integration"
 subtitle:   "Slides: Spring Integration in Realtime Messaging"
 iframe:     "https://liushuo.me/spring_integration_in_realtime_messaging/"

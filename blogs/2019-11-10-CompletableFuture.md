@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-11-10-CompletableFuture/index.html
 title:      "把Future扔进CompletableFuture的封装里"
 subtitle:   "CompletableFuture in Java"
 date:       2019-11-10
@@ -138,7 +139,7 @@ public CompletableFuture<T> exceptionally(Function<Throwable,? extends T> fn)
 [例子](https://stackoverflow.com/questions/31338514/functional-java-interaction-between-whencomplete-and-exceptionally)：
 ```java
 CompletableFuture<String> test=new CompletableFuture<>();
-test.whenComplete((result, ex) -> System.out.println("stage 2: "+result+"\t"+ex))
+test.whenComplete((result, ex) -> System.out.println("stage 2: "+result+"	"+ex))
     .exceptionally(ex -> { System.out.println("stage 3: "+ex); return ""; });
 test.completeExceptionally(new IOException()); // 这个方法设置stage状态为完成并设置返回的异常
 ```

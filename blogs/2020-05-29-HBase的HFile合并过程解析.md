@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2020-05-29-HBase的HFile合并过程解析/index.html
 title:      "HBase的HFile合并过程解析"
 subtitle:   "HFile Compaction in HBase"
 date:       2020-05-29

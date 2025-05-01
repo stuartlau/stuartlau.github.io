@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-04-26-B+Tree-and-BTree/index.html
 title:      "B+Tree和B-Tree"
 subtitle:   "B+Tree/B-Tree"
 date:       2019-04-26

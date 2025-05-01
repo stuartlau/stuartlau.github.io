@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2018-09-18-如何绑定你的独立域名到自己的GitHub-Pages/index.html
 title:      如何绑定你的独立域名到自己的GitHub Pages
 subtitle:   以域名服务商Godaddy和域名解析商dnspod为例
 date:       2018-09-18

@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-11-16-Java中的Copy-0n-Write/index.html
 title:      "Java中的Copy-On-Write"
 subtitle:   "Copy-On-Write in Java"
 date:       2019-11-16

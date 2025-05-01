@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2018-11-29-Skip-Level-Talk/index.html
 title:      "Skip Level Talk in Amazon"
 subtitle:   "Skip Level Talk in Amazon"
 date:       2018-11-29

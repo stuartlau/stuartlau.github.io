@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-09-21-Stream之Spliterator/index.html
 title:      "Stream之Spliterator"
 subtitle:   "Spliterator in Stream"
 date:       2019-09-21

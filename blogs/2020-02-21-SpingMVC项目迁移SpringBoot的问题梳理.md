@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2020-02-21-SpingMVC项目迁移SpringBoot的问题梳理/index.html
 title:      "SpringMVC项目迁移SpringBoot的问题梳理"
 subtitle:   "Migration SpringMVC Project to SpringBoot"
 date:       2020-02-21
@@ -225,8 +226,8 @@ public static class EmbeddedTomcatCustomizer implements WebServerFactoryCustomiz
     
     public void customize(TomcatServletWebServerFactory factory) {
         factory.addConnectorCustomizers((TomcatConnectorCustomizer) connector -> {
-            connector.setAttribute("relaxedPathChars", "\"<>[\\]^`{|}");
-            connector.setAttribute("relaxedQueryChars", "\"<>[\\]^`{|}");
+            connector.setAttribute("relaxedPathChars", "\"<>[\]^`{|}");
+            connector.setAttribute("relaxedQueryChars", "\"<>[\]^`{|}");
         });
     }
 }

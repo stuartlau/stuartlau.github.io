@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-09-21-Stream之map和flatMap的用法/index.html
 title:      "Stream中map和flatMap差异分析"
 subtitle:   "map versus flatMap in Stream"
 date:       2019-09-21

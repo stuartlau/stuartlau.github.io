@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2020-09-04-改变HBase的Rowkey设计和scan脏数据问题/index.html
 title:      "改变HBase的Rowkey设计和scan脏数据问题"
 subtitle:   "Changing Rowkey in HBase is Not Easy"
 date:       2020-09-04

@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-09-11-Java8函数式编程之Reduction/index.html
 title:      "Java8函数式编程之Reduction"
 subtitle:   "Reduction in Java8"
 date:       2019-09-11
@@ -150,11 +151,13 @@ Integer ageSum = persons
     .stream()
     .reduce(0,
         (sum, p) -> {
-            System.out.format("accumulator: sum=%s; person=%s\n", sum, p);
+            System.out.format("accumulator: sum=%s; person=%s
+", sum, p);
             return sum += p.age;
         },
         (sum1, sum2) -> {
-            System.out.format("combiner: sum1=%s; sum2=%s\n", sum1, sum2);
+            System.out.format("combiner: sum1=%s; sum2=%s
+", sum1, sum2);
             return sum1 + sum2;
         });
 

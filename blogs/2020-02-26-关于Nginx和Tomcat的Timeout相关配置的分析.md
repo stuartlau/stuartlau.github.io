@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2020-02-26-关于Nginx和Tomcat的Timeout相关配置的分析/index.html
 title:      "关于Nginx和Tomcat的Timeout相关配置的分析"
 subtitle:   "Timeouts in Nginx and Tomcat"
 date:       2020-02-26

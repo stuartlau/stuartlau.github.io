@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-10-28-熔断限流利器Resilience4j初探/index.html
 title:      "熔断限流利器Resilience4j初探"
 subtitle:   "Resilience4j Usage"
 date:       2019-10-28

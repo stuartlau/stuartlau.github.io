@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2020-05-28-从分页功能看Elasticsearch和MySQL的区别/index.html
 title:      "从分页功能看Elasticsearch和MySQL的区别"
 subtitle:   "Pagination in Search"
 date:       2020-05-28

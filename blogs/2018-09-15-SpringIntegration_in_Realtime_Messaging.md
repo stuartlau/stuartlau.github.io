@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2018-09-15-SpringIntegration_in_Realtime_Messaging/index.html
 title:      Spring Integration in Realtime Messaging
 subtitle:   Spring Integration and its usage in realtime messaging system
 date:       2018-09-15

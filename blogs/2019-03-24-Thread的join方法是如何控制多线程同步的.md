@@ -1,5 +1,6 @@
 ---
 layout:     post
+permalink:  /blogs/2019-03-24-Thread的join方法是如何控制多线程同步的/index.html
 title:      "Thread的join()是如何控制多线程同步的"
 subtitle:   "join() in Class Thread with monitor lock"
 date:       2019-03-24
