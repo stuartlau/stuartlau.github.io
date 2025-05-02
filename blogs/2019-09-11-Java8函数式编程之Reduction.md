@@ -4,7 +4,7 @@ permalink:  /blogs/2019-09-11-Java8函数式编程之Reduction/index.html
 title:      "Java8函数式编程之Reduction"
 subtitle:   "Reduction in Java8"
 date:       2019-09-11
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -649,5 +649,5 @@ public static <T> Collector<T, ?, Double>
 - https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#Reduction
 - https://mohammadrasoolshaik.wordpress.com/2017/03/21/java-8-streams-collect-vs-reduce/
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 > 转载请保留原文链接.

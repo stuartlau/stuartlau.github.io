@@ -4,7 +4,7 @@ permalink:  /blogs/2018-09-23-Multiple-Level-IP-Access-Frequency-Limiter/index.h
 title:      "Resources Access Protection Using Multiple Level Limiter"
 subtitle:   "How to control IP access rate limit with multiple limiter"
 date:       2018-09-23
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -43,4 +43,4 @@ specified time range. Bellow is the diagram to show how multiple-level limiters 
 You can see the ancestor's counter is kicked off by the preceding limiter when its **Max** is 
 surpassed within its **Period**.
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 转载请保留原文链接.
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

@@ -3,9 +3,9 @@ layout:     keynote
 permalink:  /blogs/2018-09-19-SpringIntegration_in_Realtime_Message_Keynote/index.html
 title:      "企业模型集成EIP在实践中的应用——Spring Integration"
 subtitle:   "Slides: Spring Integration in Realtime Messaging"
-iframe:     "https://liushuo.me/spring_integration_in_realtime_messaging/"
+iframe:     "https://stuartlau.github.io/spring_integration_in_realtime_messaging/"
 date:       2018-09-19
-author:     LiuShuo
+author:     StuartLau
 header-img: img/post-bg-debug.png
 catalog: true
 tags:
@@ -20,7 +20,7 @@ tags:
 展示文稿的新布局。它能自动根据屏幕大小/旋转以一定比例填充屏幕，你也可以直接点击下方链接在新页面打开，来获得更好的、沉浸式的全屏体验
 
 ### 网页方式访问
-[Watch FullScreen](https://liushuo.me/spring_integration_in_realtime_messaging/)
+[Watch FullScreen](https://stuartlau.github.io/spring_integration_in_realtime_messaging/)
 
 ### QR Code方式访问
 <div class="visible-md visible-lg">
@@ -41,5 +41,5 @@ tags:
 [Reveal.js](http://lab.hakim.se/reveal-js)
 [free_formatter](https://www.freeformatter.com/xml-escape.html)
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 转载请保留原文链接.
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
 

@@ -4,7 +4,7 @@ permalink:  /blogs/2020-02-26-关于Nginx和Tomcat的Timeout相关配置的分�
 title:      "关于Nginx和Tomcat的Timeout相关配置的分析"
 subtitle:   "Timeouts in Nginx and Tomcat"
 date:       2020-02-26
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -108,5 +108,5 @@ sys	0m0.001s
 - [tomcat-connector的微调(4): 超时相关的参数](http://hongjiang.info/tomcat-connector-tuning-4/)
 - [Nginx Documentation - HTTP Proxy Module](http://nginx.org/en/docs/http/ngx_http_proxy_module.html)
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

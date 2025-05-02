@@ -4,7 +4,7 @@ permalink:  /blogs/2019-12-08-ConcurrentHashMap弱一致性分析/index.html
 title:      "ConcurrentHashMap的弱一致性分析"
 subtitle:   "ConcurrentHashMap's Weak Consistency"
 date:       2019-12-08
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -171,5 +171,5 @@ ConcurrentHashMap的弱一致性主要是为了提升效率，是一致性与效
 - http://ifeve.com/concurrenthashmap-weakly-consistent/
 - https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

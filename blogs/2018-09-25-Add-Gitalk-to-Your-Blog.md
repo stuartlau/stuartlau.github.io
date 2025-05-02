@@ -4,7 +4,7 @@ permalink:  /blogs/2018-09-25-Add-Gitalk-to-Your-Blog/index.html
 title:      Add Gitalk to Your Blog
 subtitle:   Gitalk is a comment plugin supports Markdown based on GitHub Issue
 date:       2018-09-25
-author:     LiuShuo
+author:     StuartLau
 header-img: img/post-bg-github-cup.jpg
 catalog: true
 tags:
@@ -133,4 +133,4 @@ What Gitalk does when you first refresh your blog is that it creates an `Issue` 
 ## Reference
 - https://upupming.site/2018/02/28/build-hexo/
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 转载请保留原文链接.
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

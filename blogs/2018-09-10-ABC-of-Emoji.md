@@ -4,7 +4,7 @@ permalink:  /blogs/2018-09-10-ABC-of-Emoji/index.html
 title:      The ABC's of Emoji
 subtitle:   Unicode, character encoding, etc.
 date:       2018-09-10
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -191,4 +191,4 @@ them as code points
 - https://vinoit.me/2016/10/07/codePoint-in-java-and-utf16/
 - https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 转载请保留原文链接.
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

@@ -4,7 +4,7 @@ permalink:  /blogs/2019-03-10-Fibonacci的思考/index.html
 title:      "Fibonacci的优化思考"
 subtitle:   "Fibonacci Optimization"
 date:       2019-03-10
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -24,7 +24,7 @@ def fib(n):
 
 #### 存在问题
 先看一张图：
-![Fibonacci_in_BTree](https://liushuo.me/img/in-post/Fibonacci.png)
+![Fibonacci_in_BTree](https://stuartlau.github.io/img/in-post/Fibonacci.png)
 这张图说明了Fibonacci计算过程中的计算每一个节点时需要计算的节点的量，可知有很多重复节点的计算，如计算F(9)时需要计算F(8)和F(7），而计算F(8)时又计算了一次F(7)
 ，所以这里存在优化的空间。
 
@@ -104,5 +104,5 @@ public static int fibo(int n) {
 ```
 调用时传入参数n的最小值不能小于终止判断条件的最小判断值：本例子中规定了n必须大于6。
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

@@ -4,7 +4,7 @@ permalink:  /blogs/2018-11-28-经常被误解的MySQL中对REPEATABLE-READ/index
 title:      "详细分析MySQL如何用REPEATABLE-READ解决幻读问题"
 subtitle:   "MySQL's REPEATABLE-READ and PhantomRead Misconception"
 date:       2018-11-28
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags: 
@@ -166,4 +166,4 @@ UPDATE，此时id=5的记录不存在，隔壁事务仍然无法插入记录（�
 - https://dev.mysql.com/doc/refman/8.0/en/innodb-next-key-locking.html
 - https://dev.mysql.com/doc/refman/8.0/en/innodb-consistent-read.html
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 转载请保留原文链接.
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

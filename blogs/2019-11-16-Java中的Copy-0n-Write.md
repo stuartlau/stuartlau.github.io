@@ -4,7 +4,7 @@ permalink:  /blogs/2019-11-16-Java中的Copy-0n-Write/index.html
 title:      "Java中的Copy-On-Write"
 subtitle:   "Copy-On-Write in Java"
 date:       2019-11-16
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -227,5 +227,5 @@ Consistency`，不能保证数据的实时一致性。所以如果你希望写�
 ### References
 - http://ifeve.com/java-copy-on-write/
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

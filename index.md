@@ -12,7 +12,7 @@ layout: page
        ://www.zdns.cn/">ZDNS</a>、
        <a href="https:///www.xiaomi.com">小米</a>、<a href="https://www.amazon.com">Amazon</a>工作，
        在互联网行业沉淀10年并具有多年管理经验，同时在IM、社交、短视频、直播、游戏、物流、DNS、网络基础设施等领域拥有
-       <strong><a href="https://liushuo.me/archive/?tag=Patent">超过100项专利授权</a></strong>
+       <strong><a href="https://stuartlau.github.io/archive/?tag=Patent">超过100项专利授权</a></strong>
        ，授权国家包括中国、美国、欧洲、日本和俄罗斯。
     </p>
     <p>

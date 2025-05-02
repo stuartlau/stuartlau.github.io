@@ -4,7 +4,7 @@ permalink:  /blogs/2020-05-28-从分页功能看Elasticsearch和MySQL的区别/i
 title:      "从分页功能看Elasticsearch和MySQL的区别"
 subtitle:   "Pagination in Search"
 date:       2020-05-28
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -167,5 +167,5 @@ scroll-scan和scroll的区别：
 - [如何跳过es分页这个坑？](https://my.oschina.net/u/1787735/blog/3024051)
 - [search-request-scroll.](https://www.elastic.co/guide/en/elasticsearch/reference/2.0/search-request-scroll.html)
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

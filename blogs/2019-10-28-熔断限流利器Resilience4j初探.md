@@ -4,7 +4,7 @@ permalink:  /blogs/2019-10-28-熔断限流利器Resilience4j初探/index.html
 title:      "熔断限流利器Resilience4j初探"
 subtitle:   "Resilience4j Usage"
 date:       2019-10-28
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -300,5 +300,5 @@ CircuitBreakerRegistry circuitBreakerRegistry = CircuitBreakerRegistry.ofDefault
 
 
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

@@ -4,7 +4,7 @@ permalink:  /blogs/2020-02-21-SpingMVC项目迁移SpringBoot的问题梳理/inde
 title:      "SpringMVC项目迁移SpringBoot的问题梳理"
 subtitle:   "Migration SpringMVC Project to SpringBoot"
 date:       2020-02-21
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -281,5 +281,5 @@ location ^~ /rest/api/applyToken {
 - [springboot系列文章之实现跨域请求(CORS)](https://juejin.im/post/5b99dcca6fb9a05d3154f8b7)
 - [Spring Security – Cache Control Headers](https://www.baeldung.com/spring-security-cache-control-headers)
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

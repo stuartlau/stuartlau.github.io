@@ -4,7 +4,7 @@ permalink:  /blogs/2019-11-10-Spring中Bean的生命周期/index.html
 title:      "谈Spring中Bean的生命周期管理"
 subtitle:   "Bean Management in Spring"
 date:       2019-11-10
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -162,5 +162,5 @@ DemoService demo = (DemoService) ctx.getBean("demo");
 - 《Spring 3.x——企业应用开发实战》，陈雄华、林开雄著
 - [Spring系列之beanFactory与ApplicationContext](https://www.cnblogs.com/xiaoxi/p/5846416.html)
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

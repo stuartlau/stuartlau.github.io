@@ -4,7 +4,7 @@ permalink:  /blogs/2019-11-10-理解Java中Integer的实例化/index.html
 title:      "理解Java中的Integer的实例化"
 subtitle:   "Initialization Integer in Java"
 date:       2019-11-10
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -159,5 +159,5 @@ private static class IntegerCache {
 
 
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

@@ -4,7 +4,7 @@ permalink:  /blogs/2019-03-24-Thread的join方法是如何控制多线程同步�
 title:      "Thread的join()是如何控制多线程同步的"
 subtitle:   "join() in Class Thread with monitor lock"
 date:       2019-03-24
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -246,5 +246,5 @@ true
 - https://coderanch.com/t/242419/certification/invocation-join-release-locks-objects
 - https://segmentfault.com/q/1010000007260477
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

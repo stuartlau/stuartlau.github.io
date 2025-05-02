@@ -4,7 +4,7 @@ permalink:  /blogs/2020-03-28-AOP的概念结合Spring的解析/index.html
 title:      "AOP的概念结合Spring的解析"
 subtitle:   "AOP"
 date:       2020-03-28
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -531,5 +531,5 @@ Spring的事务处理为了与数据访问解耦，它提供了一套处理数�
 - https://www.cnblogs.com/duanxz/p/4367362.html
 - https://stackoverflow.com/questions/6222600/transactional-method-calling-another-method-without-transactional-anotation
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

@@ -4,7 +4,7 @@ permalink:  /blogs/2020-05-21-ElasticSearch聚合优化实战/index.html
 title:      "ElasticSearch聚合实战"
 subtitle:   "Aggregation in ES"
 date:       2020-05-21
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -548,5 +548,5 @@ ES中经常使用到的聚合结果集可以被缓存起来，以便更快速的
 - [ES之五：ElasticSearch聚合](https://www.cnblogs.com/duanxz/p/6528161.html)
 
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

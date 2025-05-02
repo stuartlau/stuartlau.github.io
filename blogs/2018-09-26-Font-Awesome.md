@@ -4,7 +4,7 @@ permalink:  /blogs/2018-09-26-Font-Awesome/index.html
 title:      "Font Awesome is Really Awesome"
 subtitle:   "The web’s most popular icon set and toolkit"
 date:       2018-09-26
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -46,4 +46,4 @@ Now let's see how it looks in my site
 - https://fontawesome.com
 - https://www.w3schools.com/icons/default.asp
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 转载请保留原文链接.
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

@@ -4,7 +4,7 @@ permalink:  /blogs/2018-12-05-谈ProtoBuff编码的问题/index.html
 title:      "ProtoBuf3.0编码的深入分析"
 subtitle:   "Details about ProtoBuf3.0 Encoding"
 date:       2018-12-06
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -391,5 +391,5 @@ google 原生提供了any 类型数据结构，但是该数据结构在序列化
 - [proto 编码原理](https://developers.google.com/protocol-buffers/docs/encoding)
 - [proto java 教程](https://developers.google.com/protocol-buffers/docs/javatutorial)
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

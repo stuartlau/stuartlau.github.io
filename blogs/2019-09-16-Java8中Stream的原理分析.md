@@ -4,7 +4,7 @@ permalink:  /blogs/2019-09-16-Java8中Stream的原理分析/index.html
 title:      "Java8中Stream原理分析"
 subtitle:   "Stream Summary in Java8"
 date:       2019-09-16
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -338,5 +338,5 @@ ForkJoinPool时将会变得不可预知并且暗藏危机。
 - https://juejin.im/post/5dc5a148f265da4d4f65c191
 - https://stackoverrun.com/cn/q/10341100
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

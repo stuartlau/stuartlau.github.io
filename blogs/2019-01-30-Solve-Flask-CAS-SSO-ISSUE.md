@@ -4,7 +4,7 @@ permalink:  /blogs/2019-01-30-Solve-Flask-CAS-SSO-ISSUE/index.html
 title:      "解决Flask-CAS接入SSO的报KeyError问题"
 subtitle:   "Solve Flask-CAS Thrown KeyError Issue"
 date:       2019-01-30
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -57,5 +57,5 @@ Web 认证系统，企业内部passport
 解决：克隆git中的源码手动安装flask-CAS
 
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

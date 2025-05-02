@@ -4,7 +4,7 @@ permalink:  /blogs/2019-11-24-关于synchronized关键字/index.html
 title:      "关于synchronized关键字"
 subtitle:   "synchronized in Java"
 date:       2019-11-24
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -401,5 +401,5 @@ public void run(){
 ### References
 - https://blog.csdn.net/m_xiaoer/article/details/73274642
 - https://www.artima.com/insidejvm/ed2/threadsynch.html
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.

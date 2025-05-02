@@ -4,7 +4,7 @@ permalink:  /blogs/2018-12-26-MySQL的log-slave-updates参数/index.html
 title:      MySQL的log-slave-updates参数
 subtitle:   MySQL with log-slave-updates 
 date:       2018-12-26
-author:     LiuShuo
+author:     StuartLau
 header-img: img/post-bg-desk.jpg
 catalog: true
 tags:
@@ -79,4 +79,4 @@ this to work, B must be both a master and a slave. You must start both A and B w
     - 不存在单一节点故障问题
     - 可以将读密集型的请求放到slave上
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 转载请保留原文链接.
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

@@ -4,7 +4,7 @@ permalink:  /blogs/2020-05-29-HBase的HFile合并过程解析/index.html
 title:      "HBase的HFile合并过程解析"
 subtitle:   "HFile Compaction in HBase"
 date:       2020-05-29
-author:     LiuShuo
+author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
@@ -108,5 +108,5 @@ Compaction对写请求也会有比较大的影响。主要体现在HFile比较�
 - [深入探讨LSM Compaction机制](https://zhuanlan.zhihu.com/p/141186118)
 - [深入理解 HBase Compaction 机制](https://uzshare.com/view/788152)
 
-> 本文首次发布于 [LiuShuo's Blog](https://liushuo.me), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
 转载请保留原文链接.
