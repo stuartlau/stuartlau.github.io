@@ -11,7 +11,7 @@ title: Blogs
 
 
 ### 2024
-- [2024-12-10-授权专利-CN115118695B](https://stuartlau.github.io/blogs/2024-12-03-授权专利-CN115118695B)
+- [2024-12-10-授权专利-CN115118695B](https://stuartlau.github.io/blogs/2024-12-10-授权专利-CN115118695B)
 - [2024-12-03-授权专利-CN114911954B](https://stuartlau.github.io/blogs/2024-12-03-授权专利-CN114911954B)
 - [2024-09-10-授权专利-CN111581340B](https://stuartlau.github.io/blogs/2024-09-10-授权专利-CN111581340B)
 - [2024-07-30-授权专利-CN115473865B](https://stuartlau.github.io/blogs/2024-07-30-授权专利-CN115473865B)
