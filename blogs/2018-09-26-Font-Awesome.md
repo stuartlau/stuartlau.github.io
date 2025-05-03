@@ -40,7 +40,7 @@ following to my footer:
     </span>
     
 Now let's see how it looks in my site
-![footer-icons]({{ site.url }}/img/in-post/footer-icons.jpg)
+![footer-icons](/images/in-post/footer-icons.jpg)
         
 # Reference
 - https://fontawesome.com
