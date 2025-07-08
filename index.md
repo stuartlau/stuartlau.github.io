@@ -6,17 +6,12 @@ layout: page
 <img src="/images/1c9343a91b66725f76c55f7cd262ee3b.jpeg" class="floatpic">
 <div class="zh post-container">
     <p>
-       Hey，this is <strong>Stuart Lau</strong>，2012年于<a href="https://www.bupt.edu.cn">北京邮电大学</a>—
-       <a href="https://sklnst.bupt.edu.cn/">网络与交换技术国家重点实验室</a>-信息安全中心获得信息安全专业工学硕士学位，并先后在<a href="https
+       <strong>Stuart Lau</strong>，毕业于<a href="https://www.bupt.edu.cn">北京邮电大学</a>，获信息安全工学硕士学位，先后在<a href="https
        ://www.zdns.cn/">ZDNS</a>、
        <a href="https:///www.xiaomi.com">小米</a>、<a href="https://www.amazon.com">Amazon</a>、<a href="https://www.kuaishou.com">快手</a>、<a href="https://www.xiaohongshu.com">小红书</a>工作，
-       在互联网行业沉淀13年并具有多年管理经验，同时在即时通讯、社交、短视频、直播、游戏、DNS、网络基础设施等领域拥有
-       <strong><a href="https://stuartlau.github.io/archive/?tag=Patent">超过100项专利授权</a></strong>
+       在互联网行业沉淀10多年并具有多年团队管理经验，以第一作者身份拥有
+       <strong><a href="https://stuartlau.github.io/archive/?tag=Patent">超过120项技术发明专利授权</a></strong>，领域涵盖即时通讯、社交、短视频、直播、游戏、算法工程、DNS、网络基础设施等领域
        ，授权国家包括中国、美国、欧洲、日本和俄罗斯。
-    </p>
-    <p>
-     本人在大型分布式服务架构设计、大数据处理以及高性能、高并发、高可用服务研发等方面具有丰富的经验，对微服务架构、领域驱动设计、敏捷开发等有较为深刻的认知和应用，多次带团队完成公司级重要项目的落地。
-     同时，在技术人才的选拔、培养和团队的效能提升方面也有成熟的理念和丰富的实践，面试超过百名候选人，长期负责团队的梯队建设，作为快手主站技术晋升评委负责人才晋升评估工作。
     </p>
     <hr>
     <h5>履历简介</h5>
