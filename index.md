@@ -3,7 +3,7 @@ layout: page
 ---
 
 # About Me
-<img src="/images/1c9343a91b66725f76c55f7cd262ee3b.jpeg" class="floatpic">
+<img src="/images/IMG_1377.jpeg" class="floatpic">
 <div class="zh post-container">
     <p>
        <strong>Stuart Lau</strong>，毕业于<a href="https://www.bupt.edu.cn">北京邮电大学</a>，获信息安全工学硕士学位，先后在<a href="https
