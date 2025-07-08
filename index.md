@@ -66,7 +66,7 @@ layout: page
     <h5 id="patents">专利</h5>
 
         <li>
-            <a href="https://liu-shuo.notion.site/Patent-c952538ef1e44f1889121a7c173316a0">授权专利清单(100+)</a>
+            <a href="https://liu-shuo.notion.site/Patent-c952538ef1e44f1889121a7c173316a0">120项授权技术专利清单</a>
         </li>
     <hr>
 
