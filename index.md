@@ -6,11 +6,11 @@ layout: page
 <img src="/images/1c9343a91b66725f76c55f7cd262ee3b.jpeg" class="floatpic">
 <div class="zh post-container">
     <p>
-       Hey，this is <strong>Stuart Lau</strong>，毕业于<a href="https://www.bupt.edu.cn">北京邮电大学</a>—
-       <a href="https://sklnst.bupt.edu.cn/">网络与交换技术国家重点实验室</a>获得工学硕士学位后，先后在<a href="https
+       Hey，this is <strong>Stuart Lau</strong>，2012年于<a href="https://www.bupt.edu.cn">北京邮电大学</a>—
+       <a href="https://sklnst.bupt.edu.cn/">网络与交换技术国家重点实验室</a>-信息安全中心获得信息安全专业工学硕士学位，并先后在<a href="https
        ://www.zdns.cn/">ZDNS</a>、
        <a href="https:///www.xiaomi.com">小米</a>、<a href="https://www.amazon.com">Amazon</a>、<a href="https://www.kuaishou.com">快手</a>、<a href="https://www.xiaohongshu.com">小红书</a>工作，
-       在互联网行业沉淀10年并具有多年管理经验，同时在IM、社交、短视频、直播、游戏、物流、DNS、网络基础设施等领域拥有
+       在互联网行业沉淀13年并具有多年管理经验，同时在即时通讯、社交、短视频、直播、游戏、DNS、网络基础设施等领域拥有
        <strong><a href="https://stuartlau.github.io/archive/?tag=Patent">超过100项专利授权</a></strong>
        ，授权国家包括中国、美国、欧洲、日本和俄罗斯。
     </p>
