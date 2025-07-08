@@ -6,8 +6,7 @@ layout: page
 <img src="/images/1c9343a91b66725f76c55f7cd262ee3b.jpeg" class="floatpic">
 <div class="zh post-container">
     <p>
-       Hey，this is <strong>Stuart Lau</strong>，
-       2012年于<a href="https://www.bupt.edu.cn">北京邮电大学</a>—
+       Hey，this is <strong>Stuart Lau</strong>，毕业于<a href="https://www.bupt.edu.cn">北京邮电大学</a>—
        <a href="https://sklnst.bupt.edu.cn/">网络与交换技术国家重点实验室</a>获得工学硕士学位后，先后在<a href="https
        ://www.zdns.cn/">ZDNS</a>、
        <a href="https:///www.xiaomi.com">小米</a>、<a href="https://www.amazon.com">Amazon</a>、<a href="https://www.kuaishou.com">快手</a>、<a href="https://www.xiaohongshu.com">小红书</a>工作，
@@ -23,7 +22,7 @@ layout: page
     <h5>履历简介</h5>
     <a href="https://www.xiaohongshu.com">小红书</a>
     <li>
-    2024年初以社交互动后端技术负责人角色加入小红书社区技术部，负责社交互动后端团队的研发和管理工作，支撑小红书APP社交方向的业务发展，为国内、海外1.2亿DAU用户提供用户消息、群聊互动、系统通知、创新AI业务等互动能力。
+    2024年，加入小红书，作为社交互动后端技术Lead负责小红书社交互动后端团队的研发和管理工作，支撑小红书APP社交方向的业务发展，为国内小红书APP、海外RedNote APP超1.2亿DAU用户提供用户消息、群聊互动、系统通知、创新AI业务等互动能力。
     <hr>
     <a href="https://www.kuaishou.com">快手</a>
     <li>
