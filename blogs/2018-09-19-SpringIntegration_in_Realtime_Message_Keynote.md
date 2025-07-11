@@ -24,7 +24,7 @@ tags:
 
 ### QR Code方式访问
 <div class="visible-md visible-lg">
-<img src="https://stuartlau.github.io/img/in-post/SI_Realtime_messaging-QR.png" width="350"/>
+<img src="/images/in-post/SI_Realtime_messaging-QR.png" width="350"/>
 <br>
 <small class="img-hint">你也可以通过扫描二维码在手机上观看</small>
 </div>

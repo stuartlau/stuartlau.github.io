@@ -88,13 +88,13 @@ First we need to create a **Github Application**，[click here](https://github
 
 And fill in the form(you can use your custom domain instead of xx.github.io)：
 
-![Register Application](https://stuartlau.github.io/img/in-post/register-application.jpg)
+![Register Application](/images/in-post/register-application.jpg)
 
 Then click **Register application**.
 
 ### Configuration reposiroty
 You have to enable Issue in your repository's setting, because Gitalk is based on GitHub Issue.
-![GitHub Issue](https://stuartlau.github.io/img/in-post/github-issue.jpg)
+![GitHub Issue](/images/in-post/github-issue.jpg)
 
 ### Configuration _config.xml
 
@@ -117,18 +117,18 @@ When all settings are done and push to your GitHub repo, wait for
 a while and try to refresh your pages and boom! Gitalk is in effect.
 
 But there is still something we need to do or you may get the following
-![Issues Not Found](https://stuartlau.github.io/img/in-post/issues-not-found.jpg)
+![Issues Not Found](/images/in-post/issues-not-found.jpg)
 You need to authorize Gitalk can create issues on your repository
-![Link Repository Oauth](https://stuartlau.github.io/img/in-post/link-repository-oauth.jpg)
+![Link Repository Oauth](/images/in-post/link-repository-oauth.jpg)
 
 After all these steps, go refresh your blog and you will see Gitalk plugin is in effect.
-![Empty Comment](https://stuartlau.github.io/img/in-post/empty-comment.jpg)
+![Empty Comment](/images/in-post/empty-comment.jpg)
 You can sort the comment by time.
-![Empty Comment with Menu](https://stuartlau.github.io/img/in-post/empty-comment-with-menu.jpg)
+![Empty Comment with Menu](/images/in-post/empty-comment-with-menu.jpg)
 
 ## Edit
 What Gitalk does when you first refresh your blog is that it creates an `Issue` in your repository
-![Empty Comment with Menu](https://stuartlau.github.io/img/in-post/github-issues.jpg)
+![Empty Comment with Menu](/images/in-post/github-issues.jpg)
 
 ## Reference
 - https://upupming.site/2018/02/28/build-hexo/
