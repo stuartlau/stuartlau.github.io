@@ -108,7 +108,6 @@ title: Publications
 - [授权专利-CN111104634B-灰度用户的方法、服务器及存储介质](https://stuartlau.github.io/blogs/2023-08-29-授权专利-CN111104634B)
 - [授权专利-CN115134327B-一种消息处理方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2023-09-19-授权专利-CN115134327B)
 - [授权专利-CN113476853B-交互任务的数据处理方法、装置、电子设备、存储介质](https://stuartlau.github.io/blogs/2023-10-03-授权专利-CN113476853B)
-- [授权专利-CN115412517B-会话显示方法、会话消息处理方法、设备和存储介质](https://stuartlau.github.io/blogs/2023-10-31-授权专利-CN114143280B)
 - [授权专利-CN115412517B-会话显示方法、会话消息处理方法、设备和存储介质](https://stuartlau.github.io/blogs/2023-10-31-授权专利-CN115412517B)
 - [授权专利-CN111399797B-会话显示方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2023-11-14-授权专利-CN111399797B)
 - [授权专利-CN114143280B-语音消息播放方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2023-11-14-授权专利-CN114143280B)
