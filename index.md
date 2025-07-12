@@ -13,7 +13,7 @@ layout: page
        <strong><a href="https://stuartlau.github.io/archive/?tag=Patent">超过120项技术发明专利授权</a></strong>，领域涵盖即时通讯、社交、短视频、直播、游戏、算法工程、DNS、网络基础设施等领域
        ，授权国家包括中国、美国、欧洲、日本和俄罗斯。
     </p>
-    <hr>
+
     <h5>履历简介</h5>
         <li>
     <a href="https://www.xiaohongshu.com">小红书</a>
@@ -52,7 +52,7 @@ layout: page
     <a href="https://www.icann.org/">ICANN</a>的验收和授权，将多个新顶级域（如.top/.wang /.ren /.中信）
     接入<a href="https://www.internic.net/domain/root.zone">DNS根域名服务器</a>进行托管运营。
     
-    <hr>
+
 
     <h5 id="contributions">开源贡献</h5>
 
