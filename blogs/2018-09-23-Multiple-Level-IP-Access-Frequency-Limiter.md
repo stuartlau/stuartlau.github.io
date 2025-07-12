@@ -38,7 +38,7 @@ per second, 50 times per minute and 1000 times per hour, most the IPs are within
 ## Algorithm
 We use **Max**, **Period** to display the limiter's maximum access times for a single IP in a 
 specified time range. Bellow is the diagram to show how multiple-level limiters work.
-![IP Frequency Limiter Group](http://stuartlau.github.io/img/in-post/ip-frequency-limiter.jpg)
+![IP Frequency Limiter Group](/images/in-post/ip-frequency-limiter.jpg)
 
 You can see the ancestor's counter is kicked off by the preceding limiter when its **Max** is 
 surpassed within its **Period**.

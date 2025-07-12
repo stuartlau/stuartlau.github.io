@@ -267,7 +267,7 @@ public interface MessagePlacer {
 
 ## Messaging Flow
 
-![Messaging_Flow](http://stuartlau.github.io/img/in-post/messaging_flow.jpg)
+![Messaging_Flow](/images/in-post/messaging_flow.jpg)
 
 ## Pro and Con
 * When your problem is broken into lots of small ones, and the boundaries are clear, you need a 

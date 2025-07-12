@@ -117,7 +117,7 @@ f1g1ns1.dnspod.net.	101602	IN	A	14.215.150.17
 
 这里我配置了两个做负载均衡，如果配置更多的A记录，需要购买dnspod的增值服务，两个对于我来说已经足够了。
 
-![dnspod-a-record](http://stuartlau.github.io/img/in-post/dnspod-a-record.jpg)
+![dnspod-a-record](/images/in-post/dnspod-a-record.jpg)
 
 等待一段时间后用dig查看是否生效：
 
@@ -166,13 +166,13 @@ f1g1ns1.dnspod.net.	100297	IN	A	182.140.167.166
 ## 配置GitHub中仓库的CNAME
 光指向GitHub的地址还不能够完成访问我们子域名的功能，需要在自己的仓库里配置自定义域名，配置完毕后会在我们的仓库里生成个CNAME文件包含对应的域名。
 
-![]![github-custom-domain](http://stuartlau.github.io/img/in-post/github-custom-domain.jpg)
+![]![github-custom-domain](/images/in-post/github-custom-domain.jpg)
 
 注意GitHub Pages是提供HTTPS支持的，但是需要在配置CNAME后的24小时之后，因为签名和生效都需要一定的时间。
 
 ## 访问自己的域名
 试试是否可以用自己的域名访问博客了？
-![my_domain](http://stuartlau.github.io/img/in-post/about-me-screenshot.jpg)
+![my_domain](/images/in-post/about-me-screenshot.jpg)
 
 成功！
 
@@ -180,7 +180,7 @@ f1g1ns1.dnspod.net.	100297	IN	A	182.140.167.166
 
 > Let’s Encrypt is a free, automated, and open Certificate Authority.
 
-![lets-encrypt](http://stuartlau.github.io/img/in-post/lets-encrypt.jpg)
+![lets-encrypt](/images/in-post/lets-encrypt.jpg)
 
 # Reference
 - https://support.dnspod.cn/Kb/showarticle/tsid/177/#ChangeDomainNS
