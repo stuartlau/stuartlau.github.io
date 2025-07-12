@@ -248,6 +248,7 @@ title: Blogs
 - [2019-10-04-巴塞罗那](https://stuartlau.github.io/blogs/2019-10-04-巴塞罗那)
 - [2019-08-03-阿姆斯特丹](https://stuartlau.github.io/blogs/2019-08-03-阿姆斯特丹)
 - [2014-02-21-西安](https://stuartlau.github.io/blogs/2014-02-21-西安)
+- [2014-01-03-昆明](https://stuartlau.github.io/blogs/2014-01-03-昆明)
 - [2013-12-28-丽江](https://stuartlau.github.io/blogs/2013-12-28-丽江)
 - [2013-09-26-台北](https://stuartlau.github.io/blogs/2013-09-26-台北)
 
