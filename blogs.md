@@ -177,7 +177,6 @@ title: Blogs
 - [2019-10-22-也谈缓存更新策略](https://stuartlau.github.io/blogs/2019-10-22-也谈缓存更新策略)
 - [2019-10-13-记录一次线上图片服务的OOM分析](https://stuartlau.github.io/blogs/2019-10-13-记录一次线上图片服务的OOM分析)
 - [2019-10-13-关于小动物喝毒药的算法题的分析](https://stuartlau.github.io/blogs/2019-10-13-关于小动物喝毒药的算法题的分析)
-- [2019-10-04-巴塞罗那](https://stuartlau.github.io/blogs/2019-10-04-巴塞罗那)
 - [2019-10-04-从TreeMap到红黑树](https://stuartlau.github.io/blogs/2019-10-04-从TreeMap到红黑树)
 - [2019-09-27-Java中的迭代器](https://stuartlau.github.io/blogs/2019-09-27-Java中的迭代器)
 - [2019-09-24-使用并行流Stream的正确姿势](https://stuartlau.github.io/blogs/2019-09-24-使用并行流Stream的正确姿势)
@@ -193,7 +192,6 @@ title: Blogs
 - [2019-09-07-二分查找介绍及其变种题目](https://stuartlau.github.io/blogs/2019-09-07-二分查找介绍及其变种题目)
 - [2019-08-30-授权专利-CN106022151B-信息传输方法及装置](https://stuartlau.github.io/blogs/2019-08-30-授权专利-CN106022151B)
 - [2019-08-28-授权专利-EP3264817B1-Method and device for visually showing the security level of a wifi signal using an icon](https://stuartlau.github.io/blogs/2019-08-28-授权专利-EP3264817B1)
-- [2019-08-03-阿姆斯特丹](https://stuartlau.github.io/blogs/2019-08-03-阿姆斯特丹)
 - [2019-06-19-Python科学计算库之Numpy](https://stuartlau.github.io/blogs/2019-06-19-Python科学计算库之Numpy)
 - [2019-05-17-授权专利-CN106302648B-业务处理方法及装置](https://stuartlau.github.io/blogs/2019-05-17-授权专利-CN106302648B)
 - [2019-04-26-B+Tree-and-BTree](https://stuartlau.github.io/blogs/2019-04-26-B+Tree-and-BTree)
@@ -246,7 +244,11 @@ title: Blogs
 
 <br>
 
-### 2013
+### Travelling
+- [2019-10-04-巴塞罗那](https://stuartlau.github.io/blogs/2019-10-04-巴塞罗那)
+- [2019-08-03-阿姆斯特丹](https://stuartlau.github.io/blogs/2019-08-03-阿姆斯特丹)
+- [2014-02-21-西安](https://stuartlau.github.io/blogs/2014-02-21-西安)
 - [2013-12-28-丽江](https://stuartlau.github.io/blogs/2013-12-28-丽江)
+- [2013-09-26-台北](https://stuartlau.github.io/blogs/2013-09-26-台北)
 
 
