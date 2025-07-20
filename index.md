@@ -51,15 +51,6 @@ layout: page
     /DNS/ESCROW等顶级域名注册局需具备的核心能力的研发， 完成平台研发、测试，并获得互联网名称与数字地址分配机构
     <a href="https://www.icann.org/">ICANN</a>的验收和授权，将多个新顶级域（如.top/.wang /.ren /.中信）
     接入<a href="https://www.internic.net/domain/root.zone">DNS根域名服务器</a>进行托管运营。
-    
-
-
-    <h5 id="contributions">开源贡献</h5>
-
-        <li><a href="https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=180194">OpenDNSSEC 1.4.1
-            Bugfixes</a>
-        </li>
-    <hr>
         
     
 </div>

@@ -133,7 +133,8 @@ title: Publications
   authentication model based on CAS</a>
   <em>2011 4th IEEE International Conference on Broadband Network and Multimedia
   Technology(<strong>IEEE</strong>)</em>, 2012
-
 <br>
 
 ---
+## Communicty Contribution
+- <a href="https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=180194">OpenDNSSEC 1.4.1 Bugfixes, 2013</a>
