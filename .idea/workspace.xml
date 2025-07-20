@@ -5,7 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f920e74b-b2c1-48b2-9d1a-c9834de4255b" name="Changes" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2025_5_2,_10_34_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2025_5_2__10_34__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs/2019-08-03-阿姆斯特丹.md" beforeDir="false" afterPath="$PROJECT_DIR$/blogs/2019-08-03-阿姆斯特丹.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs/2019-10-04-巴塞罗那.md" beforeDir="false" afterPath="$PROJECT_DIR$/blogs/2019-10-04-巴塞罗那.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/1c9343a91b66725f76c55f7cd262ee3b.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/post-bg-YesOrNo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/post-bg-web.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/post-bg-wechat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/stuartlau.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mypaper/modeling/202206FZU.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mypaper/modeling/202209CUMCM.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mypaper/modeling/202302COMAP.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mypaper/modeling/figure.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mypaper/poster/poster_aaai24_BLEGuard.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mypaper/thesis/IP-report.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mypaper/thesis/UG-thesis.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,19 +35,25 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2GoDgBPFljLklRmMhEeS4qFDqLp" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/shuo/IdeaProjects/stuartlau.github.io/blogs&quot;
+    &quot;last_opened_file_path&quot;: &quot;/Users/shuo/IdeaProjects/stuartlau.github.io/images/in-post&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images/in-post" />
       <recent name="$PROJECT_DIR$/blogs" />
     </key>
   </component>
@@ -95,11 +117,120 @@
       <option name="project" value="LOCAL" />
       <updated>1746280117731</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="update">
+      <created>1746281264410</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1746281264410</updated>
+    </task>
+    <task id="LOCAL-00007" summary="update">
+      <created>1752232219382</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1752232219382</updated>
+    </task>
+    <task id="LOCAL-00008" summary="update">
+      <created>1752237784361</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1752237784362</updated>
+    </task>
+    <task id="LOCAL-00009" summary="update">
+      <created>1752238476697</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1752238476697</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update">
+      <created>1752243269488</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1752243269488</updated>
+    </task>
+    <task id="LOCAL-00011" summary="update">
+      <created>1752244657297</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1752244657297</updated>
+    </task>
+    <task id="LOCAL-00012" summary="update">
+      <created>1752281733582</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1752281733582</updated>
+    </task>
+    <task id="LOCAL-00013" summary="update">
+      <created>1752307943588</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1752307943588</updated>
+    </task>
+    <task id="LOCAL-00014" summary="update">
+      <created>1752308226951</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1752308226951</updated>
+    </task>
+    <task id="LOCAL-00015" summary="update">
+      <created>1752310100416</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1752310100416</updated>
+    </task>
+    <task id="LOCAL-00016" summary="update">
+      <created>1752311037954</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1752311037954</updated>
+    </task>
+    <task id="LOCAL-00017" summary="update">
+      <created>1752311697980</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1752311697980</updated>
+    </task>
+    <task id="LOCAL-00018" summary="update">
+      <created>1752312155748</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1752312155748</updated>
+    </task>
+    <task id="LOCAL-00019" summary="update">
+      <created>1752326372088</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1752326372088</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
