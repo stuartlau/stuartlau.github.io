@@ -1,7 +1,7 @@
 ---
 layout:     post
-permalink:  /blogs/2019-10-04-巴塞罗那/index.html
-title:      巴塞罗那
+permalink:  /blogs/2019-10-04-Barcelona/index.html
+title:      Barcelona
 subtitle:   Barcelona
 date:       2019-10-04
 author:     StuartLau

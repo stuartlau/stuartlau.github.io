@@ -1,7 +1,7 @@
 ---
 layout:     post
-permalink:  /blogs/2019-08-03-阿姆斯特丹/index.html
-title:      阿姆斯特丹
+permalink:  /blogs/2019-08-03-Amsterdam/index.html
+title:      Amsterdam
 subtitle:   Amsterdam
 date:       2019-08-03
 author:     StuartLau

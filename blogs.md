@@ -4,7 +4,7 @@ permalink: /blogs/index.html
 title: Blogs
 ---
 
-## Blogs
+## Tech
 
 ### 2025
 - [2025-04-08-授权专利-CN116132392B-消息处理方法、装置、电子设备和存储介质](https://stuartlau.github.io/blogs/2025-04-08-授权专利-CN116132392B)
@@ -153,7 +153,7 @@ title: Blogs
 - [2020-02-28-授权专利-CN107491238B-显示页面控制方法及装置](https://stuartlau.github.io/blogs/2020-02-28-授权专利-CN107491238B)
 - [2020-02-28-大文件下载中的SocketTimeoutException问题定位](https://stuartlau.github.io/blogs/2020-02-28-大文件下载中的SocketTimeoutException问题定位)
 - [2020-02-26-关于Nginx和Tomcat的Timeout相关配置的分析](https://stuartlau.github.io/blogs/2020-02-26-关于Nginx和Tomcat的Timeout相关配置的分析)
-- [2020-02-21-SpingMVC项目迁移SpringBoot的问题梳理](https://stuartlau.github.io/blogs/2020-02-21-SpingMVC项目迁移SpringBoot的问题梳理)
+- [2020-02-21-SpringMVC项目迁移SpringBoot的问题梳理](https://stuartlau.github.io/blogs/2020-02-21-SpingMVC项目迁移SpringBoot的问题梳理)
 - [2020-02-07-授权专利-CN109412929B](https://stuartlau.github.io/blogs/2020-02-07-授权专利-CN109412929B)
 - [2020-02-07-Retina屏下图片的优化](https://stuartlau.github.io/blogs/2020-02-07-Retina屏下图片的优化)
 
@@ -244,12 +244,12 @@ title: Blogs
 
 <br>
 
-### Travelling
-- [2019-10-04-巴塞罗那](https://stuartlau.github.io/blogs/2019-10-04-巴塞罗那)
-- [2019-08-03-阿姆斯特丹](https://stuartlau.github.io/blogs/2019-08-03-阿姆斯特丹)
-- [2014-02-21-西安](https://stuartlau.github.io/blogs/2014-02-21-西安)
-- [2014-01-03-昆明](https://stuartlau.github.io/blogs/2014-01-03-昆明)
-- [2013-12-28-丽江](https://stuartlau.github.io/blogs/2013-12-28-丽江)
-- [2013-09-26-台北](https://stuartlau.github.io/blogs/2013-09-26-台北)
+## Travel
+- [2019-10-04-Barcelona](https://stuartlau.github.io/blogs/2019-10-04-Barcelona)
+- [2019-08-03-Amsterdam](https://stuartlau.github.io/blogs/2019-08-03-Amsterdam)
+- [2014-02-21-Xi'an](https://stuartlau.github.io/blogs/2014-02-21-Xian)
+- [2014-01-03-Kunming](https://stuartlau.github.io/blogs/2014-01-03-Kunming)
+- [2013-12-28-Lijiang](https://stuartlau.github.io/blogs/2013-12-28-Lijiang)
+- [2013-09-26-Taipei](https://stuartlau.github.io/blogs/2013-09-26-Taipei)
 
-
+B

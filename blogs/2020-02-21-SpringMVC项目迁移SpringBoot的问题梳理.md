@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/2020-02-21-SpingMVC项目迁移SpringBoot的问题梳理/index.html
+permalink:  /blogs/2020-02-21-SpringMVC项目迁移SpringBoot的问题梳理/index.html
 title:      "SpringMVC项目迁移SpringBoot的问题梳理"
 subtitle:   "Migration SpringMVC Project to SpringBoot"
 date:       2020-02-21
