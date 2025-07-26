@@ -6,13 +6,9 @@ title: Blogs
 
 ## Tech
 
-### 2025
 - [2025-04-08-授权专利-CN116132392B-消息处理方法、装置、电子设备和存储介质](https://stuartlau.github.io/blogs/2025-04-08-授权专利-CN116132392B)
 - [2025-02-11-授权专利-CN112256380B-会话处理方法、装置及通信系统](https://stuartlau.github.io/blogs/2025-02-11-授权专利-CN112256380B)
 - [2025-01-21-授权专利-CN115065653B-会话处理方法、装置及通信系统](https://stuartlau.github.io/blogs/2025-01-21-授权专利-CN115065653B)
-
-
-### 2024
 - [2024-12-10-授权专利-CN115118695B-消息处理方法、装置、电子设备和存储介质](https://stuartlau.github.io/blogs/2024-12-10-授权专利-CN115118695B)
 - [2024-12-03-授权专利-CN114911954B-一种富媒体资源交互方法、装置、设备及存储介质](https://stuartlau.github.io/blogs/2024-12-03-授权专利-CN114911954B)
 - [2024-09-24-授权专利-CN112685537B-会话处理方法、装置及通信系统](https://stuartlau.github.io/blogs/2024-09-24-授权专利-CN112685537B)
@@ -23,9 +19,6 @@ title: Blogs
 - [2024-02-06-授权专利-CN114979087B-信息传输方法、装置、服务器及存储介质](https://stuartlau.github.io/blogs/2024-02-06-授权专利-CN114979087B)
 - [2024-02-06-授权专利-CN114024954B-信息传输方法、装置、服务器及存储介质](https://stuartlau.github.io/blogs/2024-02-06-授权专利-CN114024954B)
 - [2024-01-02-授权专利-CN114666175B-信息传输方法、装置、服务器及存储介质](https://stuartlau.github.io/blogs/2024-01-02-授权专利-CN114666175B)
-
-
-### 2023
 - [2023-11-21-授权专利-CN115361352B-消息更新方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2023-11-21-授权专利-CN115361352B)
 - [2023-11-14-授权专利-CN114143280B-语音消息播放方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2023-11-14-授权专利-CN114143280B)
 - [2023-11-14-授权专利-CN111399797B-会话显示方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2023-11-14-授权专利-CN111399797B)
@@ -47,9 +40,6 @@ title: Blogs
 - [2023-03-10-授权专利-CN110162366B-一种信息显示方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2023-03-10-授权专利-CN110162366B)
 - [2023-01-20-授权专利-CN113098781B-会话列表处理方法、装置、服务器及存储介质](https://stuartlau.github.io/blogs/2023-01-20-授权专利-CN113098781B)
 - [2023-01-20-授权专利-CN111049732B-推送消息展示方法、装置、电子设备及介质](https://stuartlau.github.io/blogs/2023-01-20-授权专利-CN111049732B)
-
-
-### 2022
 - [2022-11-21-授权专利-CN113179206B-会话显示方法、会话获取方法、装置、设备、系统及介质](https://stuartlau.github.io/blogs/2022-11-21-授权专利-CN113179206B)
 - [2022-10-11-授权专利-CN111555961B-一种消息显示方法及装置](https://stuartlau.github.io/blogs/2022-10-11-授权专利-CN111555961B)
 - [2022-09-30-授权专利-CN113315869B-内容显示方法、装置、电子设备、系统及存储介质](https://stuartlau.github.io/blogs/2022-09-30-授权专利-CN113315869B)
@@ -77,9 +67,6 @@ title: Blogs
 - [2022-01-21-授权专利-CN110087118B-评论消息处理方法、装置、终端、服务器及介质](https://stuartlau.github.io/blogs/2022-01-21-授权专利-CN110087118B)
 - [2022-01-21-授权专利-CN109634688B-会话界面的显示方法、装置、终端及存储介质](https://stuartlau.github.io/blogs/2022-01-21-授权专利-CN109634688B)
 - [2022-01-21-授权专利-CN109614561B-一种特定资讯的显示控制方法、装置及电子设备](https://stuartlau.github.io/blogs/2022-01-21-授权专利-CN109614561B)
-
-
-### 2021
 - [2021-12-07-授权专利-CN111367448B-应用功能执行方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2021-12-07-授权专利-CN111367448B)
 - [2021-12-07-授权专利-CN109412935B-即时通信的发送方法和接收方法、发送装置和接收装置](https://stuartlau.github.io/blogs/2021-12-07-授权专利-CN109412935B)
 - [2021-12-07-授权专利-CN109150901B-一种信息来源的提示方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2021-12-07-授权专利-CN109150901B)
@@ -109,9 +96,6 @@ title: Blogs
 - [2021-02-09-授权专利-CN110445706B-消息显示方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2021-02-09-授权专利-CN110445706B)
 - [2021-02-02-授权专利-CN108737246B-消息下发方法、装置、存储介质和服务器](https://stuartlau.github.io/blogs/2021-02-02-授权专利-CN108737246B)
 - [2021-01-22-授权专利-CN110427512B-表情图案发送方法、装置、电子设备和存储介质](https://stuartlau.github.io/blogs/2021-01-22-授权专利-CN110427512B)
-
-
-### 2020
 - [2020-12-29-授权专利-CN108718346B-一种资源处理方法及装置](https://stuartlau.github.io/blogs/2020-12-29-授权专利-CN108718346B)
 - [2020-12-25-授权专利-CN110618770B-一种对象的输入控制方法、装置、设备及介质](https://stuartlau.github.io/blogs/2020-12-25-授权专利-CN110618770B)
 - [2020-12-25-授权专利-CN109635203B-网页抓取请求处理方法、装置、服务器及存储介质](https://stuartlau.github.io/blogs/2020-12-25-授权专利-CN109635203B)
@@ -150,9 +134,6 @@ title: Blogs
 - [2020-02-21-SpringMVC项目迁移SpringBoot的问题梳理](https://stuartlau.github.io/blogs/2020-02-21-SpingMVC项目迁移SpringBoot的问题梳理)
 - [2020-02-07-授权专利-CN109412929B](https://stuartlau.github.io/blogs/2020-02-07-授权专利-CN109412929B)
 - [2020-02-07-Retina屏下图片的优化](https://stuartlau.github.io/blogs/2020-02-07-Retina屏下图片的优化)
-
-
-### 2019
 - [2019-12-13-授权专利-CN105978865B-应用包名验证方法及装置](https://stuartlau.github.io/blogs/2019-12-13-授权专利-CN105978865B)
 - [2019-12-08-ConcurrentHashMap弱一致性分析](https://stuartlau.github.io/blogs/2019-12-08-ConcurrentHashMap弱一致性分析)
 - [2019-12-06-关于ZipList](https://stuartlau.github.io/blogs/2019-12-06-关于ZipList)
@@ -200,9 +181,6 @@ title: Blogs
 - [2019-02-27-ThreadLocal的内存泄漏问题](https://stuartlau.github.io/blogs/2019-02-27-ThreadLocal的内存泄漏问题)
 - [2019-01-30-Solve-Flask-CAS-SSO-ISSUE](https://stuartlau.github.io/blogs/2019-01-30-Solve-Flask-CAS-SSO-ISSUE)
 - [2019-01-23-授权专利-EP3239880B1-Legal installation package acquiring method and apparatus, computer program and recording medium](https://stuartlau.github.io/blogs/2019-01-23-授权专利-EP3239880B1)
-
-
-### 2018
 - [2018-12-26-MySQL的log-slave-updates参数](https://stuartlau.github.io/blogs/2018-12-26-MySQL的log-slave-updates参数)
 - [2018-12-20-用实例验证MySQL对批量提交优化效果](https://stuartlau.github.io/blogs/2018-12-20-用实例验证MySQL对批量提交优化效果)
 - [2018-12-18-浅析MySQL的批量提交的优化](https://stuartlau.github.io/blogs/2018-12-18-浅析MySQL的批量提交的优化)
