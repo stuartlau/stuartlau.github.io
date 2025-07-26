@@ -136,5 +136,5 @@ title: Publications
 <br>
 
 ---
-## Communicty Contribution
+## Community Contribution
 - <a href="https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=180194">OpenDNSSEC 1.4.1 Bugfixes, 2013</a>
