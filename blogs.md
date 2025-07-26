@@ -25,8 +25,6 @@ title: Blogs
 - [2024-01-02-授权专利-CN114666175B-信息传输方法、装置、服务器及存储介质](https://stuartlau.github.io/blogs/2024-01-02-授权专利-CN114666175B)
 
 
-<br>
-
 ### 2023
 - [2023-11-21-授权专利-CN115361352B-消息更新方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2023-11-21-授权专利-CN115361352B)
 - [2023-11-14-授权专利-CN114143280B-语音消息播放方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2023-11-14-授权专利-CN114143280B)
@@ -50,8 +48,6 @@ title: Blogs
 - [2023-01-20-授权专利-CN113098781B-会话列表处理方法、装置、服务器及存储介质](https://stuartlau.github.io/blogs/2023-01-20-授权专利-CN113098781B)
 - [2023-01-20-授权专利-CN111049732B-推送消息展示方法、装置、电子设备及介质](https://stuartlau.github.io/blogs/2023-01-20-授权专利-CN111049732B)
 
-
-<br>
 
 ### 2022
 - [2022-11-21-授权专利-CN113179206B-会话显示方法、会话获取方法、装置、设备、系统及介质](https://stuartlau.github.io/blogs/2022-11-21-授权专利-CN113179206B)
@@ -82,7 +78,6 @@ title: Blogs
 - [2022-01-21-授权专利-CN109634688B-会话界面的显示方法、装置、终端及存储介质](https://stuartlau.github.io/blogs/2022-01-21-授权专利-CN109634688B)
 - [2022-01-21-授权专利-CN109614561B-一种特定资讯的显示控制方法、装置及电子设备](https://stuartlau.github.io/blogs/2022-01-21-授权专利-CN109614561B)
 
-<br>
 
 ### 2021
 - [2021-12-07-授权专利-CN111367448B-应用功能执行方法、装置、电子设备及存储介质](https://stuartlau.github.io/blogs/2021-12-07-授权专利-CN111367448B)
@@ -115,7 +110,6 @@ title: Blogs
 - [2021-02-02-授权专利-CN108737246B-消息下发方法、装置、存储介质和服务器](https://stuartlau.github.io/blogs/2021-02-02-授权专利-CN108737246B)
 - [2021-01-22-授权专利-CN110427512B-表情图案发送方法、装置、电子设备和存储介质](https://stuartlau.github.io/blogs/2021-01-22-授权专利-CN110427512B)
 
-<br>
 
 ### 2020
 - [2020-12-29-授权专利-CN108718346B-一种资源处理方法及装置](https://stuartlau.github.io/blogs/2020-12-29-授权专利-CN108718346B)
@@ -157,7 +151,6 @@ title: Blogs
 - [2020-02-07-授权专利-CN109412929B](https://stuartlau.github.io/blogs/2020-02-07-授权专利-CN109412929B)
 - [2020-02-07-Retina屏下图片的优化](https://stuartlau.github.io/blogs/2020-02-07-Retina屏下图片的优化)
 
-<br>
 
 ### 2019
 - [2019-12-13-授权专利-CN105978865B-应用包名验证方法及装置](https://stuartlau.github.io/blogs/2019-12-13-授权专利-CN105978865B)
@@ -208,7 +201,6 @@ title: Blogs
 - [2019-01-30-Solve-Flask-CAS-SSO-ISSUE](https://stuartlau.github.io/blogs/2019-01-30-Solve-Flask-CAS-SSO-ISSUE)
 - [2019-01-23-授权专利-EP3239880B1-Legal installation package acquiring method and apparatus, computer program and recording medium](https://stuartlau.github.io/blogs/2019-01-23-授权专利-EP3239880B1)
 
-<br>
 
 ### 2018
 - [2018-12-26-MySQL的log-slave-updates参数](https://stuartlau.github.io/blogs/2018-12-26-MySQL的log-slave-updates参数)
