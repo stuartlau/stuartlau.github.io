@@ -2,7 +2,7 @@
 layout: page
 ---
 
-# About Me
+## About Me
 <div class="en post-container">
     <p>
        <strong>Stuart Lau</strong> holds a Master of Engineering in Information Security from <a href="https://www.bupt.edu.cn">Beijing University of Posts and Telecommunications</a>. He has worked successively at <a href="https://www.zdns.cn/">ZDNS</a>,
