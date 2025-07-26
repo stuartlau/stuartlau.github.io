@@ -37,10 +37,10 @@ google_verify: ""
 links:
   - title: About Me
     url: /
-  - title: Publications
-    url: /publications/
   - title: Career
     url: /career
+  - title: Publications
+    url: /publications/
   - title: Blogs
     url: /blogs/
 
