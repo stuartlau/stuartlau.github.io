@@ -252,4 +252,3 @@ title: Blogs
 - [2013-12-28-Lijiang](https://stuartlau.github.io/blogs/2013-12-28-Lijiang)
 - [2013-09-26-Taipei](https://stuartlau.github.io/blogs/2013-09-26-Taipei)
 
-B
