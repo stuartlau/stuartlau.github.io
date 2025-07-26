@@ -1,57 +1,40 @@
----
 layout: page
 ---
 
 # About Me
 <img src="/images/IMG_1377.jpeg" class="floatpic">
-<div class="zh post-container">
+<div class="en post-container">
     <p>
-       <strong>Stuart Lau</strong>，毕业于<a href="https://www.bupt.edu.cn">北京邮电大学</a>，获信息安全工学硕士学位，先后在<a href="https
-       ://www.zdns.cn/">ZDNS</a>、
-       <a href="https:///www.xiaomi.com">小米</a>、<a href="https://www.amazon.com">Amazon</a>、<a href="https://www.kuaishou.com">快手</a>、<a href="https://www.xiaohongshu.com">小红书</a>工作，
-       在互联网行业沉淀10多年并具有多年团队管理经验，以第一作者身份拥有
-       <strong><a href="https://stuartlau.github.io/archive/?tag=Patent">超过120项技术发明专利授权</a></strong>，领域涵盖即时通讯、社交、短视频、直播、游戏、算法工程、DNS、网络基础设施等领域
-       ，授权国家包括中国、美国、欧洲、日本和俄罗斯。
+       <strong>Stuart Lau</strong> holds a Master of Engineering in Information Security from <a href="https://www.bupt.edu.cn">Beijing University of Posts and Telecommunications</a>. He has worked successively at <a href="https://www.zdns.cn/">ZDNS</a>,
+       <a href="https://www.xiaomi.com">Xiaomi</a>, <a href="https://www.amazon.com">Amazon</a>, <a href="https://www.kuaishou.com">Kuaishou</a>, and <a href="https://www.xiaohongshu.com">Xiaohongshu (Little Red Book)</a>.
+       Boasting over a decade of extensive experience in the internet industry coupled with years of team management expertise, he holds <strong><a href="https://stuartlau.github.io/archive/?tag=Patent">over 120 authorized technical invention patents</a></strong> as the first inventor. These patents span diverse domains including instant messaging, social networking, short-video, live streaming, gaming, algorithm engineering, DNS, and network infrastructure, with authorizations in China, the United States, Europe, Japan, and Russia.
     </p>
 
-    <h5>履历简介</h5>
+    <h5>Career Profile</h5>
         <li>
-    <a href="https://www.xiaohongshu.com">小红书</a>
+    <a href="https://www.xiaohongshu.com">Xiaohongshu (Little Red Book)</a>
     </li>
-    2024年，加入小红书，作为社交互动研发后端Lead负责小红书社交互动后端团队的研发和管理工作，支撑小红书APP社交方向的业务发展，为国内小红书APP、海外RedNote APP超1.2亿DAU用户提供用户消息、群聊互动、系统通知、创新AI业务等互动能力。
+    In 2024, joined Xiaohongshu as the Backend Lead for Social Interaction R&D, overseeing the research, development, and management of Xiaohongshu's social interaction backend team. He supports the business development of Xiaohongshu's social networking initiatives, delivering interactive capabilities such as user messaging, group chat interactions, system notifications, and innovative AI services to over 120 million DAU users across the domestic Xiaohongshu APP and the overseas RedNote APP.
     
             <li>
-    <a href="https://www.kuaishou.com">快手</a>
+    <a href="https://www.kuaishou.com">Kuaishou</a>
     </li>
-    2018年，加入快手，作为技术负责人带领团队从0到1搭建快手即时通信平台IM云，作为即时通讯一站式解决方案平台，提供包括社交、社群、客服、办公、游戏和付费咨询等众多场景在内的IM+RTC
-    闭环能力，提供C端（API、Android、iOS、Web、小程序等）和B端接入方式（API、B端工作台等）。IM云支撑包括快手APP/极速版APP、快手办公软件Kim、电商客服、商业化客服、海外Kwai APP和公司其他孵化生态产品（二次元、游戏、资讯）等30+业务。
+    In 2018, joined Kuaishou as the Technical Lead, spearheading the team in building Kuaishou's Instant Messaging (IM) Cloud platform from scratch. As an all-in-one IM solution platform, it provides end-to-end IM+RTC capabilities covering numerous scenarios including social networking, communities, customer service, office collaboration, gaming, and paid consulting. It offers C-end (API, Android, iOS, Web, Mini Programs, etc.) and B-end (API, B-end workbench, etc.) integration methods. The IM Cloud supports over 30 business lines including Kuaishou APP/Lite APP, Kuaishou's office software Kim, e-commerce customer service, commercial customer service, the overseas Kwai APP, and other incubated ecosystem products (ACGN, gaming, news).
 
     <li>
     <a href="https://www.amazon.com">Amazon</a>
     </li>
-    2017年，加入Amazon，就职供应链优化SCOT（Supply
-     Chain
-     Optimization Technology）团队，
-    主要负责为亚马逊全球（北美、欧洲、日本和中国）千万级商品提供自动化的仓储管理、调度分配、定价策略等方面的支持，
-    服务于亚马逊零售业务和FBA业务，每年为亚马逊节约数千万美金。核心技术包括海量数据分析、机器学习、优化算法、经济学模型、大规模分布式系统和AWS云服务。
+    In 2017, joined Amazon and worked in the Supply Chain Optimization Technology (SCOT) team. He was primarily responsible for providing support in automated warehouse management, scheduling and allocation, and pricing strategies for tens of millions of products across Amazon's global operations (North America, Europe, Japan, and China). This supported Amazon's retail business and FBA (Fulfillment by Amazon) services, resulting in tens of millions of U.S. dollars in annual savings for Amazon. Core technologies included massive data analysis, machine learning, optimization algorithms, economic models, large-scale distributed systems, and AWS cloud services.
 
     <li>
-    <a href="https:///www.xiaomi.com">小米</a>
+    <a href="https://www.xiaomi.com">Xiaomi</a>
     </li>
-    2014年，加入小米，作为<a href="https://game.xiaomi.com/">小米游戏中心</a>后端项目高级开发工程师和架构师，
-    主要负责为小米游戏中心APP、游戏运营平台和
-    其他游戏基础架构服务业务提供服务端架构和平台化的设计和开发，涵盖C端小米游戏中心APP、小米电竞APP，B端游戏运营平台、联运平台等，整体DAU千万级别。
+    In 2014, joined Xiaomi as a Senior Developer and Architect for Xiaomi Game Center backend projects. He was responsible for the design and development of server-side architecture and platformization for the Xiaomi Game Center APP, game operation platforms, and other game infrastructure services. This covered C-end products such as the Xiaomi Game Center APP and Xiaomi E-Sports APP, as well as B-end platforms including game operation platforms and joint-operation platforms, with an overall DAU (Daily Active Users) of tens of millions.
 
     <li>
     <a href="https://www.zdns.cn/">ZDNS</a>
     </li>
-    2012年，作为创始团队的核心工程师从0研发了目前排名<a href="https://ntldstats.com/backend">世界第4</a>
-    的新顶级域名注册局云服务平台<a href="https://www.zdns.cn/tldcloud.html">TLD Cloud</a>。
-    深度参与RFC标准协议的工程化设计、服务端架构设计以及EPP/WHOIS
-    /DNS/ESCROW等顶级域名注册局需具备的核心能力的研发， 完成平台研发、测试，并获得互联网名称与数字地址分配机构
-    <a href="https://www.icann.org/">ICANN</a>的验收和授权，将多个新顶级域（如.top/.wang /.ren /.中信）
-    接入<a href="https://www.internic.net/domain/root.zone">DNS根域名服务器</a>进行托管运营。
-        
-    
-</div>
+    In 2012, as a core engineer of the founding team, he developed <a href="https://www.zdns.cn/tldcloud.html">TLD Cloud</a>, a new gTLD registry cloud service platform that currently ranks 4th globally (as per <a href="https://ntldstats.com/backend">ntldstats.com</a>), from scratch. He was deeply involved in the engineering design of RFC standard protocols, server-side architecture design, and the development of core capabilities required for top-level domain registries such as EPP, WHOIS, DNS, and ESCROW. He completed the platform's development and testing, obtained acceptance and authorization from the Internet Corporation for Assigned Names and Numbers (<a href="https://www.icann.org/">ICANN</a>), and facilitated the integration and operation of several new top-level domains (e.g., .top, .wang, .ren, .中信) by connecting them to the <a href="https://www.internic.net/domain/root.zone">DNS root name servers</a> for hosting and operation.
 
+
+</div>
