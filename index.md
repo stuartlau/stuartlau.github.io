@@ -13,12 +13,12 @@ layout: page
 
     <h5>Career Profile</h5>
         <li>
-    <a href="https://www.xiaohongshu.com">Xiaohongshu (Little Red Book)</a>
+    <a href="https://www.xiaohongshu.com">Xiaohongshu (Red Note)</a>
     </li>
     In 2024, joined Xiaohongshu as the Backend Lead for Social Interaction R&D, overseeing the research, development, and management of Xiaohongshu's social interaction backend team. He supports the business development of Xiaohongshu's social networking initiatives, delivering interactive capabilities such as user messaging, group chat interactions, system notifications, and innovative AI services to over 120 million DAU users across the domestic Xiaohongshu APP and the overseas RedNote APP.
     
             <li>
-    <a href="https://www.kuaishou.com">Kuaishou</a>
+    <a href="https://www.kuaishou.com">Kuaishou (Kwai)</a>
     </li>
     In 2018, joined Kuaishou as the Technical Lead, spearheading the team in building Kuaishou's Instant Messaging (IM) Cloud platform from scratch. As an all-in-one IM solution platform, it provides end-to-end IM+RTC capabilities covering numerous scenarios including social networking, communities, customer service, office collaboration, gaming, and paid consulting. It offers C-end (API, Android, iOS, Web, Mini Programs, etc.) and B-end (API, B-end workbench, etc.) integration methods. The IM Cloud supports over 30 business lines including Kuaishou APP/Lite APP, Kuaishou's office software Kim, e-commerce customer service, commercial customer service, the overseas Kwai APP, and other incubated ecosystem products (ACGN, gaming, news).
 
