@@ -232,5 +232,6 @@ title: Blogs
 - [2014-02-21-Xi'an](https://stuartlau.github.io/blogs/2014-02-21-Xian)
 - [2014-01-03-Kunming](https://stuartlau.github.io/blogs/2014-01-03-Kunming)
 - [2013-12-28-Lijiang](https://stuartlau.github.io/blogs/2013-12-28-Lijiang)
+- [2013-09-30-Ali Mountain Adventure](https://stuartlau.github.io/blogs/2013-09-30-AliMountainAdventure)
 - [2013-09-26-Taipei](https://stuartlau.github.io/blogs/2013-09-26-Taipei)
 
