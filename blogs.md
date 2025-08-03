@@ -233,6 +233,7 @@ title: Blogs
 - [2014-01-03-Kunming](https://stuartlau.github.io/blogs/2014-01-03-Kunming)
 - [2013-12-31-2 Hongkong Travellers Met In Lijiang](https://stuartlau.github.io/blogs/2013-12-31-2HongKongTravellersMetInLijiang)
 - [2013-12-28-Lijiang](https://stuartlau.github.io/blogs/2013-12-28-Lijiang)
+- [2013-10-06-A Frind In Taipei](https://stuartlau.github.io/blogs//blogs/2013-10-06-AFriendInTaipei/index.html)
 - [2013-09-30-Ali Mountain Adventure](https://stuartlau.github.io/blogs/2013-09-30-AliMountainAdventure)
 - [2013-09-26-Taipei](https://stuartlau.github.io/blogs/2013-09-26-Taipei)
 
