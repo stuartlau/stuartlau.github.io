@@ -1,8 +1,8 @@
 ---
 layout:     post
-permalink:  /blogs/2014-02-21-Xian/index.html
-title:      "Xi'an"
-subtitle:   "Xi'an"
+permalink:  /blogs/2014-02-21-StoriesAboutXian/index.html
+title:      "Stories About Xi'an"
+subtitle:   "Stories About Xi'an"
 date:       2014-02-21
 author:     StuartLau
 header-style: text
