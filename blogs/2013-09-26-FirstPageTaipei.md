@@ -103,4 +103,8 @@ Either way, I love this relay. The game is on.
 
 <img src="/images/in-post/AliMountain-2.jpg" width="250" height="300">
 
+### Stories in Hostels
+
+### Chinese mainland travellers met in Kending
+
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
