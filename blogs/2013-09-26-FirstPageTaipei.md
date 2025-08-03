@@ -10,6 +10,7 @@ catalog: true
 tags:
     - Travelling
 ---
+### First Page Taipei
 ![Taipei-0](/images/in-post/Taipei-0.jpg)
 
 I’m the kind of person who often watches Taiwanese movies, listens to Taiwanese music, and occasionally watches variety shows. I have my own thoughts on Taiwanese culture, especially pop culture, and I really like it. So when interacting with Taiwanese people, I naturally have a subjective inclination to accept them. Plus, having lived in Beijing for so long, I’ve grown somewhat resistant to the impetuous atmosphere in the mainland. Inevitably, my views here are biased.
@@ -44,7 +45,7 @@ Life in Taipei is convenient. 7-Eleven stores are everywhere, on every street—
 
 There are lots of beautiful girls on Taipei’s streets. Most have good skin, sweet looks, soft voices, long legs, and tall statures. They seem innocent and a little naive, and their clothes are mostly trendy—they’re really good at dressing up. Beijing girls could learn a lot from them. One more thing: many of the girls I saw felt unreal, like their faces belonged in Japanese anime.
 
-### A Friend 
+### A Friend in Zhongli
 I’m being serious. This really is a friend of mine.
 
 He’s Taiwanese, a few years younger than me, taller than me, and better-looking too. We first met online.
@@ -84,5 +85,22 @@ When he saw me off at the security checkpoint, he looked like he was about to cr
 Truth is, I can’t stand goodbyes. But when another guy is struggling more than me, I decided to be strong.
 
 Chinlin—this is my good friend.
+
+### Adventure in Ali Mountain(Tainan)
+![Taipei-0](/images/in-post/AliMountain-1.jpg)
+
+I must have watched too many cartoons when I was a kid—maybe Popeye or something else.
+
+Last October, in Alishan, Taiwan, I casually buried a coin under a wooden stake at the 1.5-kilometer mark on the Tashan Trail. I posted about it on Weibo, telling my friends that if anyone found this Taiwanese coin on their next visit and told me which year of the Republic of China it was minted, I’d reward them with 100 yuan.
+
+It was purely a whimsical act back then, with a touch of mischief. Hardly any tourists walk the Tashan Trail in Alishan Scenic Area. For one, it leads to the mountain’s summit, and tour groups usually just glance around without going through the hassle. For another, it takes so long to reach the viewing platform, and you barely see a soul along the way—it feels a bit thrilling, like an adventure. So I thought: anyone who chooses this path must be, like me, someone who shuns the ordinary and has a spirit of adventure. That’s why, after hiking 1.5 kilometers, I decided to bury the coin as a token. Honestly, I never thought anyone would actually follow through and find it.
+
+Today, a senior of mine got the coin—a 1-yuan coin from the 88th year of the Republic of China, a yellow coin with a portrait of Chiang Kai-shek on the back. I was really surprised when I saw the photo he sent. There’s a real force that drives persistent people to do what they set their minds to. He wants to keep the game going, so he buried a 5-yuan coin at the 2-kilometer mark, waiting for the next person to continue the treasure hunt.
+
+Haha, how fun. Truth is, burying that coin felt more like a gift to myself. I love Taiwan so much that I wanted to relive the feeling of my first visit when I returned someday—a token for my future self.
+
+Either way, I love this relay. The game is on.
+
+<img src="/images/in-post/AliMountain-2.jpg" width="250" height="300">
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

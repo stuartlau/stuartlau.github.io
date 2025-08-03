@@ -22,6 +22,5 @@ title: Life
 - [2014-02-21-Stories about Xi'an](https://stuartlau.github.io/blogs/2014-02-21-StoriesAboutXian)
 - [2014-01-03-Light Dive in Kunming](https://stuartlau.github.io/blogs/2014-01-03-LightDiveinKunming)
 - [2013-12-28-Romantic Encounters in Lijiang](https://stuartlau.github.io/blogs/2013-12-28-RomanticEncountersinLijiang)
-- [2013-09-30-Ali Mountain Adventure](https://stuartlau.github.io/blogs/2013-09-30-AliMountainAdventure)
 - [2013-09-26-First Page Taipei](https://stuartlau.github.io/blogs/2013-09-26-FirstPageTaipei)
 
