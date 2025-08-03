@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/2017-10-04-VickyCristinaBarcelona/index.html
+permalink:  /blogs/2017-02-03-VickyCristinaBarcelona/index.html
 title:      Vicky Cristina Barcelona
 subtitle:   Vicky Cristina Barcelona
 date:       2017-02-03
