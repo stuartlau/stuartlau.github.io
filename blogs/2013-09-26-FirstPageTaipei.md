@@ -1,8 +1,8 @@
 ---
 layout:     post
-permalink:  /blogs/2013-09-26-Taipei/index.html
-title:      "Taipei"
-subtitle:   "Taipei"
+permalink:  /blogs/2013-09-26-FirstPageTaipei/index.html
+title:      "First Page Taipei"
+subtitle:   "First Page Taipei"
 date:       2013-09-26
 author:     StuartLau
 header-style: text
@@ -11,6 +11,10 @@ tags:
     - Travelling
 ---
 ![Taipei-0](/images/in-post/Taipei-0.jpg)
+
+I’m the kind of person who often watches Taiwanese movies, listens to Taiwanese music, and occasionally watches variety shows. I have my own thoughts on Taiwanese culture, especially pop culture, and I really like it. So when interacting with Taiwanese people, I naturally have a subjective inclination to accept them. Plus, having lived in Beijing for so long, I’ve grown somewhat resistant to the impetuous atmosphere in the mainland. Inevitably, my views here are biased.
+
+This article's name is borrowed from a Taiwanese movie named [First Page Taipei(一页台北)](https://movie.douban.com/subject/3217122/), hope you will like it.
 
 The topic is vast, so I can only recount what I saw and heard during my ten days in Taiwan based on memory.
 
@@ -42,6 +46,5 @@ There are lots of beautiful girls on Taipei’s streets. Most have good skin, sw
 
 To be continued.
 
-I’m the kind of person who often watches Taiwanese movies, listens to Taiwanese music, and occasionally watches variety shows. I have my own thoughts on Taiwanese culture, especially pop culture, and I really like it. So when interacting with Taiwanese people, I naturally have a subjective inclination to accept them. Plus, having lived in Beijing for so long, I’ve grown somewhat resistant to the impetuous atmosphere in the mainland. Inevitably, my views here are biased.
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

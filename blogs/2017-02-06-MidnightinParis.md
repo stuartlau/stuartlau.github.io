@@ -1,8 +1,8 @@
 ---
 layout:     post
-permalink:  /blogs/2017-02-06-Paris/index.html
-title:      "Paris"
-subtitle:   "Paris"
+permalink:  /blogs/2017-02-06-MidnightinParis/index.html
+title:      "Midnight in Paris"
+subtitle:   "Midnight in Paris"
 date:       2017-02-06
 author:     StuartLau
 header-style: text

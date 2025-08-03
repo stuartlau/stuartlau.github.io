@@ -1,8 +1,8 @@
 ---
 layout:     post
-permalink:  /blogs/2019-08-03-Amsterdam/index.html
-title:      Amsterdam
-subtitle:   Amsterdam
+permalink:  /blogs/2019-08-03-HiAmsterdam/index.html
+title:      Hi Amsterdam
+subtitle:   Hi Amsterdam
 date:       2019-08-03
 author:     StuartLau
 header-img: img/in-post/Amsterdam-6.jpg

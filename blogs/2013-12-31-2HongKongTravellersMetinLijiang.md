@@ -1,8 +1,8 @@
 ---
 layout:     post
-permalink:  /blogs/2013-12-31-2HongKongTravellersMetInLijiang/index.html
-title:      "2 HongKong Travellers Met In Lijiang"
-subtitle:   "2 HongKong Travellers Met In Lijiang"
+permalink:  /blogs/2013-12-31-2HongKongTravellersMetinLijiang/index.html
+title:      "2 HongKong Travellers Met in Lijiang"
+subtitle:   "2 HongKong Travellers Met in Lijiang"
 date:       2013-12-31
 author:     StuartLau
 header-style: text

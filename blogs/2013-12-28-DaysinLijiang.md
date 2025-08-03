@@ -1,8 +1,8 @@
 ---
 layout:     post
-permalink:  /blogs/2013-12-28-Lijiang/index.html
-title:      "Lijiang"
-subtitle:   "LiJiang"
+permalink:  /blogs/2013-12-28-DaysinLijiang/index.html
+title:      "Days in Lijiang"
+subtitle:   "Days in LiJiang"
 date:       2013-12-28
 author:     StuartLau
 header-style: text

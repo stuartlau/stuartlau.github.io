@@ -1,9 +1,9 @@
 ---
 layout:     post
-permalink:  /blogs/2016-07-09-Kohchang/index.html
-title:      "Koh chang"
-subtitle:   "Koh chang"
-date:       2016-07-09
+permalink:  /blogs/2016-09-25-HalaMadrid/index.html
+title:      "Hala Madrid"
+subtitle:   "Hala Madrid"
+date:       2016-09-25
 author:     StuartLau
 header-style: text
 catalog: true
