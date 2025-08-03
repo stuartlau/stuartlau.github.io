@@ -23,6 +23,7 @@ Today, a senior of mine got the coin—a 1-yuan coin from the 88th year of the R
 Haha, how fun. Truth is, burying that coin felt more like a gift to myself. I love Taiwan so much that I wanted to relive the feeling of my first visit when I returned someday—a token for my future self.
 
 Either way, I love this relay. The game is on.
+<img src="/images/in-post/AliMountain-2.jpg" width="250" height="300">
 ![Taipei-0](/images/in-post/AliMountain-2.jpg)
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
