@@ -67,9 +67,9 @@ After the meal, I rushed back to pack my things, not wanting to keep my friend f
 
 ### 3 Female Soldiers
 <div class="third">
-![Lijiang-3](/images/in-post/Lijiang-3.jpg)
-![Lijiang-4](/images/in-post/Lijiang-4.jpg)
-![Lijiang-5](/images/in-post/Lijiang-5.jpg)
+<img src="/images/in-post/Lijiang-3.jpg">
+<img src="/images/in-post/Lijiang-4.jpg">
+<img src="/images/in-post/Lijiang-5.jpg">
 </div>
 <br>
 On a journey, you watch the scenery, and you watch the people too.
