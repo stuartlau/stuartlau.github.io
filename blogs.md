@@ -222,7 +222,7 @@ title: Blogs
 - [2017-07-31-Osaka](https://stuartlau.github.io/blogs/2017-07-31-Osaka)
 - [2017-07-28-Tokyo](https://stuartlau.github.io/blogs/2017-07-28-Tokyo)
 - [2017-02-06-Paris](https://stuartlau.github.io/blogs/2017-03-06-Paris)
-- [2017-02-03-Vicky Cristina Barcelona](https://stuartlau.github.io/blogs/2019-02-03-VickyCristinaBarcelona)
+- [2017-02-03-Vicky Cristina Barcelona](https://stuartlau.github.io/blogs/2017-02-03-VickyCristinaBarcelona)
 - [2017-01-30-Madrid](https://stuartlau.github.io/blogs/2017-01-30-Madrid)
 - [2016-10-01-lugano](https://stuartlau.github.io/blogs/2016-10-01-Lugano)
 - [2016-09-30-Firenze](https://stuartlau.github.io/blogs/2016-09-30-Firenze)
