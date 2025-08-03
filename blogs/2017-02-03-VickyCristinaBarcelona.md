@@ -1,9 +1,9 @@
 ---
 layout:     post
-permalink:  /blogs/2019-10-04-Barcelona/index.html
-title:      Barcelona
-subtitle:   Barcelona
-date:       2019-10-04
+permalink:  /blogs/2017-10-04-VickyCristinaBarcelona/index.html
+title:      Vicky Cristina Barcelona
+subtitle:   Vicky Cristina Barcelona
+date:       2017-02-03
 author:     StuartLau
 header-img: img/in-post/诺坎普1.jpg
 catalog: true

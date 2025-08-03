@@ -215,7 +215,6 @@ title: Blogs
 <br>
 
 ## Travel
-- [2019-10-04-Barcelona](https://stuartlau.github.io/blogs/2019-10-04-Barcelona)
 - [2019-08-03-Amsterdam](https://stuartlau.github.io/blogs/2019-08-03-Amsterdam)
 - [2018-01-05-Barcelona](https://stuartlau.github.io/blogs/2018-01-05-Barcelona)
 - [2018-01-03-Madrid](https://stuartlau.github.io/blogs/2018-01-03-Madrid)
@@ -223,6 +222,7 @@ title: Blogs
 - [2017-07-31-Osaka](https://stuartlau.github.io/blogs/2017-07-31-Osaka)
 - [2017-07-28-Tokyo](https://stuartlau.github.io/blogs/2017-07-28-Tokyo)
 - [2017-02-06-Paris](https://stuartlau.github.io/blogs/2017-03-06-Paris)
+- [2017-02-03-Vicky Cristina Barcelona](https://stuartlau.github.io/blogs/2019-02-03-VickyCristinaBarcelona)
 - [2017-01-30-Madrid](https://stuartlau.github.io/blogs/2017-01-30-Madrid)
 - [2016-10-01-lugano](https://stuartlau.github.io/blogs/2016-10-01-Lugano)
 - [2016-09-30-Firenze](https://stuartlau.github.io/blogs/2016-09-30-Firenze)
@@ -233,7 +233,7 @@ title: Blogs
 - [2014-01-03-Kunming](https://stuartlau.github.io/blogs/2014-01-03-Kunming)
 - [2013-12-31-2 Hongkong Travellers Met In Lijiang](https://stuartlau.github.io/blogs/2013-12-31-2HongKongTravellersMetInLijiang)
 - [2013-12-28-Lijiang](https://stuartlau.github.io/blogs/2013-12-28-Lijiang)
-- [2013-10-06-A Frind In Taipei](https://stuartlau.github.io/blogs//blogs/2013-10-06-AFriendInTaipei/index.html)
+- [2013-10-06-A Frind In Taipei](https://stuartlau.github.io/blogs//blogs/2013-10-06-AFriendInTaipei)
 - [2013-09-30-Ali Mountain Adventure](https://stuartlau.github.io/blogs/2013-09-30-AliMountainAdventure)
 - [2013-09-26-Taipei](https://stuartlau.github.io/blogs/2013-09-26-Taipei)
 
