@@ -66,6 +66,8 @@ I always value these temporary friendships formed during travels. At least I do.
 After the meal, I rushed back to pack my things, not wanting to keep my friend from Foshan waiting. I left directly by car without getting to say goodbye, but as the car passed the restaurant, I saw the three of them chatting and smiling. For me, catching that warm scene from the side felt like a perfect ending. Still, I couldn't help worrying, so I called them to say goodbye properly. If we get the chance, we'll meet again—in Beijing, Hong Kong, or Australia.
 
 ### 3 Female Soldiers
+![Lijiang-3](/images/in-post/Lijiang-3.jpg)
+
 On a journey, you watch the scenery, and you watch the people too.
 
 They say Lijiang is the "city of romantic encounters"—I won’t pass judgment on that, but I did meet some wonderful friends, including female friends.
@@ -89,5 +91,7 @@ They’re all good kids, good daughters. I walked with them in the ancient town 
 I think of that last night—Bobo, Xiaoxiao, and I sitting at a tourist service point in the ancient town. People kept coming up to ask for directions, and we took pride in guiding them, recommending spots we’d visited—no one knew we were just tourists too. With “Wild Lilies Also Have Their Spring” drifting over from a bar behind us, the three of us leaned against each other, swaying and singing loudly. Sigh, I really miss that.
 
 Bobo texted me when she got to the airport to say she was safe. Xiaoxiao, once home, reminded me to watch my belongings on the overnight train. Honestly, after they left, I felt lonely in Lijiang, missing them terribly—missing those three days of simple joy together. I walked the places we’d wandered: the inn, Mu Mansion, Sifang Street, Jiahe Flower Cake Shop, the little wooden chairs, the engraving store. Every sight brought them to mind, and it was hard to bear. That day, I messaged Bobo on WeChat, saying I missed them all and wished they’d come back. I think I truly cared—hadn’t felt this way in a long time, the kind that makes your eyes water and your throat ache.
+![Lijiang-4](/images/in-post/Lijiang-4.jpg)
+
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
