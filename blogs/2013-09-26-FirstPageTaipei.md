@@ -86,6 +86,8 @@ Truth is, I can’t stand goodbyes. But when another guy is struggling more than
 
 Chinlin—this is my good friend.
 
+![Taipei-3](/images/in-post/Taipei-3.jpg)
+
 ### Adventure in Ali Mountain(Tainan)
 ![Taipei-0](/images/in-post/AliMountain-1.jpg)
 
@@ -102,8 +104,8 @@ Haha, how fun. Truth is, burying that coin felt more like a gift to myself. I lo
 Either way, I love this relay. The game is on.
 
 <img src="/images/in-post/AliMountain-2.jpg" width="250" height="300">
-
-### Stories in Hostels
+ 
+### Stories in Hostels and CouchSurfing
 
 ### Chinese mainland travellers met in Kending
 
