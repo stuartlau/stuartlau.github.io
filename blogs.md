@@ -230,10 +230,10 @@ title: Blogs
 - [2016-09-25-Hala Madrid](https://stuartlau.github.io/blogs/2016-09-25-HalaMadrid)
 - [2016-07-09-Summer in Kohchang](https://stuartlau.github.io/blogs/2016-07-09-SummerinKohchang)
 - [2014-02-21-Xi'an](https://stuartlau.github.io/blogs/2014-02-21-Xian)
-- [2014-01-03-Light Dive in Kunming](https://stuartlau.github.io/blogs/2014-01-03-Kunming)
+- [2014-01-03-Light Dive in Kunming](https://stuartlau.github.io/blogs/2014-01-03-LightDiveinKunming)
 - [2013-12-31-2 Hongkong Travellers Met in Lijiang](https://stuartlau.github.io/blogs/2013-12-31-2HongKongTravellersMetinLijiang)
 - [2013-12-28-Days in Lijiang](https://stuartlau.github.io/blogs/2013-12-28-DaysinLijiang)
 - [2013-10-06-A Friend in Taipei](https://stuartlau.github.io/blogs//blogs/2013-10-06-AFriendinTaipei)
 - [2013-09-30-Ali Mountain Adventure](https://stuartlau.github.io/blogs/2013-09-30-AliMountainAdventure)
-- [2013-09-26-Taipei](https://stuartlau.github.io/blogs/2013-09-26-Taipei)
+- [2013-09-26-First Page Taipei](https://stuartlau.github.io/blogs/2013-09-26-FirstPageTaipei)
 

@@ -1,8 +1,8 @@
 ---
 layout:     post
-permalink:  /blogs/2014-01-03-Kunming/index.html
-title:      "Kunming"
-subtitle:   "Kunming"
+permalink:  /blogs/2014-01-03-LightDiveinKunming/index.html
+title:      "Light Dive in Kunming"
+subtitle:   "Light Dive in Kunming"
 date:       2014-01-03
 author:     StuartLau
 header-style: text
