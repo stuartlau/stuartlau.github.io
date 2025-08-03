@@ -39,7 +39,8 @@ There's a public toilet on Lion Mountain, not very modern—with a big ditch in 
 Many girls in the ancient town were taking photos in distinctive ethnic costumes, which was really eye-catching. In Lijiang, you can be as beautiful as you want.
 
 Whether you like Lijiang depends on the person. If, like me, you look at everything here with curious eyes and feel everything with a relaxed mood, you'll surely like it too.
-![Lijiang-1](/images/in-post/Lijiang-1.jpg)
+
+<img src="/images/in-post/Lijiang-1.jpg" width="250" height="300">
 
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
