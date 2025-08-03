@@ -46,6 +46,8 @@ Life in Taipei is convenient. 7-Eleven stores are everywhere, on every street—
 There are lots of beautiful girls on Taipei’s streets. Most have good skin, sweet looks, soft voices, long legs, and tall statures. They seem innocent and a little naive, and their clothes are mostly trendy—they’re really good at dressing up. Beijing girls could learn a lot from them. One more thing: many of the girls I saw felt unreal, like their faces belonged in Japanese anime.
 
 ### A Friend in Zhongli
+![Taipei-3](/images/in-post/Taipei-3.jpg)
+
 I’m being serious. This really is a friend of mine.
 
 He’s Taiwanese, a few years younger than me, taller than me, and better-looking too. We first met online.
@@ -85,8 +87,6 @@ When he saw me off at the security checkpoint, he looked like he was about to cr
 Truth is, I can’t stand goodbyes. But when another guy is struggling more than me, I decided to be strong.
 
 Chinlin—this is my good friend.
-
-![Taipei-3](/images/in-post/Taipei-3.jpg)
 
 ### Adventure in Ali Mountain(Tainan)
 ![Taipei-0](/images/in-post/AliMountain-1.jpg)
