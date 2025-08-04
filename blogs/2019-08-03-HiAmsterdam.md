@@ -20,10 +20,12 @@ Although it was July, the summer, the lowest temperature there was 15°C, which 
 ## Street Scenes
 - A city surrounded by waterways, which can be seen everywhere
   ![Amsterdam-2](/images/in-post/Amsterdam-2.jpg)
+  ![Amsterdam-rest](/images/in-post/Amsterdam-rest.jpg)
 - Flowers and buildings make the city full of colors
   ![Amsterdam-3](/images/in-post/Amsterdam-3.jpg)
   ![Amsterdam-4](/images/in-post/Amsterdam-4.jpg)
   ![Amsterdam-5](/images/in-post/Amsterdam-5.jpg)
+  ![Amsterdam-me](/images/in-post/Amsterdam-me.jpg)
 - Rijksmuseum Amsterdam
   ![Amsterdam-6](/images/in-post/Amsterdam-6.jpg)
 - Bicycles with front baskets for carrying people can be seen everywhere

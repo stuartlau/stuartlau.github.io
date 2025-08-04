@@ -43,6 +43,9 @@ Whether you like Lijiang depends on the person. If, like me, you look at everyth
 <img src="/images/in-post/Lijiang-1.jpg" width="250" height="300">
 
 ### 2 Female HongKong Travelers
+<div>
+<img src="/images/in-post/2HongKongTravellers.jpg">
+</div>
 These are two girls from Hong Kong. I met them when we hired a car to go to Lashi Lake.
 
 When they got in the car, I jokingly said, "You're going to Shangri-La too?" and they both froze for a second.
@@ -66,10 +69,10 @@ I always value these temporary friendships formed during travels. At least I do.
 After the meal, I rushed back to pack my things, not wanting to keep my friend from Foshan waiting. I left directly by car without getting to say goodbye, but as the car passed the restaurant, I saw the three of them chatting and smiling. For me, catching that warm scene from the side felt like a perfect ending. Still, I couldn't help worrying, so I called them to say goodbye properly. If we get the chance, we'll meet again—in Beijing, Hong Kong, or Australia.
 
 ### 3 Female Soldiers
-<div class="second">
+<div>
 <img src="/images/in-post/Lijiang-3.jpg">
 <img src="/images/in-post/Lijiang-4.jpg">
-
+<img src="/images/in-post/Lijiang-5.jpg">
 </div>
 <br>
 On a journey, you watch the scenery, and you watch the people too.
