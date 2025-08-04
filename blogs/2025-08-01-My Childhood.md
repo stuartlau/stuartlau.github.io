@@ -18,6 +18,7 @@ tags:
 #### 1 year old
 <div>
 <img src="/images/in-post/MyChildhood-1y-1.jpg">
+<img src="/images/in-post/MyChildhood-1y-2.jpg">
 </div>
 
 #### 2 years old
@@ -49,6 +50,7 @@ tags:
 <img src="/images/in-post/MyChildhood-4y-5.jpg">
 <img src="/images/in-post/MyChildhood-4y-6.jpg">
 <img src="/images/in-post/MyChildhood-4y-7.jpg">
+<img src="/images/in-post/MyChildhood-4y-8.jpg">
 </div>
 
 #### 5 years old
@@ -57,9 +59,47 @@ tags:
 <img src="/images/in-post/MyChildhood-5y-2.jpg">
 </div>
 
-#### 6 years old
-
+#### 7 years old
+<div>
+<img src="/images/in-post/MyChildhood-7y-1.jpg">
+</div>
 
 #### 7 years old
+<div>
+<img src="/images/in-post/MyChildhood-7y-1.jpg">
+</div>
+
+#### 7 years old
+<div>
+<img src="/images/in-post/MyChildhood-7y-1.jpg">
+</div>
+
+#### 11 years old
+<div>
+<img src="/images/in-post/MyChildhood-11y-1.jpg">
+</div>
+
+#### 13 years old
+<div>
+<img src="/images/in-post/MyChildhood-13y-1.jpg">
+</div>
+
+#### 15 years old
+<div>
+<img src="/images/in-post/MyChildhood-15y-1.jpg">
+<img src="/images/in-post/MyChildhood-15y-2.jpg">
+<img src="/images/in-post/MyChildhood-15y-3.jpg">
+</div>
+
+#### 16 years old
+<div>
+<img src="/images/in-post/MyChildhood-16y-1.jpg">
+</div>
+
+#### 19 years old
+<div>
+<img src="/images/in-post/MyChildhood-19y-1.jpg">
+</div>
+
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
