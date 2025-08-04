@@ -66,7 +66,7 @@ I always value these temporary friendships formed during travels. At least I do.
 After the meal, I rushed back to pack my things, not wanting to keep my friend from Foshan waiting. I left directly by car without getting to say goodbye, but as the car passed the restaurant, I saw the three of them chatting and smiling. For me, catching that warm scene from the side felt like a perfect ending. Still, I couldn't help worrying, so I called them to say goodbye properly. If we get the chance, we'll meet again—in Beijing, Hong Kong, or Australia.
 
 ### 3 Female Soldiers
-<div class="third">
+<div class="second">
 <img src="/images/in-post/Lijiang-3.jpg">
 <img src="/images/in-post/Lijiang-4.jpg">
 
