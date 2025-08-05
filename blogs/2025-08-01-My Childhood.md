@@ -89,24 +89,5 @@ tags:
 <img src="/images/in-post/MyChildhood-13y-1.jpg">
 </div>
 
-#### 15 years old
-<div>
-<img src="/images/in-post/MyChildhood-15y-1.jpg">
-<img src="/images/in-post/MyChildhood-15y-2.jpg">
-<img src="/images/in-post/MyChildhood-15y-3.jpg">
-<img src="/images/in-post/MyChildhood-15y-4.jpg">
-<img src="/images/in-post/MyChildhood-15y-5.jpg">
-</div>
-
-#### 16 years old
-<div>
-<img src="/images/in-post/MyChildhood-16y-1.jpg">
-</div>
-
-#### 19 years old
-<div>
-<img src="/images/in-post/MyChildhood-19y-1.jpg">
-</div>
-
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
