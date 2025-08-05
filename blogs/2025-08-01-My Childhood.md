@@ -39,7 +39,6 @@ tags:
 <div>
 <img src="/images/in-post/MyChildhood-3y-1.jpg">
 <img src="/images/in-post/MyChildhood-3y-2.jpg">
-<img src="/images/in-post/MyChildhood-3y-3.jpg">
 </div>
 
 #### 4 years old

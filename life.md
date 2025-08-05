@@ -5,6 +5,7 @@ title: Life
 ---
 
 ## Travel
+- [2025-08-05-My Youth](https://stuartlau.github.io/blogs/2025-08-05-MyYouth)
 - [2025-08-01-My Childhood](https://stuartlau.github.io/blogs/2025-08-01-MyChildhood)
 - [2019-08-03-Hi Amsterdam](https://stuartlau.github.io/blogs/2019-08-03-HiAmsterdam)
 - [2018-01-05-See you again Barcelona](https://stuartlau.github.io/blogs/2018-01-05-Barcelona)
