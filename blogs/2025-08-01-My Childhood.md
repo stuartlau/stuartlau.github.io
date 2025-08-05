@@ -19,6 +19,8 @@ tags:
 <div>
 <img src="/images/in-post/MyChildhood-1y-1.jpg">
 <img src="/images/in-post/MyChildhood-1y-2.jpg">
+<img src="/images/in-post/MyChildhood-1y-3.jpg">
+<img src="/images/in-post/MyChildhood-1y-4.jpg">
 </div>
 
 #### 2 years old
@@ -51,6 +53,10 @@ tags:
 <img src="/images/in-post/MyChildhood-4y-6.jpg">
 <img src="/images/in-post/MyChildhood-4y-7.jpg">
 <img src="/images/in-post/MyChildhood-4y-8.jpg">
+<img src="/images/in-post/MyChildhood-4y-9.jpg">
+<img src="/images/in-post/MyChildhood-4y-10.jpg">
+<img src="/images/in-post/MyChildhood-4y-11.jpg">
+<img src="/images/in-post/MyChildhood-4y-12.jpg">
 </div>
 
 #### 5 years old
@@ -77,6 +83,13 @@ tags:
 #### 9 years old
 <div>
 <img src="/images/in-post/MyChildhood-9y-1.jpg">
+</div>
+
+#### 10 years old
+<div>
+<img src="/images/in-post/MyChildhood-10y-1.jpg">
+<img src="/images/in-post/MyChildhood-10y-2.jpg">
+<img src="/images/in-post/MyChildhood-10y-3.jpg">
 </div>
 
 #### 11 years old
