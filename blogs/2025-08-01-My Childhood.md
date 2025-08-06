@@ -16,12 +16,12 @@ tags:
 </div>
 
 #### 1 year old
-<div>
+<div class="third">
 <img src="/images/in-post/MyChildhood-1y-1.jpg">
-<img src="/images/in-post/MyChildhood-1y-2.jpg">
 <img src="/images/in-post/MyChildhood-1y-3.jpg">
 <img src="/images/in-post/MyChildhood-1y-4.jpg">
 </div>
+<img src="/images/in-post/MyChildhood-1y-2.jpg">
 
 #### 2 years old
 <div>
