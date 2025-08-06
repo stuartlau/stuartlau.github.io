@@ -41,7 +41,6 @@ tags:
 <div>
 <img src="/images/in-post/MyChildhood-4y-1.jpg">
 <img src="/images/in-post/MyChildhood-4y-2.jpg">
-<img src="/images/in-post/MyChildhood-4y-5.jpg">
 <img src="/images/in-post/MyChildhood-4y-6.jpg">
 <img src="/images/in-post/MyChildhood-4y-7.jpg">
 <img src="/images/in-post/MyChildhood-4y-8.jpg">
