@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f920e74b-b2c1-48b2-9d1a-c9834de4255b" name="Changes" comment="update">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2025_5_2,_10_34_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2025_5_2__10_34__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/index.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/publications.md" beforeDir="false" afterPath="$PROJECT_DIR$/publications.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blogs/2025-08-08-My Adulthood.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-28y-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-30y-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-31y-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-32y-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-33y-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-34y-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-35y-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-36y-1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/life.md" beforeDir="false" afterPath="$PROJECT_DIR$/life.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,18 +37,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/shuo/IdeaProjects/stuartlau.github.io/images/in-post&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/shuo/IdeaProjects/stuartlau.github.io/blogs"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/images/in-post" />
       <recent name="$PROJECT_DIR$/blogs" />
+      <recent name="$PROJECT_DIR$/images/in-post" />
     </key>
   </component>
   <component name="RunManager">
