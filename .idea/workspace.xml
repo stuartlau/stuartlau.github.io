@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f920e74b-b2c1-48b2-9d1a-c9834de4255b" name="Changes" comment="update">
-      <change afterPath="$PROJECT_DIR$/blogs/2025-08-08-My Adulthood.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-28y-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-30y-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-31y-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-32y-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-33y-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-34y-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-35y-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/in-post/MyAdulthood-36y-1.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/life.md" beforeDir="false" afterPath="$PROJECT_DIR$/life.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blogs/2025-08-08-My Adulthood.md" beforeDir="false" afterPath="$PROJECT_DIR$/blogs/2025-08-08-My Adulthood.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,7 +207,14 @@
       <option name="project" value="LOCAL" />
       <updated>1753002156545</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="update">
+      <created>1754667065844</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1754667065844</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

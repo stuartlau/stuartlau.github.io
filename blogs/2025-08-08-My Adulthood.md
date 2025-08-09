@@ -48,7 +48,7 @@ tags:
 
 #### 35 years old
 <div>
-<img src="/images/in-post/MyAdulthood-35ly-1.jpg">
+<img src="/images/in-post/MyAdulthood-35y-1.jpg">
 </div>
 
 #### 36 years old
