@@ -21,6 +21,12 @@ tags:
 <img src="/images/in-post/MyAdulthood-28y-1.jpg">
 </div>
 
+#### 29 years old
+<div>
+<img src="/images/in-post/MyAdulthood-29y-1.jpg">
+<img src="/images/in-post/MyAdulthood-29y-2.jpg">
+</div>
+
 #### 30 years old
 <div>
 <img src="/images/in-post/MyAdulthood-30y-1.jpg">
@@ -44,6 +50,7 @@ tags:
 #### 34 years old
 <div>
 <img src="/images/in-post/MyAdulthood-34y-1.jpg">
+<img src="/images/in-post/MyAdulthood-34y-2.jpg">
 </div>
 
 #### 35 years old
