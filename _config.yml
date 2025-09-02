@@ -19,7 +19,7 @@ owner:
   # researchgate: https://www.researchgate.net/profile/Hanlin-Cai
   # zhihu: https://www.zhihu.com/people/chlire
   # facebook: caihanlin2002
-  # instagram: lancecai2002
+  instagram: surelau
   # lastfm:
   # tumblr:
   # For Google Authorship https://plus.google.com/authorship
@@ -35,7 +35,7 @@ google_verify: ""
 # Links to include in top navigation
 # For external links add external: true
 links:
-  - title: About Me
+  - title: About
     url: /
   - title: Career
     url: /career
