@@ -65,8 +65,6 @@ tags:
 <img src="/images/in-post/MyAdulthood-32y-1.jpg">
 <img src="/images/in-post/MyAdulthood-32y-2.jpg">
 <img src="/images/in-post/MyAdulthood-32y-5.jpg">
-<img src="/images/in-post/MyAdulthood-32y-3.jpg">
-<img src="/images/in-post/MyAdulthood-32y-4.jpg">
 </div>
 <br>
 
@@ -96,7 +94,6 @@ tags:
 <div>
 <img src="/images/in-post/MyAdulthood-35y-1.jpg">
 <img src="/images/in-post/MyAdulthood-35y-2.jpg">
-<img src="/images/in-post/MyAdulthood-35y-3.jpg">
 </div>
 <br>
 
@@ -110,21 +107,13 @@ tags:
 
 #### 37 years old
 <div>
-<img src="/images/in-post/MyAdulthood-37y-1.jpg">
-<img src="/images/in-post/MyAdulthood-37y-2.jpg">
-<img src="/images/in-post/MyAdulthood-37y-5.jpg">
-<img src="/images/in-post/MyAdulthood-37y-4.jpg">
-<img src="/images/in-post/MyAdulthood-37y-6.jpg">
-<img src="/images/in-post/MyAdulthood-37y-8.jpg">
 <img src="/images/in-post/MyAdulthood-37y-7.jpg">
 </div>
 <br>
 
 #### 38 years old
 <div>
-<img src="/images/in-post/MyAdulthood-38y-1.jpg">
 <img src="/images/in-post/MyAdulthood-38y-2.jpg">
-<img src="/images/in-post/MyAdulthood-38y-3.jpg">
 </div>
 <br>
 
