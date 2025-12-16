@@ -4,16 +4,50 @@
 @codefont: Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
 
 // COLOR ====================================================
-@bodycolor      : #fff;
-@textcolor      : #333332;
-@basecolor 		: #343434;	  
-@compcolor 		: spin(@basecolor, 180); 
-@bordercolor    : @basecolor;
-@white          : #fff;
-@black          : #000;
-@accentcolor    : @black;
+// Light theme (default)
+:root {
+  --body-bg: #fff;
+  --text-color: #333332;
+  --base-color: #343434;
+  --border-color: #343434;
+  --accent-color: #000;
+  --link-color: #343434;
+  --link-hover: #1a1a1a;
+  --link-visited: #4d4d4d;
+  --header-bg: #f8f8f8;
+  --card-bg: #fff;
+  --code-bg: #f5f5f5;
+  --code-color: #333;
+}
+
+// Dark theme
+[data-theme="dark"] {
+  --body-bg: #1a1a1a;
+  --text-color: #e0e0e0;
+  --base-color: #a0a0a0;
+  --border-color: #444;
+  --accent-color: #fff;
+  --link-color: #a0c4ff;
+  --link-hover: #ffb3ba;
+  --link-visited: #bdb2ff;
+  --header-bg: #2a2a2a;
+  --card-bg: #2d2d2d;
+  --code-bg: #1e1e1e;
+  --code-color: #d4d4d4;
+}
+
+// Legacy variables (for backward compatibility)
+@bodycolor: var(--body-bg);
+@textcolor: var(--text-color);
+@basecolor: var(--base-color);
+@compcolor: spin(@basecolor, 180); 
+@bordercolor: var(--border-color);
+@white: #fff;
+@black: #000;
+@accentcolor: var(--accent-color);
+
 /* Links ================================================= */
-@linkcolor 		    : #343434;
-@linkcolorhover 	: darken(@linkcolor, 10);
-@linkcolorvisited   : lighten(@linkcolorhover, 20);
-@linkcolorfocus 	: darken(@linkcolorvisited, 10);
+@linkcolor: var(--link-color);
+@linkcolorhover: var(--link-hover);
+@linkcolorvisited: var(--link-visited);
+@linkcolorfocus: darken(@linkcolorvisited, 10%);
