@@ -1,23 +1,31 @@
 // ===========================================================
-// Minimal Mistakes
-// By: Michael Rose
-// ===========================================================/
+// Main Stylesheet
+// ===========================================================
 
-// ROOT =======================================================
-/* CSS Normalize =========================================== */
-@import "normalize.less";
-/* Variables and mixins ==================================== */
+// Core Variables & Mixins
+// ===========================================================
 @import "variables.less";
-/* Site wide styles (html, body, global classes) =========== */
-@import "site.less";
-// TYPOGRAPHY =================================================
-/* Typeplate.com typographic starter pack ================== */
-@import "typeplate.less";
-@import "typography.less";
-/* Pygments Syntax highlighting ============================= */
-@import "pygments.less";
-// MIXINS =====================================================
 @import "mixins.less";
+
+// Base Styles
+// ===========================================================
+@import "normalize.less";  // Normalize.css
+@import "site.less";      // Site-wide styles
+
+// Typography
+// ===========================================================
+@import "typography.less"; // Our enhanced typography
+@import "pygments.less";  // Syntax highlighting
+
+// Layout Components
+// ===========================================================
+@import "grid.less";      // Grid system
+@import "elements.less";  // Common elements
+@import "forms.less";     // Form styles
+
+// Plugins
+// ===========================================================
+@import "magnific-popup.less"; // Lightbox plugin
 @import "grid.less";
 // ELEMENTS ===================================================
 /* Figures, images, social media, other elements =========== */

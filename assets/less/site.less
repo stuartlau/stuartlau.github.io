@@ -3,6 +3,80 @@ body {
   background-color: var(--body-bg);
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+}
+
+// Images with Zoom Effect
+// ===========================================================
+.medium-zoom-image {
+  cursor: zoom-in;
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+  
+  &--opened {
+    cursor: zoom-out;
+  }
+}
+
+// Image containers
+figure {
+  margin: 2rem 0;
+  text-align: center;
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    &:hover:not(.no-zoom) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.9em;
+    color: var(--text-color);
+    opacity: 0.8;
+    font-style: italic;
+  }
+}
+
+/* Post Meta Information ================================= */
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 1rem 0 2rem;
+  color: var(--text-color);
+  font-size: 0.9em;
+  opacity: 0.9;
+  
+  .reading-time,
+  .post-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    
+    i {
+      font-size: 1.1em;
+      color: var(--accent-color);
+    }
+  }
+  
+  a {
+    color: var(--text-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+    
+    &:hover {
+      color: var(--link-hover);
+      border-bottom-color: currentColor;
+    }
+  }
 }
 
 /* Selection =========================================== */

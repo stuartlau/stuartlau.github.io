@@ -1,53 +1,273 @@
-/* Headings ============================================== */
+// ===========================================================
+// Typography System
+// ===========================================================
+
+// Base Typography
+body {
+  font-family: @basefont;
+  font-size: @type-base;
+  line-height: @line-height-base;
+  font-weight: @font-weight-normal;
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: @letter-spacing-base;
+}
+
+// Headings
 h1, h2, h3, h4, h5, h6 {
-	font-family: @baseheadingfont;
-	font-weight: 700;
-}
-h6 {
-	font-weight: 400;
-}
-
-/* Links ================================================= */
-a { 
-	text-decoration: none;
-	color: @linkcolor; 
-	&:visited { 
-		color: @linkcolorvisited; 
-	}
-	&:hover { 
-		color: @linkcolorhover; 
-	}
-	&:focus { 
-		outline: thin dotted; 
-		color: @linkcolorfocus; 
-	}
-	&:hover, 
-	&:active { 
-		outline: 0; 
-	}
+  font-family: @baseheadingfont;
+  font-weight: @font-weight-bold;
+  line-height: @line-height-heading;
+  letter-spacing: @letter-spacing-heading;
+  margin: 1.5em 0 0.5em;
+  color: var(--text-color);
+  
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
-b, strong { 
-	font-weight: 700;
+// Type Scale with modular scale
+h1 { 
+  font-size: calc(@type-base * pow(@type-scale, 3));
+  font-weight: @font-weight-bold;
+  line-height: 1.1;
+  margin-bottom: 0.5em;
 }
 
-/* Lists ============================================== */
+h2 { 
+  font-size: calc(@type-base * pow(@type-scale, 2));
+  font-weight: @font-weight-semibold;
+  margin-top: 2em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid var(--border-color);
+}
+
+h3 { 
+  font-size: calc(@type-base * @type-scale);
+  font-weight: @font-weight-semibold;
+  margin-top: 1.8em;
+}
+
+h4 { 
+  font-size: @type-base;
+  font-weight: @font-weight-medium;
+  text-transform: uppercase;
+  letter-spacing: @letter-spacing-caps;
+  margin-top: 1.5em;
+}
+
+h5, h6 {
+  font-size: @type-base * 0.9;
+  font-weight: @font-weight-medium;
+  text-transform: uppercase;
+  letter-spacing: @letter-spacing-caps;
+  margin-top: 1.5em;
+}
+
+// Links
+// ===========================================================
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  border-bottom: 1px solid transparent;
+  
+  &:hover, 
+  &:focus {
+    color: var(--link-hover);
+    border-bottom-color: currentColor;
+    outline: none;
+  }
+  
+  &:visited {
+    color: var(--link-visited);
+  }
+  
+  // Remove underline for links with images
+  img {
+    border: 0;
+  }
+}
+
+// Text Elements
+// ===========================================================
+p {
+  margin: 0 0 1.5em;
+  max-width: 65ch;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+b, strong {
+  font-weight: @font-weight-bold;
+}
+
+em, i {
+  font-style: italic;
+}
+
+small {
+  font-size: 0.875em;
+  opacity: 0.9;
+}
+
+// Lists
+// ===========================================================
+ul, ol {
+  margin: 1.5em 0;
+  padding-left: 1.5em;
+  
+  ul, ol {
+    margin: 0.5em 0;
+  }
+  
+  li {
+    margin-bottom: 0.5em;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
 ul {
-	li {
-		list-style-type: square
-	}
-}
-ol {
-	li {
-		list-style-type: upper-roman;
-	}
+  list-style-type: disc;
+  
+  ul {
+    list-style-type: circle;
+    
+    ul {
+      list-style-type: square;
+    }
+  }
 }
 
-/* Add underline for main links ======================= */
-p > a,
-li > a,
-em > a,
-a > em,
+ol {
+  list-style-type: decimal;
+  
+  ol {
+    list-style-type: lower-roman;
+    
+    ol {
+      list-style-type: lower-alpha;
+    }
+  }
+}
+
+// Blockquotes
+// ===========================================================
+blockquote {
+  margin: 1.5em 0;
+  padding: 0.5em 1.5em;
+  border-left: 3px solid var(--accent-color);
+  font-style: italic;
+  color: var(--text-color);
+  background-color: var(--code-bg);
+  
+  p:last-child {
+    margin-bottom: 0;
+  }
+  
+  cite {
+    display: block;
+    margin-top: 1em;
+    font-style: normal;
+    font-size: 0.9em;
+    
+    &::before {
+      content: '— ';
+    }
+  }
+}
+
+// Code and Preformatted Text
+// ===========================================================
+pre, code, kbd, samp {
+  font-family: @codefont;
+  font-size: 0.9em;
+  background-color: var(--code-bg);
+  border-radius: 3px;
+}
+
+code {
+  padding: 0.2em 0.4em;
+  color: var(--code-color);
+}
+
+pre {
+  padding: 1em;
+  overflow-x: auto;
+  line-height: 1.5;
+  
+  code {
+    padding: 0;
+    background: transparent;
+  }
+}
+
+kbd {
+  display: inline-block;
+  padding: 0.1em 0.4em;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+// Text Selection
+// ===========================================================
+::selection {
+  background-color: var(--accent-color);
+  color: var(--body-bg);
+  text-shadow: none;
+}
+
+// Helper Classes
+// ===========================================================
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+  letter-spacing: @letter-spacing-caps;
+}
+
+.text-muted {
+  opacity: 0.7;
+}
+
+// Responsive Typography
+// ===========================================================
+@media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+  
+  h1 { font-size: calc(@type-base * pow(@type-scale, 2.5)); }
+  h2 { font-size: calc(@type-base * pow(@type-scale, 1.8)); }
+  h3 { font-size: calc(@type-base * pow(@type-scale, 1.2)); }
+  h4 { font-size: @type-base; }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+  
+  h1 { font-size: calc(@type-base * pow(@type-scale, 2)); }
+  h2 { font-size: calc(@type-base * pow(@type-scale, 1.5)); }
+  h3 { font-size: calc(@type-base * @type-scale); }
+}
 footer a {
 	text-decoration: none;
 	border-bottom: 1px dotted lighten(@textcolor, 50%);

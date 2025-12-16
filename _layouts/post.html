@@ -43,6 +43,12 @@
     <div class="headline-wrap">
       <h1 itemprop="headline">{{ page.title }}</h1>
       <h2>{{ page.tagline }}</h2>
+      <div class="post-meta">
+        {% include reading-time.html %}
+        <span class="post-date">
+          <i class="icon-calendar"></i> {{ page.date | date: "%B %d, %Y" }}
+        </span>
+      </div>
     </div><!--/ .headline-wrap -->
     <div class="article-wrap" itemprop="text">
       {{ content }}
