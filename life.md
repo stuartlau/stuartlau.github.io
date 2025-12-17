@@ -5,10 +5,6 @@ title: Life
 ---
 
 ## Moments
-- [My Family1](/blogs/2025-09-06-MyFamily)
-- [My Adulthood](/blogs/2025-08-08-MyAdulthood)
-- [My Youth](/blogs/2025-08-05-MyYouth)
-- [My Childhood](/blogs/2025-08-01-MyChildhood)
 - [Life Moments](/blogs/2025-08-01-LifeMoments)
 
 ## Footprints
