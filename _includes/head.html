@@ -51,11 +51,166 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="/assets/css/main.css">
+  <!-- Initialize theme before any styles are loaded to prevent flash of unstyled content -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', initialTheme);
+      document.documentElement.classList.add('js-enabled');
+    })();
+  </script>
+  
+  <link rel="stylesheet" href="{{ site.url }}/assets/css/main.css">
+  <link rel="stylesheet" href="{{ site.url }}/assets/css/skins/{{ site.skin | default: 'default' }}.css">
+  
+  <style>
+    /* Hide elements that depend on JS until JS is loaded */
+    .js .js-hide { display: none; }
+    html:not(.js-enabled) .js-hide { display: none; }
 
-<!--[if (lt IE 9) & (!IEMobile)]>
-<link rel="stylesheet" href="/assets/css/ie.css">
-<![endif]-->
+    :root {
+      --body-bg: #ffffff;
+      --text-color: #333332;
+      --text-muted: #666666;
+      --border-color: #e0e0e0;
+      --card-bg: #ffffff;
+      --link-color: #2563eb;
+      --link-hover: #1d4ed8;
+      --heading-color: var(--text-color);
+    }
+
+    [data-theme="dark"] {
+      --body-bg: #121212;
+      --text-color: #e0e0e0;
+      --text-muted: #a0a0a0;
+      --border-color: rgba(255, 255, 255, 0.2);
+      --card-bg: #1e1e1e;
+      --link-color: #93c5fd;
+      --link-hover: #bfdbfe;
+      --heading-color: #f3f4f6;
+    }
+
+    /* Force theme colors (main.css hardcodes light colors) */
+    html, body {
+      background-color: var(--body-bg) !important;
+      color: var(--text-color) !important;
+    }
+
+    [data-theme="dark"] a,
+    [data-theme="dark"] a:visited {
+      color: var(--link-color) !important;
+    }
+    [data-theme="dark"] a:hover,
+    [data-theme="dark"] a:focus {
+      color: var(--link-hover) !important;
+    }
+
+    [data-theme="dark"] h1,
+    [data-theme="dark"] h2,
+    [data-theme="dark"] h3,
+    [data-theme="dark"] h4,
+    [data-theme="dark"] h5,
+    [data-theme="dark"] h6 {
+      color: var(--heading-color) !important;
+    }
+
+    [data-theme="dark"] .site-name a,
+    [data-theme="dark"] .top-navigation a,
+    [data-theme="dark"] .top-navigation a:visited {
+      color: var(--heading-color) !important;
+    }
+
+    [data-theme="dark"] .top-navigation-current {
+      text-decoration-color: var(--link-color) !important;
+    }
+
+    [data-theme="dark"] .headline-wrap h1,
+    [data-theme="dark"] .headline-wrap h2 {
+      color: #ffffff !important;
+    }
+
+    .article-wrap img,
+    article img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .photo-grid img[src^="/images/in-post/"],
+    .photo-grid img[src^="{{ site.url }}/images/in-post/"] {
+      display: block;
+      width: 100% !important;
+      max-width: none;
+      margin: 0;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      background: rgba(0, 0, 0, 0.04);
+      border-radius: 8px;
+    }
+
+    .medium-zoom-image--opened {
+      aspect-ratio: auto !important;
+      object-fit: initial !important;
+      background: transparent !important;
+      width: auto !important;
+      height: auto !important;
+      max-width: 25vw !important;
+      max-height: 25vh !important;
+      border-radius: 0 !important;
+    }
+
+    /* Post meta: keep date + reading time on one line */
+    .post-meta {
+      display: flex !important;
+      align-items: center !important;
+      flex-wrap: nowrap !important;
+      gap: 0.5rem !important;
+      white-space: nowrap !important;
+    }
+    .post-meta .meta-item,
+    .post-meta .meta-divider {
+      flex-shrink: 0 !important;
+      white-space: nowrap !important;
+    }
+
+    /* Theme toggle (in case skin CSS is missing) */
+    .theme-toggle {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 2.75rem;
+      height: 2.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      cursor: pointer;
+      padding: 0;
+      z-index: 99999;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      color: var(--text-color, #333332);
+    }
+    .theme-toggle .theme-icon { display: none; width: 20px; height: 20px; }
+    .theme-toggle .theme-icon svg { width: 100%; height: 100%; }
+    .theme-toggle[aria-pressed="true"] .theme-icon-sun,
+    .theme-toggle[aria-pressed="false"] .theme-icon-moon { display: block; }
+
+    [data-theme="dark"] .theme-toggle {
+      color: var(--text-color, #e0e0e0);
+    }
+  </style>
 
 <meta http-equiv="cleartype" content="on">
 

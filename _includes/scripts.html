@@ -4,13 +4,70 @@
 <script src="{{ site.url }}/assets/js/theme.js"></script>
 
 <!-- Medium Zoom for image zooming -->
-<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha384-z6p5M8k5I5Z8F5sZ5f0v8z9f5X1E0f5Z5f5p5f5v5f5f5f5f5f5f5f5f5f5f5f5" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    mediumZoom('article img:not(.no-zoom), .post-content img:not(.no-zoom)', {
+    if (typeof window.mediumZoom !== 'function') return;
+    window.mediumZoom('article img:not(.no-zoom), .post-content img:not(.no-zoom), .article-wrap img:not(.no-zoom)', {
       margin: 32,
       background: 'var(--body-bg)',
       scrollOffset: 40
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var articleWrap = document.querySelector('.article-wrap');
+    if (!articleWrap) return;
+
+    function isInPostImg(el) {
+      if (!el || el.nodeType !== 1) return false;
+      if (el.tagName !== 'IMG') return false;
+      var src = el.getAttribute('src') || '';
+      return src.indexOf('/images/in-post/') === 0 || src.indexOf('{{ site.url }}/images/in-post/') === 0;
+    }
+
+    var imgs = Array.prototype.slice.call(articleWrap.querySelectorAll('img[src^="/images/in-post/"], img[src^="{{ site.url }}/images/in-post/"]'));
+    if (!imgs.length) return;
+
+    var current = articleWrap.firstElementChild;
+    while (current) {
+      if (!isInPostImg(current)) {
+        current = current.nextElementSibling;
+        continue;
+      }
+
+      var grid = document.createElement('div');
+      grid.className = 'photo-grid';
+
+      var first = current;
+      var next = first.nextElementSibling;
+      grid.appendChild(first);
+
+      while (next && isInPostImg(next)) {
+        var tmp = next.nextElementSibling;
+        grid.appendChild(next);
+        next = tmp;
+      }
+
+      articleWrap.insertBefore(grid, next);
+      current = next;
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var articleWrap = document.querySelector('.article-wrap');
+    if (!articleWrap) return;
+
+    var hasInPost = !!articleWrap.querySelector('img[src^="/images/in-post/"], img[src^="{{ site.url }}/images/in-post/"]');
+    if (!hasInPost) return;
+
+    var headings = Array.prototype.slice.call(articleWrap.querySelectorAll('h2,h3,h4,h5,h6'));
+    headings.forEach(function(h) {
+      h.parentNode && h.parentNode.removeChild(h);
     });
   });
 </script>

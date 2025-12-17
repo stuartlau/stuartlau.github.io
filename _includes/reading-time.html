@@ -4,6 +4,12 @@
 {% else %}
   {% assign reading_time = words | divided_by:180 | append: ' min read' %}
 {% endif %}
-<span class="reading-time" title="Estimated read time">
-  <i class="icon-clock"></i> {{ reading_time }}
-</span>
+<div class="meta-item reading-time">
+  <span class="meta-icon">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <polyline points="12 6 12 12 16 14"></polyline>
+    </svg>
+  </span>
+  <span class="meta-text">{{ reading_time }}</span>
+</div>
