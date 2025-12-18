@@ -47,37 +47,6 @@
     results.innerHTML = '';
   }
 
-  function snippetFromMatch(result) {
-    var doc = result && (result.item || result) ? (result.item || result) : null;
-    if (!doc) return '';
-
-    var matches = result && result.matches ? result.matches : null;
-    if (!matches || !matches.length) return doc.excerpt || '';
-
-    var best = null;
-    for (var i = 0; i < matches.length; i++) {
-      var m = matches[i];
-      if (!m || !m.key || !m.indices || !m.indices.length) continue;
-      if (m.key !== 'content' && m.key !== 'excerpt' && m.key !== 'title') continue;
-      best = m;
-      if (m.key === 'content') break;
-    }
-    if (!best) return doc.excerpt || '';
-
-    var text = doc[best.key] || '';
-    if (!text) return doc.excerpt || '';
-
-    var idx = best.indices[0];
-    if (!idx || idx.length < 2) return doc.excerpt || '';
-
-    var start = Math.max(0, idx[0] - 45);
-    var end = Math.min(text.length, idx[1] + 90);
-    var head = start > 0 ? '...' : '';
-    var tail = end < text.length ? '...' : '';
-
-    return head + text.slice(start, end).trim() + tail;
-  }
-
   function renderResults(items) {
     if (!results) return;
 
@@ -92,7 +61,6 @@
         var doc = item.item || item;
         var title = escHtml(doc.title || 'Untitled');
         var url = escHtml(normalizeUrl(doc.url));
-        var excerpt = escHtml(snippetFromMatch(item) || '');
         return (
           '<a class="search-result" href="' +
           url +
@@ -100,7 +68,6 @@
           '<div class="search-result-title">' +
           title +
           '</div>' +
-          (excerpt ? '<div class="search-result-excerpt">' + excerpt + '</div>' : '') +
           '</a>'
         );
       })
@@ -123,14 +90,14 @@
 
     var qLower = q.toLowerCase();
     var isAscii = /^[\x00-\x7F]+$/.test(q);
-    var scoreCutoff = isAscii ? 0.35 : 0.55;
+    var scoreCutoff = isAscii ? 0.2 : 0.35;
     out = (out || []).filter(function (r) {
       if (!r) return false;
       if (typeof r.score === 'number' && r.score > scoreCutoff) return false;
+      var doc = r.item || r;
+      var hay = String(doc.title || '').toLowerCase();
       if (!isAscii) return true;
       if (qLower.length < 4) return true;
-      var doc = r.item || r;
-      var hay = ((doc.title || '') + ' ' + (doc.excerpt || '') + ' ' + (doc.content || '')).toLowerCase();
       return hay.indexOf(qLower) !== -1;
     });
     renderResults(out);
@@ -157,9 +124,7 @@
           ignoreLocation: true,
           minMatchCharLength: 2,
           keys: [
-            { name: 'title', weight: 0.6 },
-            { name: 'excerpt', weight: 0.25 },
-            { name: 'content', weight: 0.15 }
+            { name: 'title', weight: 1.0 }
           ]
         });
         indexLoaded = true;

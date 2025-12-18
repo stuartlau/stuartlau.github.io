@@ -8,10 +8,92 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof window.mediumZoom !== 'function') return;
-    window.mediumZoom('article img:not(.no-zoom), .post-content img:not(.no-zoom), .article-wrap img:not(.no-zoom)', {
+
+    var selector = 'article img:not(.no-zoom), .post-content img:not(.no-zoom), .article-wrap img:not(.no-zoom)';
+    var nodes = Array.prototype.slice.call(document.querySelectorAll(selector));
+    var vw = window.innerWidth || document.documentElement.clientWidth || 0;
+    var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+
+    var zoomable = nodes.filter(function (img) {
+      if (!img || img.tagName !== 'IMG') return false;
+      var rect = img.getBoundingClientRect();
+      if (!rect) return true;
+
+      if (vw && rect.width >= vw * 0.5) return false;
+      if (vh && rect.height >= vh * 0.5) return false;
+      return true;
+    });
+
+    if (!zoomable.length) return;
+
+    window.mediumZoom(zoomable, {
       margin: 32,
       background: 'var(--body-bg)',
       scrollOffset: 40
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var articleWrap = document.querySelector('.article-wrap');
+    if (!articleWrap) return;
+
+    var progress = document.createElement('div');
+    progress.className = 'reading-progress';
+    progress.innerHTML = '<div class="reading-progress-bar"></div>';
+    document.body.appendChild(progress);
+
+    var bar = progress.querySelector('.reading-progress-bar');
+    function updateProgress() {
+      var doc = document.documentElement;
+      var scrollTop = (window.pageYOffset || doc.scrollTop || 0);
+      var scrollHeight = Math.max(0, (doc.scrollHeight || 0) - window.innerHeight);
+      var ratio = scrollHeight ? (scrollTop / scrollHeight) : 0;
+      bar.style.width = Math.max(0, Math.min(1, ratio)) * 100 + '%';
+    }
+    updateProgress();
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+
+    var pres = Array.prototype.slice.call(articleWrap.querySelectorAll('pre'));
+    pres.forEach(function(pre) {
+      if (pre.querySelector('.code-copy-btn')) return;
+      var code = pre.querySelector('code');
+      if (!code) return;
+      pre.classList.add('code-block');
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'code-copy-btn';
+      btn.textContent = 'Copy';
+
+      btn.addEventListener('click', function() {
+        var text = code.innerText || code.textContent || '';
+        if (!text) return;
+        var done = function() {
+          var old = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(function() { btn.textContent = old; }, 900);
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(function(){});
+          return;
+        }
+
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      });
+
+      pre.appendChild(btn);
     });
   });
 </script>

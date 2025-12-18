@@ -87,9 +87,9 @@
           <span class="meta-text">
             {% assign words = content | number_of_words %}
             {% if words < 360 %}
-              1 min read
+              1 min Read
             {% else %}
-              {{ words | divided_by:180 }} min read
+              {{ words | divided_by:180 }} min Read
             {% endif %}
           </span>
         </div>
@@ -97,6 +97,41 @@
     </div><!--/ .headline-wrap -->
     <div class="article-wrap" itemprop="text">
       {{ content }}
+
+      {% assign docs = site.pages | where: "layout", "post" %}
+      {% assign docs = docs | where_exp: "p", "p.url contains '/blogs/'" %}
+      {% assign docs = docs | sort: "date" %}
+      {% for p in docs %}
+        {% if p.url == page.url %}
+          {% assign idx0 = forloop.index0 %}
+        {% endif %}
+      {% endfor %}
+      {% if idx0 != nil %}
+        {% if idx0 > 0 %}
+          {% assign prev_idx = idx0 | minus: 1 %}
+          {% assign prev_post = docs[prev_idx] %}
+        {% endif %}
+        {% assign next_idx = idx0 | plus: 1 %}
+        {% if next_idx < docs.size %}
+          {% assign next_post = docs[next_idx] %}
+        {% endif %}
+      {% endif %}
+
+      {% if prev_post or next_post %}
+        <nav class="post-nav" aria-label="Post">
+          <div class="post-nav-prev">
+            {% if prev_post %}
+              <a href="{{ prev_post.url | relative_url }}">&larr; {{ prev_post.title }}</a>
+            {% endif %}
+          </div>
+          <div class="post-nav-next">
+            {% if next_post %}
+              <a href="{{ next_post.url | relative_url }}">{{ next_post.title }} &rarr;</a>
+            {% endif %}
+          </div>
+        </nav>
+      {% endif %}
+
       <hr />
       <footer role="contentinfo">
         <div class="article-author-bottom">
