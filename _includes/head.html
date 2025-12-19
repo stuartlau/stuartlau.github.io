@@ -63,7 +63,7 @@
   </script>
   
   <link rel="stylesheet" href="{{ site.url }}/assets/css/main.css">
-  <link rel="stylesheet" href="{{ site.url }}/assets/css/skins/{{ site.skin | default: 'default' }}.css">
+  
   
   <style>
     /* Hide elements that depend on JS until JS is loaded */
@@ -225,6 +225,83 @@
 
     .post-nav-next {
       text-align: right;
+    }
+
+    .engagement {
+      margin: 1rem 0 1.25rem;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--card-bg);
+    }
+
+    .engagement-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .like-btn,
+    .subscribe-btn,
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: rgba(0, 0, 0, 0.02);
+      color: var(--text-color);
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.95em;
+      line-height: 1;
+    }
+
+    [data-theme="dark"] .like-btn,
+    [data-theme="dark"] .subscribe-btn,
+    [data-theme="dark"] .share-btn {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .like-btn:hover,
+    .subscribe-btn:hover,
+    .share-btn:hover {
+      border-color: rgba(37, 99, 235, 0.35);
+      text-decoration: none;
+    }
+
+    .like-btn[aria-pressed="true"] {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+
+    .like-btn-icon {
+      color: #ef4444;
+      font-size: 1.05em;
+      transform: translateY(-0.5px);
+    }
+
+    .like-btn-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.5rem;
+      height: 1.2rem;
+      padding: 0 0.4rem;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.08);
+      color: var(--text-muted);
+      font-size: 0.85em;
+    }
+
+    [data-theme="dark"] .like-btn-count {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .comments {
+      margin-top: 0.9rem;
     }
 
     .top-navigation {

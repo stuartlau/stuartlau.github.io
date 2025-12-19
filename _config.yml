@@ -80,5 +80,29 @@ kramdown:
 disqus:
   shortname: stuartlau
 
+engagement:
+  like:
+    enabled: true
+    provider: "countapi"
+    namespace: "stuartlau-github-io"
+  subscribe:
+    enabled: true
+    url: ""
+  share:
+    enabled: true
+  giscus:
+    enabled: true
+    repo: "stuartlau/stuartlau.github.io"
+    repo_id: "R_kgDOOf5c7g"
+    category: "Announcements"
+    category_id: "DIC_kwDOOf5c7s4Cz_Oz"
+    mapping: "pathname"
+    strict: 0
+    reactions_enabled: 1
+    emit_metadata: 0
+    input_position: "top"
+    theme: "preferred_color_scheme"
+    lang: "en"
+
 include: [".htaccess"]
 exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "minimal-mistakes.sublime-project", "minimal-mistakes.sublime-workspace"]

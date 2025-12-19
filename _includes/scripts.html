@@ -95,6 +95,120 @@
 
       pre.appendChild(btn);
     });
+
+    function safeJson(r) {
+      return r && typeof r.json === 'function' ? r.json() : Promise.resolve(null);
+    }
+
+    var likeBtn = document.querySelector('.like-btn');
+    if (likeBtn) {
+      var likeUrl = likeBtn.getAttribute('data-like-url') || window.location.pathname;
+      var likedKey = 'liked:' + likeUrl;
+      var liked = localStorage.getItem(likedKey) === '1';
+
+      var namespace = '{{ site.engagement.like.namespace | default: "stuartlau-github-io" }}';
+      var key = encodeURIComponent(likeUrl.replace(/\/$/, ''));
+      var countApi = 'https://api.countapi.xyz';
+      var getUrl = countApi + '/get/' + encodeURIComponent(namespace) + '/' + key;
+      var hitUrl = countApi + '/hit/' + encodeURIComponent(namespace) + '/' + key;
+
+      function setCount(n) {
+        var countEl = likeBtn.querySelector('.like-btn-count');
+        if (countEl) countEl.textContent = String(Math.max(0, n || 0));
+      }
+
+      function renderState() {
+        likeBtn.setAttribute('aria-pressed', liked ? 'true' : 'false');
+      }
+
+      fetch(getUrl)
+        .then(function (r) {
+          if (!r.ok) throw new Error('like get failed');
+          return safeJson(r);
+        })
+        .then(function (data) {
+          if (data && typeof data.value === 'number') setCount(data.value);
+        })
+        .catch(function () {
+          setCount(liked ? 1 : 0);
+        })
+        .finally(function () {
+          renderState();
+        });
+
+      likeBtn.addEventListener('click', function () {
+        if (liked) return;
+        liked = true;
+        localStorage.setItem(likedKey, '1');
+        renderState();
+
+        fetch(hitUrl)
+          .then(function (r) {
+            if (!r.ok) throw new Error('like hit failed');
+            return safeJson(r);
+          })
+          .then(function (data) {
+            if (data && typeof data.value === 'number') setCount(data.value);
+          })
+          .catch(function () {
+            var countEl = likeBtn.querySelector('.like-btn-count');
+            var cur = countEl ? parseInt(countEl.textContent || '0', 10) : 0;
+            setCount((isNaN(cur) ? 0 : cur) + 1);
+          });
+      });
+    }
+
+    var shareBtns = Array.prototype.slice.call(document.querySelectorAll('.share-btn'));
+    if (shareBtns.length) {
+      var pageUrl = window.location.href;
+      var pageTitle = document.title || '';
+
+      function openShare(u) {
+        window.open(u, '_blank', 'noopener,noreferrer');
+      }
+
+      shareBtns.forEach(function (el) {
+        var type = el.getAttribute('data-share');
+        if (!type) return;
+
+        if (type === 'copy') {
+          el.addEventListener('click', function () {
+            var done = function () {
+              var old = el.textContent;
+              el.textContent = 'Copied';
+              setTimeout(function () { el.textContent = old; }, 900);
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(pageUrl).then(done).catch(function(){});
+              return;
+            }
+
+            var ta = document.createElement('textarea');
+            ta.value = pageUrl;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'absolute';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); done(); } catch (e) {}
+            document.body.removeChild(ta);
+          });
+          return;
+        }
+
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          var u = '';
+          var urlEnc = encodeURIComponent(pageUrl);
+          var titleEnc = encodeURIComponent(pageTitle);
+          if (type === 'x') u = 'https://twitter.com/intent/tweet?url=' + urlEnc + '&text=' + titleEnc;
+          if (type === 'linkedin') u = 'https://www.linkedin.com/sharing/share-offsite/?url=' + urlEnc;
+          if (type === 'weibo') u = 'https://service.weibo.com/share/share.php?url=' + urlEnc + '&title=' + titleEnc;
+          if (u) openShare(u);
+        });
+      });
+    }
   });
 </script>
 

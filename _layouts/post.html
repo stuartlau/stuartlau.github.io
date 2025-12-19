@@ -87,9 +87,9 @@
           <span class="meta-text">
             {% assign words = content | number_of_words %}
             {% if words < 360 %}
-              1 min Read
+              1 min read
             {% else %}
-              {{ words | divided_by:180 }} min Read
+              {{ words | divided_by:180 }} min read
             {% endif %}
           </span>
         </div>
@@ -130,6 +130,55 @@
             {% endif %}
           </div>
         </nav>
+      {% endif %}
+
+      {% if site.engagement %}
+        <section class="engagement" aria-label="Engagement">
+          <div class="engagement-actions">
+            {% if site.engagement.like.enabled %}
+              <button type="button" class="like-btn" data-like-url="{{ page.url | relative_url }}" aria-pressed="false">
+                <span class="like-btn-icon" aria-hidden="true">♥</span>
+                <span class="like-btn-text">Like</span>
+                <span class="like-btn-count" aria-label="Likes">0</span>
+              </button>
+            {% endif %}
+
+            {% if site.engagement.subscribe.enabled %}
+              {% if site.engagement.subscribe.url and site.engagement.subscribe.url != "" %}
+                <a class="subscribe-btn" href="{{ site.engagement.subscribe.url }}" target="_blank" rel="noopener">Subscribe</a>
+              {% else %}
+                <a class="subscribe-btn" href="{{ '/feed.xml' | relative_url }}">RSS</a>
+              {% endif %}
+            {% endif %}
+
+            {% if site.engagement.share.enabled %}
+              <button type="button" class="share-btn" data-share="copy">Copy Link</button>
+              <a class="share-btn" data-share="x" href="#" rel="noopener">X</a>
+              <a class="share-btn" data-share="linkedin" href="#" rel="noopener">LinkedIn</a>
+              <a class="share-btn" data-share="weibo" href="#" rel="noopener">Weibo</a>
+            {% endif %}
+          </div>
+
+          {% if site.engagement.giscus.enabled and site.engagement.giscus.repo and site.engagement.giscus.repo_id and site.engagement.giscus.category and site.engagement.giscus.category_id %}
+            <div class="comments">
+              <script src="https://giscus.app/client.js"
+                data-repo="{{ site.engagement.giscus.repo }}"
+                data-repo-id="{{ site.engagement.giscus.repo_id }}"
+                data-category="{{ site.engagement.giscus.category }}"
+                data-category-id="{{ site.engagement.giscus.category_id }}"
+                data-mapping="{{ site.engagement.giscus.mapping | default: 'pathname' }}"
+                data-strict="{{ site.engagement.giscus.strict | default: 0 }}"
+                data-reactions-enabled="{{ site.engagement.giscus.reactions_enabled | default: 1 }}"
+                data-emit-metadata="{{ site.engagement.giscus.emit_metadata | default: 0 }}"
+                data-input-position="{{ site.engagement.giscus.input_position | default: 'top' }}"
+                data-theme="{{ site.engagement.giscus.theme | default: 'preferred_color_scheme' }}"
+                data-lang="{{ site.engagement.giscus.lang | default: 'en' }}"
+                crossorigin="anonymous"
+                async>
+              </script>
+            </div>
+          {% endif %}
+        </section>
       {% endif %}
 
       <hr />
