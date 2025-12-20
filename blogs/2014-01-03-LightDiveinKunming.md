@@ -9,6 +9,9 @@ header-style: text
 catalog: true
 tags:
     - Travelling
+    - Kunming
+    - China
+location: [102.8329, 24.8801]
 ---
 ![Kunming-0](/images/in-post/Kunming-0.jpg)
 

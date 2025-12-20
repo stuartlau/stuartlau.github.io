@@ -9,6 +9,9 @@ header-style: text
 catalog: true
 tags:
     - Travelling
+    - Roma
+    - Italy
+location: [12.4964, 41.9028]
 ---
 TBD..
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

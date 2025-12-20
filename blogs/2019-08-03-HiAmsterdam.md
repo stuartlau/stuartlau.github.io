@@ -9,6 +9,9 @@ header-img: img/in-post/Amsterdam-6.jpg
 catalog: true
 tags:
     - Travelling
+    - Amsterdam
+    - Netherlands
+location: [4.9041, 52.3676]
 ---    
 > The Netherlands is the country with the highest latitude among all the European countries I've visited (not counting Moscow in Russia for the time being). It's world-famous for the legalization of marijuana consumption and its red-light districts. Its football team is known as the "Uncrowned Kings". Amsterdam is the capital of the Netherlands, and this article records some interesting observations and experiences.
 

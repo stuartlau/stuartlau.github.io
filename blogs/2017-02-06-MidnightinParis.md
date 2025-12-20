@@ -9,6 +9,9 @@ header-style: text
 catalog: true
 tags:
     - Travelling
+    - Paris
+    - France
+location: [2.3522, 48.8566]
 ---
 TBD..
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

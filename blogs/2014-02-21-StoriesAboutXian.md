@@ -9,6 +9,9 @@ header-style: text
 catalog: true
 tags:
     - Travelling
+    - Xi'an
+    - China
+location: [108.9398, 34.3416]
 ---
 
 ### Stories About Xi'an

@@ -9,6 +9,9 @@ header-img: img/in-post/诺坎普1.jpg
 catalog: true
 tags:
     - Travelling
+    - Barcelona
+    - Spain
+location: [2.1734, 41.3851]
 ---    
 
 > Barcelona, what comes to mind when you mention this city?

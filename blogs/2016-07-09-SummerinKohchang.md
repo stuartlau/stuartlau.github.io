@@ -9,6 +9,9 @@ header-style: text
 catalog: true
 tags:
     - Travelling
+    - Kohchang
+    - Thailand
+location: [102.2729, 12.0567]
 ---
 TBD..
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

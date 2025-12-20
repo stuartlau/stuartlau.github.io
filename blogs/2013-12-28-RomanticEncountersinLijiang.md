@@ -9,6 +9,9 @@ header-style: text
 catalog: true
 tags:
     - Travelling
+    - Lijiang
+    - China
+location: [100.2330, 26.8721]
 ---
 ![Lijiang-0](/images/in-post/Lijiang-0.jpg)
 

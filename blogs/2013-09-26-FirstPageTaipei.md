@@ -9,6 +9,9 @@ header-style: text
 catalog: true
 tags:
     - Travelling
+    - Taipei
+    - Taiwan
+location: [121.5654, 25.0330]
 ---
 ### First Page Taipei
 ![Taipei-0](/images/in-post/Taipei-0.jpg)

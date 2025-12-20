@@ -1,0 +1,22 @@
+---
+layout: null
+permalink: /travel-points.json
+---
+[
+{% assign first = true %}
+{% for p in site.pages %}
+  {% if p.url contains '/blogs/' and p.layout == 'post' and p.tags contains 'Travelling' and p.location %}
+    {% unless first %},{% endunless %}
+    {% assign first = false %}
+    {
+      "title": {{ p.title | jsonify }},
+      "url": {{ p.url | jsonify }},
+      "date": {{ p.date | date_to_xmlschema | jsonify }},
+      "location": {{ p.location | jsonify }},
+      "status": {{ p.travel_status | default: 'visited' | jsonify }},
+      "tags": {{ p.tags | jsonify }},
+      "thumbnail": {{ p.header-img | default: p.image.thumb | default: '' | jsonify }}
+    }
+  {% endif %}
+{% endfor %}
+]
