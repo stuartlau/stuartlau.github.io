@@ -46,9 +46,16 @@
   function resolveThumb(thumb) {
     if (!thumb) return '';
     var t = String(thumb);
+    // Handle absolute URLs
     if (/^https?:\/\//.test(t)) return t;
     if (t.indexOf('//') === 0) return window.location.protocol + t;
+    // Handle paths starting with /
     if (t.charAt(0) === '/') return t;
+    // Handle paths like "img/in-post/xxx.jpg" -> "/images/in-post/xxx.jpg"
+    if (t.indexOf('img/') === 0) {
+      return '/images/' + t.substring(4);
+    }
+    // Default: add leading /
     return '/' + t;
   }
 
@@ -82,9 +89,36 @@
       .domain([min || 1, max || 1])
       .range([12, 52]);
 
+    // Color palette for word cloud
+    var colors = [
+      '#2563eb', // blue
+      '#dc2626', // red
+      '#16a34a', // green
+      '#ca8a04', // yellow
+      '#9333ea', // purple
+      '#ea580c', // orange
+      '#0891b2', // cyan
+      '#be185d', // pink
+      '#059669', // emerald
+      '#7c3aed', // violet
+      '#c2410c', // orange-red
+      '#1e40af', // blue-dark
+      '#166534', // green-dark
+      '#991b1b', // red-dark
+      '#581c87'  // purple-dark
+    ];
+    
+    var colorMap = Object.create(null);
+    var colorIndex = 0;
+    
     var color = function (t) {
       if (activeTag && t === activeTag) return 'var(--link-color)';
-      return 'var(--text-color)';
+      // Assign consistent color to each tag
+      if (!colorMap[t]) {
+        colorMap[t] = colors[colorIndex % colors.length];
+        colorIndex++;
+      }
+      return colorMap[t];
     };
 
     var layout = window.d3.layout
@@ -103,11 +137,13 @@
       .fontSize(function (d) {
         return d.size;
       })
-      .on('end', draw);
+      .on('end', function(words) {
+        draw(words, onPick);
+      });
 
     layout.start();
 
-    function draw(words) {
+    function draw(words, onPickCallback) {
       var svg = window.d3
         .select(cloudEl)
         .append('svg')
@@ -118,10 +154,14 @@
         .append('g')
         .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-      g.selectAll('text')
+      var texts = g
+        .selectAll('text')
         .data(words)
         .enter()
         .append('text')
+        .attr('data-original-size', function (d) {
+          return d.size;
+        })
         .style('font-size', function (d) {
           return d.size + 'px';
         })
@@ -142,9 +182,31 @@
           return d.text + ' (' + d.count + ')';
         });
 
-      g.selectAll('text').on('click', function (d) {
+      // Add hover effect: increase font size on mouseover (doesn't change position)
+      texts.on('mouseenter', function(d) {
+        var self = window.d3.select(this);
+        var originalSize = parseFloat(self.attr('data-original-size'));
+        self.transition()
+          .duration(200)
+          .style('font-size', (originalSize * 1.3) + 'px');
+      });
+
+      texts.on('mouseleave', function(d) {
+        var self = window.d3.select(this);
+        var originalSize = parseFloat(self.attr('data-original-size'));
+        self.transition()
+          .duration(200)
+          .style('font-size', originalSize + 'px');
+      });
+
+      // Click event - must be bound separately
+      texts.on('click', function (d) {
         if (!d || !d.text) return;
-        onPick(d.text);
+        // Stop any ongoing transitions
+        window.d3.select(this).interrupt();
+        if (onPickCallback && typeof onPickCallback === 'function') {
+          onPickCallback(d.text);
+        }
       });
     }
   }
@@ -170,6 +232,7 @@
 
     var layers = [];
     var markersByTag = Object.create(null);
+    var pointsByLocation = Object.create(null);
 
     function iconForStatus(status) {
       var s = String(status || 'visited').toLowerCase();
@@ -180,6 +243,7 @@
       });
     }
 
+    // Group points by location (round to 4 decimal places to handle slight variations)
     (points || []).forEach(function (p) {
       var loc = p && p.location;
       if (!Array.isArray(loc) || loc.length < 2) return;
@@ -187,29 +251,79 @@
       var lat = Number(loc[1]);
       if (!isFinite(lng) || !isFinite(lat)) return;
 
-      var ll = [lat, lng];
-      var title = escHtml(p.title || '');
-      var url = escHtml(p.url || '#');
-      var thumb = resolveThumb(p.thumbnail);
+      // Round coordinates to group nearby points
+      var roundedLng = Math.round(lng * 10000) / 10000;
+      var roundedLat = Math.round(lat * 10000) / 10000;
+      var locKey = roundedLat + ',' + roundedLng;
 
+      if (!pointsByLocation[locKey]) {
+        pointsByLocation[locKey] = [];
+      }
+      pointsByLocation[locKey].push(p);
+    });
+
+    // Create markers for each location
+    Object.keys(pointsByLocation).forEach(function (locKey) {
+      var locationPoints = pointsByLocation[locKey];
+      if (!locationPoints.length) return;
+
+      var firstPoint = locationPoints[0];
+      var loc = firstPoint.location;
+      var lng = Number(loc[0]);
+      var lat = Number(loc[1]);
+      var ll = [lat, lng];
+
+      // Build popup content for all points at this location
       var popup = '<div class="travel-popup">';
-      if (thumb) popup += '<div class="travel-popup-thumb"><img src="' + escHtml(thumb) + '" alt="" loading="lazy" /></div>';
-      popup += '<div class="travel-popup-title"><a href="' + url + '">' + title + '</a></div>';
+      
+      if (locationPoints.length === 1) {
+        // Single point - show thumbnail if available
+        var p = locationPoints[0];
+        var thumb = resolveThumb(p.thumbnail);
+        if (thumb) {
+          popup += '<div class="travel-popup-thumb"><img src="' + escHtml(thumb) + '" alt="" loading="lazy" /></div>';
+        }
+        popup += '<div class="travel-popup-title"><a href="' + escHtml(p.url || '#') + '">' + escHtml(p.title || '') + '</a></div>';
+      } else {
+        // Multiple points - show list
+        popup += '<div class="travel-popup-multiple">';
+        popup += '<div class="travel-popup-count">' + locationPoints.length + ' posts</div>';
+        locationPoints.forEach(function (p) {
+          var thumb = resolveThumb(p.thumbnail);
+          popup += '<div class="travel-popup-item">';
+          if (thumb) {
+            popup += '<div class="travel-popup-item-thumb"><img src="' + escHtml(thumb) + '" alt="" loading="lazy" /></div>';
+          }
+          popup += '<div class="travel-popup-item-title"><a href="' + escHtml(p.url || '#') + '">' + escHtml(p.title || '') + '</a></div>';
+          popup += '</div>';
+        });
+        popup += '</div>';
+      }
       popup += '</div>';
 
+      // Use status from first point (or most recent)
+      var status = locationPoints[0].status || 'visited';
       var marker = window.L.marker(ll, {
-        icon: iconForStatus(p.status)
-      }).bindPopup(popup);
+        icon: iconForStatus(status)
+      }).bindPopup(popup, {
+        maxWidth: 400,
+        className: 'travel-popup-wrapper'
+      });
 
       marker.addTo(map);
       layers.push(marker);
 
-      var tags = Array.isArray(p.tags) ? p.tags : [];
-      tags.forEach(function (t) {
-        var tag = normalizeTag(t);
-        if (!tag || tag === 'Travelling') return;
-        if (!markersByTag[tag]) markersByTag[tag] = [];
-        markersByTag[tag].push(marker);
+      // Add tags from all points at this location
+      locationPoints.forEach(function (p) {
+        var tags = Array.isArray(p.tags) ? p.tags : [];
+        tags.forEach(function (t) {
+          var tag = normalizeTag(t);
+          if (!tag || tag === 'Travelling') return;
+          if (!markersByTag[tag]) markersByTag[tag] = [];
+          if (markersByTag[tag].indexOf(marker) === -1) {
+            markersByTag[tag].push(marker);
+          }
+        });
       });
     });
 

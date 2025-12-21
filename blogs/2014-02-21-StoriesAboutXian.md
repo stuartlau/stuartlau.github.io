@@ -5,6 +5,7 @@ title:      "Stories About Xi'an"
 subtitle:   "Stories About Xi'an"
 date:       2014-02-21
 author:     StuartLau
+header-img: img/in-post/Xian-0.jpg
 header-style: text
 catalog: true
 tags:

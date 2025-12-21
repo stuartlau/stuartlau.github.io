@@ -15,7 +15,7 @@ permalink: /travel-points.json
       "location": {{ p.location | jsonify }},
       "status": {{ p.travel_status | default: 'visited' | jsonify }},
       "tags": {{ p.tags | jsonify }},
-      "thumbnail": {{ p.header-img | default: p.image.thumb | default: '' | jsonify }}
+      "thumbnail": {% assign thumb = p.header-img | default: p.image.thumb | default: '' %}{% if thumb contains 'img/' %}{{ thumb | replace: 'img/', '/images/' | jsonify }}{% else %}{{ thumb | jsonify }}{% endif %}
     }
   {% endif %}
 {% endfor %}

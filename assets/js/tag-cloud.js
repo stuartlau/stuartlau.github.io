@@ -101,9 +101,36 @@
       .domain([min || 1, max || 1])
       .range([12, 52]);
 
+    // Color palette for word cloud
+    var colors = [
+      '#2563eb', // blue
+      '#dc2626', // red
+      '#16a34a', // green
+      '#ca8a04', // yellow
+      '#9333ea', // purple
+      '#ea580c', // orange
+      '#0891b2', // cyan
+      '#be185d', // pink
+      '#059669', // emerald
+      '#7c3aed', // violet
+      '#c2410c', // orange-red
+      '#1e40af', // blue-dark
+      '#166534', // green-dark
+      '#991b1b', // red-dark
+      '#581c87'  // purple-dark
+    ];
+    
+    var colorMap = Object.create(null);
+    var colorIndex = 0;
+    
     var color = function (t) {
       if (activeTag && t === activeTag) return 'var(--link-color)';
-      return 'var(--text-color)';
+      // Assign consistent color to each tag
+      if (!colorMap[t]) {
+        colorMap[t] = colors[colorIndex % colors.length];
+        colorIndex++;
+      }
+      return colorMap[t];
     };
 
     var layout = window.d3.layout
@@ -122,11 +149,13 @@
       .fontSize(function (d) {
         return d.size;
       })
-      .on('end', draw);
+      .on('end', function(words) {
+        draw(words, onPick);
+      });
 
     layout.start();
 
-    function draw(words) {
+    function draw(words, onPickCallback) {
       var svg = window.d3
         .select(cloudEl)
         .append('svg')
@@ -137,10 +166,14 @@
         .append('g')
         .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-      g.selectAll('text')
+      var texts = g
+        .selectAll('text')
         .data(words)
         .enter()
         .append('text')
+        .attr('data-original-size', function (d) {
+          return d.size;
+        })
         .style('font-size', function (d) {
           return d.size + 'px';
         })
@@ -161,9 +194,31 @@
           return d.text + ' (' + d.count + ')';
         });
 
-      g.selectAll('text').on('click', function (d) {
+      // Add hover effect: increase font size on mouseover (doesn't change position)
+      texts.on('mouseenter', function(d) {
+        var self = window.d3.select(this);
+        var originalSize = parseFloat(self.attr('data-original-size'));
+        self.transition()
+          .duration(200)
+          .style('font-size', (originalSize * 1.3) + 'px');
+      });
+
+      texts.on('mouseleave', function(d) {
+        var self = window.d3.select(this);
+        var originalSize = parseFloat(self.attr('data-original-size'));
+        self.transition()
+          .duration(200)
+          .style('font-size', originalSize + 'px');
+      });
+
+      // Click event - must be bound separately
+      texts.on('click', function (d) {
         if (!d || !d.text) return;
-        onPick(d.text);
+        // Stop any ongoing transitions
+        window.d3.select(this).interrupt();
+        if (onPickCallback && typeof onPickCallback === 'function') {
+          onPickCallback(d.text);
+        }
       });
     }
   }
