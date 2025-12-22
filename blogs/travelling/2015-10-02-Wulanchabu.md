@@ -11,7 +11,7 @@ tags:
     - Travelling
     - Wulanchabu
     - China
-location: [91.1865, 29.6626]
+location: [113.12, 41.02]
 ---
 
 > Photos taken in Wulanchabu -> [Douban Album](https://www.douban.com/photos/album/1897230966/)
