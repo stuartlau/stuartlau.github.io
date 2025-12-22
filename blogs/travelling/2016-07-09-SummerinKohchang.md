@@ -13,5 +13,7 @@ tags:
     - Thailand
 location: [102.2729, 12.0567]
 ---
-TBD..
+
+> Photos taken in Kohchang -> [Douban Album](https://www.douban.com/photos/album/1886764148/)
+
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

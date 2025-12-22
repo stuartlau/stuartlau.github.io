@@ -5,6 +5,7 @@ title:      "First Page Taipei"
 subtitle:   "First Page Taipei"
 date:       2013-09-26
 author:     StuartLau
+header-img: img/in-post/Taipei-0.jpg
 header-style: text
 catalog: true
 tags:
@@ -13,6 +14,8 @@ tags:
     - Taiwan
 location: [121.5654, 25.0330]
 ---
+> Photos taken in Taipei -> [Douban Album](https://www.douban.com/photos/album/1886068881/)
+
 ### First Page Taipei
 ![Taipei-0](/images/in-post/Taipei-0.jpg)
 

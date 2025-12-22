@@ -13,6 +13,8 @@ tags:
     - Netherlands
 location: [4.9041, 52.3676]
 ---    
+> Photos taken in Amsterdam -> [Douban Album](https://www.douban.com/photos/album/1886143283/)
+
 > The Netherlands is the country with the highest latitude among all the European countries I've visited (not counting Moscow in Russia for the time being). It's world-famous for the legalization of marijuana consumption and its red-light districts. Its football team is known as the "Uncrowned Kings". Amsterdam is the capital of the Netherlands, and this article records some interesting observations and experiences.
 
 # Arrival

@@ -14,6 +14,8 @@ tags:
 location: [2.1734, 41.3851]
 ---    
 
+> Photos taken in Barcelona -> [Douban Album](https://www.douban.com/photos/album/1886312773/)
+
 > Barcelona, what comes to mind when you mention this city?
 
 My first trip to Barcelona was in February 2017, which was still the Chinese Lunar New Year period, and the Spring Festival holiday hadn't ended yet.

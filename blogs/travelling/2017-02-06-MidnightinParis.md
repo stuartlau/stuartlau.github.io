@@ -13,5 +13,7 @@ tags:
     - France
 location: [2.3522, 48.8566]
 ---
-TBD..
+
+> Photos taken in Paris -> [Douban Album](https://www.douban.com/photos/album/1886312852/)
+
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

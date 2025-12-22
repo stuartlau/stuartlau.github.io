@@ -13,5 +13,7 @@ tags:
     - Spain
 location: [2.1734, 41.3851]
 ---
-TBD..
+
+> Photos taken in Barcelona -> [Douban Album](https://www.douban.com/photos/album/1897279329/)
+
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

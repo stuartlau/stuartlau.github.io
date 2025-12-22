@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/2019-12-05-关于SkipList/index.html
+permalink:  /blogs/2019-12-05-关于SkipList和Redis的实现/index.html
 title:      "关于SkipList和Redis的实现"
 subtitle:   "SkipList in Redis"
 date:       2019-12-05

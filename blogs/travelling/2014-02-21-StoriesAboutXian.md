@@ -15,6 +15,8 @@ tags:
 location: [108.9398, 34.3416]
 ---
 
+> Photos taken in Xi'an -> [Douban Album](https://www.douban.com/photos/album/1886964959/)
+
 ### Stories About Xi'an
 ![Xian-0](/images/in-post/Xian-0.jpg)
 

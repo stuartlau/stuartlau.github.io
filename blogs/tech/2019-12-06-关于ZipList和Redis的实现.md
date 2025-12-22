@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/2019-12-06-关于ZipList/index.html
+permalink:  /blogs/2019-12-06-关于ZipList和Redis的实现/index.html
 title:      "关于ZipList和Redis的实现"
 subtitle:   "ZipList in Redis"
 date:       2019-12-06

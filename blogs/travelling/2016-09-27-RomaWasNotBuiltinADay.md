@@ -13,5 +13,8 @@ tags:
     - Italy
 location: [12.4964, 41.9028]
 ---
-TBD..
+
+> Photos taken in Roma -> [Douban Album](https://www.douban.com/photos/album/1886308611/)
+
+
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

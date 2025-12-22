@@ -5,6 +5,7 @@ title:      "Light Dive in Kunming"
 subtitle:   "Light Dive in Kunming"
 date:       2014-01-03
 author:     StuartLau
+header-img: img/in-post/Kunming-0.jpg
 header-style: text
 catalog: true
 tags:
@@ -13,6 +14,9 @@ tags:
     - China
 location: [102.8329, 24.8801]
 ---
+
+> Photos taken in Kunming -> [Douban Album](https://www.douban.com/photos/album/1897282350/)
+
 ![Kunming-0](/images/in-post/Kunming-0.jpg)
 
 Kunming was the last stop of my trip in Yunnan. I didn't have high expectations at first; I just wanted to rest well before heading back to Beijing the next day, treating it merely as a transfer point.

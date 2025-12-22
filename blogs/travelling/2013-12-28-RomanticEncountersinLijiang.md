@@ -5,6 +5,7 @@ title:      "Romantic Encounters in Lijiang"
 subtitle:   "Romantic Encounters in LiJiang"
 date:       2013-12-28
 author:     StuartLau
+header-img: img/in-post/Lijiang-0.jpg
 header-style: text
 catalog: true
 tags:
@@ -13,6 +14,8 @@ tags:
     - China
 location: [100.2330, 26.8721]
 ---
+> Photos taken in Lijiang -> [Douban Album](https://www.douban.com/photos/album/1886475117/)
+
 ![Lijiang-0](/images/in-post/Lijiang-0.jpg)
 
 On December 28, 2013, I flew from Beijing to Lijiang, a place I had long wanted to visit but missed due to various reasons.
