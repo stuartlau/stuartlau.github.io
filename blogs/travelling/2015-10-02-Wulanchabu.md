@@ -1,8 +1,8 @@
 ---
 layout:     post
 permalink:  /blogs/2015-10-02-Wulanchabu/index.html
-title:      "Lasa"
-subtitle:   "Lasa"
+title:      "Wulanchabu"
+subtitle:   "Wulanchabu"
 date:       2015-10-02
 author:     StuartLau
 header-style: text
