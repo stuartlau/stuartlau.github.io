@@ -1,17 +1,17 @@
 ---
 layout:     post
-permalink:  /blogs/2017-07-28-Beijing/index.html
-title:      "Beijing"
-subtitle:   "Beijing"
+permalink:  /blogs/2017-07-28-Qinhuangdao/index.html
+title:      "Qinhuangdao"
+subtitle:   "Qinhuangdao"
 date:       2017-07-28
 author:     StuartLau
 header-style: text
 catalog: true
 tags:
     - Travelling
-    - Beijing
+    - Qinhuangdao
     - China
-location: [116.4074, 39.9042]
+location: [118.33, 39.24]
 ---
 TBD..
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
