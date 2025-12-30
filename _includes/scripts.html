@@ -6,7 +6,7 @@
 <!-- Medium Zoom for image zooming -->
 <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     if (typeof window.mediumZoom !== 'function') return;
 
     var selector = 'article img:not(.no-zoom), .post-content img:not(.no-zoom), .article-wrap img:not(.no-zoom)';
@@ -35,7 +35,7 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     var articleWrap = document.querySelector('.article-wrap');
     if (!articleWrap) return;
 
@@ -57,7 +57,7 @@
     window.addEventListener('resize', updateProgress);
 
     var pres = Array.prototype.slice.call(articleWrap.querySelectorAll('pre'));
-    pres.forEach(function(pre) {
+    pres.forEach(function (pre) {
       if (pre.querySelector('.code-copy-btn')) return;
       var code = pre.querySelector('code');
       if (!code) return;
@@ -68,17 +68,17 @@
       btn.className = 'code-copy-btn';
       btn.textContent = 'Copy';
 
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', function () {
         var text = code.innerText || code.textContent || '';
         if (!text) return;
-        var done = function() {
+        var done = function () {
           var old = btn.textContent;
           btn.textContent = 'Copied';
-          setTimeout(function() { btn.textContent = old; }, 900);
+          setTimeout(function () { btn.textContent = old; }, 900);
         };
 
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).then(done).catch(function(){});
+          navigator.clipboard.writeText(text).then(done).catch(function () { });
           return;
         }
 
@@ -89,7 +89,7 @@
         ta.style.left = '-9999px';
         document.body.appendChild(ta);
         ta.select();
-        try { document.execCommand('copy'); done(); } catch (e) {}
+        try { document.execCommand('copy'); done(); } catch (e) { }
         document.body.removeChild(ta);
       });
 
@@ -180,7 +180,7 @@
             };
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard.writeText(pageUrl).then(done).catch(function(){});
+              navigator.clipboard.writeText(pageUrl).then(done).catch(function () { });
               return;
             }
 
@@ -191,7 +191,7 @@
             ta.style.left = '-9999px';
             document.body.appendChild(ta);
             ta.select();
-            try { document.execCommand('copy'); done(); } catch (e) {}
+            try { document.execCommand('copy'); done(); } catch (e) { }
             document.body.removeChild(ta);
           });
           return;
@@ -213,7 +213,7 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     var articleWrap = document.querySelector('.article-wrap');
     if (!articleWrap) return;
 
@@ -254,7 +254,7 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     var articleWrap = document.querySelector('.article-wrap');
     if (!articleWrap) return;
 
@@ -262,7 +262,7 @@
     if (!hasInPost) return;
 
     var headings = Array.prototype.slice.call(articleWrap.querySelectorAll('h2,h3,h4,h5,h6'));
-    headings.forEach(function(h) {
+    headings.forEach(function (h) {
       h.parentNode && h.parentNode.removeChild(h);
     });
   });
@@ -279,8 +279,10 @@
 {% endif %}
 
 {% if page.url contains '/life' %}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@3.5.17/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3-cloud@1/build/d3.layout.cloud.js"></script>
@@ -289,10 +291,12 @@
 
 <!-- Google Analytics -->
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
   ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
   ga('send', 'pageview');
