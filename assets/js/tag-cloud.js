@@ -119,10 +119,10 @@
       '#991b1b', // red-dark
       '#581c87'  // purple-dark
     ];
-    
+
     var colorMap = Object.create(null);
     var colorIndex = 0;
-    
+
     var color = function (t) {
       if (activeTag && t === activeTag) return 'var(--link-color)';
       // Assign consistent color to each tag
@@ -149,7 +149,7 @@
       .fontSize(function (d) {
         return d.size;
       })
-      .on('end', function(words) {
+      .on('end', function (words) {
         draw(words, onPick);
       });
 
@@ -188,14 +188,15 @@
         .style('cursor', 'pointer')
         .text(function (d) {
           return d.text;
-        })
-        .append('title')
+        });
+
+      texts.append('title')
         .text(function (d) {
           return d.text + ' (' + d.count + ')';
         });
 
       // Add hover effect: increase font size on mouseover (doesn't change position)
-      texts.on('mouseenter', function(d) {
+      texts.on('mouseenter', function (d) {
         var self = window.d3.select(this);
         var originalSize = parseFloat(self.attr('data-original-size'));
         self.transition()
@@ -203,7 +204,7 @@
           .style('font-size', (originalSize * 1.3) + 'px');
       });
 
-      texts.on('mouseleave', function(d) {
+      texts.on('mouseleave', function (d) {
         var self = window.d3.select(this);
         var originalSize = parseFloat(self.attr('data-original-size'));
         self.transition()

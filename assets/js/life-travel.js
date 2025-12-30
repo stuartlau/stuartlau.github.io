@@ -176,8 +176,9 @@
         .style('cursor', 'pointer')
         .text(function (d) {
           return d.text;
-        })
-        .append('title')
+        });
+
+      texts.append('title')
         .text(function (d) {
           return d.text + ' (' + d.count + ')';
         });
@@ -335,30 +336,33 @@
     }
 
     function setHighlight(tag) {
-      Object.keys(markersByTag).forEach(function (k) {
-        (markersByTag[k] || []).forEach(function (m) {
-          var el = m.getElement && m.getElement();
-          if (!el) return;
+      // Clear previous states
+      layers.forEach(function(m) {
+        var el = m.getElement && m.getElement();
+        if (el) {
           el.classList.remove('is-highlighted');
           el.classList.remove('is-dimmed');
-        });
+        }
       });
 
       if (!tag) return;
 
-      Object.keys(markersByTag).forEach(function (k) {
-        (markersByTag[k] || []).forEach(function (m) {
-          var el = m.getElement && m.getElement();
-          if (!el) return;
-          if (k === tag) {
-            el.classList.add('is-highlighted');
-          } else {
-            el.classList.add('is-dimmed');
-          }
-        });
+      var ms = markersByTag[tag] || [];
+      
+      // Highlight the selected tag markers
+      ms.forEach(function(m) {
+        var el = m.getElement && m.getElement();
+        if (el) el.classList.add('is-highlighted');
       });
 
-      var ms = markersByTag[tag] || [];
+      // Dim everyone else
+      layers.forEach(function(m) {
+         var el = m.getElement && m.getElement();
+         if (el && !el.classList.contains('is-highlighted')) {
+           el.classList.add('is-dimmed');
+         }
+      });
+
       if (ms.length) {
         var fg = window.L.featureGroup(ms);
         map.fitBounds(fg.getBounds().pad(0.35), { animate: true, duration: 0.6 });
