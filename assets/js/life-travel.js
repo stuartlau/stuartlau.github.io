@@ -107,10 +107,10 @@
       '#991b1b', // red-dark
       '#581c87'  // purple-dark
     ];
-    
+
     var colorMap = Object.create(null);
     var colorIndex = 0;
-    
+
     var color = function (t) {
       if (activeTag && t === activeTag) return 'var(--link-color)';
       // Assign consistent color to each tag
@@ -137,7 +137,7 @@
       .fontSize(function (d) {
         return d.size;
       })
-      .on('end', function(words) {
+      .on('end', function (words) {
         draw(words, onPick);
       });
 
@@ -184,7 +184,7 @@
         });
 
       // Add hover effect: increase font size on mouseover (doesn't change position)
-      texts.on('mouseenter', function(d) {
+      texts.on('mouseenter', function (d) {
         var self = window.d3.select(this);
         var originalSize = parseFloat(self.attr('data-original-size'));
         self.transition()
@@ -192,7 +192,7 @@
           .style('font-size', (originalSize * 1.3) + 'px');
       });
 
-      texts.on('mouseleave', function(d) {
+      texts.on('mouseleave', function (d) {
         var self = window.d3.select(this);
         var originalSize = parseFloat(self.attr('data-original-size'));
         self.transition()
@@ -276,7 +276,7 @@
 
       // Build popup content for all points at this location
       var popup = '<div class="travel-popup">';
-      
+
       if (locationPoints.length === 1) {
         // Single point - show thumbnail if available
         var p = locationPoints[0];
@@ -337,7 +337,7 @@
 
     function setHighlight(tag) {
       // Clear previous states
-      layers.forEach(function(m) {
+      layers.forEach(function (m) {
         var el = m.getElement && m.getElement();
         if (el) {
           el.classList.remove('is-highlighted');
@@ -348,24 +348,24 @@
       if (!tag) return;
 
       var ms = markersByTag[tag] || [];
-      
+
       // Highlight the selected tag markers
-      ms.forEach(function(m) {
+      ms.forEach(function (m) {
         var el = m.getElement && m.getElement();
         if (el) el.classList.add('is-highlighted');
       });
 
       // Dim everyone else
-      layers.forEach(function(m) {
-         var el = m.getElement && m.getElement();
-         if (el && !el.classList.contains('is-highlighted')) {
-           el.classList.add('is-dimmed');
-         }
+      layers.forEach(function (m) {
+        var el = m.getElement && m.getElement();
+        if (el && !el.classList.contains('is-highlighted')) {
+          el.classList.add('is-dimmed');
+        }
       });
 
       if (ms.length) {
         var fg = window.L.featureGroup(ms);
-        map.fitBounds(fg.getBounds().pad(0.35), { animate: true, duration: 0.6 });
+        map.fitBounds(fg.getBounds().pad(0.35), { animate: true, duration: 0.6, maxZoom: 12 });
       }
     }
 
@@ -396,7 +396,7 @@
         var clearBtn = qs('#life-tag-cloud-clear');
         var activeEl = qs('#life-tag-cloud-active');
 
-        var mapApi = { setHighlight: function () {} };
+        var mapApi = { setHighlight: function () { } };
         initMap(points, function (api) {
           mapApi = api || mapApi;
         });
