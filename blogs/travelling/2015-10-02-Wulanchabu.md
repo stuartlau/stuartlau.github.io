@@ -5,6 +5,7 @@ title:      "Wulanchabu"
 subtitle:   "Wulanchabu"
 date:       2015-10-02
 author:     StuartLau
+header-img: img/in-post/Wulanchabu-0.jpg
 header-style: text
 catalog: true
 tags:

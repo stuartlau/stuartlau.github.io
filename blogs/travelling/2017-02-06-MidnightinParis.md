@@ -5,6 +5,7 @@ title:      "Midnight in Paris"
 subtitle:   "Midnight in Paris"
 date:       2017-02-06
 author:     StuartLau
+header-img: img/in-post/MidnightinParis-0.jpg
 header-style: text
 catalog: true
 tags:

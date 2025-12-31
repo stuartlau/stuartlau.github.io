@@ -5,6 +5,7 @@ title:      "Zhangjiakou"
 subtitle:   "Zhangjiakou"
 date:       2023-05-18
 author:     StuartLau
+header-img: img/in-post/Zhangjiakou-0.jpg
 header-style: text
 catalog: true
 tags:

@@ -15,7 +15,8 @@ tags:
 location: [102.8329, 24.8801]
 ---
 
-> Photos taken in Kunming -> [Douban Album](https://www.douban.com/photos/album/1897282350/)
+> Photos taken in Kunming 2014-01 -> [Douban Album](https://www.douban.com/photos/album/1897282350/)
+> Photos taken in Kunming 2025-08-> [Douban Album](https://www.douban.com/photos/album/2924378404/)
 
 ![Kunming-0](/images/in-post/Kunming-0.jpg)
 

@@ -14,7 +14,10 @@ tags:
 location: [2.1734, 41.3851]
 ---    
 
-> Photos taken in Barcelona -> [Douban Album](https://www.douban.com/photos/album/1886312773/)
+> Photos taken in Barcelona 2017-02 -> [Douban Album](https://www.douban.com/photos/album/1886312773/)
+
+> Photos taken in Barcelona 2018-01 -> [Douban Album](https://www.douban.com/photos/album/1897279329/)
+
 
 > Barcelona, what comes to mind when you mention this city?
 

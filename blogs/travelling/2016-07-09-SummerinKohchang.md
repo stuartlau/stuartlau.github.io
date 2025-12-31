@@ -5,6 +5,7 @@ title:      "Summer in Kohchang"
 subtitle:   "Summer in Kohchang"
 date:       2016-07-09
 author:     StuartLau
+header-img: img/in-post/SummerinKohchang-0.jpg
 header-style: text
 catalog: true
 tags:
