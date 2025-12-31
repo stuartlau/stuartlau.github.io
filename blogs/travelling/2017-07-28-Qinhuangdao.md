@@ -11,7 +11,7 @@ tags:
     - Travelling
     - Qinhuangdao
     - China
-location: [118.33, 39.24]
+location: [119.51, 40.37]
 ---
 TBD..
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
