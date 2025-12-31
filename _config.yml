@@ -40,13 +40,13 @@ links:
   - title: About
     url: /
   - title: Career
-    url: /career
+    url: /career/
   - title: Publications
     url: /publications/
   - title: Blogs
     url: /blogs/
   - title: Life
-    url: /life
+    url: /life/
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone: China/Beijing
