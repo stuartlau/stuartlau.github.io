@@ -113,6 +113,6 @@ Either way, I love this relay. The game is on.
  
 ### Stories in Hostels and CouchSurfing
 
-### Chinese mainland travellers met in Kending
+### Chinese mainland travellers met in Kenting
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
