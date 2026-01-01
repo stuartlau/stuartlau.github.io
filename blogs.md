@@ -30,6 +30,9 @@ title: Blogs
   {% if p.title contains 'Moment' %}
     {% assign has_moment = true %}
   {% endif %}
+  {% if p.tags contains 'Patent' %}
+    {% continue %}
+  {% endif %}
   {% unless has_travelling or has_moment %}
     {% assign filtered_docs = filtered_docs | push: p %}
   {% endunless %}
