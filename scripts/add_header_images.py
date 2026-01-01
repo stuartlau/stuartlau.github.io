@@ -42,7 +42,7 @@ def extract_douban_url(content):
     return None
 
 def fetch_douban_image_url(album_url):
-    """Fetch first image URL from Douban album page"""
+    """Fetch cover/first image URL from Douban album page"""
     try:
         print(f"  Fetching album: {album_url}")
         response = requests.get(album_url, headers=HEADERS, timeout=10)
@@ -50,20 +50,25 @@ def fetch_douban_image_url(album_url):
         
         soup = BeautifulSoup(response.content, 'html.parser')
         
-        # Try to find cover image first
+        # 1. Try finding data-image (often used for cover sharing)
+        share_el = soup.find(attrs={"data-image": True})
+        if share_el:
+            img_url = share_el['data-image']
+            img_url = img_url.replace('/thumb/', '/l/').replace('/m/', '/l/')
+            print(f"  Found data-image cover: {img_url}")
+            return img_url
+
+        # 2. Try to find cover image CSS selector
         cover_img = soup.select_one('.cover img')
         if cover_img and cover_img.get('src'):
-            img_url = cover_img['src']
-            # Convert to large version
-            img_url = img_url.replace('/m/', '/l/')
+            img_url = cover_img['src'].replace('/m/', '/l/').replace('/thumb/', '/l/')
             print(f"  Found cover image: {img_url}")
             return img_url
         
-        # Fallback to first photo in the album
+        # 3. Fallback to first photo in the album
         first_photo = soup.select_one('.photolst img')
         if first_photo and first_photo.get('src'):
-            img_url = first_photo['src']
-            img_url = img_url.replace('/m/', '/l/')
+            img_url = first_photo['src'].replace('/m/', '/l/').replace('/thumb/', '/l/')
             print(f"  Found first photo: {img_url}")
             return img_url
             
@@ -71,7 +76,7 @@ def fetch_douban_image_url(album_url):
         return None
         
     except Exception as e:
-        print(f"  Error fetching album: {e}")
+        print(f"  Error fetching album {album_url}: {e}")
         return None
 
 def download_image(img_url, save_path):
@@ -95,15 +100,28 @@ def download_image(img_url, save_path):
         return False
 
 def add_header_img_to_frontmatter(content, header_img_value):
-    """Add header-img to YAML front matter"""
+    """Add or update header-img in YAML front matter"""
     # Find the front matter boundaries
     lines = content.split('\n')
     
-    if not lines[0].strip() == '---':
+    if not lines or not lines[0].strip() == '---':
         print("  Warning: No front matter found")
         return content
     
-    # Find the end of front matter
+    # Check if header-img already exists
+    exists_idx = -1
+    for i in range(1, len(lines)):
+        if lines[i].strip() == '---':
+            break
+        if lines[i].startswith('header-img:'):
+            exists_idx = i
+    
+    if exists_idx != -1:
+        # Update existing
+        lines[exists_idx] = f'header-img: {header_img_value}'
+        return '\n'.join(lines)
+    
+    # Insert new
     end_idx = -1
     for i in range(1, len(lines)):
         if lines[i].strip() == '---':
@@ -111,19 +129,15 @@ def add_header_img_to_frontmatter(content, header_img_value):
             break
     
     if end_idx == -1:
-        print("  Warning: Front matter not properly closed")
         return content
-    
-    # Insert header-img after author line if exists, otherwise before the closing ---
+        
     insert_idx = end_idx
     for i in range(1, end_idx):
         if lines[i].startswith('author:'):
             insert_idx = i + 1
             break
     
-    # Insert the header-img line
     lines.insert(insert_idx, f'header-img: {header_img_value}')
-    
     return '\n'.join(lines)
 
 def process_markdown_file(filepath):
@@ -134,11 +148,6 @@ def process_markdown_file(filepath):
     # Read file content
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
-    
-    # Check if header-img already exists
-    if has_header_img(content):
-        print("  Already has header-img, skipping")
-        return
     
     # Extract Douban URL
     douban_url = extract_douban_url(content)
@@ -166,7 +175,7 @@ def process_markdown_file(filepath):
         print("  Failed to download image, skipping")
         return
     
-    # Add header-img to front matter
+    # Add or update header-img in front matter
     header_img_value = f"img/in-post/{image_filename}"
     updated_content = add_header_img_to_frontmatter(content, header_img_value)
     
@@ -174,7 +183,7 @@ def process_markdown_file(filepath):
     with open(filepath, 'w', encoding='utf-8') as f:
         f.write(updated_content)
     
-    print(f"  ✓ Successfully added header-img: {header_img_value}")
+    print(f"  ✓ Successfully synced header-img: {header_img_value}")
     
     # Be nice to Douban servers
     time.sleep(2)
