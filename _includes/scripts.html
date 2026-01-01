@@ -174,9 +174,10 @@
         if (type === 'copy') {
           el.addEventListener('click', function () {
             var done = function () {
-              var old = el.textContent;
-              el.textContent = 'Copied';
-              setTimeout(function () { el.textContent = old; }, 900);
+              var textEl = el.querySelector('.share-btn-text');
+              var old = textEl ? textEl.textContent : el.textContent;
+              if (textEl) textEl.textContent = 'Copied'; else el.textContent = 'Copied';
+              setTimeout(function () { if (textEl) textEl.textContent = old; else el.textContent = old; }, 900);
             };
 
             if (navigator.clipboard && navigator.clipboard.writeText) {

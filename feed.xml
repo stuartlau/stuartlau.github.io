@@ -15,7 +15,7 @@ permalink: /feed.xml
     {% assign docs = site.pages | where: "layout", "post" %}
     {% assign docs = docs | where_exp: "p", "p.url contains '/blogs/'" %}
     {% assign docs = docs | sort: "date" | reverse %}
-    {% for post in docs limit: 50 %}
+    {% for post in docs %}
     <item>
       <title>{{ post.title | xml_escape }}</title>
       <description>{{ post.content | strip_html | strip_newlines | truncate: 200 | xml_escape }}</description>

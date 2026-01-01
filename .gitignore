@@ -1,0 +1,55 @@
+# Jekyll
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.history/
+
+# Ruby/Bundler
+.bundle/
+vendor/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Application Specific
+patents.csv
+douban_images_report.txt
+shell_download.sh
+*.log
+
+# Temp files
+*.bak
+*.tmp
+*.swp
+*~
