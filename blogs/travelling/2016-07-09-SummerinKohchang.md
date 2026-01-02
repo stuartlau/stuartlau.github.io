@@ -15,6 +15,16 @@ tags:
 location: [102.2729, 12.0567]
 ---
 
-> Photos taken in Kohchang -> [Douban Album](https://www.douban.com/photos/album/1886764148/)
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1886764148" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/SummerinKohchang-0.jpg" alt="SummerinKohchang Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">SummerinKohchang Album</span>
+      <span class="album-desc">Kohchang</span>
+    </div>
+  </a>
+</div>
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

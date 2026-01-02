@@ -15,7 +15,17 @@ tags:
 location: [108.9398, 34.3416]
 ---
 
-> Photos taken in Xi'an -> [Douban Album](https://www.douban.com/photos/album/1886964959/)
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1886964959" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/StoriesAboutXian-0.jpg" alt="StoriesAboutXian Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">StoriesAboutXian Album</span>
+      <span class="album-desc">View Album</span>
+    </div>
+  </a>
+</div>
 
 ### Stories About Xi'an
 ![Xian-0](/images/in-post/Xian-0.jpg)

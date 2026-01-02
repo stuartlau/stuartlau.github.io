@@ -14,9 +14,26 @@ tags:
 location: [2.1734, 41.3851]
 ---    
 
-> Photos taken in Barcelona 2017-02 -> [Douban Album](https://www.douban.com/photos/album/1886312773/)
-
-> Photos taken in Barcelona 2018-01 -> [Douban Album](https://www.douban.com/photos/album/1897279329/)
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1886312773" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/VickyCristinaBarcelona-0.jpg" alt="VickyCristinaBarcelona Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">VickyCristinaBarcelona Album</span>
+      <span class="album-desc">2017-02</span>
+    </div>
+  </a>
+  <a href="https://www.douban.com/photos/album/1897279329" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/VickyCristinaBarcelona-1.jpg" alt="VickyCristinaBarcelona Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">VickyCristinaBarcelona Album</span>
+      <span class="album-desc">2018-01</span>
+    </div>
+  </a>
+</div>
 
 
 > Barcelona, what comes to mind when you mention this city?

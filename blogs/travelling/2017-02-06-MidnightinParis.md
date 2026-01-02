@@ -15,6 +15,16 @@ tags:
 location: [2.3522, 48.8566]
 ---
 
-> Photos taken in Paris -> [Douban Album](https://www.douban.com/photos/album/1886312852/)
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1886312852" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/MidnightinParis-0.jpg" alt="MidnightinParis Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">MidnightinParis Album</span>
+      <span class="album-desc">Paris</span>
+    </div>
+  </a>
+</div>
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

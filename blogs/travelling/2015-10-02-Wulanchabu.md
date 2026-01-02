@@ -15,6 +15,16 @@ tags:
 location: [113.12, 41.02]
 ---
 
-> Photos taken in Wulanchabu -> [Douban Album](https://www.douban.com/photos/album/1897230966/)
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1897230966" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/Wulanchabu-0.jpg" alt="Wulanchabu Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">Wulanchabu Album</span>
+      <span class="album-desc">Wulanchabu</span>
+    </div>
+  </a>
+</div>
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

@@ -14,7 +14,17 @@ tags:
     - China
 location: [100.2330, 26.8721]
 ---
-> Photos taken in Lijiang -> [Douban Album](https://www.douban.com/photos/album/1886475117/)
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1886475117" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/RomanticEncountersinLijiang-0.jpg" alt="RomanticEncountersinLijiang Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">RomanticEncountersinLijiang Album</span>
+      <span class="album-desc">Lijiang</span>
+    </div>
+  </a>
+</div>
 
 ![Lijiang-0](/images/in-post/Lijiang-0.jpg)
 

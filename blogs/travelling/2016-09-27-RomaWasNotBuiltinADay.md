@@ -15,9 +15,26 @@ tags:
 location: [12.4964, 41.9028]
 ---
 
-> Photos taken in Roma 2016-09 -> [Douban Album](https://www.douban.com/photos/album/1886308611/)
-
-> Photos taken in Roma 2019-06 -> [Douban Album](https://www.douban.com/photos/album/1897132586/)
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1886308611" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/RomaWasNotBuiltinADay-0.jpg" alt="RomaWasNotBuiltinADay Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">RomaWasNotBuiltinADay Album</span>
+      <span class="album-desc">2016-09</span>
+    </div>
+  </a>
+  <a href="https://www.douban.com/photos/album/1897132586" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/RomaWasNotBuiltinADay-1.jpg" alt="RomaWasNotBuiltinADay Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">RomaWasNotBuiltinADay Album</span>
+      <span class="album-desc">2019-06</span>
+    </div>
+  </a>
+</div>
 
 
 

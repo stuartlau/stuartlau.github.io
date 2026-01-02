@@ -14,7 +14,17 @@ tags:
     - Taiwan
 location: [121.5654, 25.0330]
 ---
-> Photos taken in Taipei -> [Douban Album](https://www.douban.com/photos/album/1886068881/)
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1886068881" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/FirstPageTaipei-0.jpg" alt="FirstPageTaipei Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">FirstPageTaipei Album</span>
+      <span class="album-desc">Taipei</span>
+    </div>
+  </a>
+</div>
 
 ### First Page Taipei
 ![Taipei-0](/images/in-post/Taipei-0.jpg)

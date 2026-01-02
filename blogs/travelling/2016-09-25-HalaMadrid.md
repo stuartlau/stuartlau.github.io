@@ -15,13 +15,44 @@ tags:
 location: [-3.7038, 40.4168]
 ---
 
-> Photos taken in Madrid 2016-09 -> [Douban Album](https://www.douban.com/photos/album/1886312930/)
-
-> Photos taken in Madrid 2017-01 -> [Douban Album](https://www.douban.com/photos/album/1897279160/)
-
-> Photos taken in Madrid 2018-01 -> [Douban Album](https://www.douban.com/photos/album/1897279014/)
-
-> Photos taken in Madrid 2019-07 -> [Douban Album](https://www.douban.com/photos/album/1897509286/)
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1886312930" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/HalaMadrid-0.jpg" alt="HalaMadrid Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">HalaMadrid Album</span>
+      <span class="album-desc">2016-09</span>
+    </div>
+  </a>
+  <a href="https://www.douban.com/photos/album/1897279160" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/HalaMadrid-1.jpg" alt="HalaMadrid Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">HalaMadrid Album</span>
+      <span class="album-desc">2017-01</span>
+    </div>
+  </a>
+  <a href="https://www.douban.com/photos/album/1897279014" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/HalaMadrid-2.jpg" alt="HalaMadrid Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">HalaMadrid Album</span>
+      <span class="album-desc">2018-01</span>
+    </div>
+  </a>
+  <a href="https://www.douban.com/photos/album/1897509286" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/HalaMadrid-3.jpg" alt="HalaMadrid Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">HalaMadrid Album</span>
+      <span class="album-desc">2019-07</span>
+    </div>
+  </a>
+</div>
 
 
 

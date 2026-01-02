@@ -15,8 +15,26 @@ tags:
 location: [102.8329, 24.8801]
 ---
 
-> Photos taken in Kunming 2014-01 -> [Douban Album](https://www.douban.com/photos/album/1897282350/)
-> Photos taken in Kunming 2025-08-> [Douban Album](https://www.douban.com/photos/album/2924378404/)
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1897282350" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/LightDiveinKunming-0.jpg" alt="LightDiveinKunming Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">LightDiveinKunming Album</span>
+      <span class="album-desc">2014-01</span>
+    </div>
+  </a>
+  <a href="https://www.douban.com/photos/album/2924378404" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/LightDiveinKunming-1.jpg" alt="LightDiveinKunming Album" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">LightDiveinKunming Album</span>
+      <span class="album-desc">2025-08</span>
+    </div>
+  </a>
+</div>
 
 ![Kunming-0](/images/in-post/Kunming-0.jpg)
 
