@@ -33,28 +33,6 @@
 
   {% include navigation.html %}
 
-  <button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
-    <span class="theme-icon theme-icon-moon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-        stroke-linejoin="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-      </svg>
-    </span>
-    <span class="theme-icon theme-icon-sun">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-        stroke-linejoin="round">
-        <circle cx="12" cy="12" r="5"></circle>
-        <line x1="12" y1="1" x2="12" y2="3"></line>
-        <line x1="12" y1="21" x2="12" y2="23"></line>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-        <line x1="1" y1="12" x2="3" y2="12"></line>
-        <line x1="21" y1="12" x2="23" y2="12"></line>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-      </svg>
-    </span>
-  </button>
 
 
   {% if page.image.feature %}<div class="image-wrap">
@@ -109,6 +87,8 @@
       <div class="article-wrap" itemprop="text">
         {{ content }}
 
+        {% include related-posts.html page=page %}
+
         {% assign docs = site.pages | where: "layout", "post" %}
         {% assign docs = docs | where_exp: "p", "p.url contains '/blogs/'" %}
         {% assign docs = docs | sort: "date" %}
@@ -138,6 +118,7 @@
           </nav>
           {% endif %}
 
+
           {% if site.engagement %}
           <section class="engagement" aria-label="Engagement">
             <div class="engagement-actions">
@@ -147,15 +128,6 @@
                 <span class="like-btn-text">Like</span>
                 <span class="like-btn-count" aria-label="Likes">0</span>
               </button>
-              {% endif %}
-
-              {% if site.engagement.subscribe.enabled %}
-              {% if site.engagement.subscribe.url and site.engagement.subscribe.url != "" %}
-              <a class="subscribe-btn" href="{{ site.engagement.subscribe.url }}" target="_blank"
-                rel="noopener">Subscribe</a>
-              {% else %}
-              <a class="subscribe-btn" href="{{ '/feed.xml' | relative_url }}">RSS</a>
-              {% endif %}
               {% endif %}
 
               {% if site.engagement.share.enabled %}
@@ -239,24 +211,6 @@
 
 
   <div class="footer-wrap">
-    {% if site.related_posts.size %}<div class="related-articles">
-      <h4>You might also enjoy <small class="pull-right">(<a href="{{ site.url }}/articles">View all
-            articles</a>)</small></h4>
-      <ul>
-        {% for post in site.related_posts limit:3 %}
-        {% assign match = false %}
-        {% for category in post.categories %}
-        {% if page.categories contains category %}
-        {% assign match = true %}
-        {% endif %}
-        {% endfor %}
-        {% if match %}
-        <li><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
-        {% endif %}
-        {% endfor %}
-      </ul>
-      <hr />
-    </div><!-- /.related-articles -->{% endif %}
     <footer>
       {% include footer.html %}
     </footer>

@@ -1,0 +1,99 @@
+{%- comment -%}
+  Related Posts Plugin
+  Finds posts with matching tags and displays them as related content
+  Uses site.pages with post layout since blog posts are in blogs/ directory
+{%- endcomment -%}
+
+{%- assign rp_enabled = site.related_posts.enabled | default: true -%}
+{%- if rp_enabled -%}
+{%- assign max_related = site.related_posts.max | default: 3 -%}
+{%- assign min_common_tags = site.related_posts.min_tags | default: 1 -%}
+
+{%- assign related_posts = "" | split: "" -%}
+{%- comment -%} Get current page tags {%- endcomment -%}
+{%- assign current_page = include.page | default: page -%}
+{%- assign current_tags = current_page.tags | default: current_page.tag -%}
+
+{%- comment -%} Get all blog posts from site.pages that have post layout {%- endcomment -%}
+{%- assign blog_docs = "" | split: "" -%}
+{%- for doc in site.pages -%}
+  {%- if doc.layout == "post" and doc.url contains "/blogs/" -%}
+    {%- assign blog_docs = blog_docs | push: doc -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} Skip if no tags defined {%- endcomment -%}
+{%- if current_tags -%}
+  {%- for post in blog_docs -%}
+    {%- comment -%} Skip self and posts without tags {%- endcomment -%}
+    {%- if post.url != page.url and post.tags -%}
+      {%- assign common_tags = 0 -%}
+      {%- for tag in post.tags -%}
+        {%- if current_tags contains tag -%}
+          {%- assign common_tags = common_tags | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Add post if it has enough common tags {%- endcomment -%}
+      {%- if common_tags >= min_common_tags -%}
+        {%- assign related_posts = related_posts | push: post -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- comment -%} Sort by number of common tags (most relevant first) {%- endcomment -%}
+{%- if related_posts.size > 0 -%}
+  {%- assign sorted_posts = "" | split: "" -%}
+  {%- assign used = "" | split: "" -%}
+
+  {%- comment -%} Loop to find and sort posts by relevance {%- endcomment -%}
+  {%- for i in (1..related_posts.size) -%}
+    {%- assign best_post = nil -%}
+    {%- assign best_count = 0 -%}
+
+    {%- for post in related_posts -%}
+      {%- unless used contains post.url -%}
+        {%- assign common_count = 0 -%}
+        {%- for tag in post.tags -%}
+          {%- if current_tags contains tag -%}
+            {%- assign common_count = common_count | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if common_count > best_count -%}
+          {%- assign best_count = common_count -%}
+          {%- assign best_post = post -%}
+        {%- endif -%}
+      {%- endunless -%}
+    {%- endfor -%}
+
+    {%- if best_post -%}
+      {%- assign sorted_posts = sorted_posts | push: best_post -%}
+      {%- assign used = used | push: best_post.url -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- assign related_posts = sorted_posts -%}
+{%- endif -%}
+
+{%- comment -%} Display related posts section {%- endcomment -%}
+{%- if related_posts.size > 0 -%}
+<div class="related-articles">
+  <h4>
+    {{ site.related_posts.title | default: "You might also enjoy" }}
+    <small class="pull-right">
+      <a href="{{ '/blogs/' | relative_url }}">View all articles</a>
+    </small>
+  </h4>
+  <ul>
+    {%- for post in related_posts limit:max_related -%}
+    <li>
+      <a href="{{ post.url | relative_url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li>
+    {%- endfor -%}
+  </ul>
+  <hr />
+</div><!-- /.related-articles -->
+{%- endif -%}
+{%- endif -%}

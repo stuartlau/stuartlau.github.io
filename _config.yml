@@ -104,5 +104,12 @@ engagement:
     theme: "preferred_color_scheme"
     lang: "en"
 
+# Related posts configuration
+related_posts:
+  enabled: true
+  title: "You might also enjoy"
+  max: 3  # Maximum number of related posts to show
+  min_tags: 1  # Minimum number of common tags required
+
 include: [".htaccess"]
 exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "minimal-mistakes.sublime-project", "minimal-mistakes.sublime-workspace"]
