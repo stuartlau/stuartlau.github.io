@@ -3,6 +3,19 @@ layout: default
 ---
 
 <link rel="stylesheet" href="/assets/css/douban.css">
+<style>
+    /* Ensure proper touch handling on mobile */
+    .status-bubble {
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Hide popup on desktop */
+    @media (min-width: 769px) {
+        .status-popup {
+            display: none !important;
+        }
+    }
+</style>
 
 <div class="douban-feed-container">
     <nav class="douban-years-nav">
@@ -65,7 +78,7 @@ layout: default
         {% assign last_month = current_month %}
         {% endif %}
 
-        <div class="douban-status-item">
+        <div class="douban-status-item" data-status-id="{{ forloop.index }}">
             <div class="status-avatar">
                 <img src="/images/douban_avatar.jpg" alt="Avatar">
             </div>
@@ -76,9 +89,76 @@ layout: default
                 </div>
             </div>
         </div>
+        
+        <!-- Popup for mobile -->
+        <div class="status-popup" id="popup-{{ forloop.index }}">
+            <button class="status-popup-close">×</button>
+            <div class="status-popup-content">
+                <div class="status-popup-avatar">
+                    <img src="/images/douban_avatar.jpg" alt="Avatar">
+                    <span class="status-popup-time">{{ status.time }}</span>
+                </div>
+                <div class="status-popup-text">{{ status.content }}</div>
+            </div>
+        </div>
         {% endfor %}
         {% else %}
         <p>No data found for year {{ year_str }} (Debug: page.year={{ page.year }})</p>
         {% endif %}
     </div>
 </div>
+
+<script>
+    // Mobile popup functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Only run on mobile
+        if (window.innerWidth > 768) return;
+        
+        // Handle popup open
+        document.querySelectorAll('.status-bubble').forEach((bubble, index) => {
+            bubble.addEventListener('click', function(e) {
+                // Don't trigger if clicking on a link
+                if (e.target.tagName === 'A') return;
+                
+                const popup = document.getElementById(`popup-${index + 1}`);
+                if (popup) {
+                    document.body.style.overflow = 'hidden';
+                    popup.classList.add('active');
+                }
+            });
+        });
+        
+        // Handle popup close
+        document.querySelectorAll('.status-popup-close, .status-popup').forEach(el => {
+            el.addEventListener('click', function(e) {
+                // Only close if clicking directly on the overlay or close button
+                if (e.target === this || e.target.classList.contains('status-popup-close')) {
+                    document.body.style.overflow = '';
+                    document.querySelectorAll('.status-popup').forEach(popup => {
+                        popup.classList.remove('active');
+                    });
+                }
+            });
+        });
+        
+        // Close popup when pressing ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.body.style.overflow = '';
+                document.querySelectorAll('.status-popup').forEach(popup => {
+                    popup.classList.remove('active');
+                });
+            }
+        });
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            document.body.style.overflow = '';
+            document.querySelectorAll('.status-popup').forEach(popup => {
+                popup.classList.remove('active');
+            });
+        }
+    });
+</script>
