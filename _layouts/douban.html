@@ -53,6 +53,12 @@ layout: default
         {% if year_data %}
         {% assign last_month = "" %}
         {% for status in year_data %}
+        {% assign content_to_check = status.content | strip %}
+        {% if content_to_check contains '导演:' or 
+              content_to_check contains '表演者:' or 
+              content_to_check contains '作者:' %}
+            {% continue %}
+        {% endif %}
         {% assign current_month = status.time | slice: 5, 2 %}
         {% if current_month != last_month %}
         <div class="month-separator">{{ current_month }}月</div>
