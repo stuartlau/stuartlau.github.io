@@ -175,9 +175,20 @@
           el.addEventListener('click', function () {
             var done = function () {
               var textEl = el.querySelector('.share-btn-text');
-              var old = textEl ? textEl.textContent : el.textContent;
-              if (textEl) textEl.textContent = 'Copied'; else el.textContent = 'Copied';
-              setTimeout(function () { if (textEl) textEl.textContent = old; else el.textContent = old; }, 900);
+              if (textEl) {
+                var old = textEl.textContent;
+                textEl.textContent = 'Copied';
+                setTimeout(function () { textEl.textContent = old; }, 900);
+              } else {
+                var oldColor = el.style.color;
+                el.style.color = '#2e963d';
+                var oldTitle = el.getAttribute('title');
+                el.setAttribute('title', 'Copied!');
+                setTimeout(function () {
+                  el.style.color = oldColor;
+                  el.setAttribute('title', oldTitle);
+                }, 900);
+              }
             };
 
             if (navigator.clipboard && navigator.clipboard.writeText) {

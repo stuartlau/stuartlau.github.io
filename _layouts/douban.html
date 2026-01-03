@@ -1,0 +1,78 @@
+---
+layout: default
+---
+
+<link rel="stylesheet" href="/assets/css/douban.css">
+
+<div class="douban-feed-container">
+    <nav class="douban-years-nav">
+        {% assign years = "2026,2025,2024,2023,2022,2021" | split: "," %}
+        {% for y in years %}
+        {% if site.data.douban[y] %}
+        <a href="/douban/{{ y }}.html" class="year-nav-link {% if y == page.year %}active{% endif %}">{{ y }}</a>
+        {% endif %}
+        {% endfor %}
+    </nav>
+
+    {% assign year_str = page.year | append: "" %}
+    {% assign summary_data = site.data.douban_summaries[year_str] %}
+    {% assign total_count = site.data.douban[year_str] | size %}
+
+    <div style="text-align: right; color: #999; font-size: 0.9rem; margin-bottom: 10px;">
+        共 {{ total_count }} 条广播
+    </div>
+
+    <div class="douban-summary-box"
+        style="margin-bottom: 30px; padding: 25px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;">
+        {% if summary_data %}
+        <div class="annual-keywords" style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.1rem; color: #333; margin-bottom: 12px; font-weight: 600;">{{ page.year }} 年度关键词
+            </h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                {% for keyword in summary_data.keywords %}
+                <span
+                    style="background: #f5f7fa; color: #555; padding: 4px 12px; border-radius: 20px; font-size: 0.9rem; border: 1px solid #e1e4e8;">{{
+                    keyword }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="test" style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;">
+            <h3 style="font-size: 1.1rem; color: #333; margin-bottom: 10px; font-weight: 600;">年度回顾</h3>
+            <p style="color: #444; line-height: 1.8; font-size: 1rem; margin: 0;">{{ summary_data.summary }}</p>
+        </div>
+        {% else %}
+        <p>回顾 {{ page.year }} 年的精彩瞬间。</p>
+        {% endif %}
+    </div>
+
+    <div class="douban-feed-list">
+        {% assign year_str = page.year | append: "" %}
+        {% assign year_data = site.data.douban[year_str] %}
+
+        {% if year_data %}
+        {% assign last_month = "" %}
+        {% for status in year_data %}
+        {% assign current_month = status.time | slice: 5, 2 %}
+        {% if current_month != last_month %}
+        <div class="month-separator">{{ current_month }}月</div>
+        {% assign last_month = current_month %}
+        {% endif %}
+
+        <div class="douban-status-item">
+            <div class="status-avatar">
+                <img src="/images/douban_avatar.jpg" alt="Avatar">
+            </div>
+            <div class="status-bubble">
+                <div class="status-content">{{ status.content }}</div>
+                <div class="status-header">
+                    <span class="status-time">{{ status.time }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No data found for year {{ year_str }} (Debug: page.year={{ page.year }})</p>
+        {% endif %}
+    </div>
+</div>

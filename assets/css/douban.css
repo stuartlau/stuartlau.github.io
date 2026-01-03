@@ -1,0 +1,182 @@
+/* Douban Broadcast Styles */
+.douban-feed-container {
+    max-width: 700px;
+    margin: 40px auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.douban-year-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    color: var(--heading-color, #222);
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Feed Item Layout */
+.douban-status-item {
+    display: flex;
+    align-items: flex-start;
+    /* Align to top for speech bubble effect */
+    padding: 10px 0;
+    /* Reduced padding */
+    /* Removed border-bottom separator */
+    margin-bottom: 5px;
+    /* Reduced margin */
+}
+
+.status-avatar {
+    flex-shrink: 0;
+    margin-right: 15px;
+    padding-top: 5px;
+    /* Slight offset to align with bubble top roughly */
+}
+
+.status-avatar img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #eee;
+}
+
+/* Bubble Style */
+.status-bubble {
+    flex-grow: 1;
+    background-color: #f2fbf4;
+    /* Douban Light Green */
+    border: 1px solid #e1f2e3;
+    border-radius: 12px;
+    padding: 12px 16px;
+    /* Slightly reduced padding */
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    /* Lighter shadow */
+    transition: all 0.2s ease;
+}
+
+.status-bubble:hover {
+    box-shadow: 0 3px 8px rgba(0, 119, 34, 0.08);
+    /* Green tinted shadow on hover */
+    border-color: #d0e8d3;
+}
+
+/* Bubble Arrow */
+.status-bubble::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    /* Adjusted position */
+    left: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid #e1f2e3;
+    /* Match border color */
+}
+
+.status-bubble::after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    /* Adjusted position */
+    left: -6px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid #f2fbf4;
+    /* Match background color */
+}
+
+/* Content Styles */
+.status-header {
+    display: flex;
+    justify-content: flex-end;
+    /* Push to right */
+    margin-top: 6px;
+    /* Space between content and time */
+}
+
+.user-name {
+    display: none;
+    /* Hidden as per request to move time */
+}
+
+.status-time {
+    font-size: 0.8rem;
+    /* Smaller font */
+    color: #999;
+}
+
+.status-content {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Month Separator */
+.month-separator {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #2e963d;
+    /* Green */
+    margin: 25px 0 10px 0;
+    padding-left: 10px;
+    border-left: 4px solid #2e963d;
+}
+
+/* Navigation & Summary */
+.douban-years-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.year-nav-link {
+    padding: 5px 12px;
+    border-radius: 15px;
+    background: #f0f0f0;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.year-nav-link.active {
+    background: #2e963d;
+    /* Active Green */
+    color: white;
+}
+
+.year-nav-link:hover:not(.active) {
+    background: #dff0d8;
+    color: #2e963d;
+}
+
+.douban-summary-box {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+    /* Optional: Green top border for summary box */
+    border-top: 4px solid #2e963d;
+}
+
+.annual-keywords h3,
+.test h3 {
+    color: #2e963d !important;
+}
+
+.annual-keywords span {
+    background: #eaf7ed !important;
+    color: #388e3c !important;
+    border-color: #c8e6c9 !important;
+}
