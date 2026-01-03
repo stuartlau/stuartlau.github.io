@@ -78,11 +78,11 @@ layout: default
         {% assign last_month = current_month %}
         {% endif %}
 
-        <div class="douban-status-item" data-status-id="{{ forloop.index }}">
+        <div class="douban-status-item" data-status-id="status-{{ forloop.index }}">
             <div class="status-avatar">
                 <img src="/images/douban_avatar.jpg" alt="Avatar">
             </div>
-            <div class="status-bubble">
+            <div class="status-bubble" data-popup-target="popup-{{ forloop.index }}">
                 <div class="status-content">{{ status.content }}</div>
                 <div class="status-header">
                     <span class="status-time">{{ status.time }}</span>
@@ -91,7 +91,7 @@ layout: default
         </div>
         
         <!-- Popup for mobile -->
-        <div class="status-popup" id="popup-{{ forloop.index }}">
+        <div class="status-popup" id="popup-{{ forloop.index }}" data-status-id="status-{{ forloop.index }}">
             <button class="status-popup-close">×</button>
             <div class="status-popup-content">
                 <div class="status-popup-avatar">
@@ -115,30 +115,47 @@ layout: default
         if (window.innerWidth > 768) return;
         
         // Handle popup open
-        document.querySelectorAll('.status-bubble').forEach((bubble, index) => {
-            bubble.addEventListener('click', function(e) {
-                // Don't trigger if clicking on a link
-                if (e.target.tagName === 'A') return;
+        document.addEventListener('click', function(e) {
+            // Find the closest status bubble that was clicked
+            const bubble = e.target.closest('.status-bubble');
+            if (!bubble) return;
+            
+            // Don't trigger if clicking on a link
+            if (e.target.tagName === 'A') return;
+            
+            // Get the target popup ID from the data attribute
+            const popupId = bubble.getAttribute('data-popup-target');
+            if (!popupId) return;
+            
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                // Hide all other popups first
+                document.querySelectorAll('.status-popup').forEach(p => {
+                    p.classList.remove('active');
+                });
                 
-                const popup = document.getElementById(`popup-${index + 1}`);
-                if (popup) {
-                    document.body.style.overflow = 'hidden';
-                    popup.classList.add('active');
-                }
-            });
+                // Show the correct popup
+                document.body.style.overflow = 'hidden';
+                popup.classList.add('active');
+                
+                // Prevent the click from bubbling up
+                e.stopPropagation();
+            }
         });
         
         // Handle popup close
-        document.querySelectorAll('.status-popup-close, .status-popup').forEach(el => {
-            el.addEventListener('click', function(e) {
-                // Only close if clicking directly on the overlay or close button
-                if (e.target === this || e.target.classList.contains('status-popup-close')) {
-                    document.body.style.overflow = '';
-                    document.querySelectorAll('.status-popup').forEach(popup => {
-                        popup.classList.remove('active');
-                    });
-                }
-            });
+        document.addEventListener('click', function(e) {
+            const popup = e.target.closest('.status-popup');
+            const closeBtn = e.target.closest('.status-popup-close');
+            
+            // If clicking the close button or outside the popup content
+            if (closeBtn || (popup && e.target === popup)) {
+                document.body.style.overflow = '';
+                document.querySelectorAll('.status-popup').forEach(p => {
+                    p.classList.remove('active');
+                });
+                e.stopPropagation();
+            }
         });
         
         // Close popup when pressing ESC key

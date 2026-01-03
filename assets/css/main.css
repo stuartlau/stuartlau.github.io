@@ -3002,3 +3002,7 @@ screen and (max-height:300px) {
 
 @media (-webkit-min-device-pixel-ratio:2),
 (min-resolution:192dpi) {}
+.top-navigation-utilities {
+  float: right;
+  padding-right: 2rem;
+}
