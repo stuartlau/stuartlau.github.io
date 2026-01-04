@@ -164,6 +164,30 @@
     {
       name: 'Fox',
       svg: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M54 22c-2.3-4.1-11.4-5-11.4-5-4.1-3.6-7.8-5-10.6-5s-6.5 1.4-10.6 5c0 0-9.1.9-11.4 5-2.5 4.5.3 16.1 6.8 20.3 4.6 2.9 10 4.7 15.2 4.7 5.3 0 10.7-1.8 15.2-4.7 6.6-4.2 9.4-15.8 6.8-20.3z" fill="#FF7043"/><path d="M12 24c4 8 12 16 20 16s16-8 20-16v18c-4 5-11 8-20 8s-16-3-20-8V24z" fill="#fff"/><circle cx="22" cy="32" r="3" fill="#3E2723"/><circle cx="42" cy="32" r="3" fill="#3E2723"/><circle cx="32" cy="44" r="3" fill="#3E2723"/><path d="M8 8l8 12h-8L8 8zm48 0l-8 12h8l8-12z" fill="#FF7043"/></svg>'
+    },
+    {
+      name: 'Koala',
+      svg: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="20" r="8" fill="#90A4AE"/><circle cx="50" cy="20" r="8" fill="#90A4AE"/><path d="M54 30c0-12-9.9-22-22-22S10 18 10 30c0 9 5 17 12 20v6c0 2 2 4 4 4h12c2 0 4-2 4-4v-6c7-3 12-11 12-20z" fill="#B0BEC5"/><circle cx="24" cy="28" r="3" fill="#37474F"/><circle cx="40" cy="28" r="3" fill="#37474F"/><ellipse cx="32" cy="36" rx="6" ry="8" fill="#37474F"/></svg>'
+    },
+    {
+      name: 'Lion',
+      svg: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="26" fill="#FFB74D"/><circle cx="32" cy="32" r="20" fill="#FFECB3"/><circle cx="24" cy="28" r="3" fill="#3E2723"/><circle cx="40" cy="28" r="3" fill="#3E2723"/><path d="M32 40c-3 0-5 2-5 2s2 2 5 2 5-2 5-2-2-2-5-2z" fill="#3E2723"/><line x1="16" y1="36" x2="26" y2="38" stroke="#3E2723" stroke-width="2"/><line x1="16" y1="40" x2="26" y2="40" stroke="#3E2723" stroke-width="2"/><line x1="48" y1="36" x2="38" y2="38" stroke="#3E2723" stroke-width="2"/><line x1="48" y1="40" x2="38" y2="40" stroke="#3E2723" stroke-width="2"/></svg>'
+    },
+    {
+      name: 'Penguin',
+      svg: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 2C18 2 10 14 10 30c0 10 0 20 6 28h32c6-8 6-18 6-28 0-16-8-28-22-28z" fill="#37474F"/><path d="M32 8c-8 0-14 8-14 20 0 16 6 26 14 26s14-10 14-26c0-12-6-20-14-20z" fill="#ECEFF1"/><circle cx="25" cy="22" r="3" fill="#37474F"/><circle cx="39" cy="22" r="3" fill="#37474F"/><path d="M32 30l-4 4h8z" fill="#FF9800"/><path d="M16 58c-4 0-6-3-6-3s0 5 6 5 8-2 8-2-4 0-8 0zm4 0c0 0 0 0 0 0zm28 0c4 0 6-3 6-3s0 5-6 5-8-2-8-2 4 0 8 0z" fill="#FF9800"/></svg>'
+    },
+    {
+      name: 'Owl',
+      svg: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M52 20c-3-4-8-6-8-6s-4 4-12 4-12-4-12-4-5 2-8 6c-4 5-1 16 3 20 5 4 10 5 17 5s12-1 17-5c4-4 7-15 3-20z" fill="#795548"/><circle cx="21" cy="26" r="8" fill="#FFF"/><circle cx="43" cy="26" r="8" fill="#FFF"/><circle cx="21" cy="26" r="3" fill="#3E2723"/><circle cx="43" cy="26" r="3" fill="#3E2723"/><path d="M32 36l-3-4h6z" fill="#FFC107"/></svg>'
+    },
+    {
+      name: 'Pig',
+      svg: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M54 26c-2-4-6-6-6-6 4-6 6-12 6-12-4 0-10 4-14 8-3-1-6-1-8-1s-5 0-8 1c-4-4-10-8-14-8 0 0 2 6 6 12 0 0-4 2-6 6-6 7 1 18 6 22 5 3 10 4 16 4s11-1 16-4c5-4 11-15 6-22z" fill="#F48FB1"/><path d="M32 34c-6 0-10 2-10 6s4 6 10 6 10-2 10-6-4-6-10-6z" fill="#F06292"/><circle cx="29" cy="38" r="2" fill="#880E4F"/><circle cx="35" cy="38" r="2" fill="#880E4F"/><circle cx="22" cy="28" r="2" fill="#880E4F"/><circle cx="42" cy="28" r="2" fill="#880E4F"/></svg>'
+    },
+    {
+      name: 'Tiger',
+      svg: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M54 26c-2-4-6-6-6-6 3-5 3-10 3-10-4-1-8 2-10 4-3-1-6-2-9-2s-6 1-9 2c-2-2-6-5-10-4 0 0 0 5 3 10 0 0-4 2-6 6-5 7 1 18 6 22 5 3 10 4 16 4s11-1 16-4c5-4 11-15 6-22z" fill="#FFB74D"/><path d="M32 50c-4 0-8-2-8-6s3-4 8-4 8 0 8 4-4 6-8 6z" fill="#FFF9C4"/><path d="M32 40c-3 0-4 2-4 2s1 2 4 2 4-2 4-2-1-2-4-2z" fill="#3E2723"/><circle cx="22" cy="30" r="2" fill="#3E2723"/><circle cx="42" cy="30" r="2" fill="#3E2723"/><path d="M32 16l-2 6h4z" fill="#3E2723"/><path d="M22 18l-4 4 6 2z" fill="#3E2723"/><path d="M42 18l4 4-6 2z" fill="#3E2723"/></svg>'
     }
   ];
 

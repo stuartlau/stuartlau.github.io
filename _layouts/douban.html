@@ -8,7 +8,7 @@ layout: default
     .status-bubble {
         -webkit-tap-highlight-color: transparent;
     }
-    
+
     /* Hide popup on desktop */
     @media (min-width: 769px) {
         .status-popup {
@@ -55,7 +55,77 @@ layout: default
             <p style="color: #444; line-height: 1.8; font-size: 1rem; margin: 0;">{{ summary_data.summary }}</p>
         </div>
         {% else %}
-        <p>回顾 {{ page.year }} 年的精彩瞬间。</p>
+        <div id="history-today-container">
+            <h3 id="history-today-title" style="font-size: 1.1rem; color: #333; margin-bottom: 12px; font-weight: 600;">
+                历史上的今天</h3>
+            <div id="history-today-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+            <p id="history-today-empty" style="display:none; color: #999; font-size: 0.95rem;">历史上的今天暂无记录。</p>
+        </div>
+        <script>
+            (function () {
+                try {
+                    // Collect all Douban data for history check
+                    var historyData = [];
+                    {% assign history_years = "2026,2025,2024,2023,2022,2021" | split: "," %}
+                    {% for y in history_years %}
+                    {% if site.data.douban[y] %}
+                    {% for item in site.data.douban[y] %}
+                    historyData.push({
+                        time: "{{ item.time }}",
+                        content: {{ item.content | jsonify }},
+                year: "{{ y }}"
+            });
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+
+            var today = new Date();
+            var month = String(today.getMonth() + 1).padStart(2, '0');
+            var day = String(today.getDate()).padStart(2, '0');
+            var searchDate = month + '-' + day;
+
+            var titleEl = document.getElementById('history-today-title');
+            if (titleEl) {
+                titleEl.innerText = '历史上的今天 ' + searchDate;
+            }
+
+            var matches = historyData.filter(function (item) {
+                // item.time format "YYYY-MM-DD HH:mm", extract MM-DD
+                return item.time.substring(5, 10) === searchDate;
+            });
+
+            // Sort descending by year
+            matches.sort(function (a, b) {
+                return b.year - a.year;
+            });
+
+            var list = document.getElementById('history-today-list');
+            var emptyMsg = document.getElementById('history-today-empty');
+            var container = document.getElementById('history-today-container');
+
+            if (list && emptyMsg) {
+                if (matches.length > 0) {
+                    matches.forEach(function (item) {
+                        var el = document.createElement('div');
+                        el.style.cssText = "padding: 8px 0; border-bottom: 1px dashed #eee; font-size: 0.95rem; color: #555; line-height: 1.5;";
+
+                        // Parse content safely
+                        var content = item.content;
+                        // Simple HTML safety check if needed, but jsonify helps. 
+                        // Douban content might contain valid HTML? Assuming text mostly.
+
+                        el.innerHTML = '<span style="color:#2d8c3c; font-weight:600; margin-right:8px; display:inline-block; min-width:38px;">' + item.year + '</span> ' + content;
+                        list.appendChild(el);
+                    });
+                } else {
+                    emptyMsg.style.display = 'block';
+                }
+            }
+                } catch (e) {
+                console.error("Error generating History Today:", e);
+            }
+            }) ();
+        </script>
         {% endif %}
     </div>
 
@@ -67,10 +137,10 @@ layout: default
         {% assign last_month = "" %}
         {% for status in year_data %}
         {% assign content_to_check = status.content | strip %}
-        {% if content_to_check contains '导演:' or 
-              content_to_check contains '表演者:' or 
-              content_to_check contains '作者:' %}
-            {% continue %}
+        {% if content_to_check contains '导演:' or
+        content_to_check contains '表演者:' or
+        content_to_check contains '作者:' %}
+        {% continue %}
         {% endif %}
         {% assign current_month = status.time | slice: 5, 2 %}
         {% if current_month != last_month %}
@@ -89,7 +159,7 @@ layout: default
                 </div>
             </div>
         </div>
-        
+
         <!-- Popup for mobile -->
         <div class="status-popup" id="popup-{{ forloop.index }}" data-status-id="status-{{ forloop.index }}">
             <button class="status-popup-close">×</button>
@@ -110,44 +180,44 @@ layout: default
 
 <script>
     // Mobile popup functionality
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Only run on mobile
         if (window.innerWidth > 768) return;
-        
+
         // Handle popup open
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             // Find the closest status bubble that was clicked
             const bubble = e.target.closest('.status-bubble');
             if (!bubble) return;
-            
+
             // Don't trigger if clicking on a link
             if (e.target.tagName === 'A') return;
-            
+
             // Get the target popup ID from the data attribute
             const popupId = bubble.getAttribute('data-popup-target');
             if (!popupId) return;
-            
+
             const popup = document.getElementById(popupId);
             if (popup) {
                 // Hide all other popups first
                 document.querySelectorAll('.status-popup').forEach(p => {
                     p.classList.remove('active');
                 });
-                
+
                 // Show the correct popup
                 document.body.style.overflow = 'hidden';
                 popup.classList.add('active');
-                
+
                 // Prevent the click from bubbling up
                 e.stopPropagation();
             }
         });
-        
+
         // Handle popup close
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const popup = e.target.closest('.status-popup');
             const closeBtn = e.target.closest('.status-popup-close');
-            
+
             // If clicking the close button or outside the popup content
             if (closeBtn || (popup && e.target === popup)) {
                 document.body.style.overflow = '';
@@ -157,9 +227,9 @@ layout: default
                 e.stopPropagation();
             }
         });
-        
+
         // Close popup when pressing ESC key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 document.body.style.overflow = '';
                 document.querySelectorAll('.status-popup').forEach(popup => {
@@ -168,9 +238,9 @@ layout: default
             }
         });
     });
-    
+
     // Handle window resize
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         if (window.innerWidth > 768) {
             document.body.style.overflow = '';
             document.querySelectorAll('.status-popup').forEach(popup => {

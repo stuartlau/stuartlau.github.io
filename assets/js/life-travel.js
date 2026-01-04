@@ -12,6 +12,38 @@
       .replace(/'/g, '&#39;');
   }
 
+  // Color palette for tags
+  var colors = [
+    '#2563eb', // blue
+    '#dc2626', // red
+    '#16a34a', // green
+    '#ca8a04', // yellow
+    '#9333ea', // purple
+    '#ea580c', // orange
+    '#0891b2', // cyan
+    '#be185d', // pink
+    '#059669', // emerald
+    '#7c3aed', // violet
+    '#c2410c', // orange-red
+    '#1e40af', // blue-dark
+    '#166534', // green-dark
+    '#991b1b', // red-dark
+    '#581c87'  // purple-dark
+  ];
+
+  // Cache for tag colors to ensure consistency
+  var tagColorMap = Object.create(null);
+  var tagColorIndex = 0;
+
+  function getTagColor(tag) {
+    if (!tag) return '#16a34a'; // Default green
+    if (!tagColorMap[tag]) {
+      tagColorMap[tag] = colors[tagColorIndex % colors.length];
+      tagColorIndex++;
+    }
+    return tagColorMap[tag];
+  }
+
   function normalizeTag(t) {
     return String(t || '').trim();
   }
@@ -89,38 +121,6 @@
       .domain([min || 1, max || 1])
       .range([12, 52]);
 
-    // Color palette for word cloud
-    var colors = [
-      '#2563eb', // blue
-      '#dc2626', // red
-      '#16a34a', // green
-      '#ca8a04', // yellow
-      '#9333ea', // purple
-      '#ea580c', // orange
-      '#0891b2', // cyan
-      '#be185d', // pink
-      '#059669', // emerald
-      '#7c3aed', // violet
-      '#c2410c', // orange-red
-      '#1e40af', // blue-dark
-      '#166534', // green-dark
-      '#991b1b', // red-dark
-      '#581c87'  // purple-dark
-    ];
-
-    var colorMap = Object.create(null);
-    var colorIndex = 0;
-
-    var color = function (t) {
-      if (activeTag && t === activeTag) return 'var(--link-color)';
-      // Assign consistent color to each tag
-      if (!colorMap[t]) {
-        colorMap[t] = colors[colorIndex % colors.length];
-        colorIndex++;
-      }
-      return colorMap[t];
-    };
-
     var layout = window.d3.layout
       .cloud()
       .size([width, height])
@@ -167,7 +167,9 @@
         })
         .style('font-family', 'Inter')
         .style('fill', function (d) {
-          return color(d.text);
+          // Use link color if active, otherwise use consistent tag color
+          if (activeTag && d.text === activeTag) return 'var(--link-color)';
+          return getTagColor(d.text);
         })
         .attr('text-anchor', 'middle')
         .attr('transform', function (d) {
@@ -235,12 +237,38 @@
     var markersByTag = Object.create(null);
     var pointsByLocation = Object.create(null);
 
-    function iconForStatus(status) {
+    function iconForStatus(status, tags) {
       var s = String(status || 'visited').toLowerCase();
       var cls = s === 'planned' ? 'travel-marker travel-marker-planned' : 'travel-marker travel-marker-visited';
+
+      // Determine color based on first non-Travelling tag
+      var color = '';
+      if (Array.isArray(tags)) {
+        for (var i = 0; i < tags.length; i++) {
+          var t = normalizeTag(tags[i]);
+          if (t && t !== 'Travelling') {
+            color = getTagColor(t);
+            break;
+          }
+        }
+      }
+
+      // Mobile adjustment
+      var isMobile = window.innerWidth < 768;
+      var size = isMobile ? [8, 8] : [14, 14];
+
+      // If color found, override background using inner div
+      var html = '';
+      if (color) {
+        html = '<div style="background-color: ' + color + '; width: 100%; height: 100%; border-radius: 50%;"></div>';
+        // We might want to remove the default background of parent if possible, but inner div covering it is fine
+        // Assuming travel-marker has valid border-radius
+      }
+
       return window.L.divIcon({
         className: cls,
-        iconSize: [14, 14]
+        iconSize: size,
+        html: html
       });
     }
 
@@ -304,8 +332,11 @@
 
       // Use status from first point (or most recent)
       var status = locationPoints[0].status || 'visited';
+      // Collect tags from all points to determine color representative
+      // For simplicity, just use first point's tags
+
       var marker = window.L.marker(ll, {
-        icon: iconForStatus(status)
+        icon: iconForStatus(status, locationPoints[0].tags)
       }).bindPopup(popup, {
         maxWidth: 400,
         className: 'travel-popup-wrapper'
@@ -432,3 +463,5 @@
     init();
   }
 })();
+
+
