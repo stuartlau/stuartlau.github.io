@@ -219,17 +219,19 @@
       searchHeader.insertBefore(iconContainer, searchHeader.firstChild);
     }
 
-    // 2. Homepage Home Icon
-    var homeIcon = document.getElementById('title-animal-icon');
-    if (homeIcon) {
-      var updateHomeIcon = function () {
-        var iconObj = getRandomIcon();
-        homeIcon.innerHTML = iconObj.svg;
-        homeIcon.title = iconObj.name + ': Oops, you found me!';
-      };
+    // 2. Homepage Home Icon (Multiple elements support)
+    var homeIcons = document.querySelectorAll('.title-animal-icon');
+    if (homeIcons.length > 0) {
+      homeIcons.forEach(function (homeIcon) {
+        var updateHomeIcon = function () {
+          var iconObj = getRandomIcon();
+          homeIcon.innerHTML = iconObj.svg;
+          homeIcon.title = iconObj.name + ': Oops, you found me!';
+        };
 
-      updateHomeIcon();
-      homeIcon.onclick = updateHomeIcon;
+        updateHomeIcon();
+        homeIcon.onclick = updateHomeIcon;
+      });
     }
   }
 

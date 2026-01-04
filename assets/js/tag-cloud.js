@@ -1,4 +1,9 @@
 (function () {
+  // Ensure default language
+  if (typeof window.CURRENT_LANG === 'undefined') {
+    window.CURRENT_LANG = 'cn';
+  }
+
   function qs(sel, root) {
     return (root || document).querySelector(sel);
   }
@@ -59,13 +64,29 @@
       return;
     }
 
+    // Check language
+    var isEn = window.CURRENT_LANG === 'en';
+
     listEl.innerHTML =
       '<ul class="blog-list-ul">' +
       shown
         .map(function (p) {
           var title = escHtml(p.title || 'Untitled');
           var url = escHtml(p.url || '#');
-          return '<li class="blog-list-item"><a href="' + url + '">' + title + '</a></li>';
+
+          // Translation logic for Patents in English mode
+          if (isEn && (title.indexOf('专利') !== -1 || (p.tags && p.tags.indexOf('Patent') !== -1))) {
+            var idMatch = title.match(/([A-Z]{2}\d+[A-Z]?)/);
+            if (idMatch) {
+              var id = idMatch[1];
+              // Determine type mostly by checking Chinese keywords if present in title
+              var type = title.indexOf('待授权') !== -1 ? 'Pending Patent' : 'Granted Patent';
+              title = type + ' ' + id;
+              url = 'https://patents.google.com/patent/' + id + '/en';
+            }
+          }
+
+          return '<li class="blog-list-item"><a href="' + url + '"' + (isEn ? ' target="_blank"' : '') + '>' + title + '</a></li>';
         })
         .join('') +
       '</ul>';
@@ -258,6 +279,11 @@
       renderList(posts, active);
       renderCloud(tags, active, setActive);
     }
+
+    // Expose for external language switcher
+    window.refreshPatentList = function () {
+      renderList(posts, active);
+    };
 
     if (clearBtn) {
       clearBtn.addEventListener('click', function () {
