@@ -300,6 +300,16 @@ remove:'index.html' | strip_slash }}{% endif %}{% endcapture %}
     text-decoration: none;
   }
 
+  @media (max-width: 768px) {
+    .share-btn .share-btn-text {
+      display: none;
+    }
+
+    .share-btn {
+      padding: 0.5rem;
+    }
+  }
+
   .share-icon {
     display: flex;
     align-items: center;

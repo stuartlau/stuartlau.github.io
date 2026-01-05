@@ -188,11 +188,20 @@
     {
       name: 'Tiger',
       svg: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M54 26c-2-4-6-6-6-6 3-5 3-10 3-10-4-1-8 2-10 4-3-1-6-2-9-2s-6 1-9 2c-2-2-6-5-10-4 0 0 0 5 3 10 0 0-4 2-6 6-5 7 1 18 6 22 5 3 10 4 16 4s11-1 16-4c5-4 11-15 6-22z" fill="#FFB74D"/><path d="M32 50c-4 0-8-2-8-6s3-4 8-4 8 0 8 4-4 6-8 6z" fill="#FFF9C4"/><path d="M32 40c-3 0-4 2-4 2s1 2 4 2 4-2 4-2-1-2-4-2z" fill="#3E2723"/><circle cx="22" cy="30" r="2" fill="#3E2723"/><circle cx="42" cy="30" r="2" fill="#3E2723"/><path d="M32 16l-2 6h4z" fill="#3E2723"/><path d="M22 18l-4 4 6 2z" fill="#3E2723"/><path d="M42 18l4 4-6 2z" fill="#3E2723"/></svg>'
+    },
+    {
+      name: 'Korok',
+      svg: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 4C16 4 8 16 8 32c0 10 6 20 14 24 2 1 4-2 6-4l4-8 8-4c6-4 12-10 12-20C52 10 42 4 32 4z" fill="#AED581"/><path d="M22 26c0-3 2-5 5-5s5 2 5 5-2 5-5 5-5-2-5-5zm17 0c0-3 2-5 5-5s5 2 5 5-2 5-5 5-5-2-5-5z" fill="#33691E"/><path d="M32 38l-3-4h6l-3 4z" fill="#33691E"/><path d="M32 4L32 14" stroke="#558B2F" stroke-width="3"/></svg>'
     }
   ];
 
   function getRandomIcon() {
     return animalIcons[Math.floor(Math.random() * animalIcons.length)];
+  }
+
+  function getTooltip(iconName) {
+    if (iconName === 'Korok') return 'Yahaha, you found me!';
+    return "I'm Mr. " + iconName;
   }
 
   function setRandomIcons() {
@@ -211,6 +220,7 @@
       iconContainer.style.marginRight = '12px';
       iconContainer.style.marginBottom = '2px';
       iconContainer.style.alignSelf = 'flex-end'; // Keep roughly aligned
+      iconContainer.title = getTooltip(searchIconObj.name);
 
       var style = document.createElement('style');
       style.innerHTML = '.search-modal .search-header::before { display: none !important; }';
@@ -226,12 +236,55 @@
         var updateHomeIcon = function () {
           var iconObj = getRandomIcon();
           homeIcon.innerHTML = iconObj.svg;
-          homeIcon.title = iconObj.name + ': Oops, you found me!';
+          homeIcon.title = getTooltip(iconObj.name);
         };
 
         updateHomeIcon();
         homeIcon.onclick = updateHomeIcon;
       });
+    }
+
+    // 3. Random Insertion into Homepage Text
+    // Only run if we haven't already inserted one (check class)
+    if (!document.querySelector('.inline-animal-icon')) {
+      var textContainers = document.querySelectorAll('#about-content-cn p, #about-content-en p, .article-wrap p');
+      if (textContainers.length > 0) {
+        var targetP = textContainers[Math.floor(Math.random() * textContainers.length)];
+
+        // Find valid text nodes (length > 20)
+        var walker = document.createTreeWalker(targetP, NodeFilter.SHOW_TEXT, null, false);
+        var textNodes = [];
+        var node;
+        while (node = walker.nextNode()) {
+          if (node.textContent.trim().length > 20) textNodes.push(node);
+        }
+
+        if (textNodes.length > 0) {
+          var targetNode = textNodes[Math.floor(Math.random() * textNodes.length)];
+          var textLen = targetNode.textContent.length;
+          // Avoid splitting at edges roughly
+          var splitPos = Math.floor(Math.random() * (textLen - 10)) + 5;
+
+          try {
+            var secondPart = targetNode.splitText(splitPos);
+
+            var iconSpan = document.createElement('span');
+            // User requested the inserted icon to be the Easter egg (Korok) specifically
+            var korokObj = animalIcons.filter(function (i) { return i.name === 'Korok'; });
+            var iconObj = korokObj.length > 0 ? korokObj[0] : getRandomIcon();
+
+            iconSpan.className = 'inline-animal-icon';
+            iconSpan.innerHTML = iconObj.svg;
+            iconSpan.title = getTooltip(iconObj.name);
+            // Independent, non-interactive
+            iconSpan.style.cssText = "display:inline-block; width:18px; height:18px; vertical-align:text-bottom; margin:0 3px;";
+
+            targetNode.parentNode.insertBefore(iconSpan, secondPart);
+          } catch (e) {
+            console.error("Error inserting random icon:", e);
+          }
+        }
+      }
     }
   }
 
