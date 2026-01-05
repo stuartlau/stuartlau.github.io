@@ -1,0 +1,147 @@
+<div class="pdf-viewer-container" id="pdf-viewer-{{ include.id }}" style="text-align: center; margin: 30px 0;">
+    <div style="margin-bottom: 15px; display: flex; justify-content: center; align-items: center; gap: 15px;">
+        <button id="prev-{{ include.id }}" class="pdf-btn" aria-label="Previous Page">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <span style="font-family: monospace; font-size: 1.1em;">
+            <span id="page-num-{{ include.id }}">1</span> / <span id="page-count-{{ include.id }}">--</span>
+        </span>
+        <button id="next-{{ include.id }}" class="pdf-btn" aria-label="Next Page">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+    </div>
+    <div
+        style="position: relative; display: inline-block; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 8px; overflow: hidden;">
+        <canvas id="pdf-render-{{ include.id }}"></canvas>
+    </div>
+</div>
+
+<style>
+    .pdf-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid var(--border-color);
+        background: var(--card-bg);
+        color: var(--text-color);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        padding: 0;
+    }
+
+    .pdf-btn:hover {
+        background: rgba(37, 99, 235, 0.1);
+        color: var(--link-color);
+        border-color: var(--link-color);
+        transform: translateY(-1px);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var url = '{{ include.url }}';
+        var pdfDoc = null,
+            pageNum = 1,
+            pageRendering = false,
+            pageNumPending = null,
+            scale = 1.5,
+            canvas = document.getElementById('pdf-render-{{ include.id }}'),
+            ctx = canvas ? canvas.getContext('2d') : null;
+
+        if (!canvas) {
+            console.error('Canvas element not found for id: {{ include.id }}');
+            return;
+        }
+
+        function renderPage(num) {
+            pageRendering = true;
+
+            // Fetch page
+            pdfDoc.getPage(num).then(function (page) {
+                var viewport = page.getViewport({ scale: scale });
+
+                // Set dimensions
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Make responsive
+                canvas.style.width = '100%';
+                canvas.style.height = 'auto';
+                canvas.style.maxWidth = '100%';
+
+                // Render
+                var renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                var renderTask = page.render(renderContext);
+
+                // Wait for render to finish
+                renderTask.promise.then(function () {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+
+            // Update page counters
+            var pageNumEl = document.getElementById('page-num-{{ include.id }}');
+            if (pageNumEl) pageNumEl.textContent = num;
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        function onPrevPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+
+        var prevBtn = document.getElementById('prev-{{ include.id }}');
+        var nextBtn = document.getElementById('next-{{ include.id }}');
+
+        if (prevBtn) prevBtn.addEventListener('click', onPrevPage);
+        if (nextBtn) nextBtn.addEventListener('click', onNextPage);
+
+        // Initial load
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.getDocument(url).promise.then(function (pdfDoc_) {
+                pdfDoc = pdfDoc_;
+                var pageCountEl = document.getElementById('page-count-{{ include.id }}');
+                if (pageCountEl) pageCountEl.textContent = pdfDoc.numPages;
+                renderPage(pageNum);
+            }).catch(function (error) {
+                console.error('Error loading PDF:', error);
+                var container = document.getElementById('pdf-viewer-{{ include.id }}');
+                if (container) container.innerHTML = '<div style="padding:20px; color:red; border:1px solid red; border-radius:8px;">Error loading PDF: ' + error.message + '</div>';
+            });
+        } else {
+            console.error('PDF.js library not loaded.');
+            var container = document.getElementById('pdf-viewer-{{ include.id }}');
+            if (container) container.innerHTML = '<div style="padding:20px; color:orange; border:1px solid orange; border-radius:8px;">PDF viewer library missing. Please refresh or check connection.</div>';
+        }
+    });
+</script>

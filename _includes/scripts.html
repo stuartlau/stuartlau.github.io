@@ -315,4 +315,37 @@
 </script>
 <!-- End Google Analytics -->
 
+<!-- Mermaid JS -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Transform Jekyll/Kramdown code blocks to Mermaid divs
+    var mermaidBlocks = document.querySelectorAll('pre code.language-mermaid, div.language-mermaid');
+    mermaidBlocks.forEach(function (block) {
+      var content = block.textContent;
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = content;
+
+      // Replace the parent pre or self
+      var target = block.closest('pre') || block;
+      if (target.parentNode) {
+        target.parentNode.replaceChild(div, target);
+      }
+    });
+
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default',
+      securityLevel: 'loose'
+    });
+  });
+</script>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+</script>
+
 <!-- Theme toggle functionality added by Cascade on 2023/12/16 -->

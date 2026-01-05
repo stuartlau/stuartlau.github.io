@@ -53,3 +53,4 @@ shell_download.sh
 *.tmp
 *.swp
 *~
+node_modules/
