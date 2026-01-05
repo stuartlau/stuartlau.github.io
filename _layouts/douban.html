@@ -134,6 +134,7 @@ layout: default
         {% endif %}
     </div>
 
+    <div id="douban-month-filter" class="douban-month-filter"></div>
     <div class="douban-feed-list">
         {% assign year_str = page.year | append: "" %}
         {% assign year_data = site.data.douban[year_str] %}
@@ -149,11 +150,11 @@ layout: default
         {% endif %}
         {% assign current_month = status.time | slice: 5, 2 %}
         {% if current_month != last_month %}
-        <div class="month-separator">{{ current_month }}月</div>
+        <div class="month-separator" data-month="{{ current_month }}">{{ current_month }}月</div>
         {% assign last_month = current_month %}
         {% endif %}
 
-        <div class="douban-status-item" data-status-id="status-{{ forloop.index }}">
+        <div class="douban-status-item" data-status-id="status-{{ forloop.index }}" data-month="{{ current_month }}">
             <div class="status-avatar">
                 <img src="/images/douban_avatar.jpg" alt="Avatar">
             </div>
@@ -184,6 +185,70 @@ layout: default
 </div>
 
 <script>
+    // Month Filter Functionality
+    (function () {
+        var pageYear = parseInt("{{ page.year }}");
+        var now = new Date();
+        var currentYear = now.getFullYear();
+        var currentMonth = now.getMonth() + 1;
+
+        var container = document.getElementById('douban-month-filter');
+        if (!container) return;
+
+        var maxMonth = 12;
+        if (pageYear === currentYear) {
+            if (currentMonth === 1) return; // If Jan, no need to generate filter
+            maxMonth = currentMonth;
+        } else if (pageYear > currentYear) {
+            return;
+        }
+
+        for (var m = 1; m <= maxMonth; m++) {
+            var btn = document.createElement('button');
+            var mStr = (m < 10 ? '0' : '') + m;
+            btn.textContent = m + '月';
+            btn.className = 'month-filter-btn';
+            btn.setAttribute('data-target-month', mStr);
+
+            btn.onclick = function () {
+                var target = this.getAttribute('data-target-month');
+                var isActive = this.classList.contains('active');
+
+                var allBtns = container.querySelectorAll('.month-filter-btn');
+                allBtns.forEach(function (b) { b.classList.remove('active'); });
+
+                if (!isActive) {
+                    this.classList.add('active');
+                    filterMonth(target);
+                } else {
+                    filterMonth(null);
+                }
+            };
+            container.appendChild(btn);
+        }
+
+        function filterMonth(m) {
+            var items = document.querySelectorAll('.douban-status-item');
+            var separators = document.querySelectorAll('.month-separator');
+
+            items.forEach(function (item) {
+                if (!m || item.getAttribute('data-month') === m) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            separators.forEach(function (sep) {
+                if (!m || sep.getAttribute('data-month') === m) {
+                    sep.style.display = '';
+                } else {
+                    sep.style.display = 'none';
+                }
+            });
+        }
+    })();
+
     // Mobile popup functionality
     document.addEventListener('DOMContentLoaded', function () {
         // Only run on mobile
