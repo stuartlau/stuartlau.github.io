@@ -184,6 +184,140 @@
     /* Match background color */
 }
 
+/* AI Comments Styles */
+.status-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 8px;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.comment-link {
+    cursor: pointer;
+    color: #2e963d;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #f5f5f5;
+    transition: all 0.2s;
+    user-select: none;
+    font-weight: 500;
+}
+
+.comment-link:hover {
+    background: #e8f5e9;
+    color: #2e963d;
+}
+
+.comment-box {
+    margin-top: 12px;
+    background: #f9f9f9;
+    padding: 12px 15px;
+    border-radius: 8px;
+    display: none;
+    /* Default hidden */
+    position: relative;
+}
+
+.comment-box::before {
+    /* Little arrow point up */
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #f9f9f9;
+}
+
+.comment-item {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.comment-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.comment-content-wrapper {
+    flex-grow: 1;
+    color: #333;
+    /* Standard Black/Dark Grey */
+}
+
+.comment-author {
+    font-weight: 600;
+    margin-right: 5px;
+    color: #5d7da5;
+    /* Blue-ish friend name like WeChat */
+    cursor: pointer;
+}
+
+.comment-text {
+    color: #333;
+    /* Black */
+    line-height: 1.5;
+}
+
+.comment-meta {
+    display: block;
+    font-size: 0.75rem;
+    color: #aaa;
+    margin-top: 2px;
+}
+
+/* Mobile Popup Comments */
+.status-popup-comments {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.status-popup-comment-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.status-popup-comment-item {
+    margin-bottom: 12px;
+    /* background: #f5f7fa; Remove blocky background for mobile too? Keeping it clean. */
+    padding: 0;
+}
+
+.status-popup-comment-header {
+    margin-bottom: 2px;
+    font-size: 0.9rem;
+}
+
+.status-popup-comment-author {
+    color: #5d7da5;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.status-popup-comment-time {
+    color: #bbb;
+    font-size: 0.75rem;
+}
+
+.status-popup-comment-text {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.5;
+}
+
 /* Content Styles */
 .status-header {
     display: flex;

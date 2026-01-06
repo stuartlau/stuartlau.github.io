@@ -1,12 +1,12 @@
-<div class="pdf-viewer-container" id="pdf-viewer-{{ include.id }}" style="text-align: center; margin: 30px 0;">
-    <div style="margin-bottom: 15px; display: flex; justify-content: center; align-items: center; gap: 15px;">
+<div class="pdf-viewer-container" id="pdf-container-{{ include.id }}">
+    <div class="pdf-controls">
         <button id="prev-{{ include.id }}" class="pdf-btn" aria-label="Previous Page">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </button>
-        <span style="font-family: monospace; font-size: 1.1em;">
+        <span class="pdf-page-indicator">
             <span id="page-num-{{ include.id }}">1</span> / <span id="page-count-{{ include.id }}">--</span>
         </span>
         <button id="next-{{ include.id }}" class="pdf-btn" aria-label="Next Page">
@@ -15,14 +15,40 @@
                 <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
         </button>
+        <div class="pdf-separator"></div>
+        <button id="fullscreen-{{ include.id }}" class="pdf-btn" aria-label="Toggle Fullscreen">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+                </path>
+            </svg>
+        </button>
     </div>
-    <div
-        style="position: relative; display: inline-block; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 8px; overflow: hidden;">
+
+    <div class="pdf-canvas-wrapper" id="pdf-wrapper-{{ include.id }}">
         <canvas id="pdf-render-{{ include.id }}"></canvas>
     </div>
 </div>
 
 <style>
+    /* Base Container Styles */
+    .pdf-viewer-container {
+        text-align: center;
+        margin: 30px 0;
+        transition: all 0.3s ease;
+    }
+
+    /* Controls Styles */
+    .pdf-controls {
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        transition: all 0.3s ease;
+    }
+
     .pdf-btn {
         display: flex;
         align-items: center;
@@ -36,6 +62,7 @@
         cursor: pointer;
         transition: all 0.2s ease;
         padding: 0;
+        outline: none;
     }
 
     .pdf-btn:hover {
@@ -44,21 +71,126 @@
         border-color: var(--link-color);
         transform: translateY(-1px);
     }
+
+    .pdf-page-indicator {
+        font-family: monospace;
+        font-size: 1.1em;
+        color: var(--text-color);
+        min-width: 60px;
+    }
+
+    .pdf-separator {
+        width: 1px;
+        height: 24px;
+        background-color: var(--border-color);
+        margin: 0 5px;
+    }
+
+    /* Canvas Wrapper */
+    .pdf-canvas-wrapper {
+        position: relative;
+        display: inline-block;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: white;
+        /* Ensure white background for PDF */
+    }
+
+    /* Fullscreen Styles */
+    .pdf-viewer-container.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 99999;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .pdf-viewer-container.fullscreen .pdf-controls {
+        background: rgba(50, 50, 50, 0.8);
+        padding: 10px 20px;
+        border-radius: 30px;
+        backdrop-filter: blur(10px);
+        margin-bottom: 20px;
+        position: absolute;
+        bottom: 20px;
+        /* Controls at bottom in fullscreen */
+        z-index: 100000;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .pdf-viewer-container.fullscreen .pdf-btn {
+        background: transparent;
+        border-color: rgba(255, 255, 255, 0.3);
+        color: #eee;
+    }
+
+    .pdf-viewer-container.fullscreen .pdf-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border-color: #fff;
+    }
+
+    .pdf-viewer-container.fullscreen .pdf-page-indicator {
+        color: #ddd;
+    }
+
+    .pdf-viewer-container.fullscreen .pdf-separator {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .pdf-viewer-container.fullscreen .pdf-canvas-wrapper {
+        box-shadow: none;
+        border-radius: 0;
+        background: transparent;
+        height: calc(100vh - 40px);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pdf-viewer-container.fullscreen canvas {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto !important;
+        /* Override inline styles */
+        height: auto !important;
+        object-fit: contain;
+    }
+
+    /* Hide body scroll when fullscreen */
+    body.pdf-fullscreen-active {
+        overflow: hidden;
+    }
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var url = '{{ include.url }}';
+        var containerId = 'pdf-container-{{ include.id }}';
+        var canvasId = 'pdf-render-{{ include.id }}';
+
         var pdfDoc = null,
             pageNum = 1,
             pageRendering = false,
             pageNumPending = null,
-            scale = 1.5,
-            canvas = document.getElementById('pdf-render-{{ include.id }}'),
-            ctx = canvas ? canvas.getContext('2d') : null;
+            scale = 2.0, // Higher scale for better quality
+            canvas = document.getElementById(canvasId),
+            ctx = canvas ? canvas.getContext('2d') : null,
+            container = document.getElementById(containerId);
 
-        if (!canvas) {
-            console.error('Canvas element not found for id: {{ include.id }}');
+        if (!canvas || !container) {
+            console.error('Canvas or container not found for id: {{ include.id }}');
             return;
         }
 
@@ -73,10 +205,17 @@
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
 
-                // Make responsive
-                canvas.style.width = '100%';
-                canvas.style.height = 'auto';
-                canvas.style.maxWidth = '100%';
+                // Responsive styling for inline view
+                if (!container.classList.contains('fullscreen')) {
+                    canvas.style.width = '100%';
+                    canvas.style.height = 'auto';
+                    canvas.style.maxWidth = '100%';
+                } else {
+                    // Reset for fullscreen to allow CSS to handle it
+                    canvas.style.width = '';
+                    canvas.style.height = '';
+                    canvas.style.maxWidth = '';
+                }
 
                 // Render
                 var renderContext = {
@@ -108,23 +247,68 @@
             }
         }
 
-        function onPrevPage() {
+        function onPrevPage(e) {
+            if (e) e.stopPropagation();
             if (pageNum <= 1) return;
             pageNum--;
             queueRenderPage(pageNum);
         }
 
-        function onNextPage() {
+        function onNextPage(e) {
+            if (e) e.stopPropagation();
             if (pageNum >= pdfDoc.numPages) return;
             pageNum++;
             queueRenderPage(pageNum);
         }
 
+        function toggleFullScreen(e) {
+            if (e) e.stopPropagation();
+            container.classList.toggle('fullscreen');
+            document.body.classList.toggle('pdf-fullscreen-active');
+
+            // Re-render to ensure correct sizing if needed, 
+            // strictly speaking CSS handles the display size, but we might want to check
+            // if we need higher resolution for fullscreen in the future.
+            // For now, scale=2.0 is generally good enough for both.
+
+            // Render again to apply style changes if any logic depends on it
+            renderPage(pageNum);
+        }
+
+        // Event Listeners
         var prevBtn = document.getElementById('prev-{{ include.id }}');
         var nextBtn = document.getElementById('next-{{ include.id }}');
+        var fsBtn = document.getElementById('fullscreen-{{ include.id }}');
 
         if (prevBtn) prevBtn.addEventListener('click', onPrevPage);
         if (nextBtn) nextBtn.addEventListener('click', onNextPage);
+        if (fsBtn) fsBtn.addEventListener('click', toggleFullScreen);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function (e) {
+            // Only trigger if this specific viewer is in fullscreen
+            if (container.classList.contains('fullscreen')) {
+                if (e.key === 'ArrowLeft') {
+                    onPrevPage();
+                } else if (e.key === 'ArrowRight') {
+                    onNextPage();
+                } else if (e.key === 'Escape') {
+                    toggleFullScreen();
+                }
+            }
+        });
+
+        // Click on wrapper to toggle fullscreen too (optional, but requested "click floating full screen")
+        // Let's make the canvas wrapper clickable to enter fullscreen
+        var wrapper = document.getElementById('pdf-wrapper-{{ include.id }}');
+        if (wrapper) {
+            wrapper.addEventListener('click', function () {
+                if (!container.classList.contains('fullscreen')) {
+                    toggleFullScreen();
+                }
+            });
+        }
+
 
         // Initial load
         if (typeof pdfjsLib !== 'undefined') {
@@ -135,13 +319,11 @@
                 renderPage(pageNum);
             }).catch(function (error) {
                 console.error('Error loading PDF:', error);
-                var container = document.getElementById('pdf-viewer-{{ include.id }}');
-                if (container) container.innerHTML = '<div style="padding:20px; color:red; border:1px solid red; border-radius:8px;">Error loading PDF: ' + error.message + '</div>';
+                container.innerHTML = '<div style="padding:20px; color:red; border:1px solid red; border-radius:8px;">Error loading PDF: ' + error.message + '</div>';
             });
         } else {
             console.error('PDF.js library not loaded.');
-            var container = document.getElementById('pdf-viewer-{{ include.id }}');
-            if (container) container.innerHTML = '<div style="padding:20px; color:orange; border:1px solid orange; border-radius:8px;">PDF viewer library missing. Please refresh or check connection.</div>';
+            container.innerHTML = '<div style="padding:20px; color:orange; border:1px solid orange; border-radius:8px;">PDF viewer library missing. Please refresh or check connection.</div>';
         }
     });
 </script>

@@ -9,6 +9,94 @@ import argparse
 import os
 import sys
 
+# AI Comment Generation Logic
+def generate_ai_comments(content):
+    """
+    Generates a single, high-quality AI comment.
+    Prioritizes LLM API if available, otherwise uses advanced content analysis.
+    """
+    import os
+    import requests
+    import random
+    
+    # 1. Try LLM API
+    api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("GEMINI_API_KEY")
+    base_url = os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")
+    
+    if api_key:
+        try:
+            system_prompt = (
+                "你是一个温暖、真诚且充满智慧的好友。请对用户的这条朋友圈动态进行评论。"
+                "要求：\n"
+                "1. 只有一条评论。\n"
+                "2. 语气真诚、有爱，言之有理。\n"
+                "3. 可以适当给出建议，或者根据内容进行提问互动。\n"
+                "4. 不要只做简单的陈述，要有深度的交流感。\n"
+                "5. 字数控制在30-80字之间。"
+            )
+            headers = {
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "model": "gpt-4o", # Or user defined model
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": content}
+                ],
+                "temperature": 0.7
+            }
+            response = requests.post(f"{base_url}/chat/completions", headers=headers, json=payload, timeout=10)
+            if response.status_code == 200:
+                res_json = response.json()
+                comment_text = res_json['choices'][0]['message']['content'].strip()
+                if comment_text.startswith('"') and comment_text.endswith('"'):
+                    comment_text = comment_text[1:-1]
+                return [{
+                    "author": "AI好友",
+                    "content": comment_text,
+                    "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M')
+                }]
+        except Exception as e:
+            print(f"LLM Generation Failed, switching to fallback: {e}")
+
+    # 2. Fallback: Content Analysis (Deterministic & Context-Aware)
+    # Similar to the backfill script to ensure consistency without API key
+    content_lower = content.lower()
+    base = ""
+    
+    if "书" in content_lower or "读" in content_lower:
+        base = "阅读是与灵魂的对话。看你分享的这段，感觉这本书不仅是在讲故事，更是在照镜子。最近心静下来了吗？"
+    elif "电影" in content_lower or "看片" in content_lower:
+        base = "光影世界总能给人慰藉。这部片子的评价两极分化，但只要能打动你的，就是好电影。准备二刷吗？"
+    elif "加班" in content_lower or "工作" in content_lower or "累" in content_lower:
+        base = "看着文字都感觉到了你的疲惫。工作是做不完的，但身体是自己的。今晚什么都别想，好好睡一觉，明天又是新的一天！加油！"
+    elif "娃" in content_lower or "女儿" in content_lower or "闺女" in content_lower:
+        base = "孩子的成长就像一部快进的电影，每一帧都值得珍藏。看她现在的样子，不得不感叹基因的神奇，也为你这个老父亲/老母亲点赞，辛苦啦！"
+    elif "吃" in content_lower or "饭" in content_lower or "美味" in content_lower:
+        base = "这人间烟火气最抚凡人心。看描述感觉味道一定很棒，是那种吃一口就让人想家或者想起某个老朋友的味道吗？"
+    elif "天气" in content_lower or "雨" in content_lower or "雪" in content_lower:
+        base = "天气的变化总能影响心境。不管是晴是雨，都把它当成大自然的馈赠吧。记得照顾好自己，别着凉。"
+    elif "玩" in content_lower or "旅行" in content_lower:
+        base = "身体和灵魂，总有一个要在路上。羡慕你能在这个时刻享受当下的自由。这地方被你拍得真美，种草了！"
+    else:
+        # General profound comments, deterministic selection based on content
+        opts = [
+            "平淡的生活里藏着最真实的幸福。记录本身就是一种对抗遗忘的方式，多年后再看这条动态，一定会有不同的感触。",
+            "说得真好，生活中的这些小细节往往最容易被忽视，却也最动人。感谢你的分享，让人觉得世界又温柔了一些。",
+            "字里行间流露出的那份真挚很难得。在这个喧嚣的世界里，保持一份清醒和敏感度，是多么宝贵的能力。",
+            "非常有同感。每个人都是一座孤岛，但通过这些文字，我们似乎又紧密相连了。加油，陌生人也是朋友。",
+            "生活就是由这些琐碎拼凑而成的诗。看你的动态总能让人静下心来，仿佛时间都慢了半拍。"
+        ]
+        idx = hash(content) % len(opts)
+        base = opts[idx]
+
+    return [{
+        "author": "AI好友",
+        "content": base,
+        "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M')
+    }]
+
 # Configuration
 USER_ID = "shuoleo"
 BASE_URL = f"https://www.douban.com/people/{USER_ID}/statuses"
@@ -108,7 +196,8 @@ def scrape(target_year, cookie):
                             if key not in existing_keys:
                                 record = {
                                     "time": dt.strftime('%Y-%m-%d %H:%M'),
-                                    "content": text
+                                    "content": text,
+                                    "ai_comments": generate_ai_comments(text)
                                 }
                                 new_items.append(record)
                                 existing_keys.add(key)
@@ -136,9 +225,21 @@ def scrape(target_year, cookie):
     if new_items:
         print(f"Found {len(new_items)} new items.")
         all_data = existing_items + new_items
-        save_data(target_year, all_data)
     else:
         print("No new items found.")
+        all_data = existing_items
+
+    # Ensure all items have comments (backfill)
+    params_updated = False
+    for item in all_data:
+        if "ai_comments" not in item:
+            item["ai_comments"] = generate_ai_comments(item.get("content", ""))
+            params_updated = True
+    
+    if new_items or params_updated:
+        save_data(target_year, all_data)
+    else:
+        print("No changes to save.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Sync Douban Feed')
