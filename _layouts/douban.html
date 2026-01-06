@@ -160,9 +160,26 @@ layout: default
             </div>
             <div class="status-bubble" data-popup-target="popup-{{ forloop.index }}">
                 <div class="status-content">{{ status.content }}</div>
-                <div class="status-header">
+                <div class="status-footer">
                     <span class="status-time">{{ status.time }}</span>
+                    {% if status.ai_comments %}
+                    <span class="comment-link" onclick="event.stopPropagation(); toggleComments(this)">评论({{
+                        status.ai_comments | size }})</span>
+                    {% endif %}
                 </div>
+                {% if status.ai_comments %}
+                <div class="comment-box" onclick="event.stopPropagation()">
+                    {% for comment in status.ai_comments %}
+                    <div class="comment-item">
+                        <div class="comment-content-wrapper">
+                            <span class="comment-author">{{ comment.author }}:</span>
+                            <span class="comment-text">{{ comment.content }}</span>
+                            <!-- <span class="comment-meta">{{ comment.timestamp }}</span> Optional timestamp if needed -->
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -175,6 +192,21 @@ layout: default
                     <span class="status-popup-time">{{ status.time }}</span>
                 </div>
                 <div class="status-popup-text">{{ status.content }}</div>
+
+                {% if status.ai_comments %}
+                <div class="status-popup-comments">
+                    <div class="status-popup-comment-title">朋友圈热评</div>
+                    {% for comment in status.ai_comments %}
+                    <div class="status-popup-comment-item">
+                        <div class="status-popup-comment-header">
+                            <span class="status-popup-comment-author">{{ comment.author }}</span>
+                            <span class="status-popup-comment-time">{{ comment.timestamp }}</span>
+                        </div>
+                        <div class="status-popup-comment-text">{{ comment.content }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
@@ -318,4 +350,17 @@ layout: default
             });
         }
     });
+    // Toggle Comments for Web
+    function toggleComments(el) {
+        // Find the comment box within the same status bubble
+        var bubble = el.closest('.status-bubble');
+        var box = bubble.querySelector('.comment-box');
+        if (box) {
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+            } else {
+                box.style.display = 'block';
+            }
+        }
+    }
 </script>
