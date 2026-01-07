@@ -107,12 +107,12 @@
           next_post %} <nav class="post-nav" aria-label="Post">
           <div class="post-nav-prev">
             {% if prev_post %}
-            <a href="{{ prev_post.url | relative_url }}">&larr; {{ prev_post.title }}</a>
+            <a href="{{ prev_post.permalink | default: prev_post.url | relative_url }}">&larr; {{ prev_post.title }}</a>
             {% endif %}
           </div>
           <div class="post-nav-next">
             {% if next_post %}
-            <a href="{{ next_post.url | relative_url }}">{{ next_post.title }} &rarr;</a>
+            <a href="{{ next_post.permalink | default: next_post.url | relative_url }}">{{ next_post.title }} &rarr;</a>
             {% endif %}
           </div>
           </nav>

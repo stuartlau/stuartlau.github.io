@@ -44,7 +44,7 @@ title: Blogs
     {% for p in docs %}
       {
         title: {{ p.title | default: p.url | jsonify }},
-        url: {{ p.url | relative_url | jsonify }},
+        url: {{ p.permalink | default: p.url | relative_url | jsonify }},
         date: {{ p.date | date_to_xmlschema | jsonify }},
         tags: {{ p.tags | default: empty | jsonify }}
       }{% unless forloop.last %},{% endunless %}
