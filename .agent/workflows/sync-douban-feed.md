@@ -8,7 +8,7 @@ description: Sync Douban broadcast feed for a specific year
    - Run the following command (replace `<YEAR>` and `<COOKIE>` with actual values):
    
 ```bash
-python3 scripts/sync_douban.py --year <YEAR> --cookie "<COOKIE>"
+python3 scripts/sync-douban-feed/sync_douban.py --year <YEAR> --cookie "<COOKIE>"
 ```
 
 2. Verify the output file `_data/douban/<YEAR>.json` was created or updated.

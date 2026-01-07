@@ -23,7 +23,7 @@ pip3 install requests beautifulsoup4
 
 // turbo
 ```bash
-python3 scripts/sync_patents.py
+python3 scripts/patent-md-create/sync_patents.py
 ```
 
 该脚本的工作流程：
@@ -37,12 +37,12 @@ python3 scripts/sync_patents.py
 
 // turbo
 ```bash
-python3 scripts/sync_patents.py <PATENT_ID1> <PATENT_ID2> ...
+python3 scripts/patent-md-create/sync_patents.py <PATENT_ID1> <PATENT_ID2> ...
 ```
 
 **示例**：
 ```bash
-python3 scripts/sync_patents.py CN111399709B
+python3 scripts/patent-md-create/sync_patents.py CN111399709B
 ```
 
 ### 3. 检查生成的文件
@@ -67,8 +67,8 @@ git push origin
 
 ## 脚本说明
 
-- **`scripts/patent_generator.py`**: 核心抓取和生成逻辑。
-- **`scripts/sync_patents.py`**: 基于 CSV 的批量同步封装。
+- **`scripts/patent-md-create/patent_generator.py`**: 核心抓取和生成逻辑。
+- **`scripts/patent-md-create/sync_patents.py`**: 基于 CSV 的批量同步封装。
 
 ## 常见问题
 
@@ -76,4 +76,4 @@ git push origin
 A: 有时 Google Patents 的页面结构会有所不同。如果脚本无法提取日期，会报错。在这种情况下，你可以手动修改生成的 Markdown 文件。
 
 ### Q: 如何添加更多自动标签？
-A: 编辑 `patent_generator.py` 中的 `keywords` 列表，加入你常用的关键词。
+A: 编辑 `scripts/patent-md-create/patent_generator.py` 中的 `keywords` 列表，加入你常用的关键词。

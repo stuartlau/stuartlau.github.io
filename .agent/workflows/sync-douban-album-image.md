@@ -23,7 +23,7 @@ pip3 install requests beautifulsoup4
 运行脚本来扫描所有需要header-img的旅行博客文件：
 
 ```bash
-python3 scripts/generate_image_report.py
+python3 scripts/sync-douban-album-image/generate_image_report.py
 ```
 
 这个脚本会：
@@ -57,7 +57,7 @@ python3 scripts/generate_image_report.py
 下载完图片后，运行脚本自动更新所有markdown文件：
 
 ```bash
-python3 scripts/update_header_images.py
+python3 scripts/sync-douban-album-image/update_header_images.py
 ```
 
 这个脚本会：
@@ -158,8 +158,8 @@ A: 格式为 `{城市名}-0.jpg`，其中城市名从文件名中提取。
 ## 文件位置
 
 - 脚本文件：项目根目录
-  - `scripts/generate_image_report.py`
-  - `scripts/update_header_images.py`
+  - `scripts/sync-douban-album-image/generate_image_report.py`
+  - `scripts/sync-douban-album-image/update_header_images.py`
   - `download_images.sh` (自动生成)
   
 - 输入文件：`blogs/travelling/*.md`
@@ -172,13 +172,13 @@ A: 格式为 `{城市名}-0.jpg`，其中城市名从文件名中提取。
 
 ```bash
 # 1. 生成报告和下载脚本
-python3 scripts/generate_image_report.py
+python3 scripts/sync-douban-album-image/generate_image_report.py
 
 # 2. 下载图片
 ./download_images.sh
 
 # 3. 更新markdown文件
-python3 scripts/update_header_images.py
+python3 scripts/sync-douban-album-image/update_header_images.py
 
 # 4. 查看结果
 git status
