@@ -5,17 +5,17 @@ permalink: /travel-points.json
 [
   {% assign first = true %
   }
-{% for p in site.pages %
+  {% for p in site.pages %
   }
-  {% if p.url contains '/blogs/' and p.layout == 'post' and p.tags contains 'Travelling' and p.location %
+    {% if p.url contains '/blogs/' and p.layout == 'post' and p.tags contains 'Travelling' and p.location %
   }
-    {% unless first %
+      {% unless first %
   },
   {% endunless %
   }
-    {% assign first = false %
+      {% assign first = false %
   }
-    {
+      {
     "title": {
       { p.title | jsonify
       }
@@ -52,8 +52,8 @@ permalink: /travel-points.json
     }{% endif %
     }
   }
-  {% endif %
+    {% endif %
   }
-{% endfor %
+  {% endfor %
   }
 ]
