@@ -437,3 +437,34 @@
     color: white;
     border-color: #2e963d;
 }
+
+/* Status Images */
+.status-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.status-image-thumb {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.status-popup-images {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.status-popup-image-full {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}

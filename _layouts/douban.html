@@ -91,7 +91,7 @@ layout: default
 
             var matches = historyData.filter(function (item) {
                 // item.time format "YYYY-MM-DD HH:mm", extract MM-DD
-                return item.time.substring(5, 10) === searchDate;
+                return item.time.substring(5, 10) === searchDate && item.year !== String(today.getFullYear());
             });
 
             // Sort descending by year
@@ -160,6 +160,15 @@ layout: default
             </div>
             <div class="status-bubble" data-popup-target="popup-{{ forloop.index }}">
                 <div class="status-content">{{ status.content }}</div>
+
+                {% if status.images and status.images.size > 0 %}
+                <div class="status-images">
+                    {% for img in status.images %}
+                    <div class="status-image-thumb" style="background-image: url('{{ img }}');"></div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
                 <div class="status-footer">
                     <span class="status-time">{{ status.time }}</span>
                     {% if status.ai_comments %}
@@ -192,6 +201,14 @@ layout: default
                     <span class="status-popup-time">{{ status.time }}</span>
                 </div>
                 <div class="status-popup-text">{{ status.content }}</div>
+
+                {% if status.images and status.images.size > 0 %}
+                <div class="status-popup-images">
+                    {% for img in status.images %}
+                    <img src="{{ img }}" class="status-popup-image-full">
+                    {% endfor %}
+                </div>
+                {% endif %}
 
                 {% if status.ai_comments %}
                 <div class="status-popup-comments">
@@ -259,6 +276,13 @@ layout: default
             container.appendChild(btn);
         }
 
+        // Auto-select the first month button (representing the latest month)
+        // This ensures not all feed items are loaded/shown at once
+        var firstBtn = container.querySelector('.month-filter-btn');
+        if (firstBtn) {
+            firstBtn.click();
+        }
+
         function filterMonth(m) {
             var items = document.querySelectorAll('.douban-status-item');
             var separators = document.querySelectorAll('.month-separator');
@@ -266,6 +290,9 @@ layout: default
             items.forEach(function (item) {
                 if (!m || item.getAttribute('data-month') === m) {
                     item.style.display = '';
+                    // Lazy load images if we were using data-src? 
+                    // For now browser native lazy loading is adding implicitly by Jekyll often, 
+                    // or we can add it to template.
                 } else {
                     item.style.display = 'none';
                 }
@@ -280,6 +307,38 @@ layout: default
             });
         }
     })();
+
+    // Desktop Lightbox Functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.innerWidth <= 768) return; // Skip on mobile, use popup
+
+        // Create lightbox container
+        var lightbox = document.createElement('div');
+        lightbox.id = 'desktop-lightbox';
+        lightbox.style.cssText = 'display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; cursor:pointer;';
+        lightbox.innerHTML = '<img src="" style="max-width:90%; max-height:90%; border-radius:4px; box-shadow:0 0 20px rgba(0,0,0,0.5);">';
+        document.body.appendChild(lightbox);
+
+        var lbImg = lightbox.querySelector('img');
+
+        lightbox.addEventListener('click', function () {
+            lightbox.style.display = 'none';
+        });
+
+        // Add click event to all status thumbnails
+        document.body.addEventListener('click', function (e) {
+            if (e.target.classList.contains('status-image-thumb')) {
+                // Get URL from background-image style
+                var bg = e.target.style.backgroundImage;
+                // bg is like 'url("...")'
+                var url = bg.slice(5, -2);
+                if (url) {
+                    lbImg.src = url;
+                    lightbox.style.display = 'flex';
+                }
+            }
+        });
+    });
 
     // Mobile popup functionality
     document.addEventListener('DOMContentLoaded', function () {
