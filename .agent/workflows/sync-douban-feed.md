@@ -2,14 +2,15 @@
 description: Sync Douban broadcast feed for a specific year
 ---
 
-1. Execute the sync script with the provided year and cookie.
-   - You MUST ask the user for the `cookie` if it is not provided in the input context.
-   - You MUST ask for the `year` if it is not clear.
-   - Run the following command (replace `<YEAR>` and `<COOKIE>` with actual values):
+1. Run the sync command. The script will automatically read the cookie from `~/.douban.cookie` and default to the current year. It will also automatically commit and push changes to git if any.
    
 ```bash
-python3 scripts/sync-douban-feed/sync_douban.py --year <YEAR> --cookie "<COOKIE>"
+python3 scripts/sync-douban-feed/sync_douban.py
 ```
 
-2. Verify the output file `_data/douban/<YEAR>.json` was created or updated.
-3. (Optional) Run `jekyll build` or just let the incremental server pick it up to see changes.
+- Optional: Specify a year or override cookie
+```bash
+python3 scripts/sync-douban-feed/sync_douban.py --year 2025 --cookie "..."
+```
+
+2. Verify the output in git log or GitHub repo.

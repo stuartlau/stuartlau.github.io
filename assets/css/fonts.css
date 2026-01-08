@@ -1,0 +1,46 @@
+/* Font Family Definitions */
+:root {
+    --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-serif: 'Source Serif Pro', 'Noto Serif SC', "Georgia", "Times New Roman", serif;
+    --font-heading: 'PT Sans Narrow', 'Noto Sans SC', sans-serif;
+    --font-art: 'Zhi Mang Xing', cursive;
+    --font-mono: Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
+}
+
+/* Base Override - Use modern sans stack by default */
+html,
+body {
+    font-family: var(--font-sans);
+}
+
+/* Headers - Use PT Sans Narrow + Chinese Sans */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+}
+
+/* Utility Classes for easy switching */
+.font-sans {
+    font-family: var(--font-sans) !important;
+}
+
+.font-serif {
+    font-family: var(--font-serif) !important;
+}
+
+.font-art {
+    font-family: var(--font-art) !important;
+}
+
+.font-mono {
+    font-family: var(--font-mono) !important;
+}
+
+/* Improve Douban feed font matching */
+.douban-feed-container {
+    font-family: var(--font-sans);
+}

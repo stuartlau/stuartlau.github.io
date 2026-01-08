@@ -243,8 +243,70 @@ def scrape(target_year, cookie):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Sync Douban Feed')
-    parser.add_argument('--year', type=int, required=True, help='Target year to sync')
-    parser.add_argument('--cookie', type=str, required=True, help='Douban cookie')
+    
+    # Default year to current year
+    current_year = datetime.now().year
+    parser.add_argument('--year', type=int, default=current_year, help=f'Target year to sync (default: {current_year})')
+    
+    # Optional cookie argument, defaults to reading from file
+    parser.add_argument('--cookie', type=str, help='Douban cookie string (overrides ~/.douban.cookie)')
     
     args = parser.parse_args()
-    scrape(args.year, args.cookie)
+    
+    cookie = args.cookie
+    if not cookie:
+        cookie_path = os.path.expanduser("~/.douban.cookie")
+        if os.path.exists(cookie_path):
+            try:
+                with open(cookie_path, 'r', encoding='utf-8') as f:
+                    cookie = f.read().strip()
+                print(f"Loaded cookie from {cookie_path}")
+            except Exception as e:
+                print(f"Error reading cookie file: {e}")
+        else:
+            print(f"Cookie not provided and file {cookie_path} does not exist.")
+            sys.exit(1)
+            
+    if not cookie:
+        print("Error: No cookie provided.")
+        sys.exit(1)
+
+    # Scrape
+    target_year = args.year
+    scrape(target_year, cookie)
+    
+    # Git operations
+    # Check if there are changes in data directory
+    # We only care about the json file for the target year
+    json_file = os.path.join(DATA_DIR, f"{target_year}.json")
+    
+    if os.path.exists(json_file):
+        # Determine if file has changed is tricky without git diff status, 
+        # but 'scrape' prints "Saved ... records" or "No changes".
+        # Let's just try to git add and commit. git commit will fail empty if no changes.
+        
+        try:
+            import subprocess
+            print("Checking for changes to commit...")
+            
+            # Add specific file
+            subprocess.run(["git", "add", json_file], check=True)
+            
+            # Check status to see if there is anything staged
+            status = subprocess.run(["git", "diff", "--staged", "--name-only"], capture_output=True, text=True)
+            
+            if json_file in status.stdout or os.path.basename(json_file) in status.stdout:
+                commit_msg = f"chore: sync douban feed for {target_year}"
+                subprocess.run(["git", "commit", "-m", commit_msg], check=True)
+                print(f"Committed changes: {commit_msg}")
+                
+                print("Pushing to remote...")
+                subprocess.run(["git", "push"], check=True)
+                print("Push successful.")
+            else:
+                print("No changes detected by git.")
+                
+        except subprocess.CalledProcessError as e:
+            print(f"Git operation failed: {e}")
+        except Exception as e:
+            print(f"Error during git operations: {e}")
