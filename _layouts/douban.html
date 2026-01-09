@@ -106,9 +106,11 @@ layout: default
             if (list && emptyMsg) {
                 if (matches.length > 0) {
                     matches.forEach(function (item) {
-                        // Filter out Director/Author/Performer
+                // Filter out Director/Author/Performer
                         var c = item.content || "";
-                        if (c.indexOf("导演:") !== -1 || c.indexOf("表演者:") !== -1 || c.indexOf("作者:") !== -1) {
+                        // Check for common keywords with optional colon (English/Chinese) and spaces
+                        var filterRegex = /(导演|表演者|作者|主演|类型|出版)\s*[:：]/;
+                        if (filterRegex.test(c)) {
                             return;
                         }
                         var el = document.createElement('div');
@@ -175,6 +177,7 @@ layout: default
                     <span class="comment-link" onclick="event.stopPropagation(); toggleComments(this)">评论({{
                         status.ai_comments | size }})</span>
                     {% endif %}
+                    <span class="comment-link reply-btn" onclick="event.stopPropagation(); toggleGiscus(this)">回复</span>
                 </div>
                 {% if status.ai_comments %}
                 <div class="comment-box" onclick="event.stopPropagation()">
@@ -189,6 +192,11 @@ layout: default
                     {% endfor %}
                 </div>
                 {% endif %}
+                <!-- Giscus Container -->
+                {% capture giscus_term %}douban-{{ status.time | slugify }}-{{ status.content | slugify | slice: 0, 10
+                }}{% endcapture %}
+                <div class="giscus-wrapper" data-term="{{ giscus_term }}" style="display:none; margin-top: 15px;"
+                    onclick="event.stopPropagation()"></div>
             </div>
         </div>
 
@@ -354,6 +362,9 @@ layout: default
             // Don't trigger if clicking on a link
             if (e.target.tagName === 'A') return;
 
+            // Don't trigger if clicking on reply or comments
+            if (e.target.closest('.status-footer') || e.target.closest('.comment-box') || e.target.closest('.giscus-wrapper')) return;
+
             // Get the target popup ID from the data attribute
             const popupId = bubble.getAttribute('data-popup-target');
             if (!popupId) return;
@@ -419,6 +430,41 @@ layout: default
                 box.style.display = 'none';
             } else {
                 box.style.display = 'block';
+            }
+        }
+    }
+
+    // Toggle Giscus
+    function toggleGiscus(el) {
+        var bubble = el.closest('.status-bubble');
+        var wrapper = bubble.querySelector('.giscus-wrapper');
+        if (wrapper) {
+            if (wrapper.style.display === 'block') {
+                wrapper.style.display = 'none';
+            } else {
+                wrapper.style.display = 'block';
+                if (!wrapper.hasAttribute('data-loaded')) {
+                    var term = wrapper.getAttribute('data-term');
+                    var script = document.createElement('script');
+                    script.src = "https://giscus.app/client.js";
+                    script.setAttribute("data-repo", "stuartlau/stuartlau.github.io");
+                    script.setAttribute("data-repo-id", "R_kgDOOf5c7g");
+                    script.setAttribute("data-category", "Announcements");
+                    script.setAttribute("data-category-id", "DIC_kwDOOf5c7s4Cz_Oz");
+                    script.setAttribute("data-mapping", "specific");
+                    script.setAttribute("data-term", term);
+                    script.setAttribute("data-strict", "0");
+                    script.setAttribute("data-reactions-enabled", "1");
+                    script.setAttribute("data-emit-metadata", "0");
+                    script.setAttribute("data-input-position", "top");
+                    script.setAttribute("data-theme", document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+                    script.setAttribute("data-lang", "zh-CN");
+                    script.setAttribute("crossorigin", "anonymous");
+                    script.setAttribute("async", "");
+
+                    wrapper.appendChild(script);
+                    wrapper.setAttribute('data-loaded', 'true');
+                }
             }
         }
     }
