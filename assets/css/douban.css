@@ -81,6 +81,7 @@
     .status-content {
         display: -webkit-box;
         -webkit-line-clamp: 3;
+        line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -467,4 +468,129 @@
     width: 100%;
     height: auto;
     border-radius: 8px;
+}
+
+/* Giscus Stats */
+.giscus-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.giscus-stats:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.giscus-count-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.85rem;
+    color: #999;
+    transition: color 0.2s;
+}
+
+.giscus-stats.has-interaction .giscus-count-item {
+    color: #2e963d;
+    /* Green when active */
+}
+
+.giscus-stats.has-interaction .giscus-icon {
+    color: #2e963d;
+}
+
+[data-theme="dark"] .giscus-stats:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .giscus-count-item {
+    color: #888;
+}
+
+[data-theme="dark"] .giscus-stats.has-interaction .giscus-count-item {
+    color: #66bb6a;
+    /* Light green for dark mode */
+}
+
+/* Custom Desktop Lightbox */
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 40px;
+    font-weight: 300;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s;
+    user-select: none;
+    z-index: 10000;
+}
+
+.lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-nav.prev {
+    left: 30px;
+}
+
+.lightbox-nav.next {
+    right: 30px;
+}
+
+.lightbox-nav.disabled {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.lightbox-counter {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 6px 14px;
+    border-radius: 20px;
+    z-index: 10000;
+    letter-spacing: 1px;
+}
+
+.lightbox-close-btn {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 10000;
+    line-height: 1;
+}
+
+.lightbox-close-btn:hover {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    transform: rotate(90deg);
 }

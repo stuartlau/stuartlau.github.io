@@ -106,7 +106,7 @@ layout: default
             if (list && emptyMsg) {
                 if (matches.length > 0) {
                     matches.forEach(function (item) {
-                // Filter out Director/Author/Performer
+                        // Filter out Director/Author/Performer
                         var c = item.content || "";
                         // Check for common keywords with optional colon (English/Chinese) and spaces
                         var filterRegex = /(导演|表演者|作者|主演|类型|出版)\s*[:：]/;
@@ -173,25 +173,30 @@ layout: default
 
                 <div class="status-footer">
                     <span class="status-time">{{ status.time }}</span>
-                    {% if status.ai_comments %}
-                    <span class="comment-link" onclick="event.stopPropagation(); toggleComments(this)">评论({{
-                        status.ai_comments | size }})</span>
-                    {% endif %}
-                    <span class="comment-link reply-btn" onclick="event.stopPropagation(); toggleGiscus(this)">回复</span>
-                </div>
-                {% if status.ai_comments %}
-                <div class="comment-box" onclick="event.stopPropagation()">
-                    {% for comment in status.ai_comments %}
-                    <div class="comment-item">
-                        <div class="comment-content-wrapper">
-                            <span class="comment-author">{{ comment.author }}:</span>
-                            <span class="comment-text">{{ comment.content }}</span>
-                            <!-- <span class="comment-meta">{{ comment.timestamp }}</span> Optional timestamp if needed -->
-                        </div>
+                    <div class="giscus-stats" onclick="event.stopPropagation(); toggleGiscus(this)" title="点击展开评论">
+                        <span class="giscus-count-item comment-count"
+                            style="display:inline-flex; align-items:center; gap:4px; font-size:0.9rem; color:#888;">
+                            <svg class="giscus-icon" viewBox="0 0 16 16" version="1.1" width="14" height="14"
+                                aria-hidden="true" style="fill:currentColor;">
+                                <path
+                                    d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.457 1.457 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.75.75 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg>
+                            <span class="count-text">0</span>
+                        </span>
+                        <span class="giscus-count-item reaction-count"
+                            style="display:inline-flex; align-items:center; gap:4px; font-size:0.9rem; color:#888; margin-left:8px;">
+                            <svg class="giscus-icon" viewBox="0 0 16 16" version="1.1" width="14" height="14"
+                                aria-hidden="true" style="fill:currentColor;">
+                                <path
+                                    d="m8 14.25.345.666a.75.75 0 0 1-.69 0l-.008-.004-.018-.01a7.152 7.152 0 0 1-.31-.17 22.055 22.055 0 0 1-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.066 22.066 0 0 1-3.744 2.584l-.018.01-.006.003h-.002ZM4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.58 20.58 0 0 0 8 13.393a20.58 20.58 0 0 0 3.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 0 1-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5Z">
+                                </path>
+                            </svg>
+                            <span class="count-text">0</span>
+                        </span>
                     </div>
-                    {% endfor %}
                 </div>
-                {% endif %}
+
                 <!-- Giscus Container -->
                 {% capture giscus_term %}douban-{{ status.time | slugify }}-{{ status.content | slugify | slice: 0, 10
                 }}{% endcapture %}
@@ -218,20 +223,7 @@ layout: default
                 </div>
                 {% endif %}
 
-                {% if status.ai_comments %}
-                <div class="status-popup-comments">
-                    <div class="status-popup-comment-title">朋友圈热评</div>
-                    {% for comment in status.ai_comments %}
-                    <div class="status-popup-comment-item">
-                        <div class="status-popup-comment-header">
-                            <span class="status-popup-comment-author">{{ comment.author }}</span>
-                            <span class="status-popup-comment-time">{{ comment.timestamp }}</span>
-                        </div>
-                        <div class="status-popup-comment-text">{{ comment.content }}</div>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
+
             </div>
         </div>
         {% endfor %}
@@ -320,29 +312,111 @@ layout: default
     document.addEventListener('DOMContentLoaded', function () {
         if (window.innerWidth <= 768) return; // Skip on mobile, use popup
 
-        // Create lightbox container
+        // Create lightbox structure
         var lightbox = document.createElement('div');
         lightbox.id = 'desktop-lightbox';
-        lightbox.style.cssText = 'display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; cursor:pointer;';
-        lightbox.innerHTML = '<img src="" style="max-width:90%; max-height:90%; border-radius:4px; box-shadow:0 0 20px rgba(0,0,0,0.5);">';
+        lightbox.style.cssText = 'display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; user-select:none;';
+
+        lightbox.innerHTML = ' \
+            <div class="lightbox-close-btn">&times;</div> \
+            <div class="lightbox-counter"></div> \
+            <div class="lightbox-nav prev">&lsaquo;</div> \
+            <div class="lightbox-nav next">&rsaquo;</div> \
+            <img src="" style="max-width:90%; max-height:90%; border-radius:4px; box-shadow:0 0 20px rgba(0,0,0,0.5);"> \
+        ';
         document.body.appendChild(lightbox);
 
         var lbImg = lightbox.querySelector('img');
+        var counter = lightbox.querySelector('.lightbox-counter');
+        var prevBtn = lightbox.querySelector('.prev');
+        var nextBtn = lightbox.querySelector('.next');
+        var closeBtn = lightbox.querySelector('.lightbox-close-btn');
 
-        lightbox.addEventListener('click', function () {
+        var currentGroup = [];
+        var currentIndex = 0;
+
+        function updateLightbox() {
+            if (currentGroup.length === 0) return;
+            lbImg.src = currentGroup[currentIndex];
+            counter.textContent = (currentIndex + 1) + ' / ' + currentGroup.length;
+
+            // Manage nav button visibility/state
+            prevBtn.style.display = currentGroup.length > 1 ? 'flex' : 'none';
+            nextBtn.style.display = currentGroup.length > 1 ? 'flex' : 'none';
+
+            if (currentIndex === 0) prevBtn.classList.add('disabled');
+            else prevBtn.classList.remove('disabled');
+
+            if (currentIndex === currentGroup.length - 1) nextBtn.classList.add('disabled');
+            else nextBtn.classList.remove('disabled');
+        }
+
+        function closeLightbox() {
             lightbox.style.display = 'none';
+            currentGroup = [];
+        }
+
+        function showNext() {
+            if (currentIndex < currentGroup.length - 1) {
+                currentIndex++;
+                updateLightbox();
+            }
+        }
+
+        function showPrev() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateLightbox();
+            }
+        }
+
+        // Event Listeners
+        lightbox.addEventListener('click', function (e) {
+            if (e.target === lightbox || e.target === closeBtn) {
+                closeLightbox();
+            }
+        });
+
+        prevBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            showPrev();
+        });
+
+        nextBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            showNext();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (lightbox.style.display === 'none') return;
+
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') showPrev();
+            if (e.key === 'ArrowRight') showNext();
         });
 
         // Add click event to all status thumbnails
         document.body.addEventListener('click', function (e) {
             if (e.target.classList.contains('status-image-thumb')) {
-                // Get URL from background-image style
-                var bg = e.target.style.backgroundImage;
-                // bg is like 'url("...")'
-                var url = bg.slice(5, -2);
-                if (url) {
-                    lbImg.src = url;
-                    lightbox.style.display = 'flex';
+                // Find parent container to identify the group
+                var parent = e.target.closest('.status-images');
+                if (parent) {
+                    var thumbs = Array.from(parent.querySelectorAll('.status-image-thumb'));
+                    currentGroup = thumbs.map(function (t) {
+                        var bg = t.style.backgroundImage;
+                        // Handle url("...") or url(...)
+                        if (bg.indexOf('"') > -1) {
+                            return bg.slice(5, -2);
+                        } else {
+                            return bg.slice(4, -1);
+                        }
+                    });
+                    currentIndex = thumbs.indexOf(e.target);
+
+                    if (currentIndex !== -1) {
+                        lightbox.style.display = 'flex';
+                        updateLightbox();
+                    }
                 }
             }
         });
@@ -420,18 +494,57 @@ layout: default
             });
         }
     });
-    // Toggle Comments for Web
-    function toggleComments(el) {
-        // Find the comment box within the same status bubble
+    // Giscus Stats Lazy Loading
+    document.addEventListener('DOMContentLoaded', function () {
+        var statsObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    var statsEl = entry.target;
+                    fetchGiscusStats(statsEl);
+                    observer.unobserve(statsEl);
+                }
+            });
+        }, { rootMargin: '50px' });
+
+        document.querySelectorAll('.giscus-stats').forEach(function (el) {
+            statsObserver.observe(el);
+        });
+    });
+
+    function fetchGiscusStats(el) {
         var bubble = el.closest('.status-bubble');
-        var box = bubble.querySelector('.comment-box');
-        if (box) {
-            if (box.style.display === 'block') {
-                box.style.display = 'none';
-            } else {
-                box.style.display = 'block';
-            }
-        }
+        if (!bubble) return;
+        var wrapper = bubble.querySelector('.giscus-wrapper');
+        if (!wrapper) return;
+        var term = wrapper.getAttribute('data-term');
+        if (!term) return;
+
+        var url = "https://giscus.app/api/discussions?repo=stuartlau/stuartlau.github.io&category=Announcements&term=" + encodeURIComponent(term);
+
+        fetch(url)
+            .then(function (res) {
+                if (res.status === 404) return null; // Not found = 0
+                return res.json();
+            })
+            .then(function (data) {
+                if (data && data.discussion) {
+                    var comments = data.discussion.totalCommentCount;
+                    var reactions = data.discussion.reactionCount;
+
+                    var commentText = el.querySelector('.comment-count .count-text');
+                    var reactionText = el.querySelector('.reaction-count .count-text');
+
+                    if (commentText) commentText.textContent = comments;
+                    if (reactionText) reactionText.textContent = reactions;
+
+                    if (comments > 0 || reactions > 0) {
+                        el.classList.add('has-interaction');
+                    }
+                }
+            })
+            .catch(function (err) {
+                console.error('Failed to fetch Giscus stats', err);
+            });
     }
 
     // Toggle Giscus
@@ -445,27 +558,32 @@ layout: default
                 wrapper.style.display = 'block';
                 if (!wrapper.hasAttribute('data-loaded')) {
                     var term = wrapper.getAttribute('data-term');
-                    var script = document.createElement('script');
-                    script.src = "https://giscus.app/client.js";
-                    script.setAttribute("data-repo", "stuartlau/stuartlau.github.io");
-                    script.setAttribute("data-repo-id", "R_kgDOOf5c7g");
-                    script.setAttribute("data-category", "Announcements");
-                    script.setAttribute("data-category-id", "DIC_kwDOOf5c7s4Cz_Oz");
-                    script.setAttribute("data-mapping", "specific");
-                    script.setAttribute("data-term", term);
-                    script.setAttribute("data-strict", "0");
-                    script.setAttribute("data-reactions-enabled", "1");
-                    script.setAttribute("data-emit-metadata", "0");
-                    script.setAttribute("data-input-position", "top");
-                    script.setAttribute("data-theme", document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
-                    script.setAttribute("data-lang", "zh-CN");
-                    script.setAttribute("crossorigin", "anonymous");
-                    script.setAttribute("async", "");
-
-                    wrapper.appendChild(script);
-                    wrapper.setAttribute('data-loaded', 'true');
+                    loadGiscusScript(wrapper, term);
                 }
             }
         }
+    }
+
+    function loadGiscusScript(container, term) {
+        if (container.hasAttribute('data-loaded')) return;
+        var script = document.createElement('script');
+        script.src = "https://giscus.app/client.js";
+        script.setAttribute("data-repo", "stuartlau/stuartlau.github.io");
+        script.setAttribute("data-repo-id", "R_kgDOOf5c7g");
+        script.setAttribute("data-category", "Announcements");
+        script.setAttribute("data-category-id", "DIC_kwDOOf5c7s4Cz_Oz");
+        script.setAttribute("data-mapping", "specific");
+        script.setAttribute("data-term", term);
+        script.setAttribute("data-strict", "0");
+        script.setAttribute("data-reactions-enabled", "1");
+        script.setAttribute("data-emit-metadata", "0");
+        script.setAttribute("data-input-position", "top");
+        script.setAttribute("data-theme", document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+        script.setAttribute("data-lang", "zh-CN");
+        script.setAttribute("crossorigin", "anonymous");
+        script.setAttribute("async", "");
+
+        container.appendChild(script);
+        container.setAttribute('data-loaded', 'true');
     }
 </script>

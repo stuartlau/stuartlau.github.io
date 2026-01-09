@@ -3,15 +3,43 @@ layout: null
 permalink: /search.json
 ---
 [
-{% assign docs = site.pages | where: "layout", "post" %}
-{% assign docs = docs | where_exp: "p", "p.url contains '/blogs/'" %}
-{% for p in docs %}
+  {% assign docs = site.pages | where: "layout",
+    "post" %
+  }
+{% assign docs = docs | where_exp: "p",
+    "p.url contains '/blogs/'" %
+  }
+{% for p in docs %
+  }
   {
-    "title": {{ p.title | default: p.url | jsonify }},
-    "url": {{ p.url | relative_url | jsonify }},
-    "date": {{ p.date | default: '' | date_to_xmlschema | jsonify }},
-    "excerpt": {{ p.content | strip_html | strip_newlines | truncate: 200 | jsonify }},
-    "content": {{ p.content | strip_html | strip_newlines | jsonify }}
-  }{% unless forloop.last %},{% endunless %}
-{% endfor %}
+    "title": {
+      { p.title | default: p.url | jsonify
+      }
+    },
+    "url": {
+      { p.url | relative_url | jsonify
+      }
+    },
+    "date": {
+      { p.date | default: '' | date_to_xmlschema | jsonify
+      }
+    },
+    "excerpt": {
+      { p.content | strip_html | strip_newlines | truncate: 200 | jsonify
+      }
+    },
+    "tags": {
+      { p.tags | jsonify | default: "[]"
+      }
+    },
+    "content": {
+      { p.content | strip_html | strip_newlines | jsonify
+      }
+    }
+  }{% unless forloop.last %
+  },
+  {% endunless %
+  }
+{% endfor %
+  }
 ]

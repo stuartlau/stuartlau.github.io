@@ -15,6 +15,6 @@ python3 scripts/generate-doc-md/generate_doc.py
 ```
 
 The script will:
-1. Check `assets/file` for files.
+1. Check `assets/files` for files.
 2. Check if a corresponding markdown file exists in `blogs/tech/YYYY/`.
 3. If not, generate a new post embedding the file via iframe.
