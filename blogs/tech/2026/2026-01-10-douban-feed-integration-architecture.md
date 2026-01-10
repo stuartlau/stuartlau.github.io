@@ -7,11 +7,11 @@ tags: [Jekyll, Python, JavaScript, Giscus, API集成, 前端架构]
 description: "详细记录从豆瓣数据同步、UI展示、评论系统集成到性能优化的完整技术方案，包含架构设计、技术挑战与解决方案"
 ---
 
-## 项目背景
+### 项目背景
 
 在个人博客中集成豆瓣广播（Status）功能,实现类似微博/朋友圈的动态展示。该项目历时数周,涉及数据同步、前端展示、评论系统集成等多个技术领域,最终实现了一个功能完善、用户体验优秀的Feed系统。
 
-### 核心目标
+#### 核心目标
 
 1. **数据同步**: 自动从豆瓣抓取广播内容并本地化存储
 2. **视觉呈现**: 仿豆瓣绿色气泡UI,支持图片、文字、时间戳
@@ -19,9 +19,9 @@ description: "详细记录从豆瓣数据同步、UI展示、评论系统集成�
 4. **性能优化**: 懒加载、单实例管理,确保页面流畅
 5. **移动适配**: 响应式设计,移动端弹窗体验
 
-## 系统架构
+### 系统架构
 
-### 整体架构图
+#### 整体架构图
 
 ```mermaid
 graph TB
@@ -57,7 +57,7 @@ graph TB
     style J fill:#fbb,stroke:#333,stroke-width:2px
 ```
 
-### 数据流转图
+#### 数据流转图
 
 ```mermaid
 sequenceDiagram
@@ -99,17 +99,17 @@ sequenceDiagram
     Giscus-->>Browser: 渲染评论界面
 ```
 
-## 核心功能模块
+### 核心功能模块
 
-### 1. 数据同步模块
+#### 1. 数据同步模块
 
-#### 技术选型
+##### 技术选型
 - **语言**: Python 3.x
 - **HTTP库**: requests
 - **HTML解析**: BeautifulSoup4 / lxml
 - **并发**: 多线程图片下载
 
-#### 同步流程
+##### 同步流程
 
 ```mermaid
 flowchart TD
@@ -138,7 +138,7 @@ flowchart TD
     Error1 --> End
 ```
 
-#### 关键代码结构
+##### 关键代码结构
 ```python
 class DoubanSyncClient:
     def __init__(self, cookie, user_id):
@@ -170,9 +170,9 @@ class DoubanSyncClient:
             wait(futures)
 ```
 
-### 2. UI展示模块
+#### 2. UI展示模块
 
-#### 气泡设计
+##### 气泡设计
 
 采用仿豆瓣的绿色气泡UI,包含：
 - **头像**: 左侧圆形头像
@@ -180,7 +180,7 @@ class DoubanSyncClient:
 - **内容**: 文字 + 图片缩略图网格
 - **页脚**: 时间戳 + 评论/点赞统计
 
-#### CSS架构
+##### CSS架构
 
 ```mermaid
 graph LR
@@ -202,7 +202,7 @@ graph LR
     F --> F2[主题切换]
 ```
 
-#### 关键样式
+##### 关键样式
 ```css
 /* 气泡容器 */
 .status-bubble {
@@ -241,11 +241,11 @@ graph LR
 }
 ```
 
-### 3. Giscus评论集成
+#### 3. Giscus评论集成
 
 这是整个项目最复杂的部分,面临多个技术挑战。
 
-#### 架构演进
+##### 架构演进
 
 ```mermaid
 graph TB
@@ -274,7 +274,7 @@ graph TB
     style E3 fill:#bfb
 ```
 
-#### 核心实现
+##### 核心实现
 
 ```javascript
 // 全局单例管理
@@ -327,9 +327,9 @@ term = "douban-{时间戳}-{内容长度}"
 - ✅ 避免中文slugify失败问题
 - ✅ 稳定不变,不受数据顺序影响
 
-### 4. 懒加载优化
+#### 4. 懒加载优化
 
-#### IntersectionObserver应用
+##### IntersectionObserver应用
 
 ```mermaid
 sequenceDiagram
@@ -349,7 +349,7 @@ sequenceDiagram
     Observer->>Observer: unobserve(已加载元素)
 ```
 
-#### 实现代码
+##### 实现代码
 
 ```javascript
 // 创建观察器
@@ -375,9 +375,9 @@ document.querySelectorAll('.giscus-stats').forEach(function(el) {
 });
 ```
 
-### 5. 移动端适配
+#### 5. 移动端适配
 
-#### 响应式策略
+##### 响应式策略
 
 ```mermaid
 graph TD
@@ -395,7 +395,7 @@ graph TD
     D --> D4[底部评论按钮]
 ```
 
-#### 弹窗实现
+##### 弹窗实现
 
 ```javascript
 // 移动端弹窗
@@ -418,9 +418,9 @@ function showFullImage(imgSrc) {
 }
 ```
 
-## 技术挑战与解决方案
+### 技术挑战与解决方案
 
-### 挑战1: Giscus多实例冲突
+#### 挑战1: Giscus多实例冲突
 
 **问题**: Giscus的client.js在同一页面只能初始化一次,后续调用无法创建新iframe
 
@@ -434,7 +434,7 @@ function showFullImage(imgSrc) {
 - 点击时移动容器到目标Feed下方
 - 修改iframe src的term参数触发重载
 
-### 挑战2: 中文内容Slugify失败
+#### 挑战2: 中文内容Slugify失败
 
 **问题**: Jekyll的`slugify`过滤器会移除所有中文字符,导致term为空或重复
 
@@ -449,18 +449,13 @@ function showFullImage(imgSrc) {
 <!-- 结果: "2026-01-10-13-22-114" -->
 ```
 
-### 挑战3: API请求优化
+#### 挑战3: API请求优化
 
 **问题**: 数百条Feed同时请求Giscus API导致:
 - 页面卡顿
 - 可能触发GitHub API rate limit
 
 **解决方案**:
-<function_calls>
-<invoke name="grep_search">
-<parameter name="CaseInsensitive">true
-
-
 - ✅ 使用IntersectionObserver懒加载
 - ✅ 设置`rootMargin: '50px'`提前加载
 - ✅ 加载后立即`unobserve`,避免重复请求
@@ -472,7 +467,7 @@ function showFullImage(imgSrc) {
 优化后: 滚动触发 → 按需加载5-10个 → 无感知
 ```
 
-### 挑战4: 暗黑模式适配
+#### 挑战4: 暗黑模式适配
 
 **问题**: Giscus iframe有自己的主题，需要与网站主题同步
 
@@ -486,9 +481,9 @@ var theme = document.documentElement
 script.setAttribute("data-theme", theme);
 ```
 
-## 性能指标
+### 性能指标
 
-### 构建性能
+#### 构建性能
 
 | 指标 | 优化前 | 优化后 | 改善 |
 |------|--------|--------|------|
@@ -496,7 +491,7 @@ script.setAttribute("data-theme", theme);
 | 数据文件大小 | 5MB | 150KB | 97% ⬇️ |
 | 页面HTML大小 | 2MB | 800KB | 60% ⬇️ |
 
-### 用户体验指标
+#### 用户体验指标
 
 - **首屏渲染**: < 500ms
 - **滚动流畅度**: 60fps
@@ -504,23 +499,23 @@ script.setAttribute("data-theme", theme);
 - **移动端适配**: 100%
 - **暗黑模式**: 完全支持
 
-## 经验教训
+### 经验教训
 
-### ✅ 成功经验
+#### ✅ 成功经验
 
 1. **分层架构**: 数据层、构建层、展示层分离,易于维护和扩展
 2. **性能优先**: 懒加载、增量构建、按需请求,确保用户体验
 3. **渐进增强**: 先实现核心功能,再逐步添加交互
 4. **充分测试**: 每个功能点都经过PC/移动端/暗黑模式测试
 
-### ⚠️ 需要改进
+#### ⚠️ 需要改进
 
 1. **错误处理**: API请求缺少retry机制和fallback
 2. **缓存策略**: 可以添加localStorage缓存统计数据
 3. **图片优化**: 未实施压缩和WebP转换
 4. **无障碍**: 缺少ARIA标签和键盘导航
 
-## 总结
+### 总结
 
 本项目历时数周,从最初的简单需求到最终的完整系统,经历了多次架构调整和技术攻坚。核心挑战在于：
 
@@ -530,7 +525,7 @@ script.setAttribute("data-theme", theme);
 
 最终实现了一个功能完善、性能优秀、用户体验良好的Feed系统,为个人博客增添了动态内容展示能力。
 
-### 技术栈总结
+#### 技术栈总结
 
 | 层级 | 技术选型 | 作用 |
 |------|---------|------|
@@ -542,7 +537,7 @@ script.setAttribute("data-theme", theme);
 | 评论系统 | Giscus + GitHub Discussions | 社交互动 |
 | 性能优化 | IntersectionObserver + 懒加载 | 体验优化 |
 
-### 关键指标
+#### 关键指标
 
 - **代码行数**: ~2000行 (Python 500, JS 800, CSS 700)
 - **数据量**: 2021-2026共 1500+ 条广播

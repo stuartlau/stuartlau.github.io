@@ -297,10 +297,10 @@ document.addEventListener("DOMContentLoaded", function() {
   <div id="tag-cloud" class="tag-cloud"></div>
 </div>
 
-<p id="patent-stats-cn" style="margin-bottom: 1.5rem;">
+<p id="patent-stats-cn" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
   已授权（{{ granted_count }}个）、待授权（{{ pending_count }}个）
 </p>
-<p id="patent-stats-en" style="margin-bottom: 1.5rem; display:none;">
+<p id="patent-stats-en" style="margin-top: 1.5rem; margin-bottom: 1.5rem; display:none;">
     Granted ({{ granted_count }}), Pending ({{ pending_count }})
 </p>
 
@@ -325,6 +325,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <script src="https://cdn.jsdelivr.net/npm/d3@3.5.17/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3-cloud@1/build/d3.layout.cloud.js"></script>
 <script src="{{ site.url }}/assets/js/tag-cloud.js"></script>
+<script src="{{ site.url }}/assets/js/patent-toggle.js"></script>
 
 <br>
 

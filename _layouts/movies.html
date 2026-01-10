@@ -1,0 +1,306 @@
+---
+layout: default
+---
+
+<link rel="stylesheet" href="/assets/css/movies.css">
+
+<div class="movies-container">
+
+    {% if page.dataset %}
+    {% assign dataset_str = page.dataset | append: "" %}
+    {% assign year_data = site.data.movies[dataset_str] %}
+    {% elsif page.year %}
+    {% assign year_str = page.year | append: "" %}
+    {% assign year_data = site.data.movies[year_str] %}
+    {% endif %}
+
+    {% if year_data %}
+    <!-- Stats -->
+    <div class="movies-stats">
+        <span>共观看 <strong>{{ year_data | size }}</strong> 部电影</span>
+        {% assign total_rating = 0 %}
+        {% assign rated_count = 0 %}
+        {% for movie in year_data %}
+        {% if movie.my_rating %}
+        {% assign total_rating = total_rating | plus: movie.my_rating %}
+        {% assign rated_count = rated_count | plus: 1 %}
+        {% endif %}
+        {% endfor %}
+        {% if rated_count > 0 %}
+        {% assign avg_rating = total_rating | divided_by: rated_count %}
+        <span class="divider">|</span>
+        <span>平均评分 <strong>{{ avg_rating }}</strong> 星</span>
+        {% endif %}
+    </div>
+
+    <!-- Filters and Sort -->
+    <div class="movies-controls">
+        <div class="movies-filters">
+            <label>
+                <span>豆瓣评分：</span>
+                <select id="filter-rating">
+                    <option value="">全部</option>
+                    <option value="9">⭐ 9分以上</option>
+                    <option value="8">⭐ 8-9分</option>
+                    <option value="7">⭐ 7-8分</option>
+                    <option value="0">⭐ 7分以下</option>
+                </select>
+            </label>
+            <label>
+                <span>类型：</span>
+                <select id="filter-genre">
+                    <option value="">全部</option>
+                </select>
+            </label>
+            <label>
+                <span>国家：</span>
+                <select id="filter-country">
+                    <option value="">全部</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="movies-sort">
+            <label>
+                <span>上映年份：</span>
+                <select id="sort-by">
+                    <option value="pub-date-desc">新→旧</option>
+                    <option value="pub-date-asc">旧→新</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="movies-view-toggle">
+            <button type="button" class="view-btn active" data-mode="normal" title="图文模式">🖼️</button>
+            <button type="button" class="view-btn" data-mode="minimal" title="极简模式">📝</button>
+        </div>
+    </div>
+
+    <div class="movies-grid" id="movies-grid">
+        {% for movie in year_data %}
+        <a href="{{ movie.douban_url }}" target="_blank" class="movie-card"
+            data-douban-rating="{{ movie.douban_rating | default: 0 }}" data-date="{{ movie.watched_date }}"
+            data-pub-date="{{ movie.pub_date | default: movie.year }}" data-title="{{ movie.title }}"
+            data-genres="{{ movie.genres | join: ',' }}" data-countries="{{ movie.countries }}">
+
+            <!-- Poster -->
+            <div class="movie-poster">
+                {% if movie.poster %}
+                <img src="{{ movie.poster }}" alt="{{ movie.title }}" loading="lazy">
+                {% else %}
+                <div class="poster-placeholder">
+                    <span>📽️</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Info -->
+            <div class="movie-info">
+                <h3 class="movie-title" title="{{ movie.title }}">
+                    {{ movie.title }}
+                </h3>
+
+                {% if movie.original_title and movie.original_title != movie.title %}
+                <p class="movie-original-title" title="{{ movie.original_title }}">
+                    {{ movie.original_title }}
+                </p>
+                {% endif %}
+
+                <div class="movie-meta">
+                    {% if movie.my_rating %}
+                    <div class="movie-rating">
+                        {% for i in (1..5) %}
+                        <span class="star {% if i <= movie.my_rating %}filled{% endif %}">★</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if movie.watched_date %}
+                    <div class="movie-date">{{ movie.watched_date }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Tooltip (shown on hover) -->
+            <div class="movie-tooltip">
+                {% if movie.directors and movie.directors.size > 0 %}
+                <p><strong>导演：</strong>{{ movie.directors | join: " / " }}</p>
+                {% endif %}
+                {% if movie.cast and movie.cast.size > 0 %}
+                <p><strong>主演：</strong>{{ movie.cast | slice: 0, 5 | join: " / " }}</p>
+                {% endif %}
+                {% if movie.genres and movie.genres.size > 0 %}
+                <p><strong>类型：</strong>{{ movie.genres | join: " / " }}</p>
+                {% endif %}
+                {% if movie.countries %}
+                <p><strong>国家：</strong>{{ movie.countries }}</p>
+                {% endif %}
+                {% if movie.pub_date %}
+                <p><strong>上映：</strong>{{ movie.pub_date }}</p>
+                {% endif %}
+                {% if movie.douban_rating %}
+                <p><strong>豆瓣：</strong><span class="rating-highlight">{{ movie.douban_rating }}</span>{% if
+                    movie.rating_count %} ({{ movie.rating_count }}人){% endif %}</p>
+                {% endif %}
+                {% if movie.my_comment %}
+                <p class="tooltip-comment">💬 {{ movie.my_comment }}</p>
+                {% endif %}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Empty state -->
+    <div class="movies-empty" id="movies-empty" style="display: none;">
+        <p>📭 没有符合条件的电影</p>
+    </div>
+
+    {% else %}
+    <div class="movies-empty">
+        <p>📭 暂无观影记录</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const grid = document.getElementById('movies-grid');
+        const emptyState = document.getElementById('movies-empty');
+        const filterRating = document.getElementById('filter-rating');
+        const filterGenre = document.getElementById('filter-genre');
+        const filterCountry = document.getElementById('filter-country');
+        const sortBy = document.getElementById('sort-by');
+        const viewBtns = document.querySelectorAll('.view-btn');
+
+        if (!grid) return;
+
+        const cards = Array.from(grid.querySelectorAll('.movie-card'));
+        let currentMode = 'normal';
+
+        // Collect all genres and countries for filter dropdowns
+        const allGenres = new Set();
+        const allCountries = new Set();
+
+        cards.forEach(card => {
+            const genres = card.dataset.genres?.split(',').filter(g => g.trim());
+            genres?.forEach(g => allGenres.add(g.trim()));
+
+            const countries = card.dataset.countries?.split(/[\/,]/).filter(c => c.trim());
+            countries?.forEach(c => allCountries.add(c.trim()));
+        });
+
+        // Populate genre dropdown
+        Array.from(allGenres).sort().forEach(genre => {
+            const option = document.createElement('option');
+            option.value = genre;
+            option.textContent = genre;
+            filterGenre.appendChild(option);
+        });
+
+        // Populate country dropdown
+        Array.from(allCountries).sort().forEach(country => {
+            const option = document.createElement('option');
+            option.value = country;
+            option.textContent = country;
+            filterCountry.appendChild(option);
+        });
+
+        function filterAndSort() {
+            const ratingFilter = filterRating ? filterRating.value : '';
+            const genreFilter = filterGenre ? filterGenre.value : '';
+            const countryFilter = filterCountry ? filterCountry.value : '';
+            const sortValue = sortBy ? sortBy.value : 'pub-date-desc';
+
+            // Toggle view mode class
+            if (currentMode === 'minimal') {
+                grid.classList.add('minimal-mode');
+            } else {
+                grid.classList.remove('minimal-mode');
+            }
+
+            // Filter
+            let visibleCards = cards.filter(card => {
+                // Rating filter
+                if (ratingFilter) {
+                    const doubanRating = parseFloat(card.dataset.doubanRating) || 0;
+                    const filterValue = parseInt(ratingFilter);
+
+                    if (filterValue === 9 && doubanRating < 9) return false;
+                    if (filterValue === 8 && (doubanRating < 8 || doubanRating >= 9)) return false;
+                    if (filterValue === 7 && (doubanRating < 7 || doubanRating >= 8)) return false;
+                    if (filterValue === 0 && doubanRating >= 7) return false;
+                }
+
+                // Genre filter
+                if (genreFilter) {
+                    const genres = card.dataset.genres || '';
+                    if (!genres.includes(genreFilter)) return false;
+                }
+
+                // Country filter
+                if (countryFilter) {
+                    const countries = card.dataset.countries || '';
+                    if (!countries.includes(countryFilter)) return false;
+                }
+
+                return true;
+            });
+
+            // Sort by pub-date
+            visibleCards.sort((a, b) => {
+                const dateA = a.dataset.pubDate || '';
+                const dateB = b.dataset.pubDate || '';
+                return sortValue === 'pub-date-desc'
+                    ? dateB.localeCompare(dateA)
+                    : dateA.localeCompare(dateB);
+            });
+
+            // Remove existing dividers
+            grid.querySelectorAll('.year-divider').forEach(d => d.remove());
+
+            // Hide all cards first
+            cards.forEach(card => card.style.display = 'none');
+
+            // Show and reorder visible cards with year dividers
+            let currentYear = null;
+            visibleCards.forEach((card, index) => {
+                card.style.display = '';
+                card.style.order = index * 2 + 1;
+
+                // Year divider logic
+                const year = card.dataset.pubDate ? card.dataset.pubDate.substring(0, 4) : '未知年份';
+                if (year !== currentYear) {
+                    currentYear = year;
+                    const divider = document.createElement('div');
+                    divider.className = 'year-divider';
+                    divider.style.order = index * 2;
+                    divider.textContent = `${year} 年`;
+                    grid.appendChild(divider);
+                }
+            });
+
+            // Toggle empty state
+            if (emptyState) {
+                emptyState.style.display = visibleCards.length === 0 ? 'block' : 'none';
+            }
+        }
+
+        // Event listeners
+        [filterRating, filterGenre, filterCountry, sortBy].forEach(el => {
+            if (el) el.addEventListener('change', filterAndSort);
+        });
+
+        // View mode toggle buttons
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                viewBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentMode = this.dataset.mode;
+                filterAndSort();
+            });
+        });
+
+        // Initial sort
+        filterAndSort();
+    });
+</script>
