@@ -594,3 +594,33 @@
     color: white;
     transform: rotate(90deg);
 }
+/* Giscus Wrapper Positioning */
+.giscus-wrapper {
+    position: relative;
+    width: 100%;
+    clear: both;
+    z-index: 1;
+}
+
+.giscus-wrapper iframe {
+    width: 100% !important;
+    max-width: 100%;
+}
+
+.status-bubble {
+    position: relative;
+}
+
+
+/* Giscus Reactions - Hide negative reactions, keep positive only */
+/* Hide thumbs down (-1) */
+.giscus-frame iframe {
+    /* This targets the iframe content, but we need to use a different approach */
+}
+
+/* Since we can't directly style iframe content, we'll add custom CSS that Giscus will load */
+/* Giscus uses data-reaction-label attributes for reaction buttons */
+
+/* Alternative: Use custom CSS injection via Giscus configuration */
+/* We'll need to modify the Giscus script attributes */
+

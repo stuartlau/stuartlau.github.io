@@ -1,0 +1,23 @@
+/* Custom Giscus styles to hide negative reactions */
+/* Note: Due to iframe CORS restrictions, this may not fully work */
+/* This file can be referenced in Giscus configuration if needed */
+
+/* Hide negative reaction buttons */
+button[aria-label*="downvote"],
+button[aria-label*="confused"],
+button[aria-label*="eyes"],
+button[value="-1"],
+button[value="confused"],
+button[value="eyes"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Keep positive reactions visible */
+button[value="+1"],
+button[value="heart"],
+button[value="hooray"],
+button[value="rocket"],
+button[value="laugh"] {
+    display: inline-flex !important;
+}
