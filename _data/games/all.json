@@ -4,132 +4,380 @@
     "game_id": "34824349",
     "title": "健身环大冒险 リングフィット アドベンチャー",
     "cover": "/images/games/34824349.jpg",
-    "played_date": "2026-01-10"
+    "played_date": "2026-01-10",
+    "platforms": [
+      "Nintendo Switch"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "2019-10-18",
+    "publisher": "Nintendo",
+    "alias": "Ring Fit Adventure",
+    "douban_rating": "9.3",
+    "rating_count": "12713",
+    "description": "简介\n             · · · · · ·游戏特点：- 使用称之为「Ring-Con」的普拉提圈配件，与 Joy-Con 结合进行锻炼。本作包含一个完整的 RPG 冒险游戏，除此以外也可以进行简单纯粹的健身游戏。- RPG 部分流程相当长——每天半小时，可以玩好几个月。游戏角色通过玩家跑步或其他各种动作来行动；而各种战斗指令，需要玩家用身体做出不同的动作来进行。同时还包括不少小游戏。- 游戏充分活用了 Joy-Con 特性，支持 HD 震动，还能够用红外摄像头测量心率。- 健身时能估测玩家的卡路里消耗。此外可以选择静音模式，进行不会打扰邻居的锻炼。- 除了实体版外，日版将通过 My Nintendo Store 发售随实体配件附带下载码的「数字版」。关于 Ring-Con：- Ring-Con 设计类似于普拉提圈，也被称之为阻力圈。它是普拉提发明者 Joseph Pilates 发明的用于普拉提训练的小工具。看起来它并无特别之处，但在普拉提中加入魔力圈后，立刻会使训练变得富有挑战，它也增加了训练中的不稳定因素，从而使训练效果事半功倍。（简介：微博@知任CHS）"
   },
   {
     "douban_url": "https://www.douban.com/game/10955691/",
     "game_id": "10955691",
     "title": "三目童子 三つ目がとおる",
     "cover": "/images/games/10955691.jpg",
-    "played_date": "2026-01-10"
+    "played_date": "2026-01-10",
+    "platforms": [
+      "FC",
+      "NES",
+      "红白机"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1992-07-17",
+    "publisher": "Tomy",
+    "alias": "The Three-Eyed One / Mitsume ga Tooru / 三眼神童 / 三眼小子",
+    "douban_rating": "8.8",
+    "rating_count": "1667",
+    "description": "简介\n             · · · · · ·游戏制造商Tomy公司根据同名漫画改编而成的FC游戏"
   },
   {
     "douban_url": "https://www.douban.com/game/26383404/",
     "game_id": "26383404",
     "title": "双截龙2：复仇 ダブルドラゴンII ザ・リベンジ",
     "cover": "/images/games/26383404.jpg",
-    "played_date": "2026-01-10"
+    "played_date": "2026-01-10",
+    "platforms": [
+      "Nintendo Switch"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1989-12-22",
+    "developer": "Technos Japan Corp.",
+    "publisher": "Technos Japan Corp.",
+    "alias": "双截龍Ⅱ / Double Dragon II: The Revenge",
+    "douban_rating": "9.1",
+    "rating_count": "1391",
+    "description": "简介\n             · · · · · ·《双截龙 2：复仇》是一款由Technōs Japan开发的经典横版卷轴动作游戏。该游戏最初于 1988 年作为投币式街机游戏发行，随后在 1989 年 12 月 22 日移植到红白机FC上。故事背景设定在一个治安恶劣、坏人横行的城市。比利和吉米兄弟是这座城市的守护者，他们开设武馆，教导民众防身格斗术。然而，邪恶势力 “影子武士” 的出现打破了城市的宁静，其首领威利在一次冲突中杀害了比利的女友玛丽安，于是，兄弟俩踏上了为玛丽安报仇的复仇之路。"
   },
   {
     "douban_url": "https://www.douban.com/game/10751643/",
     "game_id": "10751643",
     "title": "坦克大战 バトルシティー",
     "cover": "/images/games/10751643.jpg",
-    "played_date": "2026-01-10"
+    "played_date": "2026-01-10",
+    "platforms": [
+      "FC",
+      "NES",
+      "红白机"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1985-09-09",
+    "developer": "Namco",
+    "publisher": "Namco",
+    "alias": "Battle City",
+    "douban_rating": "9.2",
+    "rating_count": "9253",
+    "description": "简介\n             · · · · · ·《坦克大战》（Battle City）是1985年日本南梦宫Namco游戏公司在任天堂FC平台上，推出的一款多方位平面射击游戏。游戏以坦克战斗及保卫基地为主题，属于策略型联机类。同时也是FC平台上少有的内建关卡编辑器的几个游戏之一，玩家可自己创建独特的关卡，并通过获取一些道具使坦克和基地得到强化。"
   },
   {
     "douban_url": "https://www.douban.com/game/10735077/",
     "game_id": "10735077",
     "title": "超级马力欧兄弟 Super Mario Bros.",
     "cover": "/images/games/10735077.jpg",
-    "played_date": "2026-01-10"
+    "played_date": "2026-01-10",
+    "platforms": [
+      "FC",
+      "NES",
+      "红白机"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1985-09-13",
+    "developer": "Nintendo EAD / SRD Co. Ltd.",
+    "publisher": "Nintendo",
+    "alias": "スーパーマリオブラザーズ / 超级马里奥兄弟 / 超级玛丽",
+    "douban_rating": "9.5",
+    "rating_count": "12327",
+    "description": "简介\n             · · · · · ·全名《超级马里奥兄弟》，是任天堂公司出品的著名横版过关游戏，最早在红白机上推出，有多款后续作品，迄今多个版本合共销量已突破4000万套。其中的主角马里奥、路易、桃子公主、蘑菇王子等等已成为任天堂的招牌人物。主角马里奥日文原名マリオ，英文译作Mario，在译成中文时因时代不同，华语圈地区不同而译作“马力欧”“玛丽”等情况也确有存在。根据任天堂公布的官方中文译名和牛津词典，现在一般称为“马里奥”。"
   },
   {
     "douban_url": "https://www.douban.com/game/10767520/",
     "game_id": "10767520",
     "title": "热血街头篮球：灌篮英雄加油！ 熱血！すとりーとバスケット 〜がんばれ Dunk Heros〜",
     "cover": "/images/games/10767520.jpg",
-    "played_date": "2026-01-10"
+    "played_date": "2026-01-10",
+    "platforms": [
+      "FC",
+      "NES",
+      "红白机"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1993-12-17",
+    "developer": "Technos Japan Corp.",
+    "publisher": "Technos Japan Corp.",
+    "alias": "Nekketsu! Street Basket: Ganbare Dunk Heroes / 热血街头篮球：灌篮英雄加油 / 热血篮球",
+    "douban_rating": "9.4",
+    "rating_count": "1272",
+    "description": "简介\n             · · · · · ·游戏别名： 热血篮球游戏平台： FC游戏类型： SPG发售地区： 日本制作公司： Technos Japan发行公司： Technos Japan发行时间： 1993年12月22日【故事背景】国夫在参加有奖问答竞赛时取得优胜，获得了前往美国旅行的机会。鲛岛力与五代奖也很渴望参加这次篮球之旅，于是他们两人在国夫出发之际，躲藏在这班飞机的起落架上，也跟着偷渡到了美国。三人到达美国后与乔尼会合，四人组成了灌篮英雄队，一起挑战美国各地的街头篮球队。【对手球队】纽约街头嘻哈族美国海军海豹突击队佛罗里达超能力者德克萨斯牛仔夏威夷火焰旧金山玫瑰拉斯维加斯赌徒"
   },
   {
     "douban_url": "https://www.douban.com/game/10754941/",
     "game_id": "10754941",
     "title": "松鼠大作战 チップとデールの大作戦",
     "cover": "/images/games/10754941.jpg",
-    "played_date": "2026-01-10"
+    "played_date": "2026-01-10",
+    "platforms": [
+      "FC",
+      "NES",
+      "红白机"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1990-06-08",
+    "developer": "Capcom",
+    "publisher": "Capcom / Nintendo",
+    "alias": "松鼠大战 / Chip to Dale no Daisakusen / Chip 'N Dale: Rescue Rangers",
+    "douban_rating": "9.3",
+    "rating_count": "3856",
+    "description": "简介\n             · · · · · ·一款超级动物英雄的优秀游戏作品。"
   },
   {
     "douban_url": "https://www.douban.com/game/10729897/",
     "game_id": "10729897",
     "title": "魂斗罗 魂斗羅",
     "cover": "/images/games/10729897.jpg",
-    "played_date": "2026-01-10"
+    "played_date": "2026-01-10",
+    "platforms": [
+      "PC"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1988-02-09",
+    "developer": "Konami Corporation / Digital Eclipse Software, Inc.",
+    "publisher": "Konami Corporation",
+    "alias": "Contra / Probotector / Gryzor / コントラ",
+    "douban_rating": "9.3",
+    "rating_count": "11067",
+    "description": "简介\n             · · · · · ·《魂斗罗》（日版名：魂斗羅，英文版名：Contra，欧版名：Probotector）是由日本科乐美公司（Konami）于1987年发行的街机卷轴射击游戏系列。该系列后来移植到多个平台。游戏设定在未来，玩家扮演特种部队成员，比尔·雷泽（Bill Rizer）和兰斯·比恩（Lance Bean），面对大量敌人，从人类和机器到异形和外星人。在战斗过程中，玩家可以击落飞行的特殊目标来获得各种强化武器。游戏的成功卖点包括支持两个玩家同时进行游戏，以及第二关和第四关的纵深视角。《魂斗罗》系列以其快节奏的游戏玩法和高难度著称，玩家需要在有限的生命数内通过多个关卡。游戏中的武器系统多样，玩家可以通过拾取道具来增强火力。该系列的影响力深远，对后来的动作射击游戏产生了重要影响。"
   },
   {
     "douban_url": "https://www.douban.com/game/35437560/",
     "game_id": "35437560",
     "title": "暴力摩托2 Road Rash 2",
     "cover": "/images/games/35437560.jpg",
-    "played_date": "2023-09-25"
+    "played_date": "2023-09-25",
+    "platforms": [
+      "MD",
+      "世嘉五代"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1993-07-23",
+    "douban_rating": "7.9",
+    "rating_count": "27",
+    "description": "简介\n             · · · · · ·暴力摩托不仅仅是一项运动。这是一种态度！Road Rash II是一款终极的2人赛车游戏，它有一个非常独特的分屏，用于区分赛车手。越野巡游从来没有这么毛茸茸的！壮观的新身体扭转消灭！比以往任何时候都要遇到更多的障碍。恐吓你的对手还有5个新轨道，每个有5个不同的水平。挥动一条铁链来造成真正的重金属伤害！15个全新的，闪电般快速的摩托车，包括硝基装备的超级摩托！"
   },
   {
     "douban_url": "https://www.douban.com/game/35361105/",
     "game_id": "35361105",
     "title": "J联赛胜利足球 Ｊリーグ ウイニングゴール/J League Winning Goal",
     "cover": "/images/games/35361105.jpg",
-    "played_date": "2023-09-13"
+    "played_date": "2023-09-13",
+    "platforms": [
+      "FC",
+      "NES",
+      "红白机"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1994-05-27",
+    "description": "简介\n             · · · · · ·J联赛参赛球队增加到12支的那一年发售的足球游戏。中山雅史、Ramos Ruy、北泽豪、武田修宏等著名选手实名登场。“联赛模式”顾名思义，可以按联赛规则比赛，还有可以自由选择队伍比赛的“表演赛模式”。"
   },
   {
     "douban_url": "https://www.douban.com/game/35110438/",
     "game_id": "35110438",
     "title": "双人成行 It Takes Two",
     "cover": "/images/games/35110438.jpg",
-    "played_date": "2023-06-07"
+    "played_date": "2023-06-07",
+    "platforms": [
+      "PC"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "2021-03-26",
+    "publisher": "Electronic Arts",
+    "alias": "雙人成行",
+    "douban_rating": "9.7",
+    "rating_count": "52793",
+    "description": "简介\n             · · · · · ·EA paly线上活动公布了《逃出生天》工作室hazelight的最新游戏《It Takes Two》，游戏总监Josef Fares曾表示本作会让玩家感到“被干翻（Get Fucked）”。本作将于2021年发售，预计没有中文"
   },
   {
     "douban_url": "https://www.douban.com/game/26817171/",
     "game_id": "26817171",
     "title": "塞尔达传说 旷野之息 ゼルダの伝説 ブレス オブ ザ ワイルド",
     "cover": "/images/games/26817171.jpg",
-    "played_date": "2023-06-07"
+    "played_date": "2023-06-07",
+    "platforms": [
+      "Nintendo Switch"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "2017-03-03",
+    "developer": "Nintendo EAD",
+    "publisher": "Nintendo",
+    "alias": "塞尔达传说：荒野之息 / 萨尔达传说：旷野之息 / The Legend of Zelda: Breath of the Wild / BOTW",
+    "douban_rating": "9.8",
+    "rating_count": "74309",
+    "description": "简介\n             · · · · · ·《塞尔达传说 荒野之息》（日语：ゼルダの伝説 ブレス オブ ザ ワイルド，英语：The Legend of Zelda: Breath of the Wild，港台译作“萨尔达传说 荒野之息”）是一款动作冒险游戏。本作由任天堂企划制作本部与任天堂旗下子公司Monolith Soft协力开发。游戏最早计划为Wii U平台独占发行，之后宣布将在任天堂新的混合型游戏主机任天堂Switch上发售，并将成为该主机的首发游戏之一。同时任天堂确认本作会是任天堂在Wii U上开发的最后一款游戏。游戏最初于2013年公布，并计划于2015年发行。之后任天堂宣布游戏延期并最终定于2017年3月3日发行。剧情很久很久以前，海拉尔王国的各个族群和平共存。其中名为锡克族（Sheikah）的族人们制造了许多先进的科技来帮助海拉尔的人们。但是有一天，邪恶的梦魇加侬（Calamity Ganon）击败了勇者并试图占领海拉尔王国。情势紧迫下锡克族人启动了他们暗中制造、用来保护家园的机械巨兽和守卫者。这些机械士兵成功的将梦魇加侬封印在海拉尔城堡中，但是机械士兵们却遭到"
   },
   {
     "douban_url": "https://www.douban.com/game/30245974/",
     "game_id": "30245974",
     "title": "超级马力欧派对 スーパー マリオパーティ",
     "cover": "/images/games/30245974.jpg",
-    "played_date": "2023-06-07"
+    "played_date": "2023-06-07",
+    "platforms": [
+      "Nintendo Switch"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "2018-10-05",
+    "alias": "超级马里奥聚会 / 超级马里奥派对 / Super Mario Party",
+    "douban_rating": "9.1",
+    "rating_count": "6931",
+    "description": "简介\n             · · · · · ·『スーパー マリオパーティ』は、Nintendo Switchの特長を活かして新しく生まれ変わった『マリオパーティ』！TVモードでの4人プレイはもちろん、Nintendo Switchが2台あれば、Joy-Conをおすそわけして、テーブルモードでも最大4人で遊べます。映像にもあるとおり、リビングでも、カフェでも、キャンプ場でも。いつでもどこでも盛り上がれます！"
   },
   {
     "douban_url": "https://www.douban.com/game/10767496/",
     "game_id": "10767496",
     "title": "热血物语 ダウンタウン熱血物語",
     "cover": "/images/games/10767496.jpg",
-    "played_date": "2021-06-29"
+    "played_date": "2021-06-29",
+    "platforms": [
+      "FC",
+      "NES",
+      "红白机"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1989-04-25",
+    "developer": "Technos Japan Corp.",
+    "publisher": "505 Games / Aksys Games",
+    "alias": "Street Gangs / Downtown Nekketsu Monogatari / River City Ransom",
+    "douban_rating": "9.2",
+    "rating_count": "1529",
+    "description": "简介\n             · · · · · ·游戏别名： 热血物语 / 热血高校游戏平台： FC、PCE、X68游戏类型： ACT、RPG发售地区： 日本制作公司： Technos Japan / KID / SPS发行公司： Technos Japan / 加贺电子 / 夏普电器发行时间： 1989年4月25日【故事背景】一向风平浪静的冷峰学园从服部学园转来了两个相貌极其相似的转校生—— 双胞胎兄弟服部龙一与服部龙二。 这对兄弟仅用了几个月时间，就让冷峰学园及其邻近的高校都处于他俩的势力范围之内。热血高校的“正义不良分子”国夫也知道了服部兄弟的相关事情，他想到了某个人后，便独自行动了。花园高校的鲛岛力的女友真美被冷峰学园的学生给绑架了，并且还有一封挑战书送到了他的手里···作为热血系列的第一款Q版游戏，热血物语在各个方面都很出色，虽然后来的时代剧全员集合比本游戏多了很多的要素和绝技，但是就经典程度来看，热血物语决不次于时代剧和其他更高位数主机的游戏。本游戏支持双打，情节连接的十分的好，热血系列的后续作品基本都是以此游戏为背景的。游戏过程中可以通过消灭敌人赚钱来买道具来提升主角"
   },
   {
     "douban_url": "https://www.douban.com/game/10758439/",
     "game_id": "10758439",
     "title": "摩登原始人 The Flintstones",
     "cover": "/images/games/10758439.jpg",
-    "played_date": "2019-04-27"
+    "played_date": "2019-04-27",
+    "platforms": [
+      "SFC",
+      "SNES",
+      "超任"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1993-02-22",
+    "developer": "Teque Software Development Ltd.",
+    "publisher": "Taito Corporation / Grandslam Entertainment",
+    "douban_rating": "8.3",
+    "rating_count": "59",
+    "description": "简介\n             · · · · · ·The Flintstones (フリントストーン, \"Flint Stone\") is a 2D platform video game developed by Taito Corporation released in 1993, exclusively for the Sega Mega Drive/Genesis. The game was published by Taito in North America and Japan while Sega distributed the game in European countries.[1] It is related to the television series The Flintstones."
   },
   {
     "douban_url": "https://www.douban.com/game/20423978/",
     "game_id": "20423978",
     "title": "忍者蛙与双截龙 Battletoads & Double Dragon",
     "cover": "/images/games/20423978.jpg",
-    "played_date": "2019-04-27"
+    "played_date": "2019-04-27",
+    "platforms": [
+      "SFC",
+      "SNES",
+      "超任"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1993-06-01",
+    "developer": "Rare, Ltd.",
+    "publisher": "Tradewest, Inc.",
+    "alias": "Battletoads and Double Dragon: The Ultimate Team / 战斗蛙与双截龙",
+    "douban_rating": "8.5",
+    "rating_count": "274",
+    "description": "简介\n             · · · · · ·忍者蛙与双截龙：终极队是一款经典的摔打游戏，游戏中有五个可玩角色选择：比利和吉米李（双截龙系列角色），以及Zitz、pimple和rash（忍者蛙角色）。玩家必须然后通过七个阶段进行，击打和冲撞屏幕上的敌人，在每个阶段结束时会出现一个boss，打败他，挑战玩家才可以进步到一个更高层次的游戏。在双人模式中，当一个玩家倒下去时，那么这两个玩家必须重新开始该级别（这是游戏如魂斗罗，强悍的玩家能带领相对薄弱的玩家晋级，在忍者蛙与双截龙中，弱的玩家将拥有强大的玩家召回）。 　　邪恶的黑暗女王被忍者蛙打败之后，逃到宇宙，忍者蛙和他们的导师有了他们自己的生活。但有一天，地球的军队被瓦解了，一个巨大的飞船出现在月亮上。显然，黑暗女王出现了，并且计划称霸星系，她影子武士（从双龙系列）结盟，以加强她的力量。考虑到战斗的可能性，忍者蛙和比利、吉米李取得联系，请求他们的帮助，他们的兄弟同意了，五个人立即采取行动组织战争的发生。"
   },
   {
     "douban_url": "https://www.douban.com/game/26370690/",
     "game_id": "26370690",
     "title": "双截龙3：罗塞塔之石 ダブルドラゴン3 ザ・ロゼッタストーン",
     "cover": "/images/games/26370690.jpg",
-    "played_date": "2019-04-27"
+    "played_date": "2019-04-27",
+    "platforms": [
+      "PC"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1991-02-22",
+    "developer": "Technos Japan Corp.",
+    "alias": "神秘魔石之谜 / Double Dragon 3: The Rosetta Stone",
+    "douban_rating": "9.0",
+    "rating_count": "943",
+    "description": "简介\n             · · · · · ·日版名：ダブルドラゴンIII ザ・ロゼッタストーン（双截龍III ザ・ロゼッタストーン）英语名：Double Dragon 3 - The Rosetta Stone汉语名：双截龙3 - 罗塞塔石机种：FC发售日期：1991年2月22日制作：Technos Japan类型：过关型ACT"
   },
   {
     "douban_url": "https://www.douban.com/game/26430537/",
     "game_id": "26430537",
     "title": "水浒传：天命之誓 水滸伝・天命の誓い/Bandit Kings of Ancient China",
     "cover": "/images/games/26430537.jpg",
-    "played_date": "2019-04-27"
+    "played_date": "2019-04-27",
+    "platforms": [
+      "PC"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1990-06-29",
+    "alias": "Suikoden: Tenmei no Chikai",
+    "douban_rating": "6.8",
+    "rating_count": "30",
+    "description": "简介\n             · · · · · ·《水浒传》（通常翻译为：水浒传-天命之誓）是1988年光荣公司推出的，在国内曾经拥有不少玩家。这款游戏是根据中国古代四大小说名著之一的施耐庵的《水浒传》改编而成的，利用了这些国内脍炙人口的人物和故事打造而成的一款游戏。这款游戏无论从制作水平还是游戏创意方面都不输给同时期光荣公司的其它作品，例如《维新之岚》、《信长之野望-全国版》、《信长之野望-战国群雄传》，在当时可谓是颇受好评的。游戏继承了光荣公司一贯公式化的操作系统，用大量的出场人物，充满了新异的游戏创意，和精致的游戏画面征服了不少玩家。游戏描述的是从1101年至1127年金国南侵时止。出现的人物除梁山泊的108将外，还有曾头市五虎、祝家庄三雄、晁盖、王伦、方腊、田虎、李师师、武大等人。游戏中不管好汉们在开始时的境况如何，都必须发展到占据一定的领土，声望达到250以上。这时宋徽宗会在次年1月下诏，好汉们才可进攻开封，讨伐高俅。"
   },
   {
     "douban_url": "https://www.douban.com/game/25926599/",
     "game_id": "25926599",
     "title": "三国志列传：乱世群英 三国志列伝 乱世の英雄たち",
     "cover": "/images/games/25926599.jpg",
-    "played_date": "2019-04-27"
+    "played_date": "2019-04-27",
+    "platforms": [
+      "MD",
+      "世嘉五代"
+    ],
+    "genres": [
+      "游戏"
+    ],
+    "release_date": "1991-04-29",
+    "alias": "Sangokushi Retsuden - Ransei no Eiyuu Tachi",
+    "douban_rating": "8.9",
+    "rating_count": "61",
+    "description": "简介\n             · · · · · ·《三国志列传：乱世群英》是MD上唯一的一款原创三国游戏，由世嘉发行。这款发售于1991年的游戏体现了世嘉在动作游戏之外的高超制作实力，游戏中对于战场空间感的把握在当时可说是达到了最高水平，军队在野外的自由移动系统大大提升了游戏性，玩家不但可以驻军村镇，还可以截击敌军运输队。另外擅长制作动作游戏的世嘉也不忘在这款战略游戏中加入动作成分，武将在单挑时可以手动操作，对于当时的SLG而言绝对是令人兴奋的一大创举。这样细致的设定在游戏大战略的层面上又加入了细部的战术成分。游戏中总共有50座城池，内容非常丰富。可惜的是可选的武将和君主数目太少。这游戏简单和困难两个模式玩起来像两个游戏.简单模式的时候智将作用极大,如周瑜.因为计策很容易成功.困难模式则需要比拼国力了,战场上猛将的作用非常突出."
   }
 ]
