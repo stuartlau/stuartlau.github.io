@@ -11,7 +11,7 @@ tags:
     - Redis
     - Wireshark
 ---
-# 测试一
+### 测试一
 
 ![wireshark-view-0](/images/in-post/wireshark-view-0.jpg)
 
@@ -23,10 +23,10 @@ tags:
 - 4.服务器收到后发送了3个segment，第一个告诉客户端我收到了回了个ack；第二个发送了一部分info的返回内容，因为超过了MSS所以被拆分了两个回包
 - 5.客户端收到后回一个ack包，len=0即没有数据发送
 
-# 测试二
+### 测试二
 虽然一段时间没有交互则服务器会主动发一个ack keep-alive来探测客户端的连通性，其中seq比之前的小1，客户端收到会回复ack并且自动加1，即与正常交互时最后一个seq相同
 
-# 测试三
+### 测试三
 
 ![wireshark-view-2](/images/in-post/wireshark-view-2.jpg)
 
@@ -36,7 +36,7 @@ tags:
 - 4.客户端发起FIN ACK断链操作，7001回复FIN ACK，客户端回复ACK，注意断链的时候的ack都是默认加对方seq的1，即使len=0
 - 5.建立和7003的连接，跟之前的一样，先是三次握手，然后发命令收响应
 
-# 测试四
+### 测试四
 
 ![wireshark-view-3](/images/in-post/wireshark-view-3.jpg)
 - 1.发exit命令断开连接

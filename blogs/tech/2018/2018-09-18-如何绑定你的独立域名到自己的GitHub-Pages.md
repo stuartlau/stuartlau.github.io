@@ -14,7 +14,7 @@ tags:
 
 之前一直使用GitHub Pages的域名下的二级域名来管理博客，现在决定用自己的域名来进行管理。
 由于我的域名托管在GoDaddy，对于国内的用户的DNS解析不是很友好，如可能被墙，所以我采用了国内的dnspod进行域名的解析，对于国内用户来说会友好很多。
-# 步骤
+### 步骤
 - 注册dnspod账户获取NS记录的地址
 - 修改GoDaddy中对应域名的NS记录地址
 - 等待新记录生效
@@ -22,12 +22,12 @@ tags:
 - 等待新记录生效
 - 一切就绪，可以用自己的域名访问博客了
 
-## 注册dnspod账户获取NS记录的地址
+#### 注册dnspod账户获取NS记录的地址
 根据官网的要求一步一步注册即可，可以使用微信登录（dnspod现在是腾讯的产品）并关联到腾讯云。
 注册成功后添加自己的域名，然后系统会自动帮你生成DNS解析相关的记录如A记录、NS记录等。
 这里会提供两个dnspod的NS记录地址，`f1g1ns1.dnspod.net`和`f1g1ns2.dnspod.net`
 
-## 修改GoDaddy中对应域名的NS记录地址
+#### 修改GoDaddy中对应域名的NS记录地址
 登录到GD的后台依次选择： 我的产品 -> 选择域名 -> DNS
 在此处修改对应域名的服务器，默认是GD自己的，需要手工修改为上一步获取的两个NS记录地址，然后保存。
 注意DNS的任何记录生效都需要一定时间，即缓存失效的时间，取决于记录的TTL值。
@@ -112,7 +112,7 @@ f1g1ns1.dnspod.net.	101602	IN	A	14.215.150.17
 
 可以看到NS记录已经生效，即DNS解析工作已经从GD交给了dnspod，下一步是修改A记录让dnspod的域名服务器解析域名到正确的服务器地址。
 
-## 修改dnspod中域名的A记录地址
+#### 修改dnspod中域名的A记录地址
 登录到dnspod的管理后台，给对应的域名的A记录增加几条GitHub Pages的主机地址，注意该地址列表可能会更新，所以最新请戳[here](https://help.github.com/articles/troubleshooting-custom-domains/)
 
 这里我配置了两个做负载均衡，如果配置更多的A记录，需要购买dnspod的增值服务，两个对于我来说已经足够了。
@@ -163,14 +163,14 @@ f1g1ns1.dnspod.net.	100297	IN	A	182.140.167.166
 ```
 可以看到A记录已经生效了，我们访问对应域名elsef.com就可以直接指向GitHub Pages的服务器地址了
 
-## 配置GitHub中仓库的CNAME
+#### 配置GitHub中仓库的CNAME
 光指向GitHub的地址还不能够完成访问我们子域名的功能，需要在自己的仓库里配置自定义域名，配置完毕后会在我们的仓库里生成个CNAME文件包含对应的域名。
 
 ![]![github-custom-domain](/images/in-post/github-custom-domain.jpg)
 
 注意GitHub Pages是提供HTTPS支持的，但是需要在配置CNAME后的24小时之后，因为签名和生效都需要一定的时间。
 
-## 访问自己的域名
+#### 访问自己的域名
 试试是否可以用自己的域名访问博客了？
 ![my_domain](/images/in-post/about-me-screenshot.jpg)
 
@@ -182,7 +182,7 @@ f1g1ns1.dnspod.net.	100297	IN	A	182.140.167.166
 
 ![lets-encrypt](/images/in-post/lets-encrypt.jpg)
 
-# Reference
+### Reference
 - https://support.dnspod.cn/Kb/showarticle/tsid/177/#ChangeDomainNS
 - https://help.github.com/articles/troubleshooting-custom-domains/
 - https://letsencrypt.org/

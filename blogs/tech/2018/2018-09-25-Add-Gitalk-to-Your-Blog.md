@@ -14,13 +14,13 @@ tags:
 ---
 
 
-## Introduction
+### Introduction
 
 Except **Disqus**, there is also an amazing comment plugin. 
 [Gitalk](https://github.com/gitalk/gitalk) is a modern comment component based on GitHub Issue and Preact.
 Gitalk uses your GitHub account to log in and it supports `MarkDown`.
 
-## Features
+### Features
 - Authentication with github account
 - Serverless, all comments will be stored as github issues
 - Both personal and organization github projects can be used to store comments
@@ -28,10 +28,10 @@ Gitalk uses your GitHub account to log in and it supports `MarkDown`.
 - Facebook-like distraction free mode (Can be enabled via the distractionFreeMode option)
 - Hotkey submit comment (cmd or ctrl + enter)
 
-## Install
+### Install
 Two ways.
 
-### links
+#### links
 ```js
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
   <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
@@ -42,7 +42,7 @@ Two ways.
   <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 ```
   
-### npm install
+#### npm install
 
     npm i --save gitalk
     
@@ -51,7 +51,7 @@ Two ways.
     import Gitalk from 'gitalk'
     
 
-### Integration with Gitalk
+#### Integration with Gitalk
 
 
 ```js
@@ -81,7 +81,7 @@ Two ways.
 ```
 
 
-### Create Github Application
+#### Create Github Application
 
 First we need to create a **Github Application**，[click here](https://github
 .com/settings/applications/new).
@@ -92,11 +92,11 @@ And fill in the form(you can use your custom domain instead of xx.github.io)：
 
 Then click **Register application**.
 
-### Configuration reposiroty
+#### Configuration reposiroty
 You have to enable Issue in your repository's setting, because Gitalk is based on GitHub Issue.
 ![GitHub Issue](/images/in-post/github-issue.jpg)
 
-### Configuration _config.xml
+#### Configuration _config.xml
 
 Get `Client ID` and `Client Secret` to fill in _config.xml related to Gitalk
 
@@ -126,11 +126,11 @@ After all these steps, go refresh your blog and you will see Gitalk plugin is in
 You can sort the comment by time.
 ![Empty Comment with Menu](/images/in-post/empty-comment-with-menu.jpg)
 
-## Edit
+### Edit
 What Gitalk does when you first refresh your blog is that it creates an `Issue` in your repository
 ![Empty Comment with Menu](/images/in-post/github-issues.jpg)
 
-## Reference
+### Reference
 - https://upupming.site/2018/02/28/build-hexo/
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

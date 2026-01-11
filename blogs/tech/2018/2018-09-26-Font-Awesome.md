@@ -10,7 +10,7 @@ catalog: true
 tags:
     - Site
 ---
-# Font Awesome
+### Font Awesome
 [Font Awesome](https://fontawesome.com) is a website provides free icons.
 > Get vector icons and social logos on your website with Font Awesome, the web’s most popular icon set and toolkit.
 
@@ -18,7 +18,7 @@ tags:
 
 The latest version is 5.3 and it has 1,341 Free Icons and 2,637 Pro Icons for business usage.
  
-# How To Add Icons
+### How To Add Icons
 To insert an icon, add the name of the icon class to any inline HTML element.
 
 The `<i>` and `<span>` elements are widely used to add icons.
@@ -30,7 +30,7 @@ To use the Font Awesome icons, add the following line inside the `<head>` sectio
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-# Add Wexin Icon
+### Add Wexin Icon
 I want to add Wechat Icon to my blog and share my account QR code with public, just add the 
 following to my footer:
 
@@ -42,7 +42,7 @@ following to my footer:
 Now let's see how it looks in my site
 ![footer-icons](/images/in-post/footer-icons.jpg)
         
-# Reference
+### Reference
 - https://fontawesome.com
 - https://www.w3schools.com/icons/default.asp
 

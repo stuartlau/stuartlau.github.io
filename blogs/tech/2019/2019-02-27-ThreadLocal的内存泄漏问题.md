@@ -14,9 +14,9 @@ tags:
     
 > 本文分析`Thread`和`ThreadLocal`的关系以及实现原理和常见的问题，并提供使用`ThreadLocal`的最佳方式。
 
-## ThreadLocal基础
+### ThreadLocal基础
 先看一下 `ThreadLocal` 部分源码。
-### setInitial
+#### setInitial
 ```java
 private T setInitialValue() {
         T value = initialValue();//获取初始值
@@ -36,7 +36,7 @@ protected T initialValue() {
 }
 ```
 
-### set 
+#### set 
 `set` 方法实现了为线程绑定变量的工作：
 ```java
 public void set(T value) {
@@ -50,7 +50,7 @@ public void set(T value) {
 ```
 可以看到，`ThreadLocal` 不过是个「入口」，真正的变量是绑定在线程上的 `ThreadLocalMap` 变量上的。
 
-### getMap
+#### getMap
 `getMap` 方法用来获取线程的 `ThreadLocalMap` 变量即直接访问线程的内部全局变量 `threadLocals` ：
 
 ```java
@@ -69,7 +69,7 @@ ThreadLocalMap getMap(Thread t) {
 种基本类型的包装类，一个线程的初始化`ThreadLocal`操作中都会被该线程生成一个默认的值为0的对应类型的数据，所以该线程的`threadLocals`变量中存储了这8个`ThreadLocal`
 对象和该线程存储的*value*，我们称之为`local value`。
 
-### ThreadLocalMap
+#### ThreadLocalMap
 `ThreadLocalMap` 的 `Java Doc` 如下：
 
 > ThreadLocalMap is a customized hash map suitable only for maintaining thread local values.
@@ -92,7 +92,7 @@ ThreadLocalMap getMap(Thread t) {
 `key` ，所以即使 `JVM` 因为内存吃紧回收了对应的 `key`的引用的 `ThreadLocal` 对象我们也无法得知并做一些清除工作，这里就埋下一个隐患给我们。
 
 先来看看它的属性：
-#### 属性
+##### 属性
 ```java
     static class ThreadLocalMap {
         /**
@@ -119,7 +119,7 @@ ThreadLocalMap getMap(Thread t) {
     }
 ```
 可知它其实并不是一个 `Map` 接口的实现类，而是通过 `Entry` 来实现的 `key` 和 `value` 的映射关系，并用数组进行保存多个 `Entry` 。
-#### 构造函数
+##### 构造函数
 `ThreadLocalMap`对应的构造函数如下：
 ```java
     /**
@@ -137,7 +137,7 @@ ThreadLocalMap getMap(Thread t) {
 ```
 可知每个 `Entry` 实例持有了 `key` 为`ThreadLocal`对象实例，`value` 为具体的` ThreadLocal<T>` 泛型 `T` 的实例对象。初始化的数组大小为 
 `16` 。
-#### Entry
+##### Entry
 > The entries in this hash map extend WeakReference, using its main ref field as the key (which
 > 
 > is always a ThreadLocal object). Note that null keys (i.e. entry.get() == null) mean that
@@ -162,7 +162,7 @@ ThreadLocalMap getMap(Thread t) {
 数组中也不会被垃圾回收自动触发「缩容」被删除掉，不过`ThreadLocalMap`为我们提供了很多`expunge
 `机制来清理对应的过期数据，但这个机制「需要显式触发」，这里也就是可能出现内存泄漏的地方！
 
-#### expungeStaleEntry
+##### expungeStaleEntry
 来看一下`expungeStaleEntry` 方法：
 ```java
     /**
@@ -235,7 +235,7 @@ ThreadLocalMap getMap(Thread t) {
 
 所以当我们显式调用这些方法的时候内部会自动帮我们清理那些已经被垃圾回收的 `key` 对应的 `Entry` 以及它引用的 `value` 的强引用。
 
-#### set
+##### set
 来看一下 `ThreadLocalMap`的 `set()` 的实现：
 ```java
     /**
@@ -291,8 +291,8 @@ ThreadLocalMap getMap(Thread t) {
             resize();
     }
 ```
-## 线程和ThreadLocal
-### 一次性线程
+### 线程和ThreadLocal
+#### 一次性线程
 如果线程是通过手动`new`的`Thread`，它会在线程退出时帮我们清理线程占用的紫云，原因是这类线程的生命周期随着`run`方法的结束就结束了，`GC
 `会帮我们回收该实例引用的内存空间，包括堆栈信息和`ThreadLocalMap`中的内容。
 
@@ -316,7 +316,7 @@ private void exit() {
 从源码可以看出当线程结束时，会令`threadLocals=null`，也就意味着`GC`的时候就可以将`threadLocalMap`进行垃圾回收，换句话说`threadLocalMap`
 生命周期实际上和`thread`的生命周期相同。
 
-### 线程池
+#### 线程池
 如果当前线程是通过线程池进行维护的且属于核心线程，即一旦被启动后在不关闭线程池之前不会被回收。则需要注意该线程由于会被调用多次，则内部的`threadLocals
 `中的数据如果不及时清理会被复用，导致可能的逻辑错误。
 
@@ -328,13 +328,13 @@ private void exit() {
 >
 > 由于此时session与线程关联，而tomcat这些web服务器多会采用线程池机制，也就是说线程是可复用的，所以在每一次进入的时候都需要重新进行set，或者在结束时及时remove。
 
-## 正确的使用方式
+### 正确的使用方式
 - 尽量使用`static`的全局`ThreadLocal`变量，保证各个线程的`threadLocals`中只会有一个`Entry`引用
 - 不要一次性初始化大量的、局部`ThreadLocal`变量，还不如直接使用临时变量替代
 - 业务（线程）在使用完毕`ThreadLocal`后要及时调用`remove()`方法及时释放`threadLocals`中的内存资源
 - 或者（线程）每次使用前都调用`set()`也是一样可以达到及时清理`staleEntry`的效果的
 
-## 为什么使用弱引用？
+### 为什么使用弱引用？
 从文章开头通过ThreadLocal，ThreadLocalMap和Entry的引用关系看起来`ThreadLocal`存在内存泄漏的问题似乎是因为`ThreadLocal`实例是被
 是被弱引用修饰的。那为什么要使用弱引用呢？
 
@@ -351,7 +351,7 @@ private void exit() {
 `remove`）里，都会针对key为`null`的「脏Entry」进行处理：清除或更新。
 从以上的分析可以看出，使用弱引用的话在`ThreadLocal`生命周期里会尽可能的保证不出现内存泄漏的问题，达到安全的状态。
 
-## References
+### References
 - https://www.jianshu.com/p/dde92ec37bd1
 - https://blog.csdn.net/zsfsoftware/article/details/50933151
 

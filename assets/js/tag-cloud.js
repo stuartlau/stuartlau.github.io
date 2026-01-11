@@ -67,30 +67,61 @@
     // Check language
     var isEn = window.CURRENT_LANG === 'en';
 
+    // Color palette for cards
+    var bgColors = [
+      'rgba(37, 99, 235, 0.08)',   // blue
+      'rgba(22, 163, 74, 0.08)',   // green
+      'rgba(202, 138, 4, 0.08)',   // yellow
+      'rgba(147, 51, 234, 0.08)',  // purple
+      'rgba(234, 88, 12, 0.08)',   // orange
+      'rgba(8, 145, 178, 0.08)',   // cyan
+      'rgba(190, 24, 93, 0.08)',   // pink
+      'rgba(5, 150, 105, 0.08)',   // emerald
+    ];
+
     listEl.innerHTML =
-      '<ul class="blog-list-ul">' +
+      '<div class="blog-card-grid">' +
       shown
-        .map(function (p) {
+        .map(function (p, idx) {
           var title = escHtml(p.title || 'Untitled');
           var url = escHtml(p.url || '#');
+          var date = p.date ? new Date(p.date).toLocaleDateString('zh-CN') : '';
+          var tags = Array.isArray(p.tags) ? p.tags : [];
+          var bgColor = bgColors[idx % bgColors.length];
 
           // Translation logic for Patents in English mode
           if (isEn && (title.indexOf('专利') !== -1 || (p.tags && p.tags.indexOf('Patent') !== -1))) {
             var idMatch = title.match(/([A-Z]{2}\d+[A-Z]?)/);
             if (idMatch) {
               var id = idMatch[1];
-              // Determine type mostly by checking Chinese keywords if present in title
               var type = title.indexOf('待授权') !== -1 ? 'Pending Patent' : 'Granted Patent';
               title = type + ' ' + id;
               url = 'https://patents.google.com/patent/' + id + '/en';
             }
           }
 
-          return '<li class="blog-list-item"><a href="' + url + '"' + (isEn ? ' target="_blank"' : '') + '>' + title + '</a></li>';
+          var tagsHtml = tags.length > 0
+            ? '<span class="blog-card-tags">' + tags.slice(0, 3).map(function (t) { return escHtml(t); }).join(' · ') + '</span>'
+            : '';
+
+          var excerpt = escHtml(p.excerpt || '');
+
+          return '<a href="' + url + '" class="blog-card"' + (isEn ? ' target="_blank"' : '') + ' style="background-color:' + bgColor + '">' +
+            '<h4 class="blog-card-title">' + title + '</h4>' +
+            '<div class="blog-card-meta">' +
+            (date ? '<span class="blog-card-date">' + date + '</span>' : '') +
+            tagsHtml +
+            '</div>' +
+            '<div class="blog-card-tooltip">' +
+            (excerpt ? '<p class="blog-card-excerpt">' + excerpt + '</p>' : '') +
+            (tags.length > 0 ? '<p><strong>标签：</strong>' + tags.join(' / ') + '</p>' : '') +
+            '</div>' +
+            '</a>';
         })
         .join('') +
-      '</ul>';
+      '</div>';
   }
+
 
   function renderCloud(tags, activeTag, onPick) {
     var cloudEl = qs('#tag-cloud');

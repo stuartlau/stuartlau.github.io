@@ -10,7 +10,7 @@ catalog: true
 tags:
     - TroubleShooting
 ---    
-# Background
+### Background
 在增加某feature的时候需要给某类添加一个小方法，该方法使用了内部成员变量，并且该成员变量在定义的时候就已经实例化：<br>
     
     Map<String, Object> map = Maps.newHashMap()
@@ -20,7 +20,7 @@ tags:
 
 
 
-# Analysis
+### Analysis
 这个类本身是使用lombok来实现的，并且使用了`@Builder`注解。
 
 看一下它的`Java Doc`：
@@ -47,10 +47,10 @@ The return type of this method will be the same as the relevant class, unless a 
 
 `@Builder`默认的实现方式是在类上添加@AllArgsConstructor(access = AccessLevel.PACKAGE)
 
-# How-to Use Default Value
+### How-to Use Default Value
 这里分享两种方法可以用自己定义的默认值而不被@Builder复写
 
-## 1.自己实现minimal的Builder类
+#### 1.自己实现minimal的Builder类
 
 这里我们的类是GrpcHandlerContext，`@Builder`标注在该类上，默认一个private的属性**map**
 
@@ -61,21 +61,21 @@ The return type of this method will be the same as the relevant class, unless a 
 
 这样lombok生成的Builder类跟我们定义的类同名，就不会覆盖里面已经实例化的属性了。
 
-## 2.用@Builder.Default来标识Field
+#### 2.用@Builder.Default来标识Field
 
     @Builder.Default
     private Map<String, Object> map = Maps.newHashMap();
 
 这个注解是在1.16.16之后才有的
 
-# Conclusion
+### Conclusion
 如果使用`@Builder`的话切记所有私有全局变量都是需要显式赋值的，否则就是Null，不管你在原生T类中是否实例化，最终都是要被Builder的build()方法来重新实例化的
 
 如果使用了`@Builder`注解就不要使用其他@ConstructorArgs相关的注解，这从设计模式上是冲突的
 
 
 
-# Reference
+### Reference
 - https://projectlombok.org/features/Builder
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.

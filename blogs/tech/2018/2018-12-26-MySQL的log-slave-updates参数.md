@@ -13,7 +13,7 @@ tags:
 > 为什么讨论这个问题，我参与的一个业务的MySQL集群的拓扑图是一条线，跟我之前的理解不太一致，于是研究了一下这样做的好处，然后又研究了一下如何才能做成这样的拓扑，首先遇到了log-slave
 -updates...
 
-## 链式拓扑
+### 链式拓扑
 线上的一个业务申请了MySQL数据库集群，双机房部署，主机房和从机房，写实例在主机房，单库，其他均为Slave。
 拓扑图如下：
 > M<---S1<---S2<---S3<---S4<---S5
@@ -22,16 +22,16 @@ tags:
 除了M之外其他所有机器都是read-only的，并且除了最后一个S5之外，所有机器都有一个replica。
 也就是说在上面这个线性拓扑图中，后面的机器依赖直接父节点机器的同步进度来更新自己的数据，在延迟较高时，瓶颈越靠前，影响的实例越多。
 
-### 链式优点
+#### 链式优点
 - binlog下游消费：Cache数据必须可回查
 - 切换逻辑简单：快速择主，切换可预知
 - 灾备机房切换：在短时间内剔除线上全部某一个机房的实例
 
-### 链式缺点
+#### 链式缺点
 - DB自身复制延时放大
 - Crash场景数据丢失风险增大
 
-## 参数定义
+### 参数定义
 官方的解释如下：
 > Normally, a slave does not log to its own binary log any updates that are received from a 
 master server. This option tells the slave to log the updates performed by its SQL thread to its 
@@ -44,7 +44,7 @@ this to work, B must be both a master and a slave. You must start both A and B w
 
 可知，如果一台服务器同时作为slave和master则需要开启这个参数，否则Slave只会更新自己是Relay Log并不会写Bin Log。
 
-### 拓扑类型
+#### 拓扑类型
 一般情况下MySQL的replica可以有以下几种架构：
 - Master-Slaves Mode
     - 一个M和可以有N个S，彼此S之间不通讯

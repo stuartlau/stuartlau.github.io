@@ -15,7 +15,7 @@ It's cool to have your keynote display in your blog, Github Pages has the abilit
 happen integrated with reveal.js.
 Follow steps bellow and you can enjoy your slides on your blog too, just like [me]().
 
-## Build from Scratch
+### Build from Scratch
 
 	$ git clone https://github.com/hakimel/reveal.js.git
 	$ cd reveal.js
@@ -26,7 +26,7 @@ Follow steps bellow and you can enjoy your slides on your blog too, just like [m
 	$ git commit -m "Initial commit"
 	$ git push -u origin master
 
-## Creating Branch
+### Creating Branch
 	$ git branch gh-pages
 	$ git push origin gh-pages
 
@@ -35,7 +35,7 @@ All the updated files must be merged from master to gh-pages(the name can not be
 The url is built from the following pattern: <br>
 [github_username].github.io/[repo_name]
 
-## Reference
+### Reference
 - https://www.tikalk.com/posts/2013/11/05/deploy-reveal-js-slideshow-on-github-pages/
 - https://www.chenhuijing.com/blog/revealjs-and-github-pages/
 - https://www.youtube.com/watch?v=DUXD2q0meSw&feature=youtu.be

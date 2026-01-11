@@ -656,6 +656,7 @@ article.movies-container {
     border-color: #2d8c3c;
     color: white;
 }
+
 /* Dark Mode Support */
 [data-theme="dark"] .movie-card,
 .dark-mode .movie-card {
@@ -666,12 +667,12 @@ article.movies-container {
 .dark-mode .movie-title,
 [data-theme="dark"] .movie-card h3.movie-title,
 .dark-mode .movie-card h3.movie-title {
-    color: #333 !important;
+    color: #999 !important;
 }
 
 [data-theme="dark"] .movie-original-title,
 .dark-mode .movie-original-title {
-    color: #666;
+    color: #777;
 }
 
 [data-theme="dark"] .movies-controls,
@@ -697,4 +698,64 @@ article.movies-container {
 .dark-mode .view-btn.active {
     background: #2d8c3c;
     border-color: #2d8c3c;
+}
+
+/* Toggle Switch Styles */
+.view-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.toggle-label {
+    font-size: 1.2rem;
+}
+
+/* Link Style Mode Toggle */
+.view-mode-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+}
+
+.mode-link {
+    text-decoration: none;
+    color: #999;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.mode-link:hover {
+    color: #2d8c3c;
+}
+
+.mode-link.active {
+    color: #2d8c3c;
+    font-weight: 600;
+}
+
+.mode-divider {
+    color: #ccc;
+    font-size: 0.85rem;
+}
+
+[data-theme="dark"] .mode-link,
+.dark-mode .mode-link {
+    color: #777;
+}
+
+[data-theme="dark"] .mode-link:hover,
+.dark-mode .mode-link:hover,
+[data-theme="dark"] .mode-link.active,
+.dark-mode .mode-link.active {
+    color: #2d8c3c;
+}
+
+[data-theme="dark"] .mode-divider,
+.dark-mode .mode-divider {
+    color: #555;
 }

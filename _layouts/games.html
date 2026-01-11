@@ -30,50 +30,9 @@ layout: default
         {% endif %}
     </div>
 
-    <!-- Filters and Sort -->
-    <div class="games-controls">
-        <div class="games-filters">
-            <label>
-                <span>豆瓣评分：</span>
-                <select id="filter-rating">
-                    <option value="">全部</option>
-                    <option value="9">⭐ 9分以上</option>
-                    <option value="8">⭐ 8-9分</option>
-                    <option value="7">⭐ 7-8分</option>
-                    <option value="0">⭐ 7分以下</option>
-                </select>
-            </label>
-            <label>
-                <span>类型：</span>
-                <select id="filter-genre">
-                    <option value="">全部</option>
-                </select>
-            </label>
-            <label>
-                <span>平台：</span>
-                <select id="filter-platform">
-                    <option value="">全部</option>
-                </select>
-            </label>
-        </div>
-
-        <div class="games-sort">
-            <label>
-                <span>发行年份：</span>
-                <select id="sort-by">
-                    <option value="release-desc">新→旧</option>
-                    <option value="release-asc">旧→新</option>
-                </select>
-            </label>
-        </div>
-
-        <div class="games-view-toggle">
-            <button type="button" class="view-btn active" data-mode="normal" title="图文模式">🖼️</button>
-            <button type="button" class="view-btn" data-mode="minimal" title="极简模式">📝</button>
-        </div>
-    </div>
-
     <div class="games-grid" id="games-grid">
+
+
         {% for game in game_data %}
         <a href="{{ game.douban_url }}" target="_blank" class="game-card"
             data-douban-rating="{{ game.douban_rating | default: 0 }}" data-date="{{ game.played_date }}"
@@ -157,125 +116,26 @@ layout: default
     document.addEventListener('DOMContentLoaded', function () {
         const grid = document.getElementById('games-grid');
         const emptyState = document.getElementById('games-empty');
-        const filterRating = document.getElementById('filter-rating');
-        const filterGenre = document.getElementById('filter-genre');
-        const filterPlatform = document.getElementById('filter-platform');
-        const sortBy = document.getElementById('sort-by');
-        const viewBtns = document.querySelectorAll('.view-btn');
 
         if (!grid) return;
 
         const cards = Array.from(grid.querySelectorAll('.game-card'));
-        let currentMode = 'normal';
 
-        // Collect all genres and platforms
-        const allGenres = new Set();
-        const allPlatforms = new Set();
-
-        cards.forEach(card => {
-            const genres = card.dataset.genres?.split(',').filter(g => g.trim());
-            genres?.forEach(g => allGenres.add(g.trim()));
-
-            const platforms = card.dataset.platforms?.split(',').filter(p => p.trim());
-            platforms?.forEach(p => allPlatforms.add(p.trim()));
+        // Sort by release-date descending
+        const sortedCards = [...cards].sort((a, b) => {
+            const dateA = a.dataset.releaseDate || '';
+            const dateB = b.dataset.releaseDate || '';
+            return dateB.localeCompare(dateA);
         });
 
-        // Populate dropdowns
-        Array.from(allGenres).sort().forEach(genre => {
-            const option = document.createElement('option');
-            option.value = genre;
-            option.textContent = genre;
-            filterGenre.appendChild(option);
+        // Reorder cards
+        sortedCards.forEach((card, index) => {
+            card.style.order = index;
         });
 
-        Array.from(allPlatforms).sort().forEach(platform => {
-            const option = document.createElement('option');
-            option.value = platform;
-            option.textContent = platform;
-            filterPlatform.appendChild(option);
-        });
-
-        function filterAndSort() {
-            const ratingFilter = filterRating ? filterRating.value : '';
-            const genreFilter = filterGenre ? filterGenre.value : '';
-            const platformFilter = filterPlatform ? filterPlatform.value : '';
-            const sortValue = sortBy ? sortBy.value : 'release-desc';
-
-            if (currentMode === 'minimal') {
-                grid.classList.add('minimal-mode');
-            } else {
-                grid.classList.remove('minimal-mode');
-            }
-
-            let visibleCards = cards.filter(card => {
-                if (ratingFilter) {
-                    const doubanRating = parseFloat(card.dataset.doubanRating) || 0;
-                    const filterValue = parseInt(ratingFilter);
-
-                    if (filterValue === 9 && doubanRating < 9) return false;
-                    if (filterValue === 8 && (doubanRating < 8 || doubanRating >= 9)) return false;
-                    if (filterValue === 7 && (doubanRating < 7 || doubanRating >= 8)) return false;
-                    if (filterValue === 0 && doubanRating >= 7) return false;
-                }
-
-                if (genreFilter) {
-                    const genres = card.dataset.genres || '';
-                    if (!genres.includes(genreFilter)) return false;
-                }
-
-                if (platformFilter) {
-                    const platforms = card.dataset.platforms || '';
-                    if (!platforms.includes(platformFilter)) return false;
-                }
-
-                return true;
-            });
-
-            visibleCards.sort((a, b) => {
-                const dateA = a.dataset.releaseDate || '';
-                const dateB = b.dataset.releaseDate || '';
-                return sortValue === 'release-desc'
-                    ? dateB.localeCompare(dateA)
-                    : dateA.localeCompare(dateB);
-            });
-
-            grid.querySelectorAll('.year-divider').forEach(d => d.remove());
-            cards.forEach(card => card.style.display = 'none');
-
-            let currentYear = null;
-            visibleCards.forEach((card, index) => {
-                card.style.display = '';
-                card.style.order = index * 2 + 1;
-
-                const year = card.dataset.releaseDate ? card.dataset.releaseDate.substring(0, 4) : '未知年份';
-                if (year !== currentYear) {
-                    currentYear = year;
-                    const divider = document.createElement('div');
-                    divider.className = 'year-divider';
-                    divider.style.order = index * 2;
-                    divider.textContent = `${year} 年`;
-                    grid.appendChild(divider);
-                }
-            });
-
-            if (emptyState) {
-                emptyState.style.display = visibleCards.length === 0 ? 'block' : 'none';
-            }
+        // Toggle empty state
+        if (emptyState) {
+            emptyState.style.display = sortedCards.length === 0 ? 'block' : 'none';
         }
-
-        [filterRating, filterGenre, filterPlatform, sortBy].forEach(el => {
-            if (el) el.addEventListener('change', filterAndSort);
-        });
-
-        viewBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                viewBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentMode = this.dataset.mode;
-                filterAndSort();
-            });
-        });
-
-        filterAndSort();
     });
 </script>

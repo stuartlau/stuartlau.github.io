@@ -611,6 +611,114 @@ remove:'index.html' | strip_slash }}{% endif %}{% endcapture %}
     padding: 0.5rem 0;
   }
 
+  /* Blog Card Grid (movie-like text mode) */
+  .blog-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .blog-card {
+    position: relative;
+    display: block;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-color: var(--border-color);
+  }
+
+  .blog-card-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin: 0 0 0.4rem 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .blog-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .blog-card-date {
+    flex-shrink: 0;
+  }
+
+  .blog-card-tags {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0.85;
+  }
+
+  /* Blog Card Tooltip */
+  .blog-card-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-bottom: 6px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+
+  .blog-card:hover .blog-card-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+
+  .blog-card-tooltip p {
+    margin: 0 0 0.35rem 0;
+    font-size: 0.82rem;
+    color: var(--text-color);
+    line-height: 1.4;
+  }
+
+  .blog-card-tooltip p:last-child {
+    margin-bottom: 0;
+  }
+
+  .blog-card-tooltip strong {
+    color: var(--text-muted);
+  }
+
+  [data-theme="dark"] .blog-card-tooltip {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  @media (max-width: 580px) {
+    .blog-card-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+
   .life-travel-wrap {
     margin: 1rem 0 1.5rem;
   }

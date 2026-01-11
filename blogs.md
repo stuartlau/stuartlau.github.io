@@ -46,8 +46,10 @@ title: Blogs
         title: {{ p.title | default: p.url | jsonify }},
         url: {{ p.permalink | default: p.url | relative_url | jsonify }},
         date: {{ p.date | date_to_xmlschema | jsonify }},
-        tags: {{ p.tags | default: empty | jsonify }}
+        tags: {{ p.tags | default: empty | jsonify }},
+        excerpt: {{ p.subtitle | default: p.excerpt | default: p.content | strip_html | strip_newlines | truncate: 100 | jsonify }}
       }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ];
 </script>
+

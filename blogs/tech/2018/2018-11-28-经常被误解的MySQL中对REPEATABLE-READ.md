@@ -11,24 +11,24 @@ tags:
     - MySQL
 ---
 
-# MySQL解决幻读
+### MySQL解决幻读
 
-## 啥是幻读
+#### 啥是幻读
 > The so-called phantom problem occurs within a transaction when the same query produces different sets of rows at different times. For example, if a SELECT is executed twice, but returns a row the second time that was not returned the first time, the row is a “phantom” row.
 
 上面这句话摘自MySQL的官方手册。它只说明了读会读到上一次没有返回的记录，看起来是幻影一般。如果你理解到这里，那么恭喜你，你会遇到各种困惑。
 其实幻读的现象远不止于此，更不仅仅只是『两次「读」，第二次「读」时发现有幻行』。
 
-## MySQL的隔离级别
+#### MySQL的隔离级别
 MySQL的InnoDb存储引擎默认的隔离级别是REPEATABLE-READ，即可重复读。
 那什么是「可重复读」呢，简单来说就是一个事务里的两个相同条件的查询查到的结果应该是一致的，即结果是「可以重复读到的」，所以就解决了「幻读」。
 
 OK，听起来很简单，一个隔离级别就可以搞定了，但是内部的机制和原理并不简单，并且有些概念的作用可能大家并不知道具体解决了什么问题。
 
-## 如何解决
+#### 如何解决
 
-### MVCC
-### MVCC的原理
+##### MVCC
+##### MVCC的原理
 MVCC(Multi-Version Concurrency Control多版本并发控制)：
 - MVCC每次更新操作都会复制一条新的记录，新纪录的创建时间为当前事务ID
 - 优势为读不加锁，读写不冲突
@@ -57,11 +57,11 @@ MVCC(Multi-Version Concurrency Control多版本并发控制)：
 
 > 既然是多版本读，那么肯定读不到隔壁事务的新插入数据了，所以解决了「幻读」。
 
-### READ_VIEW
+##### READ_VIEW
 MVCC实现了多个并发事务更新同一行记录会时产生多个记录版本，那问题来了，新开始的事务如果要查询这行记录，应该获取到哪个版本呢？即哪个版本对这个事务是可见的。这个问题就是行记录的可见性问题。
 每个事务在第一个SQL开始的时候都会根据当前系统的活跃事务链表创建一个read_view
 
-### MVCC与隔离级别
+##### MVCC与隔离级别
 - `Read Uncommitted`每次都读取记录的最新版本，会出现脏读，未实现MVCC
 - `Serializable`对所有读操作都加锁，读写发生冲突，不会使用MVCC
 - SELECT
@@ -76,7 +76,7 @@ MVCC实现了多个并发事务更新同一行记录会时产生多个记录版�
 
 所以还要引入第二个机制。
 
-### Next-Key Lock
+##### Next-Key Lock
 其实更多的幻读现象是通过写操作来发现的，如`SELECT`了3条数据，`UPDATE`的时候可能返回了4个成功结果，或者`INSERT`某条不存在的数据时忽然报错「唯一索引冲突」等。
 
 首先来了解一下InnoDb的锁机制，InnoDB有三种行锁：
@@ -87,20 +87,20 @@ MVCC实现了多个并发事务更新同一行记录会时产生多个记录版�
 如果是带排他锁操作（除了`INSERT`/`UPDATE`/`DELETE`这种，还包括`SELECT FOR UPDATE`/`LOCK IN SHARE MODE`等），它们默认都在操作的记录上加了`Next-Key 
 Lock`。只有使用了这里的操作后才会在相应的记录周围和记录本身加锁，即`Record Lock` + `Gap Lock`，所以会导致有冲突操作的事务阻塞进而超时失败。
 
-### 性能
+##### 性能
 隔离级别越高并发度越差，性能越差，虽然MySQL默认的是RR，但是如果业务不需要严格的没有幻读现象，是可以降低为RC的或修改配置`innodb_locks_unsafe_for_binlog`为1
 来避免`Gap Lock`的。
 
 > 注意有的时候MySQL会自动对`Next-Key Lock`进行优化，退化为只加`Record Lock`，不加`Gap Lock`，如相关条件字段为主键时直接加`Record Lock`。
 
 
-# REPEATABLE-READ的误解
-## 误解零
+### REPEATABLE-READ的误解
+#### 误解零
 > 凡是在REPEATABLE-READ中执行的语句均不会遇到幻读现象。
 
 这个显然是错误的。REPEATABLE-READ只是有机制可以用来防止幻读的发生，但如果你没有「使用」或「激活」它相关机制，你仍然会遇到幻读现象。
 
-## 误解一
+#### 误解一
 > REPEATABLE-READ肯定不会读到隔壁事务已经提交的数据，即使某个数据已经由隔壁事务提交，当前事务插入不会报错，否则就是发生了幻读。
 
 简单来说前半句话是对的，后半句有什么问题呢？可REPEATABLE-READ中如何「读」是我们自己来写SELECT
@@ -109,7 +109,7 @@ Lock`。只有使用了这里的操作后才会在相应的记录周围和记录
 
 一句话，看不到并不代表没有，并不代表可以自以为然的插入无忧。
 
-## 误解二
+#### 误解二
 > REPEATABLE-READ的事务里查不到的数据一定是不存在的，所以我可以放心插入，100%成功。
 
 这个观点也是错的，查不到只能说明当前事务里读不到，并不代表此时其他事务没有插入这样的数据。
@@ -137,7 +137,7 @@ Lock锁住了，那只能等待当前事务释放锁了。
 即InnoDb在REPEATABLE-READ下提供Next-Key Lock机制，但是需要业务自己去加锁，如果不加锁，只是简单的SELECT查询，是无法限制并行事务的插入的。
 
 
-## 误解三
+#### 误解三
 > 凡是REPEATABLE-READ中的读都无法读取最新的数据。
 
 这个观点也是错误的，虽然我们读取的记录都是可重复读取的，但是如果你想读取最新的记录可以用加锁的方式读。
@@ -150,19 +150,19 @@ Lock锁住了，那只能等待当前事务释放锁了。
 
 但这里要说明的是这样做跟SERIALIZABLE没有什么区别，即读也加了锁，性能大打折扣。
 
-## 误解四
+#### 误解四
 > 如果使用了当前读加了锁，但是锁的行并不存在则不会阻止隔壁事务插入符合条件的数据。
 
 其实记录存在与否和事务加锁成功与否无关，如SELECT * FROM user WHERE id = 5 FOR 
 UPDATE，此时id=5的记录不存在，隔壁事务仍然无法插入记录（假设当前自增的主键id已经是4了）。因为锁定的是索引，故记录实体存在与否没关系。
 
-## 误解五
+#### 误解五
 > MySQL中的幻读只有在读的时候才会发生，读这里特指SELECT操作。
 
 其实INSERT也是隐式的读取，只不过是在MySQL的机制中读取的，插入数据也是要先读取一下有没有主键冲突才能决定是否执行插入的。
 不可重复读测试「读-读」，而幻读侧重「读-写」，用写来证实读的是幻影。为啥幻读不是侧重「读-读」呢？因为MVCC保证了一个事务是不可能读到另外一个事务的新插入数据的，所以这种场景下不会发生幻读。
 
-# 参考
+### 参考
 - https://dev.mysql.com/doc/refman/8.0/en/innodb-next-key-locking.html
 - https://dev.mysql.com/doc/refman/8.0/en/innodb-consistent-read.html
 

@@ -14,7 +14,7 @@ tags:
     
 > 本文对Numpy相关的基本概念和常用方法做了一个总结，希望可以帮到需要的人。
 
-## Python科学计算工具之——Numpy
+### Python科学计算工具之——Numpy
 
 ![Numpy](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/NumPy_logo.svg/1200px-NumPy_logo.svg.png)
 
@@ -27,13 +27,13 @@ NumPy 是一个运行速度非常快的数学库，主要用于数组计算，�
 - 整合 C/C++/Fortran 代码的工具
 - 线性代数、傅里叶变换、随机数生成等功能
 
-## 应用
+### 应用
 
 - 数据分析
 - 机器学习
 - 深度学习
 
-## 为什么使用Numpy
+### 为什么使用Numpy
 
 - 运算速度快
 
@@ -107,14 +107,14 @@ col_major = np.zeros((10,10), order='C')    # C-type
 row_major = np.zeros((10,10), order='F')    # Fortran
 ```
 
-## 安装
+### 安装
 
 ```shell
 pip3 install numpy
 pip3 install pandas
 ```
 
-## Numpy 属性
+### Numpy 属性
 
 ![](https://fgnt.github.io/python_crashkurs_doc/_images/numpy_array_t.png)
 
@@ -141,26 +141,26 @@ array([[1, 2, 3],
 
 ```python
 print('number of dim:',array.ndim)  # 维度
-# number of dim: 2
+## number of dim: 2
 
 print('shape :',array.shape)    # 行数和列数
-# shape : (2, 3)
+## shape : (2, 3)
 
 print('size:',array.size)   # 元素个数
-# size: 6
+## size: 6
 
 print('itemsize:',array.itemsize)   # 元素大小
-# itemsize: 8
+## itemsize: 8
 
 print('nbytes:',array.nbytes)   # 总大小
-# nbytes: 48
+## nbytes: 48
 
 print('dtype:',array.dtype)   # 元素类型
-# dtype: int(64)
+## dtype: int(64)
 
 ```
 
-## 创建array
+### 创建array
 
 **关键字**
 
@@ -274,7 +274,7 @@ print('dtype:',array.dtype)   # 元素类型
 
   
 
-## Numpy 基础运算1
+### Numpy 基础运算1
 
 测试数据准备
 
@@ -287,22 +287,22 @@ b=np.arange(4)              # array([0, 1, 2, 3])
 **几种基本运算**
 
 ```python
-# 各位相减
+## 各位相减
 c=a-b  # array([10, 19, 28, 37])
-# 各位相加
+## 各位相加
 c=a+b   # array([10, 21, 32, 43])
-# 各位相乘
+## 各位相乘
 c=a*b   # array([  0,  20,  60, 120])
-# 求幂次方
+## 求幂次方
 c=b**2  # array([0, 1, 4, 9])
-# sin函数
+## sin函数
 c=10*np.sin(a)  
-# array([-5.44021111,  9.12945251, -9.88031624,  7.4511316 ])
-# 逻辑判断
+## array([-5.44021111,  9.12945251, -9.88031624,  7.4511316 ])
+## 逻辑判断
 print(b<3)  
-# array([ True,  True,  True, False], dtype=bool)
+## array([ True,  True,  True, False], dtype=bool)
 
-# shape mismatch
+## shape mismatch
 >>> a = np.arange(4)
 >>> a + np.array([1, 2])  
 Traceback (most recent call last):
@@ -319,26 +319,26 @@ a=np.array([[1,1],[0,1]])
 b=np.arange(4).reshape((2,2))
 
 print(a)
-# array([[1, 1],
-#       [0, 1]])
+## array([[1, 1],
+##       [0, 1]])
 
 print(b)
-# array([[0, 1],
-#       [2, 3]])
+## array([[0, 1],
+##       [2, 3]])
 ```
 
 Numpy中的矩阵乘法分为两种， 其一是前文中的对应元素相乘，其二是标准的矩阵乘法运算，即对应行乘对应列得到相应元素：
 
 ```python
 c_dot = np.dot(a,b)
-# array([[2, 4],
-#       [2, 3]])
+## array([[2, 4],
+##       [2, 3]])
 
-# or
+## or
 
 c_dot_2 = a.dot(b)
-# array([[2, 4],
-#       [2, 3]])
+## array([[2, 4],
+##       [2, 3]])
 
 ```
 
@@ -403,8 +403,8 @@ array([  1.        ,   2.71828183,   7.3890561 ,  20.08553692,  54.59815003])
 import numpy as np
 a=np.random.random((2,4))
 print(a)
-# array([[ 0.94692159,  0.20821798,  0.35339414,  0.2805278 ],
-#       [ 0.04836775,  0.04023552,  0.44091941,  0.21665268]])
+## array([[ 0.94692159,  0.20821798,  0.35339414,  0.2805278 ],
+##       [ 0.04836775,  0.04023552,  0.44091941,  0.21665268]])
 
 np.sum(a)   # 4.4043622002745959
 np.min(a)   # 0.23651223533671784
@@ -415,17 +415,17 @@ np.max(a)   # 0.90438450240606416
 
 ```python
 print("a =",a)
-# a = [[ 0.23651224  0.41900661  0.84869417  0.46456022]
-# [ 0.60771087  0.9043845   0.36603285  0.55746074]]
+## a = [[ 0.23651224  0.41900661  0.84869417  0.46456022]
+## [ 0.60771087  0.9043845   0.36603285  0.55746074]]
 
 print("sum =",np.sum(a,axis=1)) # equals a.sum(axis=1)
-# sum = [ 1.96877324  2.43558896]
+## sum = [ 1.96877324  2.43558896]
 
 print("min =",np.min(a,axis=0))
-# min = [ 0.23651224  0.41900661  0.36603285  0.46456022]
+## min = [ 0.23651224  0.41900661  0.36603285  0.46456022]
 
 print("max =",np.max(a,axis=1))
-# max = [ 0.84869417  0.9043845 ]
+## max = [ 0.84869417  0.9043845 ]
 ```
 
 **Broadcasting**
@@ -458,7 +458,7 @@ array([[ 0,  1,  2],
 
 
 
-## Numpy 基础运算2
+### Numpy 基础运算2
 
 **索引**
 
@@ -466,9 +466,9 @@ array([[ 0,  1,  2],
 import numpy as np
 A = np.arange(2,14).reshape((3,4)) 
 
-# array([[ 2, 3, 4, 5]
-#        [ 6, 7, 8, 9]
-#        [10,11,12,13]])
+## array([[ 2, 3, 4, 5]
+##        [ 6, 7, 8, 9]
+##        [10,11,12,13]])
          
 print(np.argmin(A))    # 0
 print(np.argmax(A))    # 11
@@ -484,12 +484,12 @@ print(A.mean())          # 7.5
 print(A.median())       # 7.5
 
 print(np.cumsum(A)) 
-# [2 5 9 14 20 27 35 44 54 65 77 90]
+## [2 5 9 14 20 27 35 44 54 65 77 90]
 
 print(np.diff(A))    
-# [[1 1 1]
-#  [1 1 1]
-#  [1 1 1]]
+## [[1 1 1]
+##  [1 1 1]
+##  [1 1 1]]
 ```
 
 **矩阵转置**
@@ -501,19 +501,19 @@ A = np.arange(14,2, -1).reshape((3,4))
 print(np.transpose(A))    
 print(A.T)
 
-# array([[14,10, 6]
-#        [13, 9, 5]
-#        [12, 8, 4]
-#        [11, 7, 3]])
-# array([[14,10, 6]
-#        [13, 9, 5]
-#        [12, 8, 4]
-#        [11, 7, 3]])
+## array([[14,10, 6]
+##        [13, 9, 5]
+##        [12, 8, 4]
+##        [11, 7, 3]])
+## array([[14,10, 6]
+##        [13, 9, 5]
+##        [12, 8, 4]
+##        [11, 7, 3]])
 ```
 
-## Numpy 索引
+### Numpy 索引
 
-### 一维索引
+#### 一维索引
 
 - 一维数组
 
@@ -521,7 +521,7 @@ print(A.T)
 import numpy as np
 A = np.arange(3,15)
 
-# array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+## array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
          
 print(A[3])    # 6
 ```
@@ -537,11 +537,11 @@ array([[ 3,  4,  5,  6]
 """
          
 print(A[2])         
-# [11 12 13 14]
+## [11 12 13 14]
 
 ```
 
-### 二维索引
+#### 二维索引
 
 ```python
 print(A[1][1])      # 8
@@ -590,22 +590,22 @@ import numpy as np
 A = np.arange(3,15).reshape((3,4))
          
 print(A.flatten())   
-# array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+## array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
 
 for item in A.flat:
     print(item)
     
-# 3
-# 4
+## 3
+## 4
 ……
-# 14
+## 14
 
 ```
 
 - `flatten`是一个展开性质的函数，将多维的矩阵进行展开成1行的数列
 - `flat`是一个迭代器，返回一个numpy.flatiter对象
 
-#### 多级索引
+##### 多级索引
 
 ```python
 In [73]: pd.Series(np.random.randn(6), index=[['a','a','a','b','b','b'],[1,2,3,1,2,3]])
@@ -622,9 +622,9 @@ dtype: float64
 
 
 
-## Numpy array合并
+### Numpy array合并
 
-### np.vstack(tup)
+#### np.vstack(tup)
 
 ```python
 import numpy as np
@@ -640,8 +640,8 @@ print(np.vstack((A,B)))    # vertical stack
 C = np.vstack((A,B))      
 print(A.shape,C.shape)
 
-# (3,) (2,3)
-# equals np.concatenate(tup, axis=0）
+## (3,) (2,3)
+## equals np.concatenate(tup, axis=0）
 
 ```
 
@@ -662,17 +662,17 @@ array([[1],
 
 
 
-### np.hstack(tup)
+#### np.hstack(tup)
 
 ```python
 D = np.hstack((A,B))       # horizontal stack
 
 print(D)
-# [1,1,1,2,2,2]
+## [1,1,1,2,2,2]
 
 print(A.shape,D.shape)
-# (3,) (6,)
-# equals np.concatenate(tup, axis=1)
+## (3,) (6,)
+## equals np.concatenate(tup, axis=1)
 
 
 ```
@@ -729,7 +729,7 @@ array([[ 1, 2, 3],
 
 
 
-### np.dstack(tup)
+#### np.dstack(tup)
 
 ```python
 >>> a = np.array((1,2,3))
@@ -748,7 +748,7 @@ array([[[1, 2]],
        [[2, 3]],
        [[3, 4]]])
 
-# equals np.concatenate(tup, axis=2)
+## equals np.concatenate(tup, axis=2)
 
 ```
 
@@ -801,9 +801,9 @@ np.c_[ar1,ar2]
 
 ```
 
-## Numpy array分割
+### Numpy array分割
 
-### 纵向分割
+#### 纵向分割
 
 ```python
 print(np.split(A, 2, axis=1))
@@ -819,29 +819,29 @@ print(np.split(A, 2, axis=1))
 
 `axis`为1时会按照行的方向进行分割
 
-### 横向分割
+#### 横向分割
 
 ```python
 print(np.split(A, 3, axis=0))
 
-# [array([[0, 1, 2, 3]]), array([[4, 5, 6, 7]]), array([[ 8,  9, 10, 11]])]
+## [array([[0, 1, 2, 3]]), array([[4, 5, 6, 7]]), array([[ 8,  9, 10, 11]])]
 
 ```
 
 `axis`为0时会按照列的方向进行分割
 
-### 错误的分割
+#### 错误的分割
 
 范例的Array只有4列，只能等量对分，因此输入以上程序代码后Python就会报错。
 
 ```python
 print(np.split(A, 3, axis=1))
 
-# ValueError: array split does not result in an equal division
+## ValueError: array split does not result in an equal division
 
 ```
 
-### 不等量的分割
+#### 不等量的分割
 
 ```python
 print(np.array_split(A, 3, axis=1))
@@ -857,14 +857,14 @@ print(np.array_split(A, 3, axis=1))
 
 ```
 
-### 其他分割方式
+#### 其他分割方式
 
 在Numpy里还有`np.vsplit()`与横`np.hsplit()`方式可用。
 
 ```python
 print(np.vsplit(A, 3)) #等于 print(np.split(A, 3, axis=0))
 
-# [array([[0, 1, 2, 3]]), array([[4, 5, 6, 7]]), array([[ 8,  9, 10, 11]])]
+## [array([[0, 1, 2, 3]]), array([[4, 5, 6, 7]]), array([[ 8,  9, 10, 11]])]
 
 
 print(np.hsplit(A, 2)) #等于 print(np.split(A, 2, axis=1))
@@ -880,7 +880,7 @@ print(np.hsplit(A, 2)) #等于 print(np.split(A, 2, axis=1))
 - vsplit可以理解为在垂直方向进行切分，并不是垂直去切水平方向的数据
 - hsplit可以理解为在水平方向进行切分，并不是水平去切垂直方向的数据
 
-### Numpy copy & deep copy
+#### Numpy copy & deep copy
 
 注意`=`号具有关联性，需要使用`np.copy()`来进行深度拷贝
 
@@ -934,7 +934,7 @@ print('%f' % ((t2-t1)/N))     # f2: 0.001346
 
 
 
-### Resources
+#### Resources
 
 - [https://jakevdp.github.io/blog/2014/05/09/why-python-is-slow/](https://jakevdp.github.io/blog/2014/05/09/why-python-is-slow/)
 

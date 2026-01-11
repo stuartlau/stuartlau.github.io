@@ -33,48 +33,15 @@ layout: default
         {% endif %}
     </div>
 
-    <!-- Filters and Sort -->
+    <!-- View Toggle -->
     <div class="movies-controls">
-        <div class="movies-filters">
-            <label>
-                <span>豆瓣评分：</span>
-                <select id="filter-rating">
-                    <option value="">全部</option>
-                    <option value="9">⭐ 9分以上</option>
-                    <option value="8">⭐ 8-9分</option>
-                    <option value="7">⭐ 7-8分</option>
-                    <option value="0">⭐ 7分以下</option>
-                </select>
-            </label>
-            <label>
-                <span>类型：</span>
-                <select id="filter-genre">
-                    <option value="">全部</option>
-                </select>
-            </label>
-            <label>
-                <span>国家：</span>
-                <select id="filter-country">
-                    <option value="">全部</option>
-                </select>
-            </label>
-        </div>
-
-        <div class="movies-sort">
-            <label>
-                <span>上映年份：</span>
-                <select id="sort-by">
-                    <option value="pub-date-desc">新→旧</option>
-                    <option value="pub-date-asc">旧→新</option>
-                </select>
-            </label>
-        </div>
-
-        <div class="movies-view-toggle">
-            <button type="button" class="view-btn active" data-mode="normal" title="图文模式">🖼️</button>
-            <button type="button" class="view-btn" data-mode="minimal" title="极简模式">📝</button>
+        <div class="view-mode-links">
+            <a href="#" class="mode-link active" data-mode="normal">图片</a>
+            <span class="mode-divider">/</span>
+            <a href="#" class="mode-link" data-mode="minimal">文字</a>
         </div>
     </div>
+
 
     <div class="movies-grid" id="movies-grid">
         {% for movie in year_data %}
@@ -166,51 +133,14 @@ layout: default
     document.addEventListener('DOMContentLoaded', function () {
         const grid = document.getElementById('movies-grid');
         const emptyState = document.getElementById('movies-empty');
-        const filterRating = document.getElementById('filter-rating');
-        const filterGenre = document.getElementById('filter-genre');
-        const filterCountry = document.getElementById('filter-country');
-        const sortBy = document.getElementById('sort-by');
-        const viewBtns = document.querySelectorAll('.view-btn');
+        const modeLinks = document.querySelectorAll('.mode-link');
 
         if (!grid) return;
 
         const cards = Array.from(grid.querySelectorAll('.movie-card'));
         let currentMode = 'normal';
 
-        // Collect all genres and countries for filter dropdowns
-        const allGenres = new Set();
-        const allCountries = new Set();
-
-        cards.forEach(card => {
-            const genres = card.dataset.genres?.split(',').filter(g => g.trim());
-            genres?.forEach(g => allGenres.add(g.trim()));
-
-            const countries = card.dataset.countries?.split(/[\/,]/).filter(c => c.trim());
-            countries?.forEach(c => allCountries.add(c.trim()));
-        });
-
-        // Populate genre dropdown
-        Array.from(allGenres).sort().forEach(genre => {
-            const option = document.createElement('option');
-            option.value = genre;
-            option.textContent = genre;
-            filterGenre.appendChild(option);
-        });
-
-        // Populate country dropdown
-        Array.from(allCountries).sort().forEach(country => {
-            const option = document.createElement('option');
-            option.value = country;
-            option.textContent = country;
-            filterCountry.appendChild(option);
-        });
-
-        function filterAndSort() {
-            const ratingFilter = filterRating ? filterRating.value : '';
-            const genreFilter = filterGenre ? filterGenre.value : '';
-            const countryFilter = filterCountry ? filterCountry.value : '';
-            const sortValue = sortBy ? sortBy.value : 'pub-date-desc';
-
+        function renderMovies() {
             // Toggle view mode class
             if (currentMode === 'minimal') {
                 grid.classList.add('minimal-mode');
@@ -218,56 +148,22 @@ layout: default
                 grid.classList.remove('minimal-mode');
             }
 
-            // Filter
-            let visibleCards = cards.filter(card => {
-                // Rating filter
-                if (ratingFilter) {
-                    const doubanRating = parseFloat(card.dataset.doubanRating) || 0;
-                    const filterValue = parseInt(ratingFilter);
-
-                    if (filterValue === 9 && doubanRating < 9) return false;
-                    if (filterValue === 8 && (doubanRating < 8 || doubanRating >= 9)) return false;
-                    if (filterValue === 7 && (doubanRating < 7 || doubanRating >= 8)) return false;
-                    if (filterValue === 0 && doubanRating >= 7) return false;
-                }
-
-                // Genre filter
-                if (genreFilter) {
-                    const genres = card.dataset.genres || '';
-                    if (!genres.includes(genreFilter)) return false;
-                }
-
-                // Country filter
-                if (countryFilter) {
-                    const countries = card.dataset.countries || '';
-                    if (!countries.includes(countryFilter)) return false;
-                }
-
-                return true;
-            });
-
-            // Sort by pub-date
-            visibleCards.sort((a, b) => {
+            // Sort by pub-date descending
+            const sortedCards = [...cards].sort((a, b) => {
                 const dateA = a.dataset.pubDate || '';
                 const dateB = b.dataset.pubDate || '';
-                return sortValue === 'pub-date-desc'
-                    ? dateB.localeCompare(dateA)
-                    : dateA.localeCompare(dateB);
+                return dateB.localeCompare(dateA);
             });
 
             // Remove existing dividers
             grid.querySelectorAll('.year-divider').forEach(d => d.remove());
 
-            // Hide all cards first
-            cards.forEach(card => card.style.display = 'none');
-
-            // Show and reorder visible cards with year dividers
+            // Show and reorder cards with year dividers
             let currentYear = null;
-            visibleCards.forEach((card, index) => {
+            sortedCards.forEach((card, index) => {
                 card.style.display = '';
                 card.style.order = index * 2 + 1;
 
-                // Year divider logic
                 const year = card.dataset.pubDate ? card.dataset.pubDate.substring(0, 4) : '未知年份';
                 if (year !== currentYear) {
                     currentYear = year;
@@ -281,26 +177,22 @@ layout: default
 
             // Toggle empty state
             if (emptyState) {
-                emptyState.style.display = visibleCards.length === 0 ? 'block' : 'none';
+                emptyState.style.display = sortedCards.length === 0 ? 'block' : 'none';
             }
         }
 
-        // Event listeners
-        [filterRating, filterGenre, filterCountry, sortBy].forEach(el => {
-            if (el) el.addEventListener('change', filterAndSort);
-        });
-
-        // View mode toggle buttons
-        viewBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                viewBtns.forEach(b => b.classList.remove('active'));
+        // Event listener for mode links
+        modeLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                modeLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 currentMode = this.dataset.mode;
-                filterAndSort();
+                renderMovies();
             });
         });
 
-        // Initial sort
-        filterAndSort();
+        // Initial render
+        renderMovies();
     });
 </script>
