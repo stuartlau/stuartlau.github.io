@@ -1,6 +1,6 @@
-/* Movies Page Styles */
+/* Games Page Styles */
 
-.movies-container {
+.games-container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
@@ -8,19 +8,19 @@
     color: var(--text-color, #333);
 }
 
-/* Override theme's article max-width for movies page */
-article.movies-container {
+/* Override theme's article max-width for games page */
+article.games-container {
     max-width: 100% !important;
     width: 100%;
 }
 
 /* Header */
-.movies-header {
+.games-header {
     text-align: center;
     margin-bottom: 30px;
 }
 
-.movies-title {
+.games-title {
     font-size: 2.5rem;
     color: #333;
     margin-bottom: 20px;
@@ -28,7 +28,7 @@ article.movies-container {
 }
 
 /* Year Navigation */
-.movies-years-nav {
+.games-years-nav {
     display: flex;
     justify-content: center;
     gap: 15px;
@@ -59,25 +59,25 @@ article.movies-container {
 }
 
 /* Stats */
-.movies-stats {
+.games-stats {
     text-align: center;
     font-size: 1rem;
     color: #666;
     margin-bottom: 25px;
 }
 
-.movies-stats strong {
+.games-stats strong {
     color: #2d8c3c;
     font-weight: 600;
 }
 
-.movies-stats .divider {
+.games-stats .divider {
     margin: 0 15px;
     color: #ddd;
 }
 
 /* Controls (Filters & Sort) */
-.movies-controls {
+.games-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -89,14 +89,14 @@ article.movies-container {
     gap: 12px;
 }
 
-.movies-filters,
-.movies-sort {
+.games-filters,
+.games-sort {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.movies-controls label {
+.games-controls label {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -104,7 +104,7 @@ article.movies-container {
     color: #555;
 }
 
-.movies-controls select {
+.games-controls select {
     padding: 5px 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -115,18 +115,18 @@ article.movies-container {
     transition: border-color 0.3s;
 }
 
-.movies-controls select:hover {
+.games-controls select:hover {
     border-color: #2d8c3c;
 }
 
-.movies-controls select:focus {
+.games-controls select:focus {
     outline: none;
     border-color: #2d8c3c;
     box-shadow: 0 0 0 3px rgba(45, 140, 60, 0.1);
 }
 
-/* Movies Grid */
-.movies-grid {
+/* Games Grid */
+.games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 20px;
@@ -136,13 +136,13 @@ article.movies-container {
 
 /* Limit to max 6 columns on large screens */
 @media (min-width: 1400px) {
-    .movies-grid {
+    .games-grid {
         grid-template-columns: repeat(6, 1fr);
     }
 }
 
-/* Movie Card */
-.movie-card {
+/* Game Card */
+.game-card {
     position: relative;
     display: block;
     background: white;
@@ -155,13 +155,13 @@ article.movies-container {
     color: inherit;
 }
 
-.movie-card:hover {
+.game-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Poster */
-.movie-poster {
+/* Cover */
+.game-cover {
     position: relative;
     width: 100%;
     padding-bottom: 150%;
@@ -171,7 +171,7 @@ article.movies-container {
     border-radius: 12px 12px 0 0;
 }
 
-.movie-poster img {
+.game-cover img {
     position: absolute;
     top: 0;
     left: 0;
@@ -180,7 +180,7 @@ article.movies-container {
     object-fit: cover;
 }
 
-.poster-placeholder {
+.cover-placeholder {
     position: absolute;
     top: 0;
     left: 0;
@@ -195,7 +195,7 @@ article.movies-container {
 }
 
 /* Overlay */
-.movie-overlay {
+.game-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -210,7 +210,7 @@ article.movies-container {
     padding: 15px;
 }
 
-.movie-card:hover .movie-overlay {
+.game-card:hover .game-overlay {
     opacity: 1;
 }
 
@@ -259,13 +259,13 @@ article.movies-container {
     background: #237a30;
 }
 
-/* Movie Info */
-.movie-info {
+/* Game Info */
+.game-info {
     padding: 10px;
 }
 
-.movie-card .movie-title,
-.movie-card h3.movie-title {
+.game-card .game-title,
+.game-card h3.game-title {
     font-size: 0.75rem !important;
     font-weight: 600;
     color: var(--text-color, #1a1a1a);
@@ -283,13 +283,13 @@ article.movies-container {
 /* Dark Mode visibility fix */
 @media (prefers-color-scheme: dark) {
 
-    .movie-card .movie-title,
-    .movie-card h3.movie-title {
+    .game-card .game-title,
+    .game-card h3.game-title {
         color: #f0f0f0 !important;
     }
 }
 
-.movie-card .movie-original-title {
+.game-card .game-original-title {
     font-size: 0.75rem !important;
     color: var(--text-light, #999);
     margin: 0 0 8px 0;
@@ -298,35 +298,35 @@ article.movies-container {
     white-space: nowrap;
 }
 
-/* Movie Meta (Rating & Date) */
-.movie-meta {
+/* Game Meta (Rating & Date) */
+.game-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 8px;
 }
 
-.movie-rating {
+.game-rating {
     display: flex;
     gap: 1px;
 }
 
-.movie-rating .star {
+.game-rating .star {
     color: #ddd;
     font-size: 0.85rem;
 }
 
-.movie-rating .star.filled {
+.game-rating .star.filled {
     color: #ffa500;
 }
 
-.movie-date {
+.game-date {
     font-size: 0.75rem;
     color: #999;
 }
 
 /* Empty State */
-.movies-empty {
+.games-empty {
     text-align: center;
     padding: 60px 20px;
     color: #999;
@@ -335,130 +335,130 @@ article.movies-container {
 
 /* Responsive Design */
 @media (max-width: 1400px) {
-    .movies-grid {
+    .games-grid {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     }
 }
 
 @media (max-width: 1200px) {
-    .movies-grid {
+    .games-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
 }
 
 @media (max-width: 768px) {
-    .movies-container {
+    .games-container {
         padding: 10px;
     }
 
-    .movies-title {
+    .games-title {
         font-size: 1.5rem;
     }
 
-    .movies-grid {
+    .games-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
     }
 
-    .movies-controls {
+    .games-controls {
         flex-direction: column;
         align-items: stretch;
         gap: 8px;
         padding: 10px;
     }
 
-    .movies-filters {
+    .games-filters {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
         width: 100%;
     }
 
-    .movies-filters label {
+    .games-filters label {
         flex: 1;
         min-width: 45%;
     }
 
-    .movies-sort {
+    .games-sort {
         width: 100%;
     }
 
-    .movies-controls label {
+    .games-controls label {
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;
     }
 
-    .movies-controls label span {
+    .games-controls label span {
         font-size: 0.75rem;
     }
 
-    .movies-controls select {
+    .games-controls select {
         width: 100%;
         padding: 6px 8px;
         font-size: 0.8rem;
     }
 
-    .movies-view-toggle {
+    .games-view-toggle {
         align-self: flex-end;
     }
 
-    .movie-info {
+    .game-info {
         padding: 6px;
     }
 
-    .movie-card .movie-title,
-    .movie-card h3.movie-title {
+    .game-card .game-title,
+    .game-card h3.game-title {
         font-size: 0.65rem !important;
         line-height: 1rem;
         height: 2rem;
     }
 
-    .movie-meta {
+    .game-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 2px;
     }
 
-    .movie-rating .star {
+    .game-rating .star {
         font-size: 0.7rem;
     }
 
-    .movie-date {
+    .game-date {
         font-size: 0.65rem;
     }
 }
 
 @media (max-width: 480px) {
-    .movies-grid {
+    .games-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 6px;
     }
 
-    .movie-card {
+    .game-card {
         border-radius: 6px;
     }
 
-    .movie-info {
+    .game-info {
         padding: 5px;
     }
 
-    .movie-card .movie-title,
-    .movie-card h3.movie-title {
+    .game-card .game-title,
+    .game-card h3.game-title {
         font-size: 0.6rem !important;
     }
 
-    .movie-original-title {
+    .game-original-title {
         display: none;
     }
 
-    .movie-meta {
+    .game-meta {
         margin-top: 4px;
     }
 }
 
 @media (max-width: 360px) {
-    .movies-grid {
+    .games-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 6px;
     }
@@ -475,8 +475,8 @@ article.movies-container {
     align-items: center;
 }
 
-/* Movie Tooltip */
-.movie-tooltip {
+/* Game Tooltip */
+.game-tooltip {
     position: absolute;
     bottom: 100%;
     left: 50%;
@@ -498,7 +498,7 @@ article.movies-container {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.movie-tooltip::after {
+.game-tooltip::after {
     content: '';
     position: absolute;
     top: 100%;
@@ -508,12 +508,12 @@ article.movies-container {
     border-top-color: rgba(0, 0, 0, 0.92);
 }
 
-.movie-card:hover .movie-tooltip {
+.game-card:hover .game-tooltip {
     opacity: 1;
     visibility: visible;
 }
 
-.movie-tooltip p {
+.game-tooltip p {
     margin: 4px 0;
     white-space: nowrap;
     overflow: hidden;
@@ -522,24 +522,24 @@ article.movies-container {
     padding-left: 0;
 }
 
-.movie-tooltip p:first-child {
+.game-tooltip p:first-child {
     margin-top: 0;
 }
 
-.movie-tooltip p:last-child {
+.game-tooltip p:last-child {
     margin-bottom: 0;
 }
 
-.movie-tooltip strong {
+.game-tooltip strong {
     color: #2d8c3c;
 }
 
-.movie-tooltip .rating-highlight {
+.game-tooltip .rating-highlight {
     color: #ffa500;
     font-weight: bold;
 }
 
-.movie-tooltip .tooltip-comment {
+.game-tooltip .tooltip-comment {
     font-style: italic;
     color: #ccc;
     white-space: normal;
@@ -550,19 +550,19 @@ article.movies-container {
 
 /* Hide tooltip on small screens */
 @media (max-width: 768px) {
-    .movie-tooltip {
+    .game-tooltip {
         display: none;
     }
 }
 
 /* Minimalist Mode */
-.movies-grid.minimal-mode {
+.games-grid.minimal-mode {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.movies-grid.minimal-mode .movie-card {
+.games-grid.minimal-mode .game-card {
     display: flex;
     align-items: center;
     padding: 12px 15px;
@@ -570,16 +570,16 @@ article.movies-container {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.movies-grid.minimal-mode .movie-card:hover {
+.games-grid.minimal-mode .game-card:hover {
     transform: translateX(5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.movies-grid.minimal-mode .movie-poster {
+.games-grid.minimal-mode .game-cover {
     display: none;
 }
 
-.movies-grid.minimal-mode .movie-info {
+.games-grid.minimal-mode .game-info {
     flex: 1;
     padding: 0;
     display: flex;
@@ -588,8 +588,8 @@ article.movies-container {
     gap: 20px;
 }
 
-.movies-grid.minimal-mode .movie-card .movie-title,
-.movies-grid.minimal-mode .movie-card h3.movie-title {
+.games-grid.minimal-mode .game-card .game-title,
+.games-grid.minimal-mode .game-card h3.game-title {
     height: auto;
     margin: 0;
     font-size: 1rem !important;
@@ -599,34 +599,34 @@ article.movies-container {
     flex: 1;
 }
 
-.movies-grid.minimal-mode .movie-original-title {
+.games-grid.minimal-mode .game-original-title {
     display: none;
 }
 
-.movies-grid.minimal-mode .movie-meta {
+.games-grid.minimal-mode .game-meta {
     margin-top: 0;
     gap: 15px;
     flex-shrink: 0;
 }
 
-.movies-grid.minimal-mode .movie-date {
+.games-grid.minimal-mode .game-date {
     width: 80px;
     text-align: right;
 }
 
 @media (max-width: 768px) {
-    .movies-grid.minimal-mode .movie-card {
+    .games-grid.minimal-mode .game-card {
         flex-wrap: wrap;
         gap: 5px;
     }
 
-    .movies-grid.minimal-mode .movie-info {
+    .games-grid.minimal-mode .game-info {
         flex-wrap: wrap;
     }
 }
 
 /* View Toggle Buttons */
-.movies-view-toggle {
+.games-view-toggle {
     display: flex;
     gap: 5px;
     align-items: center;
@@ -655,46 +655,4 @@ article.movies-container {
     background: #2d8c3c;
     border-color: #2d8c3c;
     color: white;
-}
-/* Dark Mode Support */
-[data-theme="dark"] .movie-card,
-.dark-mode .movie-card {
-    background: #1e1e1e;
-}
-
-[data-theme="dark"] .movie-title,
-.dark-mode .movie-title,
-[data-theme="dark"] .movie-card h3.movie-title,
-.dark-mode .movie-card h3.movie-title {
-    color: #333 !important;
-}
-
-[data-theme="dark"] .movie-original-title,
-.dark-mode .movie-original-title {
-    color: #666;
-}
-
-[data-theme="dark"] .movies-controls,
-.dark-mode .movies-controls {
-    background: #2a2a2a;
-}
-
-[data-theme="dark"] .movies-controls select,
-.dark-mode .movies-controls select {
-    background: #333;
-    color: #fff;
-    border-color: #444;
-}
-
-[data-theme="dark"] .view-btn,
-.dark-mode .view-btn {
-    background: #333;
-    border-color: #444;
-    color: #fff;
-}
-
-[data-theme="dark"] .view-btn.active,
-.dark-mode .view-btn.active {
-    background: #2d8c3c;
-    border-color: #2d8c3c;
 }
