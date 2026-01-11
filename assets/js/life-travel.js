@@ -228,8 +228,12 @@
       worldCopyJump: true
     });
 
-    // Define multiple map styles
+    // Define multiple map styles (free, no auth required)
     var mapStyles = {
+      'ESRI World Imagery': window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        attribution: '&copy; Esri'
+      }),
       'OpenStreetMap': window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; OpenStreetMap'
@@ -242,23 +246,15 @@
         maxZoom: 19,
         attribution: '&copy; CartoDB'
       }),
-      'Stamen Watercolor': window.L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg', {
-        maxZoom: 16,
-        attribution: '&copy; Stamen Design'
-      }),
-      'Stamen Toner': window.L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; Stamen Design'
-      }),
-      'ESRI World Imagery': window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      'ESRI Topo': window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 19,
         attribution: '&copy; Esri'
       })
     };
 
     // Add default layer
-    var currentStyle = localStorage.getItem('map-style') || 'Stamen Watercolor';
-    if (!mapStyles[currentStyle]) currentStyle = 'Stamen Watercolor';
+    var currentStyle = localStorage.getItem('map-style') || 'ESRI World Imagery';
+    if (!mapStyles[currentStyle]) currentStyle = 'ESRI World Imagery';
     mapStyles[currentStyle].addTo(map);
 
     // Add layer control
