@@ -90,28 +90,35 @@ layout: default
 
             <!-- Tooltip (shown on hover) -->
             <div class="movie-tooltip">
-                {% if movie.directors and movie.directors.size > 0 %}
-                <p><strong>导演：</strong>{{ movie.directors | join: " / " }}</p>
+                {% if movie.poster %}
+                <div class="tooltip-poster">
+                    <img src="{{ movie.poster }}" alt="{{ movie.title }}" loading="lazy">
+                </div>
                 {% endif %}
-                {% if movie.cast and movie.cast.size > 0 %}
-                <p><strong>主演：</strong>{{ movie.cast | slice: 0, 5 | join: " / " }}</p>
-                {% endif %}
-                {% if movie.genres and movie.genres.size > 0 %}
-                <p><strong>类型：</strong>{{ movie.genres | join: " / " }}</p>
-                {% endif %}
-                {% if movie.countries %}
-                <p><strong>国家：</strong>{{ movie.countries }}</p>
-                {% endif %}
-                {% if movie.pub_date %}
-                <p><strong>上映：</strong>{{ movie.pub_date }}</p>
-                {% endif %}
-                {% if movie.douban_rating %}
-                <p><strong>豆瓣：</strong><span class="rating-highlight">{{ movie.douban_rating }}</span>{% if
-                    movie.rating_count %} ({{ movie.rating_count }}人){% endif %}</p>
-                {% endif %}
-                {% if movie.my_comment %}
-                <p class="tooltip-comment">💬 {{ movie.my_comment }}</p>
-                {% endif %}
+                <div class="tooltip-content">
+                    {% if movie.directors and movie.directors.size > 0 %}
+                    <p><strong>导演：</strong>{{ movie.directors | join: " / " }}</p>
+                    {% endif %}
+                    {% if movie.cast and movie.cast.size > 0 %}
+                    <p><strong>主演：</strong>{{ movie.cast | slice: 0, 5 | join: " / " }}</p>
+                    {% endif %}
+                    {% if movie.genres and movie.genres.size > 0 %}
+                    <p><strong>类型：</strong>{{ movie.genres | join: " / " }}</p>
+                    {% endif %}
+                    {% if movie.countries %}
+                    <p><strong>国家：</strong>{{ movie.countries }}</p>
+                    {% endif %}
+                    {% if movie.pub_date %}
+                    <p><strong>上映：</strong>{{ movie.pub_date }}</p>
+                    {% endif %}
+                    {% if movie.douban_rating %}
+                    <p><strong>豆瓣：</strong><span class="rating-highlight">{{ movie.douban_rating }}</span>{% if
+                        movie.rating_count %} ({{ movie.rating_count }}人){% endif %}</p>
+                    {% endif %}
+                    {% if movie.my_comment %}
+                    <p class="tooltip-comment">💬 {{ movie.my_comment }}</p>
+                    {% endif %}
+                </div>
             </div>
         </a>
         {% endfor %}

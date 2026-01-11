@@ -85,6 +85,21 @@
         </div>
       </div><!--/ .headline-wrap -->
       <div class="article-wrap" itemprop="text">
+        <!-- Table of Contents -->
+        {% if page.catalog != false %}
+        <div class="toc-wrapper" id="toc-wrapper">
+          <div class="toc-header">
+            <span class="toc-title">目录</span>
+            <button type="button" class="toc-toggle" aria-expanded="true" aria-controls="toc-content">
+              <svg class="toc-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          </div>
+          <nav class="toc-content" id="toc-content" aria-label="Table of contents"></nav>
+        </div>
+        {% endif %}
         {{ content }}
 
         {% include related-posts.html page=page %}
@@ -217,6 +232,7 @@
   </div><!-- /.footer-wrap -->
 
   {% include scripts.html %}
+  <script src="{{ site.url }}/assets/js/toc.js"></script>
 
 </body>
 

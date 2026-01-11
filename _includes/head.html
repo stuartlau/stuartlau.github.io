@@ -966,6 +966,171 @@ remove:'index.html' | strip_slash }}{% endif %}{% endcapture %}
     pointer-events: auto !important;
     color: var(--text-color, #333332);
   }
+
+  /* Table of Contents - Fixed Right Sidebar */
+  .toc-wrapper {
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    width: 220px;
+    max-height: calc(100vh - 160px);
+    padding: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    z-index: 100;
+    overflow: hidden;
+  }
+
+  .toc-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .toc-title {
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .toc-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 4px;
+    color: var(--text-muted);
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    margin-left: auto;
+  }
+
+  .toc-toggle:hover {
+    opacity: 1;
+  }
+
+  .toc-toggle[aria-expanded="false"] .toc-toggle-icon {
+    transform: rotate(-90deg);
+  }
+
+  .toc-content {
+    max-height: calc(100vh - 240px);
+    overflow-y: auto;
+    transition: max-height 0.3s ease;
+    padding-left: 0.5rem;
+    border-left: 1px solid rgba(45, 140, 60, 0.2);
+  }
+
+  .toc-content.collapsed {
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  .toc-content ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toc-content li {
+    margin: 0;
+  }
+
+  .toc-content a {
+    display: block;
+    padding: 0.3rem 0;
+    padding-left: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    transition: all 0.15s ease;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .toc-content a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(45, 140, 60, 0.3);
+    transition: all 0.15s ease;
+  }
+
+  .toc-content a:hover {
+    color: #2d8c3c;
+  }
+
+  .toc-content a:hover::before {
+    background: #2d8c3c;
+    width: 5px;
+    height: 5px;
+  }
+
+  .toc-content a.active {
+    color: #2d8c3c;
+    font-weight: 500;
+  }
+
+  .toc-content a.active::before {
+    background: #2d8c3c;
+    width: 5px;
+    height: 5px;
+  }
+
+  /* Indentation for nested headings */
+  .toc-content .toc-h4 {
+    padding-left: 1.25rem;
+  }
+
+  .toc-content .toc-h5 {
+    padding-left: 1.75rem;
+  }
+
+  .toc-content .toc-h6 {
+    padding-left: 2.25rem;
+  }
+
+  .toc-empty {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
+
+  /* Hide fixed TOC on smaller screens, show inline instead */
+  @media (max-width: 1400px) {
+    .toc-wrapper {
+      position: static;
+      width: 100%;
+      max-height: none;
+      margin: 0 0 1.5rem 0;
+      top: auto;
+      right: auto;
+      box-shadow: none;
+      border: 1px solid var(--border-color);
+    }
+
+    .toc-content {
+      max-height: 300px;
+    }
+  }
 </style>
 
 <meta http-equiv="cleartype" content="on">

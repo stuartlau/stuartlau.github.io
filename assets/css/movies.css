@@ -559,7 +559,40 @@ article.movies-container {
 .movies-grid.minimal-mode {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+}
+
+/* Color palette for minimal mode rows */
+.movies-grid.minimal-mode .movie-card:nth-child(8n+1) {
+    background-color: rgba(37, 99, 235, 0.08);
+}
+
+.movies-grid.minimal-mode .movie-card:nth-child(8n+2) {
+    background-color: rgba(22, 163, 74, 0.08);
+}
+
+.movies-grid.minimal-mode .movie-card:nth-child(8n+3) {
+    background-color: rgba(202, 138, 4, 0.08);
+}
+
+.movies-grid.minimal-mode .movie-card:nth-child(8n+4) {
+    background-color: rgba(147, 51, 234, 0.08);
+}
+
+.movies-grid.minimal-mode .movie-card:nth-child(8n+5) {
+    background-color: rgba(234, 88, 12, 0.08);
+}
+
+.movies-grid.minimal-mode .movie-card:nth-child(8n+6) {
+    background-color: rgba(8, 145, 178, 0.08);
+}
+
+.movies-grid.minimal-mode .movie-card:nth-child(8n+7) {
+    background-color: rgba(190, 24, 93, 0.08);
+}
+
+.movies-grid.minimal-mode .movie-card:nth-child(8n+8) {
+    background-color: rgba(5, 150, 105, 0.08);
 }
 
 .movies-grid.minimal-mode .movie-card {
@@ -567,12 +600,15 @@ article.movies-container {
     align-items: center;
     padding: 12px 15px;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
 }
 
 .movies-grid.minimal-mode .movie-card:hover {
     transform: translateX(5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: var(--border-color, #e0e0e0);
 }
 
 .movies-grid.minimal-mode .movie-poster {
@@ -614,6 +650,37 @@ article.movies-container {
     text-align: right;
 }
 
+/* Tooltip with poster in minimal mode */
+.movies-grid.minimal-mode .movie-tooltip {
+    display: flex;
+    gap: 12px;
+    max-width: 360px;
+    left: 0;
+    transform: none;
+}
+
+.movies-grid.minimal-mode .movie-tooltip::after {
+    left: 60px;
+}
+
+.tooltip-poster {
+    flex-shrink: 0;
+    width: 80px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tooltip-poster img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.tooltip-content {
+    flex: 1;
+    min-width: 0;
+}
+
 @media (max-width: 768px) {
     .movies-grid.minimal-mode .movie-card {
         flex-wrap: wrap;
@@ -624,6 +691,7 @@ article.movies-container {
         flex-wrap: wrap;
     }
 }
+
 
 /* View Toggle Buttons */
 .movies-view-toggle {
