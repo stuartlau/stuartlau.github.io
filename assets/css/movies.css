@@ -633,6 +633,13 @@ article.movies-container {
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
+    color: #1a1a1a !important;
+}
+
+/* Dark mode override for minimal mode title */
+[data-theme="dark"] .movies-grid.minimal-mode .movie-card .movie-title,
+[data-theme="dark"] .movies-grid.minimal-mode .movie-card h3.movie-title {
+    color: #f0f0f0 !important;
 }
 
 .movies-grid.minimal-mode .movie-original-title {
@@ -654,13 +661,25 @@ article.movies-container {
 .movies-grid.minimal-mode .movie-tooltip {
     display: flex;
     gap: 12px;
-    max-width: 360px;
+    max-width: 380px;
     left: 0;
     transform: none;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.95);
 }
 
 .movies-grid.minimal-mode .movie-tooltip::after {
     left: 60px;
+}
+
+/* Ensure hovered card is above others */
+.movies-grid.minimal-mode .movie-card {
+    position: relative;
+    z-index: 1;
+}
+
+.movies-grid.minimal-mode .movie-card:hover {
+    z-index: 100;
 }
 
 .tooltip-poster {

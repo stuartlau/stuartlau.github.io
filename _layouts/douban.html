@@ -517,6 +517,15 @@ layout: default
     });
 
     function fetchGiscusStats(el) {
+        // Skip on localhost/dev environment (CORS not allowed)
+        var hostname = window.location.hostname;
+        if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.includes('192.168')) {
+            console.log('Giscus Stats: Skipped on local dev environment');
+            el.querySelector('.comment-count .count-text').textContent = '-';
+            el.querySelector('.reaction-count .count-text').textContent = '-';
+            return;
+        }
+
         var bubble = el.closest('.status-bubble');
         if (!bubble) return;
         var wrapper = bubble.querySelector('.giscus-wrapper');
@@ -533,32 +542,54 @@ layout: default
         fetch(url)
             .then(function (res) {
                 if (res.status === 404) {
-                    return { discussion: { totalCommentCount: 0, reactionCount: 0 } };
+                    return null;
                 }
                 if (!res.ok) throw new Error('API Error ' + res.status);
                 return res.json();
             })
             .then(function (data) {
+                var comments = 0;
+                var reactions = 0;
+
+                // Handle different response structures
                 if (data && data.discussion) {
-                    var comments = data.discussion.totalCommentCount;
-                    var reactions = data.discussion.reactionCount;
-
-                    var commentText = el.querySelector('.comment-count .count-text');
-                    var reactionText = el.querySelector('.reaction-count .count-text');
-
-                    if (commentText) commentText.textContent = comments;
-                    if (reactionText) reactionText.textContent = reactions;
-
-                    if (comments > 0 || reactions > 0) {
-                        el.classList.add('has-interaction');
+                    // New Giscus API structure
+                    comments = data.discussion.totalCommentCount || 0;
+                    // Reactions can be in different places
+                    if (data.discussion.reactions && data.discussion.reactions.totalCount !== undefined) {
+                        reactions = data.discussion.reactions.totalCount;
+                    } else if (data.discussion.reactionCount !== undefined) {
+                        reactions = data.discussion.reactionCount;
+                    } else {
+                        // Count individual reactions if available
+                        var reactionGroups = data.discussion.reactionGroups;
+                        if (Array.isArray(reactionGroups)) {
+                            reactions = reactionGroups.reduce(function (sum, g) {
+                                return sum + (g.users && g.users.totalCount ? g.users.totalCount : 0);
+                            }, 0);
+                        }
                     }
                 }
+
+                var commentText = el.querySelector('.comment-count .count-text');
+                var reactionText = el.querySelector('.reaction-count .count-text');
+
+                if (commentText) commentText.textContent = comments;
+                if (reactionText) reactionText.textContent = reactions;
+
+                if (comments > 0 || reactions > 0) {
+                    el.classList.add('has-interaction');
+                }
+
+                console.log('Giscus Stats: term=' + term + ', comments=' + comments + ', reactions=' + reactions);
             })
             .catch(function (err) {
                 console.error('Giscus Stats: Failed to fetch', err);
-                // On error, revert to 0
-                el.querySelector('.comment-count .count-text').textContent = "0";
-                el.querySelector('.reaction-count .count-text').textContent = "0";
+                // On error, show 0
+                var commentText = el.querySelector('.comment-count .count-text');
+                var reactionText = el.querySelector('.reaction-count .count-text');
+                if (commentText) commentText.textContent = "0";
+                if (reactionText) reactionText.textContent = "0";
             });
     }
 

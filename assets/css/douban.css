@@ -121,18 +121,11 @@
 }
 
 .status-avatar {
-    flex-shrink: 0;
-    margin-right: 15px;
-    padding-top: 5px;
-    /* Slight offset to align with bubble top roughly */
+    display: none;
 }
 
 .status-avatar img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid #eee;
+    display: none;
 }
 
 /* Bubble Style */
@@ -156,33 +149,13 @@
     border-color: #d0e8d3;
 }
 
-/* Bubble Arrow */
+/* Bubble Arrow - Hidden since avatar is removed */
 .status-bubble::before {
-    content: "";
-    position: absolute;
-    top: 15px;
-    /* Adjusted position */
-    left: -8px;
-    width: 0;
-    height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-right: 8px solid #e1f2e3;
-    /* Match border color */
+    display: none;
 }
 
 .status-bubble::after {
-    content: "";
-    position: absolute;
-    top: 15px;
-    /* Adjusted position */
-    left: -6px;
-    width: 0;
-    height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-right: 8px solid #f2fbf4;
-    /* Match background color */
+    display: none;
 }
 
 /* AI Comments Styles */
@@ -594,6 +567,7 @@
     color: white;
     transform: rotate(90deg);
 }
+
 /* Giscus Wrapper Positioning */
 .giscus-wrapper {
     position: relative;
@@ -623,4 +597,3 @@
 
 /* Alternative: Use custom CSS injection via Giscus configuration */
 /* We'll need to modify the Giscus script attributes */
-

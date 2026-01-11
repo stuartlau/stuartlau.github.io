@@ -228,10 +228,50 @@
       worldCopyJump: true
     });
 
-    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap'
+    // Define multiple map styles
+    var mapStyles = {
+      'OpenStreetMap': window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap'
+      }),
+      'CartoDB Positron': window.L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        attribution: '&copy; CartoDB'
+      }),
+      'CartoDB Dark': window.L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        attribution: '&copy; CartoDB'
+      }),
+      'Stamen Watercolor': window.L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg', {
+        maxZoom: 16,
+        attribution: '&copy; Stamen Design'
+      }),
+      'Stamen Toner': window.L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; Stamen Design'
+      }),
+      'ESRI World Imagery': window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        attribution: '&copy; Esri'
+      })
+    };
+
+    // Add default layer
+    var currentStyle = localStorage.getItem('map-style') || 'Stamen Watercolor';
+    if (!mapStyles[currentStyle]) currentStyle = 'Stamen Watercolor';
+    mapStyles[currentStyle].addTo(map);
+
+    // Add layer control
+    window.L.control.layers(mapStyles, null, {
+      position: 'topright',
+      collapsed: true
     }).addTo(map);
+
+    // Save style preference when changed
+    map.on('baselayerchange', function (e) {
+      localStorage.setItem('map-style', e.name);
+    });
+
 
     var layers = [];
     var markersByTag = Object.create(null);
