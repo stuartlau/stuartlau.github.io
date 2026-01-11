@@ -945,25 +945,12 @@ remove:'index.html' | strip_slash }}{% endif %}{% endcapture %}
     white-space: nowrap !important;
   }
 
-  /* Theme toggle (in case skin CSS is missing) */
+  /* Theme toggle - inline in navigation (nav-utility-btn class handles sizing) */
   .theme-toggle {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 2.75rem;
-    height: 2.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999px;
-    border: 1px solid var(--border-color);
+    /* Inherits from .nav-utility-btn when in nav bar */
+    position: static;
     background: var(--card-bg);
     cursor: pointer;
-    padding: 0;
-    z-index: 99999;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
     color: var(--text-color, #333332);
   }
 

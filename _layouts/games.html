@@ -30,6 +30,15 @@ layout: default
         {% endif %}
     </div>
 
+    <!-- View Toggle -->
+    <div class="games-controls">
+        <div class="view-mode-links">
+            <a href="#" class="mode-link active" data-mode="normal">图片</a>
+            <span class="mode-divider">/</span>
+            <a href="#" class="mode-link" data-mode="minimal">文字</a>
+        </div>
+    </div>
+
     <div class="games-grid" id="games-grid">
 
 
@@ -116,26 +125,52 @@ layout: default
     document.addEventListener('DOMContentLoaded', function () {
         const grid = document.getElementById('games-grid');
         const emptyState = document.getElementById('games-empty');
+        const modeLinks = document.querySelectorAll('.mode-link');
 
         if (!grid) return;
 
         const cards = Array.from(grid.querySelectorAll('.game-card'));
+        let currentMode = 'normal';
 
-        // Sort by release-date descending
-        const sortedCards = [...cards].sort((a, b) => {
-            const dateA = a.dataset.releaseDate || '';
-            const dateB = b.dataset.releaseDate || '';
-            return dateB.localeCompare(dateA);
-        });
+        function renderGames() {
+            // Toggle view mode class
+            if (currentMode === 'minimal') {
+                grid.classList.add('minimal-mode');
+            } else {
+                grid.classList.remove('minimal-mode');
+            }
 
-        // Reorder cards
-        sortedCards.forEach((card, index) => {
-            card.style.order = index;
-        });
+            // Sort by release-date descending
+            const sortedCards = [...cards].sort((a, b) => {
+                const dateA = a.dataset.releaseDate || '';
+                const dateB = b.dataset.releaseDate || '';
+                return dateB.localeCompare(dateA);
+            });
 
-        // Toggle empty state
-        if (emptyState) {
-            emptyState.style.display = sortedCards.length === 0 ? 'block' : 'none';
+            // Reorder cards
+            sortedCards.forEach((card, index) => {
+                card.style.display = '';
+                card.style.order = index;
+            });
+
+            // Toggle empty state
+            if (emptyState) {
+                emptyState.style.display = sortedCards.length === 0 ? 'block' : 'none';
+            }
         }
+
+        // Event listener for mode links
+        modeLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                modeLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                currentMode = this.dataset.mode;
+                renderGames();
+            });
+        });
+
+        // Initial render
+        renderGames();
     });
 </script>

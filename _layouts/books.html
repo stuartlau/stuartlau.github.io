@@ -17,6 +17,15 @@ layout: default
         <span>共 <strong>{{ book_data | size }}</strong> 本书</span>
     </div>
 
+    <!-- View Toggle -->
+    <div class="books-controls">
+        <div class="view-mode-links">
+            <a href="#" class="mode-link active" data-mode="normal">图片</a>
+            <span class="mode-divider">/</span>
+            <a href="#" class="mode-link" data-mode="minimal">文字</a>
+        </div>
+    </div>
+
     <div class="books-grid" id="books-grid">
 
         {% for book in book_data %}
@@ -60,29 +69,37 @@ layout: default
             </div>
 
             <!-- Tooltip -->
+            <!-- Tooltip -->
             <div class="book-tooltip">
-                {% if book.author %}
-                <p><strong>作者：</strong>{{ book.author }}</p>
+                {% if book.cover %}
+                <div class="tooltip-poster">
+                    <img src="{{ book.cover }}" alt="{{ book.title }}" loading="lazy">
+                </div>
                 {% endif %}
-                {% if book.translator %}
-                <p><strong>译者：</strong>{{ book.translator }}</p>
-                {% endif %}
-                {% if book.publisher %}
-                <p><strong>出版社：</strong>{{ book.publisher }}</p>
-                {% endif %}
-                {% if book.publish_date %}
-                <p><strong>出版日期：</strong>{{ book.publish_date }}</p>
-                {% endif %}
-                {% if book.pages %}
-                <p><strong>页数：</strong>{{ book.pages }}</p>
-                {% endif %}
-                {% if book.douban_rating %}
-                <p><strong>豆瓣：</strong><span class="rating-highlight">{{ book.douban_rating }}</span>{% if
-                    book.rating_count %} ({{ book.rating_count }}人){% endif %}</p>
-                {% endif %}
-                {% if book.my_comment %}
-                <p class="tooltip-comment">💬 {{ book.my_comment }}</p>
-                {% endif %}
+                <div class="tooltip-content">
+                    {% if book.author %}
+                    <p><strong>作者：</strong>{{ book.author }}</p>
+                    {% endif %}
+                    {% if book.translator %}
+                    <p><strong>译者：</strong>{{ book.translator }}</p>
+                    {% endif %}
+                    {% if book.publisher %}
+                    <p><strong>出版社：</strong>{{ book.publisher }}</p>
+                    {% endif %}
+                    {% if book.publish_date %}
+                    <p><strong>出版日期：</strong>{{ book.publish_date }}</p>
+                    {% endif %}
+                    {% if book.pages %}
+                    <p><strong>页数：</strong>{{ book.pages }}</p>
+                    {% endif %}
+                    {% if book.douban_rating %}
+                    <p><strong>豆瓣：</strong><span class="rating-highlight">{{ book.douban_rating }}</span>{% if
+                        book.rating_count %} ({{ book.rating_count }}人){% endif %}</p>
+                    {% endif %}
+                    {% if book.my_comment %}
+                    <p class="tooltip-comment">💬 {{ book.my_comment }}</p>
+                    {% endif %}
+                </div>
             </div>
         </a>
         {% endfor %}
@@ -104,29 +121,55 @@ layout: default
     document.addEventListener('DOMContentLoaded', function () {
         const grid = document.getElementById('books-grid');
         const emptyState = document.getElementById('books-empty');
+        const modeLinks = document.querySelectorAll('.mode-link');
 
         if (!grid) return;
 
         const cards = Array.from(grid.querySelectorAll('.book-card'));
+        let currentMode = 'normal';
 
-        // Sort by publish-date descending
-        const sortedCards = [...cards].sort((a, b) => {
-            const dateA = a.dataset.publishDate || '';
-            const dateB = b.dataset.publishDate || '';
-            // Extract year for comparison
-            const yearA = dateA.match(/\d{4}/)?.[0] || '0000';
-            const yearB = dateB.match(/\d{4}/)?.[0] || '0000';
-            return yearB.localeCompare(yearA);
-        });
+        function renderBooks() {
+            // Toggle view mode class
+            if (currentMode === 'minimal') {
+                grid.classList.add('minimal-mode');
+            } else {
+                grid.classList.remove('minimal-mode');
+            }
 
-        // Reorder cards
-        sortedCards.forEach((card, index) => {
-            card.style.order = index;
-        });
+            // Sort by publish-date descending
+            const sortedCards = [...cards].sort((a, b) => {
+                const dateA = a.dataset.publishDate || '';
+                const dateB = b.dataset.publishDate || '';
+                // Extract year for comparison
+                const yearA = dateA.match(/\d{4}/)?.[0] || '0000';
+                const yearB = dateB.match(/\d{4}/)?.[0] || '0000';
+                return yearB.localeCompare(yearA);
+            });
 
-        // Toggle empty state
-        if (emptyState) {
-            emptyState.style.display = sortedCards.length === 0 ? 'block' : 'none';
+            // Reorder cards
+            sortedCards.forEach((card, index) => {
+                card.style.display = '';
+                card.style.order = index;
+            });
+
+            // Toggle empty state
+            if (emptyState) {
+                emptyState.style.display = sortedCards.length === 0 ? 'block' : 'none';
+            }
         }
+
+        // Event listener for mode links
+        modeLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                modeLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                currentMode = this.dataset.mode;
+                renderBooks();
+            });
+        });
+
+        // Initial render
+        renderBooks();
     });
 </script>
