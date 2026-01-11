@@ -5,6 +5,7 @@ title:      "Beijing"
 subtitle:   "Beijing"
 date:       2017-07-28
 author:     StuartLau
+header-img: img/in-post/Beijing-0.jpg
 header-style: text
 catalog: true
 tags:
@@ -13,6 +14,28 @@ tags:
     - China
 location: [116.4074, 39.9042]
 ---
+
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1897258756/" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/Beijing-0.jpg" alt="Beijing 2022" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">Beijing Album</span>
+      <span class="album-desc">2022-10</span>
+    </div>
+  </a>
+  <a href="https://www.douban.com/photos/album/1889563905/" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/Beijing-1.jpg" alt="Universal Beijing 2021" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">Universal Beijing Album</span>
+      <span class="album-desc">2021-12</span>
+    </div>
+  </a>
+</div>
+
 TBD..
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
 

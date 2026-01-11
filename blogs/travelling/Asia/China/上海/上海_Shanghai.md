@@ -5,6 +5,7 @@ title:      "Shanghai"
 subtitle:   "Shanghai"
 date:       2017-07-28
 author:     StuartLau
+header-img: img/in-post/Shanghai-0.jpg
 header-style: text
 catalog: true
 tags:
@@ -13,6 +14,28 @@ tags:
     - China
 location: [121.4737, 31.2304]
 ---
+
+<div class="album-grid">
+  <a href="https://www.douban.com/photos/album/1916140358/" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/Shanghai-0.jpg" alt="Shanghai 2024" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">Shanghai Album</span>
+      <span class="album-desc">2024-05</span>
+    </div>
+  </a>
+  <a href="https://www.douban.com/photos/album/1912554028/" class="album-card" target="_blank">
+    <div class="album-image">
+      <img src="{{ site.url }}/images/in-post/Shanghai-1.jpg" alt="Shanghai 2024" class="no-zoom">
+    </div>
+    <div class="album-info">
+      <span class="album-title">Shanghai Album</span>
+      <span class="album-desc">2024-02</span>
+    </div>
+  </a>
+</div>
+
 TBD..
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
 
