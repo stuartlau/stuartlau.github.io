@@ -308,7 +308,7 @@ def scrape(target_year, cookie):
                     
                     if item_year == str(target_year):
                         text, images = process_content(item)
-                        # Use time+text for uniqueness.
+                        # Use time+content for uniqueness.
                         # Normalize content for key generation to match `load_existing_data`
                         if text or images:
                             key = f"{dt.strftime('%Y-%m-%d %H:%M')}|{text}"

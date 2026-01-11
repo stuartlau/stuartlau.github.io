@@ -438,6 +438,43 @@ remove:'index.html' | strip_slash }}{% endif %}{% endcapture %}
     height: 18px;
   }
 
+  /* Responsive Navigation for Mobile */
+  @media (max-width: 768px) {
+    .navigation-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .top-navigation {
+      width: 100%;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .top-navigation-utilities {
+      margin-left: 0;
+      margin-top: 0.5rem;
+      width: 100%;
+      justify-content: flex-start;
+      /* Align left or center? User said "left icons removed off screen", implying they are right aligned. Let's wrap. */
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nav-utility-btn {
+      width: 32px;
+      height: 32px;
+    }
+
+    .nav-utility-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
   .theme-toggle .theme-icon {
     display: none;
     width: 18px;
