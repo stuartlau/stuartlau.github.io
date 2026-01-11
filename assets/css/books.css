@@ -60,6 +60,7 @@ article.books-container {
     cursor: pointer;
     text-decoration: none;
     color: inherit;
+    min-width: 0;
 }
 
 .book-card:hover {
@@ -299,7 +300,7 @@ article.books-container {
     }
 
     .books-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 8px;
     }
 
