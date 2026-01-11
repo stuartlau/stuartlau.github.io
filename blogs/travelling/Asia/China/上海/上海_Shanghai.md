@@ -36,7 +36,6 @@ location: [121.4737, 31.2304]
   </a>
 </div>
 
-TBD..
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
 
 

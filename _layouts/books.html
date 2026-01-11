@@ -1,0 +1,132 @@
+---
+layout: default
+---
+
+<link rel="stylesheet" href="/assets/css/books.css">
+
+<div class="books-container">
+
+    {% if page.dataset %}
+    {% assign dataset_str = page.dataset | append: "" %}
+    {% assign book_data = site.data.books[dataset_str] %}
+    {% endif %}
+
+    {% if book_data %}
+    <!-- Stats -->
+    <div class="books-stats">
+        <span>共 <strong>{{ book_data | size }}</strong> 本书</span>
+    </div>
+
+    <div class="books-grid" id="books-grid">
+
+        {% for book in book_data %}
+        <a href="{{ book.douban_url }}" target="_blank" class="book-card"
+            data-douban-rating="{{ book.douban_rating | default: 0 }}" data-read-date="{{ book.read_date }}"
+            data-publish-date="{{ book.publish_date }}" data-title="{{ book.title }}"
+            data-status="{{ book.status | default: 'collect' }}" data-author="{{ book.author }}">
+
+            <!-- Cover -->
+            <div class="book-cover">
+                {% if book.cover %}
+                <img src="{{ book.cover }}" alt="{{ book.title }}" loading="lazy">
+                {% else %}
+                <div class="cover-placeholder">
+                    <span>📚</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Info -->
+            <div class="book-info">
+                <h3 class="book-title" title="{{ book.title }}">
+                    {{ book.title }}
+                </h3>
+
+                <div class="book-author">{{ book.author }}</div>
+
+                <div class="book-meta">
+                    {% if book.my_rating %}
+                    <div class="book-rating">
+                        {% for i in (1..5) %}
+                        <span class="star {% if i <= book.my_rating %}filled{% endif %}">★</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if book.publish_date %}
+                    <div class="book-date">{{ book.publish_date }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Tooltip -->
+            <div class="book-tooltip">
+                {% if book.author %}
+                <p><strong>作者：</strong>{{ book.author }}</p>
+                {% endif %}
+                {% if book.translator %}
+                <p><strong>译者：</strong>{{ book.translator }}</p>
+                {% endif %}
+                {% if book.publisher %}
+                <p><strong>出版社：</strong>{{ book.publisher }}</p>
+                {% endif %}
+                {% if book.publish_date %}
+                <p><strong>出版日期：</strong>{{ book.publish_date }}</p>
+                {% endif %}
+                {% if book.pages %}
+                <p><strong>页数：</strong>{{ book.pages }}</p>
+                {% endif %}
+                {% if book.douban_rating %}
+                <p><strong>豆瓣：</strong><span class="rating-highlight">{{ book.douban_rating }}</span>{% if
+                    book.rating_count %} ({{ book.rating_count }}人){% endif %}</p>
+                {% endif %}
+                {% if book.my_comment %}
+                <p class="tooltip-comment">💬 {{ book.my_comment }}</p>
+                {% endif %}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Empty state -->
+    <div class="books-empty" id="books-empty" style="display: none;">
+        <p>📭 没有符合条件的书籍</p>
+    </div>
+
+    {% else %}
+    <div class="books-empty">
+        <p>📭 暂无读书记录</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const grid = document.getElementById('books-grid');
+        const emptyState = document.getElementById('books-empty');
+
+        if (!grid) return;
+
+        const cards = Array.from(grid.querySelectorAll('.book-card'));
+
+        // Sort by publish-date descending
+        const sortedCards = [...cards].sort((a, b) => {
+            const dateA = a.dataset.publishDate || '';
+            const dateB = b.dataset.publishDate || '';
+            // Extract year for comparison
+            const yearA = dateA.match(/\d{4}/)?.[0] || '0000';
+            const yearB = dateB.match(/\d{4}/)?.[0] || '0000';
+            return yearB.localeCompare(yearA);
+        });
+
+        // Reorder cards
+        sortedCards.forEach((card, index) => {
+            card.style.order = index;
+        });
+
+        // Toggle empty state
+        if (emptyState) {
+            emptyState.style.display = sortedCards.length === 0 ? 'block' : 'none';
+        }
+    });
+</script>
