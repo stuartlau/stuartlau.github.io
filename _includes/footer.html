@@ -4,8 +4,121 @@
   based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
 
   <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
-  
+
 </h6>
 
+<!-- Back to Top Button -->
+<button id="back-to-top" class="back-to-top-btn" aria-label="回到顶部" title="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+    stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
+
+<style>
+  .back-to-top-btn {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: var(--primary-color, #2d8c3c);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .back-to-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .back-to-top-btn:hover {
+    background: var(--primary-color-dark, #236b2e);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .back-to-top-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .back-to-top-btn {
+      bottom: 70px;
+      right: 15px;
+      width: 40px;
+      height: 40px;
+    }
+
+    .back-to-top-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  /* Dark mode support */
+  [data-theme="dark"] .back-to-top-btn {
+    background: #4CAF50;
+  }
+
+  [data-theme="dark"] .back-to-top-btn:hover {
+    background: #66BB6A;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .back-to-top-btn {
+      background: #4CAF50;
+    }
+
+    .back-to-top-btn:hover {
+      background: #66BB6A;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const backToTopBtn = document.getElementById('back-to-top');
+    if (!backToTopBtn) return;
+
+    // Show/hide button based on scroll position
+    function toggleBackToTop() {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    }
+
+    // Scroll to top with smooth animation
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Event listeners
+    window.addEventListener('scroll', toggleBackToTop, { passive: true });
+    backToTopBtn.addEventListener('click', scrollToTop);
+
+    // Initial check
+    toggleBackToTop();
+  })();
+</script>
 
 <!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
