@@ -1,27 +1,9 @@
-# Jekyll
+# Build outputs
 _site/
-.sass-cache/
 .jekyll-cache/
 .jekyll-metadata
-
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# IDE
-.idea/
-*.iml
-.vscode/
-.history/
-
-# Ruby/Bundler
-.bundle/
-vendor/
+.sass-cache/
+*.sassc
 
 # Python
 __pycache__/
@@ -32,25 +14,61 @@ __pycache__/
 env/
 venv/
 .venv/
-pip-log.txt
-pip-delete-this-directory.txt
 .tox/
 .coverage
-.cache
+.cache/
 nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
+.pytest_cache/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.history/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ruby/Bundler
+.bundle/
+vendor/
+*.gem
 
 # Application Specific
 patents.csv
 douban_images_report.txt
 shell_download.sh
 *.log
+.temp/
+.tmp/
 
-# Temp files
+# Testing
+htmlcov/
+.coverage_report/
+benchmark_results/
+
+# Misc
 *.bak
 *.tmp
-*.swp
-*~
-node_modules/
+*.temp
+*.pid
+*.seed
+
