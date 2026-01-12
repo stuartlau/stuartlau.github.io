@@ -73,11 +73,12 @@ layout: default
                     historyData.push({
                         time: "{{ item.time }}",
                         content: {{ item.content | jsonify }},
-                year: "{{ y }}"
-            });
-            {% endfor %}
-            {% endif %}
-            {% endfor %}
+                        images: {{ item.images | jsonify }},
+                        year: "{{ y }}"
+                    });
+                    {% endfor %}
+                    {% endif %}
+                    {% endfor %}
 
             var today = new Date();
             var month = String(today.getMonth() + 1).padStart(2, '0');
@@ -118,10 +119,19 @@ layout: default
 
                         // Parse content safely
                         var content = item.content;
-                        // Simple HTML safety check if needed, but jsonify helps. 
-                        // Douban content might contain valid HTML? Assuming text mostly.
+                        
+                        var html = '<span style="color:#2d8c3c; font-weight:600; margin-right:8px; display:inline-block; min-width:38px;">' + item.year + '</span> ' + content;
 
-                        el.innerHTML = '<span style="color:#2d8c3c; font-weight:600; margin-right:8px; display:inline-block; min-width:38px;">' + item.year + '</span> ' + content;
+                        // Add images
+                        if (item.images && item.images.length > 0) {
+                            html += '<div style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap;">';
+                            item.images.forEach(function(imgUrl) {
+                                html += '<div style="width:80px; height:80px; background-image:url(\'' + imgUrl + '\'); background-size:cover; background-position:center; border-radius:4px; cursor:pointer;" onclick="window.open(\'' + imgUrl + '\', \'_blank\')"></div>';
+                            });
+                            html += '</div>';
+                        }
+                        
+                        el.innerHTML = html;
                         list.appendChild(el);
                     });
                 } else {

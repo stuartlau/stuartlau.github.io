@@ -82,28 +82,35 @@ layout: default
 
             <!-- Tooltip -->
             <div class="game-tooltip">
-                {% if game.platforms and game.platforms.size > 0 %}
-                <p><strong>平台：</strong>{{ game.platforms | join: " / " }}</p>
+                {% if game.cover %}
+                <div class="tooltip-poster">
+                    <img src="{{ game.cover }}" alt="{{ game.title }}" loading="lazy">
+                </div>
                 {% endif %}
-                {% if game.genres and game.genres.size > 0 %}
-                <p><strong>类型：</strong>{{ game.genres | join: " / " }}</p>
-                {% endif %}
-                {% if game.developer %}
-                <p><strong>开发：</strong>{{ game.developer }}</p>
-                {% endif %}
-                {% if game.publisher %}
-                <p><strong>发行：</strong>{{ game.publisher }}</p>
-                {% endif %}
-                {% if game.release_date %}
-                <p><strong>发行日期：</strong>{{ game.release_date }}</p>
-                {% endif %}
-                {% if game.douban_rating %}
-                <p><strong>豆瓣：</strong><span class="rating-highlight">{{ game.douban_rating }}</span>{% if
-                    game.rating_count %} ({{ game.rating_count }}人){% endif %}</p>
-                {% endif %}
-                {% if game.my_comment %}
-                <p class="tooltip-comment">💬 {{ game.my_comment }}</p>
-                {% endif %}
+                <div class="tooltip-content">
+                    {% if game.platforms and game.platforms.size > 0 %}
+                    <p><strong>平台：</strong>{{ game.platforms | join: " / " }}</p>
+                    {% endif %}
+                    {% if game.genres and game.genres.size > 0 %}
+                    <p><strong>类型：</strong>{{ game.genres | join: " / " }}</p>
+                    {% endif %}
+                    {% if game.developer %}
+                    <p><strong>开发：</strong>{{ game.developer }}</p>
+                    {% endif %}
+                    {% if game.publisher %}
+                    <p><strong>发行：</strong>{{ game.publisher }}</p>
+                    {% endif %}
+                    {% if game.release_date %}
+                    <p><strong>发行日期：</strong>{{ game.release_date }}</p>
+                    {% endif %}
+                    {% if game.douban_rating %}
+                    <p><strong>豆瓣：</strong><span class="rating-highlight">{{ game.douban_rating }}</span>{% if
+                        game.rating_count %} ({{ game.rating_count }}人){% endif %}</p>
+                    {% endif %}
+                    {% if game.my_comment %}
+                    <p class="tooltip-comment">💬 {{ game.my_comment }}</p>
+                    {% endif %}
+                </div>
             </div>
         </a>
         {% endfor %}

@@ -125,6 +125,53 @@ article.games-container {
     box-shadow: 0 0 0 3px rgba(45, 140, 60, 0.1);
 }
 
+/* Link Style Mode Toggle */
+.view-mode-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+}
+
+.mode-link {
+    text-decoration: none;
+    color: #999;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.mode-link:hover {
+    color: #2d8c3c;
+}
+
+.mode-link.active {
+    color: #2d8c3c;
+    font-weight: 600;
+}
+
+.mode-divider {
+    color: #ccc;
+    font-size: 0.85rem;
+}
+
+[data-theme="dark"] .mode-link,
+.dark-mode .mode-link {
+    color: #777;
+}
+
+[data-theme="dark"] .mode-link:hover,
+.dark-mode .mode-link:hover,
+[data-theme="dark"] .mode-link.active,
+.dark-mode .mode-link.active {
+    color: #2d8c3c;
+}
+
+[data-theme="dark"] .mode-divider,
+.dark-mode .mode-divider {
+    color: #555;
+}
+
 /* Games Grid */
 .games-grid {
     display: grid;
@@ -134,10 +181,17 @@ article.games-container {
     max-width: 100%;
 }
 
-/* Limit to max 6 columns on large screens */
-@media (min-width: 1400px) {
+/* Desktop default: 3 columns */
+@media (min-width: 768px) {
     .games-grid {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Large screens: max 4 columns */
+@media (min-width: 1200px) {
+    .games-grid {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
@@ -562,6 +616,39 @@ article.games-container {
     gap: 10px;
 }
 
+/* Color palette for minimal mode rows */
+.games-grid.minimal-mode .game-card:nth-child(8n+1) {
+    background-color: rgba(37, 99, 235, 0.08);
+}
+
+.games-grid.minimal-mode .game-card:nth-child(8n+2) {
+    background-color: rgba(22, 163, 74, 0.08);
+}
+
+.games-grid.minimal-mode .game-card:nth-child(8n+3) {
+    background-color: rgba(202, 138, 4, 0.08);
+}
+
+.games-grid.minimal-mode .game-card:nth-child(8n+4) {
+    background-color: rgba(147, 51, 234, 0.08);
+}
+
+.games-grid.minimal-mode .game-card:nth-child(8n+5) {
+    background-color: rgba(234, 88, 12, 0.08);
+}
+
+.games-grid.minimal-mode .game-card:nth-child(8n+6) {
+    background-color: rgba(8, 145, 178, 0.08);
+}
+
+.games-grid.minimal-mode .game-card:nth-child(8n+7) {
+    background-color: rgba(190, 24, 93, 0.08);
+}
+
+.games-grid.minimal-mode .game-card:nth-child(8n+8) {
+    background-color: rgba(5, 150, 105, 0.08);
+}
+
 .games-grid.minimal-mode .game-card {
     display: flex;
     align-items: center;
@@ -614,6 +701,31 @@ article.games-container {
     text-align: right;
 }
 
+/* Tooltip with cover in minimal mode */
+.games-grid.minimal-mode .game-tooltip {
+    display: flex;
+    gap: 12px;
+    max-width: 380px;
+    left: 0;
+    transform: none;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.92);
+}
+
+.games-grid.minimal-mode .game-tooltip::after {
+    left: 60px;
+}
+
+/* Ensure hovered card is above others */
+.games-grid.minimal-mode .game-card {
+    position: relative;
+    z-index: 1;
+}
+
+.games-grid.minimal-mode .game-card:hover {
+    z-index: 100;
+}
+
 @media (max-width: 768px) {
     .games-grid.minimal-mode .game-card {
         flex-wrap: wrap;
@@ -655,4 +767,83 @@ article.games-container {
     background: #2d8c3c;
     border-color: #2d8c3c;
     color: white;
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] .game-card {
+    background: #2d2d2d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .game-cover {
+    background: #3d3d3d;
+}
+
+[data-theme="dark"] .cover-placeholder {
+    background: linear-gradient(135deg, #3d3d3d 0%, #2d2d2d 100%);
+    color: #666;
+}
+
+[data-theme="dark"] .game-card .game-title,
+[data-theme="dark"] .game-card h3.game-title {
+    color: #f0f0f0 !important;
+}
+
+[data-theme="dark"] .game-meta {
+    color: #aaa;
+}
+
+[data-theme="dark"] .games-stats {
+    color: #aaa;
+}
+
+[data-theme="dark"] .games-stats strong {
+    color: #2d8c3c;
+}
+
+[data-theme="dark"] .games-controls {
+    background: #2d2d2d;
+}
+
+[data-theme="dark"] .games-controls select {
+    background: #3d3d3d;
+    border-color: #444;
+    color: #f0f0f0;
+}
+
+[data-theme="dark"] .view-btn {
+    border-color: #444;
+    background: #333;
+    color: #ccc;
+}
+
+[data-theme="dark"] .view-btn:hover {
+    border-color: #2d8c3c;
+    background: rgba(45, 140, 60, 0.1);
+    color: #2d8c3c;
+}
+
+[data-theme="dark"] .view-btn.active {
+    background: #2d8c3c;
+    border-color: #2d8c3c;
+    color: white;
+}
+
+/* Tooltip Content Layout */
+.tooltip-poster {
+    flex-shrink: 0;
+    width: 80px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tooltip-poster img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.tooltip-content {
+    flex: 1;
+    min-width: 0;
 }

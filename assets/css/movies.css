@@ -134,10 +134,17 @@ article.movies-container {
     max-width: 100%;
 }
 
-/* Limit to max 6 columns on large screens */
-@media (min-width: 1400px) {
+/* Desktop default: 3 columns */
+@media (min-width: 768px) {
     .movies-grid {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Large screens: 4 columns */
+@media (min-width: 1200px) {
+    .movies-grid {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 

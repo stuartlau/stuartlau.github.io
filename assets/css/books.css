@@ -282,15 +282,19 @@ article.books-container {
 }
 
 /* Responsive Design */
-@media (max-width: 1400px) {
+/* Standardize Grid Layout with Games/Movies */
+
+/* Desktop default: 3 columns */
+@media (min-width: 768px) {
     .books-grid {
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media (max-width: 1200px) {
+/* Large screens: max 4 columns */
+@media (min-width: 1200px) {
     .books-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
