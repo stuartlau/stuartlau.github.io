@@ -9,7 +9,7 @@ owner:
   name: Stuart Lau
   avatar: about-SL-sketch.jpg
   bio: Je pense, donc je suis.
-  email: stuart8@126.com
+  # email: stuart8 # Un@126.com comment to display email publicly
   # cv: https://stuartlau.github.io/file/CV-HanlinCAI.pdf
   # Social networking links are used in author-bio sidebar. Update and remove as you like.
   # twitter: yourID
