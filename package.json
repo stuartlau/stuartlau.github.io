@@ -1,5 +1,82 @@
 {
+  "name": "stuartlau.github.io",
+  "version": "1.0.0",
+  "description": "Personal blog powered by Jekyll with Python automation scripts",
+  "scripts": {
+    "test": "pytest",
+    "test:coverage": "pytest --cov=scripts --cov-report=html",
+    "lint:python": "flake8 scripts/ --max-line-length=100 --ignore=E501,W503",
+    "lint:python:strict": "mypy scripts/",
+    "format:python": "black scripts/ && isort scripts/",
+    "audit:python": "pip-audit",
+    "audit:npm": "npm audit",
+    "audit": "npm audit && pip-audit",
+    "build:assets": "npm run build:images && npm run build:svg",
+    "build:images": "imagemin images/**/* --out-dir=images-optimized",
+    "build:svg": "svgo -f images -o images-optimized",
+    "minify:js": "terser assets/js/*.js -o assets/js/*.min.js",
+    "minify:css": "cleancss -o assets/css/*.min.css assets/css/*.css",
+    "lighthouse": "lhci autorun --config=.lighthouserc.json",
+    "markdown:lint": "markdownlint '**/*.md' --ignore node_modules",
+    "markdown:fix": "remark --use remark-lint --output .",
+    "clean": "rimraf node_modules .pytest_cache __pycache__ *.pyc .coverage htmlcov",
+    "clean:all": "rimraf node_modules .pytest_cache __pycache__ *.pyc .coverage htmlcov _site .jekyll-cache _plugins .sass-cache",
+    "commit": "cz",
+    "commit:retry": "git commit --amend --no-edit",
+    "gitleaks": "gitleaks detect --source=. --verbose",
+    "ripgrep": "rg -i 'TODO|FIXME|BUG|HACK' --type py --type js --type md",
+    "install:hooks": "pre-commit install && pre-commit install-hooks"
+  },
   "dependencies": {
     "puppeteer": "^24.34.0"
-  }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
+    "@lhci/cli": "^0.15.1",
+    "clean-css-cli": "^5.6.3",
+    "commitizen": "^4.3.1",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.0.0",
+    "imagemin": "^9.0.1",
+    "imagemin-cli": "^8.0.0",
+    "lighthouse": "^13.0.1",
+    "markdownlint-cli": "^0.47.0",
+    "npm-run-all": "^4.1.5",
+    "remark-cli": "^12.0.1",
+    "rimraf": "^6.1.2",
+    "svgo": "^3.3.2",
+    "terser": "^5.39.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog",
+      "types": {
+        "feat": { "description": "A new feature", "title": "Features" },
+        "fix": { "description": "A bug fix", "title": "Bug Fixes" },
+        "docs": { "description": "Documentation only changes", "title": "Documentation" },
+        "style": { "description": "Changes that do not affect the meaning of the code", "title": "Styles" },
+        "refactor": { "description": "A code change that neither fixes a bug nor adds a feature", "title": "Code Refactoring" },
+        "perf": { "description": "A code change that improves performance", "title": "Performance Improvements" },
+        "test": { "description": "Adding missing tests or correcting existing tests", "title": "Tests" },
+        "chore": { "description": "Changes to the build process or auxiliary tools", "title": "Chores" },
+        "security": { "description": "A security fix", "title": "Security Fixes" },
+        "delete": { "description": "Deletion of files", "title": "Deletions" }
+      }
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.9"
+  },
+  "keywords": [
+    "jekyll",
+    "blog",
+    "python",
+    "pre-commit",
+    "lighthouse",
+    "testing"
+  ],
+  "author": "Stuart Lau",
+  "license": "MIT"
 }
