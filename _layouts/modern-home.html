@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} | {{ site.title }}</title>
+    <link rel="stylesheet" href="{{ site.url }}/assets/css/modern-landing.css">
+    
+    <script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-T5N5JY1E21');
+    </script>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-particles">
+            {% for i in (1..20) %}
+            <div class="particle" style="left: {{ i | times: 5 | plus: 10 }}%; animation-delay: {{ i | times: 0.5 }}s;"></div>
+            {% endfor %}
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-avatar">
+                <img src="{{ site.url }}/images/linkedin_avatar.jpg" alt="Stuart Lau">
+            </div>
+            <h1 class="hero-title">Stuart Lau</h1>
+            <p class="hero-subtitle">Full Stack Engineer & Patent Inventor</p>
+            <p class="hero-description">
+                Former engineer at Amazon, Xiaomi, Kuaishou. Now Backend Lead at Xiaohongshu. 
+                120+ patents. Building scalable systems for 120M+ DAU users.
+            </p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    View Projects
+                </a>
+                <a href="#contact" class="btn-secondary">Contact Me</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <span class="stat-number">200+</span>
+                <span class="stat-label">Movies Watched</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎮</div>
+                <span class="stat-number">25+</span>
+                <span class="stat-label">Games Played</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📖</div>
+                <span class="stat-number">80+</span>
+                <span class="stat-label">Books Read</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💡</div>
+                <span class="stat-number">120+</span>
+                <span class="stat-label">Patents</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✍️</div>
+                <span class="stat-number">200+</span>
+                <span class="stat-label">Articles</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏢</div>
+                <span class="stat-number">5</span>
+                <span class="stat-label">Companies</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience-section">
+        <div class="section-header">
+            <h2 class="section-title">Experience</h2>
+            <p class="section-subtitle">A journey through top tech companies, building systems at scale</p>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-year">2024 - Present</span>
+                    <h3 class="timeline-company">Xiaohongshu (小红书)</h3>
+                    <p class="timeline-role">Backend Lead, Social Interaction R&D</p>
+                    <p class="timeline-description">
+                        Leading backend development for social interaction features supporting 120M+ DAU users across Xiaohongshu APP and RedNote.
+                    </p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-year">2018 - 2024</span>
+                    <h3 class="timeline-company">Kuaishou (快手)</h3>
+                    <p class="timeline-role">Technical Lead, IM Cloud Platform</p>
+                    <p class="timeline-description">
+                        Built IM cloud platform from scratch. Served 30+ business lines with end-to-end IM+RTC capabilities.
+                    </p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-year">2017 - 2018</span>
+                    <h3 class="timeline-company">Amazon</h3>
+                    <p class="timeline-role">Software Engineer, SCOT Team</p>
+                    <p class="timeline-description">
+                        Developed automated warehouse management and pricing strategies for global retail operations.
+                    </p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-year">2014 - 2017</span>
+                    <h3 class="timeline-company">Xiaomi (小米)</h3>
+                    <p class="timeline-role">Senior Developer & Architect</p>
+                    <p class="timeline-description">
+                        Designed server-side architecture for Xiaomi Game Center serving tens of millions of DAU users.
+                    </p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-year">2012 - 2014</span>
+                    <h3 class="timeline-company">ZDNS</h3>
+                    <p class="timeline-role">Core Engineer, Founding Team</p>
+                    <p class="timeline-description">
+                        Developed TLD Cloud platform, ranked 4th globally. Deep involvement in RFC standard protocols.
+                    </p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+        <div class="section-header">
+            <h2 class="section-title">Projects</h2>
+            <p class="section-subtitle">Personal projects and open source contributions</p>
+        </div>
+        
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-icon">🎬</div>
+                <div class="project-content">
+                    <h3 class="project-title">Douban Sync System</h3>
+                    <p class="project-description">
+                        Automated sync system for Douban movies, games, and books. 
+                        Python-based crawler with Jekyll static site generation.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">Jekyll</span>
+                        <span class="project-tag">Automation</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="/movies/all" class="project-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            View Movies
+                        </a>
+                        <a href="/games/all" class="project-link">View Games →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-icon">📝</div>
+                <div class="project-content">
+                    <h3 class="project-title">Personal Blog</h3>
+                    <p class="project-description">
+                        Technical blog with patent documentation, travel journals, 
+                        and engineering case studies. Built with Jekyll.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">Jekyll</span>
+                        <span class="project-tag">Markdown</span>
+                        <span class="project-tag">GitHub Pages</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="/blogs/" class="project-link">Read Articles →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-icon">💼</div>
+                <div class="project-content">
+                    <h3 class="project-title">Patent Portfolio</h3>
+                    <p class="project-description">
+                        120+ granted patents in IM, social networking, video streaming, 
+                        gaming, and distributed systems.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">120+ Patents</span>
+                        <span class="project-tag">China/US/EU/JP</span>
+                        <span class="project-tag">First Inventor</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="/patents/" class="project-link">View Patents →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activity Section -->
+    <section class="activity-section">
+        <div class="section-header">
+            <h2 class="section-title">Recent Activity</h2>
+            <p class="section-subtitle">Latest articles, patents, and content updates</p>
+        </div>
+        
+        <div class="activity-grid">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-icon">📄</div>
+                    <div>
+                        <h3 class="activity-title">Latest Articles</h3>
+                        <p class="activity-subtitle">Technical writing and case studies</p>
+                    </div>
+                </div>
+                <ul class="activity-list">
+                    {% for post in site.categories.articles limit:5 %}
+                    <li class="activity-item">
+                        <span class="activity-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+                        <div class="activity-content">
+                            <a href="{{ site.url }}{{ post.url }}" class="activity-link">{{ post.title }}</a>
+                            <span class="activity-meta">{{ post.categories | first }}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-icon">🎬</div>
+                    <div>
+                        <h3 class="activity-title">Recently Watched</h3>
+                        <p class="activity-subtitle">Movies from my collection</p>
+                    </div>
+                </div>
+                <ul class="activity-list">
+                    {% for movie in site.data.movies limit:5 %}
+                    <li class="activity-item">
+                        <span class="activity-date">{{ movie.watched_date }}</span>
+                        <div class="activity-content">
+                            <span class="activity-link">{{ movie.title }}</span>
+                            <span class="activity-meta">⭐ {{ movie.douban_rating }}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-icon">🎮</div>
+                    <div>
+                        <h3 class="activity-title">Games Collection</h3>
+                        <p class="activity-subtitle">Recently played games</p>
+                    </div>
+                </div>
+                <ul class="activity-list">
+                    {% for game in site.data.games limit:5 %}
+                    <li class="activity-item">
+                        <span class="activity-date">{{ game.release_date | default: "Unknown" }}</span>
+                        <div class="activity-content">
+                            <span class="activity-link">{{ game.title }}</span>
+                            <span class="activity-meta">⭐ {{ game.douban_rating }}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="contact-content">
+            <h2 class="contact-title">Let's Connect</h2>
+            <p class="contact-description">
+                Interested in collaboration, patents, or just want to say hi? 
+                Feel free to reach out through any of these channels.
+            </p>
+            <div class="contact-links">
+                <a href="https://github.com/stuartlau" class="contact-link" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/stuartlau" class="contact-link" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    LinkedIn
+                </a>
+                <a href="mailto:stuart8@126.com" class="contact-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    Email
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <p class="footer-text">
+            © {{ site.time | date: "%Y" }} Stuart Lau. Built with 
+            <a href="https://jekyllrb.com/" class="footer-link">Jekyll</a> + 
+            <a href="https://pages.github.com/" class="footer-link">GitHub Pages</a>
+        </p>
+    </footer>
+
+    <script>
+        // Scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.stat-card, .timeline-content, .project-card, .activity-card').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
