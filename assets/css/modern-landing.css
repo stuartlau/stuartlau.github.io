@@ -604,9 +604,33 @@ body {
 }
 
 .sidebar-btn.active {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0.08) 100%);
-    color: #6366f1;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%);
+    color: #10b981;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+}
+
+.sidebar-btn[data-tab="patents"].active {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0.08) 100%);
+    color: #8b5cf6;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15);
+}
+
+.sidebar-btn[data-tab="blog"].active {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.08) 100%);
+    color: #3b82f6;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+}
+
+.sidebar-btn[data-tab="travel"].active {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(249, 115, 22, 0.08) 100%);
+    color: #f97316;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.15);
+}
+
+.sidebar-btn[data-tab="collections"].active {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(236, 72, 153, 0.08) 100%);
+    color: #ec4899;
+    box-shadow: 0 2px 8px rgba(236, 72, 153, 0.15);
 }
 
 .content-main {
@@ -623,47 +647,34 @@ body {
     display: block;
 }
 
-/* Tab-specific full background colors with artistic patterns - Light Theme */
+/* Tab-specific full background colors - Experience Panel */
 #experience-panel.active {
-    background: 
-        radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 40%),
-        radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.04) 0%, transparent 40%),
-        linear-gradient(180deg, rgba(16, 185, 129, 0.03) 0%, rgba(16, 185, 129, 0.01) 100%);
-    border-left: 3px solid #10b981;
+    background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
+    border-left: 4px solid #10b981;
 }
 
+/* Tab-specific full background colors - Patents Panel */
 #patents-panel.active {
-    background: 
-        radial-gradient(circle at 30% 70%, rgba(139, 92, 246, 0.06) 0%, transparent 45%),
-        radial-gradient(circle at 70% 30%, rgba(139, 92, 246, 0.04) 0%, transparent 45%),
-        linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, rgba(139, 92, 246, 0.01) 100%);
-    border-left: 3px solid #8b5cf6;
+    background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
+    border-left: 4px solid #8b5cf6;
 }
 
+/* Tab-specific full background colors - Blog Panel */
 #blog-panel.active {
-    background: 
-        radial-gradient(ellipse at 40% 60%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 60% 40%, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
-        linear-gradient(180deg, rgba(59, 130, 246, 0.03) 0%, rgba(59, 130, 246, 0.01) 100%);
-    border-left: 3px solid #3b82f6;
+    background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+    border-left: 4px solid #3b82f6;
 }
 
+/* Tab-specific full background colors - Travel Panel */
 #travel-panel.active {
-    background: 
-        radial-gradient(circle at 25% 75%, rgba(249, 115, 22, 0.05) 0%, transparent 35%),
-        radial-gradient(circle at 75% 25%, rgba(249, 115, 22, 0.04) 0%, transparent 35%),
-        radial-gradient(circle at 50% 50%, rgba(249, 115, 22, 0.02) 0%, transparent 50%),
-        linear-gradient(180deg, rgba(249, 115, 22, 0.03) 0%, rgba(249, 115, 22, 0.01) 100%);
-    border-left: 3px solid #f97316;
+    background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+    border-left: 4px solid #f97316;
 }
 
+/* Tab-specific full background colors - Collections Panel */
 #collections-panel.active {
-    background: 
-        radial-gradient(ellipse at center top, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 30% 80%, rgba(236, 72, 153, 0.03) 0%, transparent 40%),
-        radial-gradient(ellipse at 70% 80%, rgba(236, 72, 153, 0.03) 0%, transparent 40%),
-        linear-gradient(180deg, rgba(236, 72, 153, 0.03) 0%, rgba(236, 72, 153, 0.01) 100%);
-    border-left: 3px solid #ec4899;
+    background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
+    border-left: 4px solid #ec4899;
 }
 
 @keyframes fadeIn {
@@ -672,8 +683,8 @@ body {
 }
 
 /* ==========================================
-    STATS ROW (PATENTS) - Light Theme
-    ========================================== */
+     STATS ROW (PATENTS) - Purple Theme
+     ========================================== */
 .stats-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -682,8 +693,8 @@ body {
 }
 
 .stat-card {
-    background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
-    border: 1px solid #e2e8f0;
+    background: linear-gradient(145deg, #f5f3ff 0%, #ede9fe 100%);
+    border: 1px solid #ddd6fe;
     border-radius: 12px;
     padding: 16px;
     text-align: center;
@@ -691,27 +702,76 @@ body {
 }
 
 .stat-card:hover {
-    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-    border-color: #c7d2fe;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+    background: linear-gradient(145deg, #ede9fe 0%, #ddd6fe 100%);
+    border-color: #a78bfa;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
     transform: translateY(-2px);
 }
 
 .stat-value {
     font-size: 1.6rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: #8b5cf6;
     margin-bottom: 4px;
 }
 
 .stat-label {
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: #6b7280;
 }
 
 /* ==========================================
-    TAGS SECTION
-    ========================================== */
+     PATENT LIST
+     ========================================== */
+.patent-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.patent-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.patent-item:hover {
+    background: #f5f3ff;
+    border-color: #a78bfa;
+    transform: translateX(4px);
+}
+
+.patent-title {
+    flex: 1;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #374151;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.patent-country {
+    padding: 3px 8px;
+    background: #ede9fe;
+    color: #8b5cf6;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* ==========================================
+     TAGS SECTION - Purple Theme (Patents Panel)
+     ========================================== */
 .tags-section {
     margin-bottom: 24px;
 }
@@ -724,30 +784,32 @@ body {
 
 .tag {
     padding: 6px 12px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
     border-radius: 16px;
-    color: var(--text-secondary);
+    color: #7c3aed;
     font-size: 0.75rem;
     font-weight: 500;
-    transition: var(--transition-smooth);
+    transition: all 0.2s ease;
+    text-decoration: none;
 }
 
 .tag:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+    background: rgba(139, 92, 246, 0.2);
+    border-color: #8b5cf6;
+    color: #8b5cf6;
 }
 
 /* ==========================================
-    TERMINAL STYLE (Experience) - Light Theme
-    ========================================== */
+     TERMINAL STYLE (Experience) - Green Theme
+     ========================================== */
 .terminal-window {
     background: #ffffff;
     border-radius: 8px;
     overflow: hidden;
     font-family: 'SF Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #a7f3d0;
+    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.1);
 }
 
 .terminal-header {
@@ -755,8 +817,8 @@ body {
     align-items: center;
     gap: 8px;
     padding: 10px 16px;
-    background: #f9fafb;
-    border-bottom: 1px solid #e5e7eb;
+    background: #ecfdf5;
+    border-bottom: 1px solid #a7f3d0;
 }
 
 .terminal-btn {
@@ -829,8 +891,8 @@ body {
 }
 
 /* ==========================================
-    ARTICLE LIST - Light Theme
-    ========================================== */
+     ARTICLE LIST - Blue Theme (Blog Panel)
+     ========================================== */
 .article-list {
     display: flex;
     flex-direction: column;
@@ -853,8 +915,8 @@ body {
 }
 
 .article-item:hover {
-    background: #f9fafb;
-    border-color: #3b82f6;
+    background: #eff6ff;
+    border-color: #93c5fd;
     transform: translateX(4px);
 }
 
@@ -878,8 +940,8 @@ body {
 
 .article-tag {
     padding: 3px 8px;
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--primary-color);
+    background: #dbeafe;
+    color: #3b82f6;
     border-radius: 4px;
     font-size: 0.65rem;
     font-weight: 600;
@@ -887,12 +949,12 @@ body {
 }
 
 /* ==========================================
-    TRAVEL LINES (SVG Connection Map)
-    ========================================== */
+     TRAVEL LINES (SVG Connection Map) - Orange Theme
+     ========================================== */
 .travel-lines-container {
     margin-bottom: 24px;
     padding: 20px;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -930,8 +992,8 @@ body {
 }
 
 /* ==========================================
-    TRAVEL LIST (Simple Links) - Light Theme
-    ========================================== */
+     TRAVEL LIST - Orange Theme
+     ========================================== */
 .travel-list {
     display: flex;
     flex-wrap: wrap;
@@ -951,11 +1013,11 @@ body {
 }
 
 .travel-item:hover {
-    border-color: var(--item-color, #6366f1);
-    color: var(--item-color, #6366f1);
-    background: rgba(var(--item-color, #6366f1), 0.08);
+    border-color: var(--item-color, #f97316);
+    color: var(--item-color, #f97316);
+    background: rgba(var(--item-color, #f97316), 0.08);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(var(--item-color, #6366f1), 0.15);
+    box-shadow: 0 4px 12px rgba(var(--item-color, #f97316), 0.15);
 }
 
 /* ==========================================
@@ -985,14 +1047,14 @@ body {
 }
 
 /* ==========================================
-    COLLECTION SECTION - Icon-based with Colors
-    ========================================== */
+     COLLECTION SECTION - Pink Theme
+     ========================================== */
 .collection-section {
-    margin-bottom: 24px;
-    background: linear-gradient(135deg, rgba(var(--collection-color, #6366f1), 0.08) 0%, rgba(var(--collection-color, #6366f1), 0.02) 100%);
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
     border-radius: 12px;
     padding: 20px;
-    border: 1px solid rgba(var(--collection-color, #6366f1), 0.15);
+    border: 1px solid rgba(236, 72, 153, 0.2);
 }
 
 .collection-icon {
@@ -1002,10 +1064,10 @@ body {
     width: 48px;
     height: 48px;
     margin: 0 auto 16px;
-    background: linear-gradient(135deg, var(--collection-color, #6366f1) 0%, rgba(var(--collection-color, #6366f1), 0.7) 100%);
+    background: linear-gradient(135deg, var(--collection-color, #ec4899) 0%, rgba(var(--collection-color, #ec4899), 0.7) 100%);
     border-radius: 12px;
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(var(--collection-color, #6366f1), 0.3);
+    box-shadow: 0 4px 12px rgba(var(--collection-color, #ec4899), 0.3);
 }
 
 .collection-icon svg {
@@ -1017,15 +1079,15 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    max-height: 400px;
+    max-height: 350px;
     overflow-y: auto;
     padding-right: 8px;
 }
 
 .collection-item {
     padding: 10px 14px;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(var(--collection-color, #6366f1), 0.2);
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(var(--collection-color, #ec4899), 0.2);
     border-radius: 8px;
     color: #374151;
     font-size: 0.85rem;
@@ -1034,48 +1096,52 @@ body {
 }
 
 .collection-item:hover {
-    background: rgba(var(--collection-color, #6366f1), 0.1);
-    border-color: var(--collection-color, #6366f1);
-    color: var(--collection-color, #6366f1);
+    background: rgba(var(--collection-color, #ec4899), 0.1);
+    border-color: var(--collection-color, #ec4899);
+    color: var(--collection-color, #ec4899);
     transform: translateX(4px);
 }
 
 .collection-link {
-    padding: 8px 0;
+    padding: 10px 0;
     color: #9ca3af;
     font-size: 0.8rem;
     text-decoration: none;
     transition: color 0.2s;
+    text-align: center;
+    margin-top: 8px;
 }
 
 .collection-link:hover {
-    color: var(--collection-color, #6366f1);
+    color: var(--collection-color, #ec4899);
 }
 
-.collection-links {
+.collection-links-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #e5e7eb;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(236, 72, 153, 0.2);
 }
 
-.collection-link-item {
-    padding: 8px 16px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
-    border: 1px solid rgba(99, 102, 241, 0.2);
+.collection-link-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, rgba(var(--link-color, #ec4899), 0.15) 0%, rgba(var(--link-color, #ec4899), 0.08) 100%);
+    border: 1px solid rgba(var(--link-color, #ec4899), 0.25);
     border-radius: 20px;
-    color: #6366f1;
+    color: var(--link-color, #ec4899);
     font-size: 0.85rem;
+    font-weight: 500;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
-.collection-link-item:hover {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0.1) 100%);
-    border-color: rgba(99, 102, 241, 0.4);
+.collection-link-btn:hover {
+    background: linear-gradient(135deg, rgba(var(--link-color, #ec4899), 0.25) 0%, rgba(var(--link-color, #ec4899), 0.15) 100%);
+    border-color: rgba(var(--link-color, #ec4899), 0.4);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(var(--link-color, #ec4899), 0.2);
 }
 
 .article-list::-webkit-scrollbar,
@@ -1096,17 +1162,17 @@ body {
 
 .article-list::-webkit-scrollbar-thumb:hover,
 .collection-list::-webkit-scrollbar-thumb:hover {
-    background: #6366f1;
+    background: #d1d5db;
 }
 
 /* ==========================================
-    PANEL LINK - Light Theme
-    ========================================== */
+     PANEL LINK - Bottom Link
+     ========================================== */
 .panel-link {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.8);
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     color: #6b7280;
@@ -1280,7 +1346,7 @@ body {
     }
     
     .hero-avatar img {
-        object-position: center 15%;
+        object-position: center top;
     }
     
     .nav-links {
