@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/VickyCristinaBarcelona/index.html
+permalink:  /blogs/travelling/Europe/Spain/巴塞罗那_Barcelona/index.html
 title:      Vicky Cristina Barcelona
 subtitle:   Vicky Cristina Barcelona
 date:       2017-02-03

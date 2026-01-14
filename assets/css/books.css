@@ -629,3 +629,57 @@ article.books-container {
     flex: 1;
     min-width: 0;
 }
+/* Force Light Theme */
+[data-theme="light"] .books-container,
+.books-container[data-theme="light"] {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+}
+
+[data-theme="light"] .book-card,
+.book-card[data-theme="light"] {
+    background: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
+}
+
+[data-theme="light"] .book-card .book-title,
+.book-card[data-theme="light"] .book-title {
+    color: #333 !important;
+}
+
+[data-theme="light"] .books-header,
+.books-header[data-theme="light"] {
+    color: #333 !important;
+}
+
+[data-theme="light"] .books-title,
+.books-title[data-theme="light"] {
+    color: #333 !important;
+}
+
+[data-theme="light"] .books-stats,
+.books-stats[data-theme="light"] {
+    color: #666 !important;
+}
+
+[data-theme="light"] .book-tooltip,
+.book-tooltip[data-theme="light"] {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #333 !important;
+    border: 1px solid #e0e0e0 !important;
+}
+
+[data-theme="light"] .book-tooltip::after,
+.book-tooltip[data-theme="light"]::after {
+    border-top-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="light"] .mode-link,
+.mode-link[data-theme="light"] {
+    color: #666 !important;
+}
+
+[data-theme="light"] .mode-link.active,
+.mode-link.active[data-theme="light"] {
+    color: #2d8c3c !important;
+}

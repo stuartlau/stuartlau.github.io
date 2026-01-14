@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/HalaMadrid/index.html
+permalink:  /blogs/travelling/Europe/Spain/马德里_Madrid/index.html
 title:      "Hala Madrid"
 subtitle:   "Hala Madrid"
 date:       2016-09-25

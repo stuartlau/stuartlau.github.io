@@ -853,3 +853,58 @@ article.movies-container {
 .dark-mode .mode-divider {
     color: #555;
 }
+/* Force Light Theme */
+[data-theme="light"] .movies-container,
+.movies-container[data-theme="light"] {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+}
+
+[data-theme="light"] .movie-card,
+.movie-card[data-theme="light"] {
+    background: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
+}
+
+[data-theme="light"] .movie-card .movie-title,
+.movie-card[data-theme="light"] .movie-title {
+    color: #333 !important;
+}
+
+[data-theme="light"] .movies-header,
+.movies-header[data-theme="light"] {
+    color: #333 !important;
+}
+
+[data-theme="light"] .movies-title,
+.movies-title[data-theme="light"] {
+    color: #333 !important;
+}
+
+[data-theme="light"] .movies-stats,
+.movies-stats[data-theme="light"] {
+    color: #666 !important;
+}
+
+[data-theme="light"] .movies-empty,
+.movies-empty[data-theme="light"] {
+    color: #666 !important;
+}
+
+[data-theme="light"] .year-nav-link,
+.year-nav-link[data-theme="light"] {
+    background: #f5f5f5 !important;
+    color: #666 !important;
+}
+
+[data-theme="light"] .year-nav-link:hover,
+.year-nav-link[data-theme="light"]:hover {
+    background: #e8f5e9 !important;
+    color: #2d8c3c !important;
+}
+
+[data-theme="light"] .year-nav-link.active,
+.year-nav-link.active[data-theme="light"] {
+    background: #2d8c3c !important;
+    color: white !important;
+}

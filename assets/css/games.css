@@ -847,3 +847,70 @@ article.games-container {
     flex: 1;
     min-width: 0;
 }
+/* Force Light Theme */
+[data-theme="light"] .games-container,
+.games-container[data-theme="light"] {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+}
+
+[data-theme="light"] .game-card,
+.game-card[data-theme="light"] {
+    background: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
+}
+
+[data-theme="light"] .game-card .game-title,
+.game-card[data-theme="light"] .game-title {
+    color: #333 !important;
+}
+
+[data-theme="light"] .games-header,
+.games-header[data-theme="light"] {
+    color: #333 !important;
+}
+
+[data-theme="light"] .games-title,
+.games-title[data-theme="light"] {
+    color: #333 !important;
+}
+
+[data-theme="light"] .games-stats,
+.games-stats[data-theme="light"] {
+    color: #666 !important;
+}
+
+[data-theme="light"] .games-controls,
+.games-controls[data-theme="light"] {
+    background: #f9f9f9 !important;
+}
+
+[data-theme="light"] .games-controls label,
+.games-controls label[data-theme="light"] {
+    color: #555 !important;
+}
+
+[data-theme="light"] .games-controls select,
+.games-controls select[data-theme="light"] {
+    background: white !important;
+    color: #333 !important;
+    border-color: #ddd !important;
+}
+
+[data-theme="light"] .year-nav-link,
+.year-nav-link[data-theme="light"] {
+    background: #f5f5f5 !important;
+    color: #666 !important;
+}
+
+[data-theme="light"] .year-nav-link:hover,
+.year-nav-link[data-theme="light"]:hover {
+    background: #e8f5e9 !important;
+    color: #2d8c3c !important;
+}
+
+[data-theme="light"] .year-nav-link.active,
+.year-nav-link.active[data-theme="light"] {
+    background: #2d8c3c !important;
+    color: white !important;
+}

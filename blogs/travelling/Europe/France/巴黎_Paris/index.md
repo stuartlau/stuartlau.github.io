@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/MidnightinParis/index.html
+permalink:  /blogs/travelling/Europe/France/巴黎_Paris/index.html
 title:      "Midnight in Paris"
 subtitle:   "Midnight in Paris"
 date:       2017-02-06

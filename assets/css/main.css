@@ -1816,22 +1816,41 @@ html {
   height: 36px;
   border-radius: 50%;
   object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.author-avatar:hover {
-  transform: scale(1.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: block;
 }
 
 @media (max-width: 768px) {
   .author-avatar {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: transparent;
-    border: none;
+    object-fit: cover;
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .author-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .post-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+    margin: 8px 0;
+    padding: 0;
+  }
+  
+  .headline-wrap {
+    margin: 10px 15px;
+    padding: 0;
   }
 }
 

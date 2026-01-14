@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/HiAmsterdam/index.html
+permalink:  /blogs/travelling/Europe/Netherlands/阿姆斯特丹_Amsterdam/index.html
 title:      Hi Amsterdam
 subtitle:   Hi Amsterdam
 date:       2019-08-03

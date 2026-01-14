@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/SummerinKohchang/index.html
+permalink:  /blogs/travelling/Asia/Thailand/象岛_KohChang/index.html
 title:      "Summer in Kohchang"
 subtitle:   "Summer in Kohchang"
 date:       2016-07-09

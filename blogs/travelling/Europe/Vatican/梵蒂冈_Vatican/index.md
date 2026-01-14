@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/Vaticano/index.html
+permalink:  /blogs/travelling/Europe/Vatican/梵蒂冈_Vatican/index.html
 title:      "Vaticano"
 subtitle:   "Vaticano"
 date:       2019-06-30

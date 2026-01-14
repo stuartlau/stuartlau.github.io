@@ -82,7 +82,7 @@
                         <span class="terminal-btn red"></span>
                         <span class="terminal-btn yellow"></span>
                         <span class="terminal-btn green"></span>
-                        <span class="terminal-title">experience.sh</span>
+                        <span class="terminal-title">experience.json</span>
                     </div>
                     <div class="terminal-body">
                         <div class="terminal-line">
@@ -235,47 +235,47 @@
             <!-- Blog Panel -->
             <div class="tab-panel" id="blog-panel">
                 <div class="article-list">
-                    <a href="/blogs/tech/2026/2026-01-12-douban-movie-game-book-architecture" class="article-item">
+                    <a href="/blogs/2026-01-12-豆瓣电影-游戏-读书系统架构设计与实现/index.html" class="article-item">
                         <span class="article-date">2026-01-12</span>
                         <h3 class="article-title">豆瓣电影/游戏/读书系统架构设计与实现</h3>
                         <span class="article-tag">Architecture</span>
                     </a>
-                    <a href="/blogs/tech/2026/2026-01-10-douban-feed-integration-architecture" class="article-item">
+                    <a href="/blogs/2026-01-10-豆瓣广播Feed系统架构设计与实现/index.html" class="article-item">
                         <span class="article-date">2026-01-10</span>
                         <h3 class="article-title">豆瓣广播Feed系统架构设计与实现</h3>
                         <span class="article-tag">Feed</span>
                     </a>
-                    <a href="/blogs/tech/2026/2026-01-07-Session_Architecture_At_Scale" class="article-item">
+                    <a href="/blogs/tech/2026/2026-01-07-Session_Architecture_At_Scale/index.html" class="article-item">
                         <span class="article-date">2026-01-07</span>
                         <h3 class="article-title">Session Architecture At Scale (PDF)</h3>
                         <span class="article-tag">IM</span>
                     </a>
-                    <a href="/blogs/tech/2026/2026-01-05-Architecting_Conversation_State_at_Scale" class="article-item">
+                    <a href="/blogs/tech/2026/2026-01-05-Architecting_Conversation_State_at_Scale/index.html" class="article-item">
                         <span class="article-date">2026-01-05</span>
                         <h3 class="article-title">Architecting Conversation State at Scale (PDF)</h3>
                         <span class="article-tag">Distributed</span>
                     </a>
-                    <a href="/blogs/tech/2020/2020-09-04-改变HBase的Rowkey设计和scan脏数据问题" class="article-item">
+                    <a href="/blogs/2020-09-04-改变HBase的Rowkey设计和scan脏数据问题/index.html" class="article-item">
                         <span class="article-date">2020-09-04</span>
                         <h3 class="article-title">改变HBase的Rowkey设计和scan脏数据问题</h3>
                         <span class="article-tag">Database</span>
                     </a>
-                    <a href="/blogs/tech/2020/2020-05-21-ElasticSearch聚合优化实战" class="article-item">
+                    <a href="/blogs/2020-05-21-ElasticSearch聚合优化实战/index.html" class="article-item">
                         <span class="article-date">2020-05-21</span>
                         <h3 class="article-title">ElasticSearch聚合优化实战</h3>
                         <span class="article-tag">Search</span>
                     </a>
-                    <a href="/blogs/tech/2020/2020-08-23-Spring如何解决循环依赖" class="article-item">
+                    <a href="/blogs/2020-08-23-Spring如何解决循环依赖/index.html" class="article-item">
                         <span class="article-date">2020-08-23</span>
                         <h3 class="article-title">Spring如何解决循环依赖</h3>
                         <span class="article-tag">Spring</span>
                     </a>
-                    <a href="/blogs/tech/2020/2020-03-08-如何理解ABA问题" class="article-item">
+                    <a href="/blogs/2020-03-08-如何理解ABA问题/index.html" class="article-item">
                         <span class="article-date">2020-03-08</span>
                         <h3 class="article-title">如何理解ABA问题</h3>
                         <span class="article-tag">Concurrency</span>
                     </a>
-                    <a href="/blogs/tech/2020/2020-06-13-Java内存泄漏总结" class="article-item">
+                    <a href="/blogs/2020-06-13-Java内存泄漏总结/index.html" class="article-item">
                         <span class="article-date">2020-06-13</span>
                         <h3 class="article-title">Java内存泄漏总结</h3>
                         <span class="article-tag">Java</span>
@@ -288,136 +288,192 @@
             <div class="tab-panel" id="travel-panel">
                 <div class="travel-lines-container">
                     <svg viewBox="0 0 900 200" class="travel-lines-svg">
-                        <!-- Connection lines -->
-                        <path d="M50 160 L110 140 L170 100 L240 80 L300 60 L360 90 L420 120 L480 140 L540 100 L600 70 L660 100 L720 130 L780 100 L840 140" 
-                              fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>
+                        <!-- Artistic curved connection lines with different colors -->
+                        <!-- Asia segment - coral color -->
+                        <path d="M50 160 Q80 145 110 140 T170 100 T240 80 T300 60" 
+                              fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                        <!-- Transition to Europe - purple -->
+                        <path d="M300 60 Q340 70 360 90" 
+                              fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                        <!-- Europe segment 1 - blue -->
+                        <path d="M360 90 Q390 105 420 120 T480 140 T540 100 T600 70" 
+                              fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                        <!-- Europe segment 2 - green -->
+                        <path d="M600 70 Q630 85 660 100 T720 130 T780 100 T840 140" 
+                              fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
                         
-                        <!-- City dots and labels -->
+                        <!-- City dots and labels with artistic colors -->
                         <g class="travel-city">
-                            <circle cx="50" cy="160" r="4" fill="#f59e0b"/>
+                            <circle cx="50" cy="160" r="5" fill="#f87171"/>
                             <text x="50" y="178" class="travel-city-label">Tokyo</text>
                             <text x="50" y="190" class="travel-country-label">Japan 2017</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="110" cy="140" r="4" fill="#f59e0b"/>
+                            <circle cx="110" cy="140" r="5" fill="#f87171"/>
                             <text x="110" y="158" class="travel-city-label">Seoul</text>
                             <text x="110" y="170" class="travel-country-label">Korea 2025</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="170" cy="100" r="4" fill="#f59e0b"/>
+                            <circle cx="170" cy="100" r="5" fill="#f87171"/>
                             <text x="170" y="118" class="travel-city-label">Bangkok</text>
                             <text x="170" y="130" class="travel-country-label">Thailand 2016</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="240" cy="80" r="4" fill="#f59e0b"/>
+                            <circle cx="240" cy="80" r="5" fill="#f87171"/>
                             <text x="240" y="98" class="travel-city-label">Hong Kong</text>
                             <text x="240" y="110" class="travel-country-label">China 2013</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="300" cy="60" r="4" fill="#f59e0b"/>
+                            <circle cx="300" cy="60" r="5" fill="#f87171"/>
                             <text x="300" y="78" class="travel-city-label">Taipei</text>
                             <text x="300" y="90" class="travel-country-label">Taiwan 2013</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="360" cy="90" r="4" fill="#f59e0b"/>
+                            <circle cx="360" cy="90" r="5" fill="#a78bfa"/>
                             <text x="360" y="108" class="travel-city-label">Venice</text>
                             <text x="360" y="120" class="travel-country-label">Italy 2019</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="420" cy="120" r="4" fill="#f59e0b"/>
+                            <circle cx="420" cy="120" r="5" fill="#60a5fa"/>
                             <text x="420" y="138" class="travel-city-label">Paris</text>
                             <text x="420" y="150" class="travel-country-label">France 2017</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="480" cy="140" r="4" fill="#f59e0b"/>
+                            <circle cx="480" cy="140" r="5" fill="#60a5fa"/>
                             <text x="480" y="158" class="travel-city-label">Barcelona</text>
                             <text x="480" y="170" class="travel-country-label">Spain 2017</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="540" cy="100" r="4" fill="#f59e0b"/>
+                            <circle cx="540" cy="100" r="5" fill="#60a5fa"/>
                             <text x="540" y="118" class="travel-city-label">Rome</text>
                             <text x="540" y="130" class="travel-country-label">Italy 2016</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="600" cy="70" r="4" fill="#f59e0b"/>
+                            <circle cx="600" cy="70" r="5" fill="#60a5fa"/>
                             <text x="600" y="88" class="travel-city-label">Lisbon</text>
                             <text x="600" y="100" class="travel-country-label">Portugal 2016</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="660" cy="100" r="4" fill="#f59e0b"/>
+                            <circle cx="660" cy="100" r="5" fill="#4ade80"/>
                             <text x="660" y="118" class="travel-city-label">Madrid</text>
                             <text x="660" y="130" class="travel-country-label">Spain 2016</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="720" cy="130" r="4" fill="#f59e0b"/>
+                            <circle cx="720" cy="130" r="5" fill="#4ade80"/>
                             <text x="720" y="148" class="travel-city-label">Amsterdam</text>
                             <text x="720" y="160" class="travel-country-label">Netherlands 2019</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="780" cy="100" r="4" fill="#f59e0b"/>
+                            <circle cx="780" cy="100" r="5" fill="#4ade80"/>
                             <text x="780" y="118" class="travel-city-label">Vienna</text>
                             <text x="780" y="130" class="travel-country-label">Austria 2018</text>
                         </g>
                         <g class="travel-city">
-                            <circle cx="840" cy="140" r="4" fill="#f59e0b"/>
+                            <circle cx="840" cy="140" r="5" fill="#4ade80"/>
                             <text x="840" y="158" class="travel-city-label">Beijing</text>
                             <text x="840" y="170" class="travel-country-label">China 2017</text>
                         </g>
                     </svg>
                 </div>
                 <div class="travel-list">
-                    <a href="/blogs/travelling/Asia/Japan/东京_Tokyo" class="travel-item">Tokyo, Japan 2017</a>
-                    <a href="/blogs/travelling/Asia/SouthKorea/首尔_Seoul" class="travel-item">Seoul, Korea 2025</a>
-                    <a href="/blogs/travelling/Asia/Thailand/曼谷_Bangkok" class="travel-item">Bangkok, Thailand 2016</a>
-                    <a href="/blogs/travelling/Asia/China/香港/香港_HongKong" class="travel-item">Hong Kong, China 2013</a>
-                    <a href="/blogs/travelling/Asia/China/台湾/台北_Taipei" class="travel-item">Taipei, Taiwan 2013</a>
-                    <a href="/blogs/travelling/Europe/Italy/威尼斯_Venice" class="travel-item">Venice, Italy 2019</a>
-                    <a href="/blogs/travelling/Europe/France/巴黎_Paris" class="travel-item">Paris, France 2017</a>
-                    <a href="/blogs/travelling/Europe/Spain/巴塞罗那_Barcelona" class="travel-item">Barcelona, Spain 2017</a>
-                    <a href="/blogs/travelling/Europe/Italy/罗马_Rome" class="travel-item">Rome, Italy 2016</a>
-                    <a href="/blogs/travelling/Europe/Portugal/里斯本_Lisbon" class="travel-item">Lisbon, Portugal 2016</a>
-                    <a href="/blogs/travelling/Europe/Spain/马德里_Madrid" class="travel-item">Madrid, Spain 2016</a>
-                    <a href="/blogs/travelling/Europe/Netherlands/阿姆斯特丹_Amsterdam" class="travel-item">Amsterdam, Netherlands 2019</a>
-                    <a href="/blogs/travelling/Europe/Austria/维也纳_Vienna" class="travel-item">Vienna, Austria 2018</a>
-                    <a href="/blogs/travelling/Asia/China/北京/北京_Beijing" class="travel-item">Beijing, China 2017</a>
+                    <a href="/blogs/travelling/Asia/Japan/东京_Tokyo" class="travel-item" style="--item-color: #f87171;">Tokyo, Japan 2017</a>
+                    <a href="/blogs/travelling/Asia/SouthKorea/首尔_Seoul" class="travel-item" style="--item-color: #f87171;">Seoul, Korea 2025</a>
+                    <a href="/blogs/travelling/Asia/Thailand/曼谷_Bangkok" class="travel-item" style="--item-color: #f87171;">Bangkok, Thailand 2016</a>
+                    <a href="/blogs/travelling/Asia/China/香港/香港_HongKong" class="travel-item" style="--item-color: #f87171;">Hong Kong, China 2013</a>
+                    <a href="/blogs/travelling/Asia/China/台湾/台北_Taipei" class="travel-item" style="--item-color: #f87171;">Taipei, Taiwan 2013</a>
+                    <a href="/blogs/travelling/Europe/Italy/威尼斯_Venice" class="travel-item" style="--item-color: #a78bfa;">Venice, Italy 2019</a>
+                    <a href="/blogs/travelling/Europe/France/巴黎_Paris" class="travel-item" style="--item-color: #60a5fa;">Paris, France 2017</a>
+                    <a href="/blogs/travelling/Europe/Spain/巴塞罗那_Barcelona" class="travel-item" style="--item-color: #60a5fa;">Barcelona, Spain 2017</a>
+                    <a href="/blogs/travelling/Europe/Italy/罗马_Rome" class="travel-item" style="--item-color: #60a5fa;">Rome, Italy 2016</a>
+                    <a href="/blogs/travelling/Europe/Portugal/里斯本_Lisbon" class="travel-item" style="--item-color: #60a5fa;">Lisbon, Portugal 2016</a>
+                    <a href="/blogs/travelling/Europe/Spain/马德里_Madrid" class="travel-item" style="--item-color: #4ade80;">Madrid, Spain 2016</a>
+                    <a href="/blogs/travelling/Europe/Netherlands/阿姆斯特丹_Amsterdam" class="travel-item" style="--item-color: #4ade80;">Amsterdam, Netherlands 2019</a>
+                    <a href="/blogs/travelling/Europe/Austria/维也纳_Vienna" class="travel-item" style="--item-color: #4ade80;">Vienna, Austria 2018</a>
+                    <a href="/blogs/travelling/Asia/China/北京/北京_Beijing" class="travel-item" style="--item-color: #4ade80;">Beijing, China 2017</a>
                 </div>
                 <a href="/life/" class="panel-link">View all travel journals →</a>
             </div>
 
             <!-- Collections Panel -->
             <div class="tab-panel" id="collections-panel">
-                <div class="collection-section">
-                    <h3 class="collection-heading">Movies</h3>
-                    <div class="collection-list">
+                <div class="collection-section" style="--collection-color: #ef4444;">
+                    <div class="collection-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                            <line x1="7" y1="2" x2="7" y2="22"></line>
+                            <line x1="17" y1="2" x2="17" y2="22"></line>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <line x1="2" y1="7" x2="7" y2="7"></line>
+                            <line x1="2" y1="17" x2="7" y2="17"></line>
+                            <line x1="17" y1="17" x2="22" y2="17"></line>
+                            <line x1="17" y1="7" x2="22" y2="7"></line>
+                        </svg>
+                    </div>
+                    <div class="collection-list" id="movies-list">
                         <a href="https://movie.douban.com/subject/2287754/" class="collection-item" target="_blank">龙堂 (1997)</a>
                         <a href="https://movie.douban.com/subject/10463953/" class="collection-item" target="_blank">肖申克的救赎 (1994)</a>
                         <a href="https://movie.douban.com/subject/1291560/" class="collection-item" target="_blank">这个杀手不太冷 (1994)</a>
                         <a href="https://movie.douban.com/subject/3541415/" class="collection-item" target="_blank">盗梦空间 (2010)</a>
                         <a href="https://movie.douban.com/subject/3011235/" class="collection-item" target="_blank">海上钢琴师 (1998)</a>
-                        <a href="/movies/all" class="collection-link">View all movies →</a>
+                        <a href="https://movie.douban.com/subject/10574622/" class="collection-item" target="_blank">三傻大闹宝莱坞 (2009)</a>
+                        <a href="https://movie.douban.com/subject/1291561/" class="collection-item" target="_blank">霸王别姬 (1993)</a>
+                        <a href="https://movie.douban.com/subject/1291549/" class="collection-item" target="_blank">阿甘正传 (1994)</a>
+                        <a href="https://movie.douban.com/subject/1295644/" class="collection-item" target="_blank">盗马贼 (1986)</a>
+                        <a href="https://movie.douban.com/subject/1291584/" class="collection-item" target="_blank">低俗小说 (1994)</a>
                     </div>
                 </div>
-                <div class="collection-section">
-                    <h3 class="collection-heading">Books</h3>
-                    <div class="collection-list">
+                <div class="collection-section" style="--collection-color: #10b981;">
+                    <div class="collection-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="collection-list" id="books-list">
                         <a href="https://book.douban.com/subject/36414284/" class="collection-item" target="_blank">Elon Musk (2023)</a>
                         <a href="https://book.douban.com/subject/10586638/" class="collection-item" target="_blank">史蒂夫·乔布斯传 (2011)</a>
                         <a href="https://book.douban.com/subject/1007144/" class="collection-item" target="_blank">人类简史 (2011)</a>
                         <a href="https://book.douban.com/subject/20493688/" class="collection-item" target="_blank">从零到一 (2014)</a>
                         <a href="https://book.douban.com/subject/26665045/" class="collection-item" target="_blank">原则 (2017)</a>
-                        <a href="/books/" class="collection-link">View all books →</a>
+                        <a href="https://book.douban.com/subject/27035563/" class="collection-item" target="_blank">深度工作 (2016)</a>
+                        <a href="https://book.douban.com/subject/26388933/" class="collection-item" target="_blank">穷爸爸富爸爸 (1997)</a>
+                        <a href="https://book.douban.com/subject/1017147/" class="collection-item" target="_blank">高效能人士的七个习惯 (1989)</a>
+                        <a href="https://book.douban.com/subject/1022502/" class="collection-item" target="_blank">月亮与六便士 (1919)</a>
+                        <a href="https://book.douban.com/subject/1004849/" class="collection-item" target="_blank">动物农场 (1945)</a>
                     </div>
                 </div>
-                <div class="collection-section">
-                    <h3 class="collection-heading">Games</h3>
-                    <div class="collection-list">
+                <div class="collection-section" style="--collection-color: #8b5cf6;">
+                    <div class="collection-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                            <path d="M6 12h.01M10 12h.01M14 12h.01"></path>
+                            <circle cx="8" cy="14" r="1" fill="currentColor"></circle>
+                            <circle cx="12" cy="14" r="1" fill="currentColor"></circle>
+                            <circle cx="16" cy="14" r="1" fill="currentColor"></circle>
+                        </svg>
+                    </div>
+                    <div class="collection-list" id="games-list">
                         <a href="https://www.douban.com/game/34824349/" class="collection-item" target="_blank">健身环大冒险 (2019)</a>
                         <a href="https://www.douban.com/game/10955691/" class="collection-item" target="_blank">三目童子 (1988)</a>
                         <a href="https://www.douban.com/game/10734958/" class="collection-item" target="_blank">超级马里奥兄弟 (1985)</a>
                         <a href="https://www.douban.com/game/10872161/" class="collection-item" target="_blank">魂斗罗 (1988)</a>
                         <a href="https://www.douban.com/game/23071558/" class="collection-item" target="_blank">我的世界 (2011)</a>
-                        <a href="/games/all" class="collection-link">View all games →</a>
+                        <a href="https://www.douban.com/game/35612896/" class="collection-item" target="_blank">赛博朋克2077 (2020)</a>
+                        <a href="https://www.douban.com/game/10553619/" class="collection-item" target="_blank">纪念碑谷 (2014)</a>
+                        <a href="https://www.douban.com/game/27149212/" class="collection-item" target="_blank">只狼 (2019)</a>
+                        <a href="https://www.douban.com/game/26290503/" class="collection-item" target="_blank">荒野大镖客2 (2018)</a>
+                        <a href="https://www.douban.com/game/24833109/" class="collection-item" target="_blank">塞尔达传说 (2017)</a>
                     </div>
+                </div>
+                <div class="collection-links">
+                    <a href="/broadcast/" class="collection-link-item">📻 Broadcast</a>
+                    <a href="/movies/all" class="collection-link-item">🎬 Movies</a>
+                    <a href="/books/" class="collection-link-item">📚 Books</a>
+                    <a href="/games/all" class="collection-link-item">🎮 Games</a>
+                    <a href="/blogs/" class="collection-link-item">✍️ Blogs</a>
+                    <a href="/publications/" class="collection-link-item">📋 Patents</a>
+                    <a href="/life/" class="collection-link-item">🌍 Travel</a>
+                    <a href="/travel-points/" class="collection-link-item">🗺️ Travel Points</a>
                 </div>
             </div>
         </div>
@@ -503,6 +559,42 @@
             document.querySelectorAll('.timeline-content, .stat-card, .article-item, .travel-item, .collection-item').forEach(el => {
                 observer.observe(el);
             });
+        });
+
+        // Random shuffle for collection lists
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function shuffleCollectionList(listId) {
+            const list = document.getElementById(listId);
+            if (!list) return;
+            
+            const items = Array.from(list.querySelectorAll('.collection-item'));
+            const link = list.querySelector('.collection-link');
+            
+            if (items.length > 0 && link) {
+                // Shuffle items
+                const shuffledItems = shuffleArray(items);
+                
+                // Remove all items
+                items.forEach(item => item.remove());
+                
+                // Re-append shuffled items (keep link at end)
+                shuffledItems.forEach(item => list.insertBefore(item, link));
+            }
+        }
+
+        // Shuffle each collection list
+        document.addEventListener('DOMContentLoaded', function() {
+            shuffleCollectionList('movies-list');
+            shuffleCollectionList('books-list');
+            shuffleCollectionList('games-list');
         });
     </script>
 </body>
