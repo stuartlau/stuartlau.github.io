@@ -57,6 +57,10 @@
         <h1 itemprop="headline">{{ page.title }}</h1>
         <h2>{{ page.tagline }}</h2>
         <div class="post-meta">
+          <div class="author-item">
+            <img src="{{ site.url }}/images/{{ site.owner.avatar }}" class="author-avatar" alt="{{ site.owner.name }}" onclick="openAvatarModal()">
+            <span class="author-name">{{ site.owner.name }}</span>
+          </div>
           <div class="meta-item post-date">
             <span class="meta-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -233,6 +237,83 @@
 
   {% include scripts.html %}
   <script src="{{ site.url }}/assets/js/toc.js"></script>
+
+  <div id="avatar-modal" class="avatar-modal" onclick="closeAvatarModal()">
+    <span class="avatar-modal-close">&times;</span>
+    <img class="avatar-modal-content" id="avatar-modal-img" onclick="event.stopPropagation()">
+    <div id="avatar-modal-caption"></div>
+  </div>
+
+  <script>
+    function openAvatarModal() {
+      var modal = document.getElementById('avatar-modal');
+      var modalImg = document.getElementById('avatar-modal-img');
+      var avatarImg = document.querySelector('.author-avatar');
+      modal.style.display = 'flex';
+      modalImg.src = avatarImg.src;
+    }
+
+    function closeAvatarModal() {
+      document.getElementById('avatar-modal').style.display = 'none';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAvatarModal();
+      }
+    });
+  </script>
+
+  <style>
+    .avatar-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .avatar-modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      animation: avatarZoomIn 0.3s ease;
+    }
+
+    @keyframes avatarZoomIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .avatar-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .avatar-modal-close:hover {
+      color: #bbb;
+    }
+  </style>
 
 </body>
 

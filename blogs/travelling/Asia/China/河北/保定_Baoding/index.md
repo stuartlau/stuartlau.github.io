@@ -31,6 +31,7 @@ location: [115.4646, 38.8738]
 <div class="related-travels" style="margin-top:20px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
   <div class="related-title" style="font-weight:bold; margin-bottom:10px; color: #333;">同游此地 (Explore more in this region):</div>
   <ul style="list-style:none; padding:0; margin:0;">
+    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/河北/石家庄_Shijiazhuang/index.html" style="text-decoration: none; color: #2e963d;">石家庄 Shijiazhuang</a></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/河北/唐山_Tangshan/index.html" style="text-decoration: none; color: #2e963d;">唐山 Tangshan</a></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/北京_Beijing/index.html" style="text-decoration: none; color: #2e963d;">北京 Beijing</a></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/天津_Tianjin/index.html" style="text-decoration: none; color: #2e963d;">天津 Tianjin</a></li>
