@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/RomaWasNotBuiltinADay/index.html
+permalink:  /blogs/travelling/Europe/Italy/罗马_Rome/index.html
 title:      "Roma Was Not Built in A Day"
 subtitle:   "Roma Was Not Built in A Day"
 date:       2016-09-27

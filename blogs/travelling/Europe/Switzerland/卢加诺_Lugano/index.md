@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/Lugano/index.html
+permalink:  /blogs/travelling/Europe/Switzerland/卢加诺_Lugano/index.html
 title:      "Lugano"
 subtitle:   "Lugano"
 date:       2016-10-01

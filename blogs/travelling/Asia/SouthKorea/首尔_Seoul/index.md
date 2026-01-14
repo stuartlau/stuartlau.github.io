@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/Seoul/index.html
+permalink:  /blogs/travelling/Asia/SouthKorea/首尔_Seoul/index.html
 title:      "Seoul"
 subtitle:   "Seoul"
 date:       2025-09-15

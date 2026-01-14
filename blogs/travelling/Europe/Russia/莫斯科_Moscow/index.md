@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/Moscow/index.html
+permalink:  /blogs/travelling/Europe/Russia/莫斯科_Moscow/index.html
 title:      "Moscow"
 subtitle:   "Moscow"
 date:       2016-09-24

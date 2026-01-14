@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/Tokyo/index.html
+permalink:  /blogs/travelling/Asia/Japan/东京_Tokyo/index.html
 title:      "Tokyo"
 subtitle:   "Tokyo"
 date:       2017-07-28

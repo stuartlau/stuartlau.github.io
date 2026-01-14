@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/Venice/index.html
+permalink:  /blogs/travelling/Europe/Italy/威尼斯_Venice/index.html
 title:      "Venice"
 subtitle:   "Venice"
 date:       2019-07-03

@@ -1,6 +1,6 @@
 ---
 layout:     post
-permalink:  /blogs/Bangkok/index.html
+permalink:  /blogs/travelling/Asia/Thailand/曼谷_Bangkok/index.html
 title:      "Bangkok"
 subtitle:   "Bangkok"
 date:       2016-07-13
