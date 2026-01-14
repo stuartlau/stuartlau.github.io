@@ -651,30 +651,40 @@ body {
 #experience-panel.active {
     background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
     border-left: 4px solid #10b981;
+    padding: 24px;
+    border-radius: 0 12px 12px 0;
 }
 
 /* Tab-specific full background colors - Patents Panel */
 #patents-panel.active {
     background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
     border-left: 4px solid #8b5cf6;
+    padding: 24px;
+    border-radius: 0 12px 12px 0;
 }
 
 /* Tab-specific full background colors - Blog Panel */
 #blog-panel.active {
     background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
     border-left: 4px solid #3b82f6;
+    padding: 24px;
+    border-radius: 0 12px 12px 0;
 }
 
 /* Tab-specific full background colors - Travel Panel */
 #travel-panel.active {
     background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
     border-left: 4px solid #f97316;
+    padding: 24px;
+    border-radius: 0 12px 12px 0;
 }
 
 /* Tab-specific full background colors - Collections Panel */
 #collections-panel.active {
     background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
     border-left: 4px solid #ec4899;
+    padding: 24px;
+    border-radius: 0 12px 12px 0;
 }
 
 @keyframes fadeIn {
@@ -1171,21 +1181,21 @@ body {
 .panel-link {
     display: inline-block;
     margin-top: 20px;
-    padding: 10px 20px;
+    padding: 8px 16px;
     background: rgba(255, 255, 255, 0.8);
     border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    border-radius: 6px;
     color: #6b7280;
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
     transition: all 0.3s ease;
 }
 
 .panel-link:hover {
     border-color: #6366f1;
-    color: #6366f1;
-    background: rgba(99, 102, 241, 0.05);
+    color: #6366f6;
+    background: rgba(99, 102, 241, 0.08);
 }
 
 /* ==========================================
@@ -1279,8 +1289,8 @@ body {
 }
 
 /* ==========================================
-   FOOTER
-   ========================================== */
+    FOOTER
+    ========================================== */
 .footer-section {
     padding: 40px 20px;
     text-align: center;
@@ -1291,8 +1301,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .footer-divider {
@@ -1302,10 +1313,10 @@ body {
 .footer-link {
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
     transition: var(--transition-smooth);
 }
 
@@ -1316,7 +1327,7 @@ body {
 
 .footer-text {
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .footer-link {
@@ -1346,7 +1357,7 @@ body {
     }
     
     .hero-avatar img {
-        object-position: center top;
+        object-position: center 30%;
     }
     
     .nav-links {
