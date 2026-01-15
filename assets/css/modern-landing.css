@@ -960,17 +960,17 @@ body {
 }
 
 /* ==========================================
-     TRAVEL LINES (SVG Connection Map) - Orange Theme
+     TRAVEL MAP SECTION - Larger & Clearer
      ========================================== */
-.travel-lines-container {
+.travel-map-section {
     margin-bottom: 24px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 8px;
-    overflow: hidden;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 100%);
+    border-radius: 12px;
+    border: 1px solid #f3f4f6;
 }
 
-.travel-lines-svg {
+.travel-map-svg {
     width: 100%;
     height: auto;
     display: block;
@@ -983,78 +983,113 @@ body {
     text-anchor: middle;
 }
 
-.travel-country-label {
+.travel-year-label {
     font-size: 9px;
     fill: #9ca3af;
     text-anchor: middle;
 }
 
 .travel-city circle {
-    transition: r 0.2s ease;
+    transition: r 0.2s ease, fill 0.2s ease;
 }
 
 .travel-city:hover circle {
-    r: 7;
-    fill: #6366f1;
+    r: 8;
+    fill: #f97316;
 }
 
 .travel-city:hover .travel-city-label {
-    fill: #6366f1;
+    fill: #f97316;
+    font-weight: 700;
 }
 
 /* ==========================================
-     TRAVEL LIST - Orange Theme
+     TRAVEL REGIONS - Grouped by Continent
      ========================================== */
-.travel-list {
+.travel-regions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 24px;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
 }
 
-.travel-item {
-    padding: 8px 14px;
+.travel-region {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.travel-region-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 80px;
+}
+
+.region-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.region-dot.asia {
+    background: #f87171;
+}
+
+.region-dot.europe {
+    background: #4ade80;
+}
+
+.region-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.travel-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 1;
+}
+
+.travel-tag {
+    padding: 4px 10px;
     background: #ffffff;
     border: 1px solid #e5e7eb;
-    border-radius: 20px;
+    border-radius: 16px;
     color: #6b7280;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
-.travel-item:hover {
-    border-color: var(--item-color, #f97316);
-    color: var(--item-color, #f97316);
-    background: rgba(var(--item-color, #f97316), 0.08);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(var(--item-color, #f97316), 0.15);
+.travel-tag:hover {
+    transform: translateY(-1px);
 }
 
-/* ==========================================
-    COLLECTION SECTION
-    ========================================== */
-.travel-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 24px;
+.travel-tag.asia {
+    border-color: #fecaca;
+    color: #dc2626;
+    background: #fef2f2;
 }
 
-.travel-item {
-    padding: 8px 14px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    text-decoration: none;
-    transition: var(--transition-smooth);
+.travel-tag.asia:hover {
+    border-color: #f87171;
+    background: #fee2e2;
 }
 
-.travel-item:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+.travel-tag.europe {
+    border-color: #bbf7d0;
+    color: #16a34a;
+    background: #f0fdf4;
+}
+
+.travel-tag.europe:hover {
+    border-color: #4ade80;
+    background: #dcfce7;
 }
 
 /* ==========================================
