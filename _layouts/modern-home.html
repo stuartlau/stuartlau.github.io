@@ -219,7 +219,7 @@
                     {%- for patent in shuffled_patents limit: 8 -%}
                     <a href="{{ patent.url }}" class="patent-item">
                         <span class="patent-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</span>
-                        <span class="patent-country">{{ patent.title | split: "-" | last | slice: 0, 2 }}</span>
+                        <span class="patent-country">{{ patent.title | split: "-" | at: 1 }}</span>
                     </a>
                     {%- endfor -%}
                 </div>
