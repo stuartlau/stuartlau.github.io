@@ -215,10 +215,9 @@
                 </div>
                 <div class="patent-list" id="patent-list">
                     {%- assign patent_posts = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/'" | where_exp: "p", "p.title contains '授权专利'" -%}
-                    {%- assign shuffled_patents = patent_posts | shuffle -%}
-                    {%- for patent in shuffled_patents limit: 8 -%}
-                    {%- assign title_clean = patent.title | remove: "授权专利-" | remove: "Granted Patent-" -%}
-                    <a href="{{ patent.url }}" class="patent-item">
+                    {%- for patent in patent_posts limit: 20 -%}
+                    <a href="{{ patent.url }}" class="patent-item" style="display: none;">
+                        {%- assign title_clean = patent.title | remove: "授权专利-" | remove: "Granted Patent-" -%}
                         <span class="patent-title">{{ title_clean | split: "-" | last }}</span>
                         <span class="patent-tags">
                             {%- assign display_tags = "" -%}
@@ -615,11 +614,29 @@
             }
         }
 
+        function shufflePatentList() {
+            const list = document.getElementById('patent-list');
+            if (!list) return;
+            
+            const items = Array.from(list.querySelectorAll('.patent-item'));
+            
+            if (items.length > 0) {
+                // Shuffle items
+                const shuffledItems = shuffleArray(items);
+                
+                // Show only first 8
+                shuffledItems.forEach((item, index) => {
+                    item.style.display = index < 8 ? 'flex' : 'none';
+                });
+            }
+        }
+
         // Shuffle each collection list
         document.addEventListener('DOMContentLoaded', function() {
             shuffleCollectionList('movies-list');
             shuffleCollectionList('books-list');
             shuffleCollectionList('games-list');
+            shufflePatentList();
         });
     </script>
 </body>
