@@ -196,22 +196,22 @@
             <!-- Patents Panel -->
             <div class="tab-panel" id="patents-panel">
                 <div class="stats-row">
-                    <div class="stat-card">
+                    <a href="/publications/#china" class="stat-card">
                         <div class="stat-value">120+</div>
                         <div class="stat-label">Total</div>
-                    </div>
-                    <div class="stat-card">
+                    </a>
+                    <a href="/publications/#china" class="stat-card">
                         <div class="stat-value">100+</div>
                         <div class="stat-label">China</div>
-                    </div>
-                    <div class="stat-card">
+                    </a>
+                    <a href="/publications/#us" class="stat-card">
                         <div class="stat-value">15+</div>
                         <div class="stat-label">US</div>
-                    </div>
-                    <div class="stat-card">
+                    </a>
+                    <a href="/publications/#europe" class="stat-card">
                         <div class="stat-value">5+</div>
                         <div class="stat-label">EU/JP</div>
-                    </div>
+                    </a>
                 </div>
                 <div class="patent-list" id="patent-list">
                     {%- assign patent_posts = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/'" | where_exp: "p", "p.tags contains 'Patent'" -%}
