@@ -769,14 +769,15 @@ body {
     text-overflow: ellipsis;
 }
 
-.patent-country {
+.patent-tags {
     padding: 3px 8px;
     background: #ede9fe;
     color: #8b5cf6;
     border-radius: 4px;
     font-size: 0.65rem;
-    font-weight: 600;
+    font-weight: 500;
     flex-shrink: 0;
+    white-space: nowrap;
 }
 
 /* ==========================================

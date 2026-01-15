@@ -214,12 +214,21 @@
                     </a>
                 </div>
                 <div class="patent-list" id="patent-list">
-                    {%- assign patent_posts = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/'" | where_exp: "p", "p.tags contains 'Patent'" -%}
+                    {%- assign patent_posts = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/'" | where_exp: "p", "p.tags contains 'Patent'" | where_exp: "p", "p.title contains '授权专利'" -%}
                     {%- assign shuffled_patents = patent_posts | shuffle -%}
                     {%- for patent in shuffled_patents limit: 8 -%}
+                    {%- assign title_clean = patent.title | remove: "授权专利-" | remove: "Granted Patent-" -%}
                     <a href="{{ patent.url }}" class="patent-item">
-                        <span class="patent-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</span>
-                        <span class="patent-country">{{ patent.title | split: "-" | at: 1 }}</span>
+                        <span class="patent-title">{{ title_clean | split: "-" | last }}</span>
+                        <span class="patent-tags">
+                            {%- assign display_tags = "" -%}
+                            {%- for tag in patent.tags -%}
+                            {%- if tag != "Patent" and tag != "China" and tag != "US" and tag != "Japan" -%}
+                            {%- assign display_tags = display_tags | append: tag | append: " " -%}
+                            {%- endif -%}
+                            {%- endfor -%}
+                            {{ display_tags | truncatewords: 2, "" }}
+                        </span>
                     </a>
                     {%- endfor -%}
                 </div>
