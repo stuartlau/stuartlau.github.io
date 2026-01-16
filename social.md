@@ -66,316 +66,138 @@ layout: default
         </div>
     </div>
 
-    <!-- Tab Navigation -->
-    <div class="social-tabs">
-        <button class="social-tab active" data-tab="posts">
-            <span class="tab-label">Posts</span>
-            <span class="tab-highlight"></span>
-        </button>
-        <button class="social-tab" data-tab="replies">
-            <span class="tab-label">Replies</span>
-            <span class="tab-highlight"></span>
-        </button>
-        <button class="social-tab" data-tab="media">
-            <span class="tab-label">Media</span>
-            <span class="tab-highlight"></span>
-        </button>
-        <button class="social-tab" data-tab="likes">
-            <span class="tab-label">Likes</span>
-            <span class="tab-highlight"></span>
-        </button>
-    </div>
-
-    <!-- Tab Content -->
-    <div class="social-content">
-        <!-- Posts Tab -->
-        <div class="social-panel active" id="posts-panel">
-            <!-- Featured Post (Patent Highlight) -->
-            <div class="social-pinned">
-                <div class="pinned-badge">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                        <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
-                    </svg>
-                    Pinned Patent
-                </div>
-                <div class="pinned-content">
-                    <div class="pinned-header">
-                        <img src="{{ site.url }}/images/linkedin_avatar.jpg" class="pinned-avatar" alt="Stuart">
-                        <div class="pinned-user-info">
-                            <span class="pinned-name">Stuart Lau</span>
-                            <span class="pinned-handle">@stuartlau</span>
-                            <span class="pinned-time">· Jan 15, 2026</span>
-                        </div>
-                    </div>
-                    <div class="pinned-text">
-                        Just received grant for my latest patent on distributed session management. This is one of 120+ patents I've filed across IM, video streaming, and distributed systems.
-                    </div>
-                    <div class="pinned-tags">
-                        <a href="/publications/#distributed" class="pinned-tag">#DistributedSystems</a>
-                        <a href="/publications/#im" class="pinned-tag">#IM</a>
-                        <a href="/publications/#patent" class="pinned-tag">#Patent</a>
-                    </div>
-                    <div class="pinned-stats">
-                        <span class="pinned-stat">
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                            </svg>
-                            42
-                        </span>
-                        <span class="pinned-stat">
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
-                            </svg>
-                            12
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Posts Feed -->
-            <div class="social-feed">
-                <!-- Blog Post 1 -->
-                <div class="social-post">
-                    <img src="{{ site.url }}/images/linkedin_avatar.jpg" class="post-avatar" alt="Stuart">
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-name">Stuart Lau</span>
-                            <span class="post-handle">@stuartlau</span>
-                            <span class="post-time">· Jan 12, 2026</span>
-                        </div>
-                        <div class="post-text">
-                            Exploring Claude Code and Windsurf for AI-assisted development. The productivity boost is real! Working on some exciting patent applications for conversation state management at scale.
-                        </div>
-                        <div class="post-tags">
-                            <a href="/blogs/tech/2026/2026-01-12-douban-movie-game-book-architecture" class="post-tag">#AIDev</a>
-                            <a href="/publications/#architecture" class="post-tag">#Architecture</a>
-                        </div>
-                        <div class="post-actions">
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/>
-                                </svg>
-                                <span>2</span>
-                            </button>
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
-                                </svg>
-                                <span>5</span>
-                            </button>
-                            <button class="post-action like">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                </svg>
-                                <span>28</span>
-                            </button>
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog Post 2 -->
-                <div class="social-post">
-                    <img src="{{ site.url }}/images/linkedin_avatar.jpg" class="post-avatar" alt="Stuart">
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-name">Stuart Lau</span>
-                            <span class="post-handle">@stuartlau</span>
-                            <span class="post-time">· Jan 10, 2026</span>
-                        </div>
-                        <div class="post-text">
-                            Great insights from "Designing Data-Intensive Applications". Highly recommend this book for anyone building distributed systems. Now reading the Chinese translation and taking notes.
-                        </div>
-                        <div class="post-book-ref">
-                            <div class="book-cover" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
-                                    <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
-                                </svg>
-                            </div>
-                            <div class="book-info">
-                                <span class="book-title">Designing Data-Intensive Applications</span>
-                                <span class="book-author">Martin Kleppmann</span>
-                            </div>
-                        </div>
-                        <div class="post-actions">
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/>
-                                </svg>
-                                <span>1</span>
-                            </button>
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
-                                </svg>
-                                <span>3</span>
-                            </button>
-                            <button class="post-action like">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                </svg>
-                                <span>15</span>
-                            </button>
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog Post 3 -->
-                <div class="social-post">
-                    <img src="{{ site.url }}/images/linkedin_avatar.jpg" class="post-avatar" alt="Stuart">
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-name">Stuart Lau</span>
-                            <span class="post-handle">@stuartlau</span>
-                            <span class="post-time">· Jan 5, 2026</span>
-                        </div>
-                        <div class="post-text">
-                            New blog post: "Architecting Conversation State at Scale" - Lessons learned from handling millions of concurrent IM sessions.
-                        </div>
-                        <a href="/blogs/tech/2026/2026-01-05-Architecting_Conversation_State_at_Scale" class="post-link">
-                            <div class="post-link-content">
-                                <span class="post-link-title">Architecting Conversation State at Scale</span>
-                                <span class="post-link-desc">How to design distributed systems for real-time messaging with billions of daily messages...</span>
-                            </div>
-                        </a>
-                        <div class="post-actions">
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/>
-                                </svg>
-                                <span>3</span>
-                            </button>
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
-                                </svg>
-                                <span>8</span>
-                            </button>
-                            <button class="post-action like">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                </svg>
-                                <span>52</span>
-                            </button>
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Travel Post -->
-                <div class="social-post">
-                    <img src="{{ site.url }}/images/linkedin_avatar.jpg" class="post-avatar" alt="Stuart">
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-name">Stuart Lau</span>
-                            <span class="post-handle">@stuartlau</span>
-                            <span class="post-time">· Dec 2025</span>
-                        </div>
-                        <div class="post-text">
-                            Seoul trip with family! Amazing food, friendly people, and great memories. Can't wait to explore more of Asia next year.
-                        </div>
-                        <div class="post-images">
-                            <div class="post-image" style="background: linear-gradient(135deg, #ff6b6b 0%, #ffa502 100%);">
-                                <svg viewBox="0 0 24 24" width="48" height="48" fill="white" opacity="0.9">
-                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                                </svg>
-                            </div>
-                            <div class="post-image" style="background: linear-gradient(135deg, #5352ed 0%, #70a1ff 100%);">
-                                <svg viewBox="0 0 24 24" width="48" height="48" fill="white" opacity="0.9">
-                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="post-tags">
-                            <a href="/blogs/travelling/Asia/SouthKorea/首尔_Seoul" class="post-tag">#Seoul</a>
-                            <a href="/life/" class="post-tag">#Travel</a>
-                        </div>
-                        <div class="post-actions">
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/>
-                                </svg>
-                                <span>5</span>
-                            </button>
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
-                                </svg>
-                                <span>12</span>
-                            </button>
-                            <button class="post-action like">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                </svg>
-                                <span>89</span>
-                            </button>
-                            <button class="post-action">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Left Column Navigation (Twitter-style) -->
+    <div class="social-columns">
+        <!-- Left Navigation Tabs -->
+        <div class="social-nav">
+            <a href="#blocks" class="nav-item active" data-tab="blocks">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                </svg>
+                <span>Blocks</span>
+            </a>
+            <a href="#posts" class="nav-item" data-tab="posts">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                <span>Posts</span>
+            </a>
+            <a href="#patterns" class="nav-item" data-tab="patterns">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span>Patterns</span>
+            </a>
+            <a href="#books" class="nav-item" data-tab="books">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
+                </svg>
+                <span>Books</span>
+            </a>
+            <a href="#games" class="nav-item" data-tab="games">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                </svg>
+                <span>Games</span>
+            </a>
+            <a href="#travel" class="nav-item" data-tab="travel">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                </svg>
+                <span>Travel</span>
+            </a>
         </div>
 
-        <!-- Replies Tab -->
-        <div class="social-panel" id="replies-panel">
-            <div class="social-panel-empty">
-                <p class="empty-title">No replies yet</p>
-                <p class="empty-desc">When you reply to posts, they'll show up here.</p>
+        <!-- Content Column -->
+        <div class="social-content">
+            <!-- Blocks Tab -->
+            <div class="content-panel active" id="blocks-panel">
+                <h2 class="panel-title">Blocks</h2>
+                <div class="content-list">
+                    {% assign posts = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/tech'" | sort: "date" | reverse %}
+                    {% for post in posts limit: 20 %}
+                    <a href="{{ post.url }}" class="content-item">
+                        <span class="item-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+                        <span class="item-title">{{ post.title }}</span>
+                    </a>
+                    {% endfor %}
+                    <a href="/blogs/tech/" class="view-all-link">View all posts →</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Media Tab -->
-        <div class="social-panel" id="media-panel">
-            <div class="social-media-grid">
-                <a href="/movies/all.html" class="media-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
-                        <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
-                    </svg>
-                    <span>Movies</span>
-                </a>
-                <a href="/books/" class="media-item" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
-                    <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
-                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
-                    </svg>
-                    <span>Books</span>
-                </a>
-                <a href="/games/all.html" class="media-item" style="background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);">
-                    <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
-                        <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-                    </svg>
-                    <span>Games</span>
-                </a>
-                <a href="/blogs/travelling/" class="media-item" style="background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);">
-                    <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                    </svg>
-                    <span>Travel</span>
-                </a>
+            <!-- Posts Tab -->
+            <div class="content-panel" id="posts-panel">
+                <h2 class="panel-title">Posts</h2>
+                <div class="content-list">
+                    {% assign posts = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/'" | sort: "date" | reverse %}
+                    {% for post in posts limit: 30 %}
+                    <a href="{{ post.url }}" class="content-item">
+                        <span class="item-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+                        <span class="item-title">{{ post.title }}</span>
+                    </a>
+                    {% endfor %}
+                    <a href="/blogs/" class="view-all-link">View all posts →</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Likes Tab -->
-        <div class="social-panel" id="likes-panel">
-            <div class="social-panel-empty">
-                <p class="empty-title">No likes yet</p>
-                <p class="empty-desc">When you like posts, they'll show up here.</p>
+            <!-- Patterns Tab (Patents) -->
+            <div class="content-panel" id="patterns-panel">
+                <h2 class="panel-title">Patterns</h2>
+                <div class="content-list">
+                    {% assign patents = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/patent'" | sort: "date" | reverse %}
+                    {% for patent in patents limit: 40 %}
+                    <a href="{{ patent.url }}" class="content-item">
+                        <span class="item-date">{{ patent.date | date: "%Y-%m-%d" }}</span>
+                        <span class="item-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" }}</span>
+                    </a>
+                    {% endfor %}
+                    <a href="/publications/" class="view-all-link">View all patents →</a>
+                </div>
+            </div>
+
+            <!-- Books Tab -->
+            <div class="content-panel" id="books-panel">
+                <h2 class="panel-title">Books</h2>
+                <div class="content-list">
+                    {% assign books = site.data.books.all | sort: "date_read" | reverse %}
+                    {% for book in books limit: 30 %}
+                    <a href="https://book.douban.com/subject/{{ book.id }}/" target="_blank" class="content-item">
+                        <span class="item-date">{{ book.date_read | slice: 0, 10 }}</span>
+                        <span class="item-title">{{ book.title }} - {{ book.author }}</span>
+                    </a>
+                    {% endfor %}
+                    <a href="/books/" class="view-all-link">View all books →</a>
+                </div>
+            </div>
+
+            <!-- Games Tab -->
+            <div class="content-panel" id="games-panel">
+                <h2 class="panel-title">Games</h2>
+                <div class="content-list">
+                    {% assign games = site.data.games.all | sort: "date" | reverse %}
+                    {% for game in games limit: 30 %}
+                    <a href="https://www.douban.com/game/{{ game.id }}/" target="_blank" class="content-item">
+                        <span class="item-date">{{ game.date | slice: 0, 10 }}</span>
+                        <span class="item-title">{{ game.title }} - {{ game.platform }}</span>
+                    </a>
+                    {% endfor %}
+                    <a href="/games/all" class="view-all-link">View all games →</a>
+                </div>
+            </div>
+
+            <!-- Travel Tab -->
+            <div class="content-panel" id="travel-panel">
+                <h2 class="panel-title">Travel</h2>
+                <div class="content-list">
+                    {% assign travels = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/travelling'" | sort: "date" | reverse %}
+                    {% for travel in travels limit: 30 %}
+                    <a href="{{ travel.url }}" class="content-item">
+                        <span class="item-date">{{ travel.date | date: "%Y-%m-%d" }}</span>
+                        <span class="item-title">{{ travel.title }}</span>
+                    </a>
+                    {% endfor %}
+                    <a href="/life/" class="view-all-link">View all travel journals →</a>
+                </div>
             </div>
         </div>
     </div>
@@ -384,7 +206,7 @@ layout: default
 <style>
 /* Social Profile Container */
 .social-profile-container {
-    max-width: 600px;
+    max-width: 1200px;
     margin: 0 auto;
     background: #fff;
     min-height: 100vh;
@@ -552,397 +374,169 @@ layout: default
     font-size: 14px;
 }
 
-/* Tab Navigation */
-.social-tabs {
+/* Two Column Layout */
+.social-columns {
     display: flex;
-    border-bottom: 1px solid #eff3f4;
-    margin-top: 8px;
+    border-top: 1px solid #eff3f4;
 }
 
-.social-tab {
-    flex: 1;
-    padding: 16px 0;
-    background: none;
-    border: none;
-    position: relative;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.social-tab:hover {
-    background: #f7f9f9;
-}
-
-.social-tab.active .tab-label {
-    font-weight: 600;
-}
-
-.social-tab.active .tab-highlight {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 56px;
-    height: 4px;
-    background: #1d9bf0;
-    border-radius: 2px;
-}
-
-.tab-label {
-    color: #536471;
-    font-size: 15px;
-}
-
-/* Tab Content */
-.social-content {
-    padding-bottom: 60px;
-}
-
-.social-panel {
-    display: none;
-}
-
-.social-panel.active {
-    display: block;
-}
-
-/* Pinned Post */
-.social-pinned {
-    padding: 12px 16px;
-    border-bottom: 1px solid #eff3f4;
-}
-
-.pinned-badge {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #536471;
-    font-size: 13px;
-    margin-bottom: 8px;
-}
-
-.pinned-content {
-    padding-left: 48px;
-}
-
-.pinned-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
-}
-
-.pinned-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.pinned-user-info {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2px;
-}
-
-.pinned-name {
-    font-weight: 600;
-    color: #0f1419;
-    font-size: 14px;
-}
-
-.pinned-handle {
-    color: #536471;
-    font-size: 14px;
-}
-
-.pinned-time {
-    color: #536471;
-    font-size: 14px;
-}
-
-.pinned-text {
-    color: #0f1419;
-    font-size: 15px;
-    line-height: 1.4;
-    margin-bottom: 12px;
-}
-
-.pinned-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.pinned-tag {
-    color: #1d9bf0;
-    font-size: 14px;
-    text-decoration: none;
-}
-
-.pinned-tag:hover {
-    text-decoration: underline;
-}
-
-.pinned-stats {
-    display: flex;
-    gap: 24px;
-}
-
-.pinned-stat {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #536471;
-    font-size: 14px;
-}
-
-/* Social Feed */
-.social-feed {
-    padding-bottom: 60px;
-}
-
-.social-post {
-    display: flex;
-    padding: 12px 16px;
-    border-bottom: 1px solid #eff3f4;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.social-post:hover {
-    background: #f7f9f9;
-}
-
-.post-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
+/* Left Navigation */
+.social-nav {
+    width: 200px;
     flex-shrink: 0;
+    padding: 12px 0;
+    border-right: 1px solid #eff3f4;
+    position: sticky;
+    top: 0;
+    height: fit-content;
 }
 
-.post-content {
-    flex: 1;
-    min-width: 0;
-    margin-left: 12px;
-}
-
-.post-header {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2px;
-    margin-bottom: 4px;
-}
-
-.post-name {
-    font-weight: 600;
-    color: #0f1419;
-    font-size: 15px;
-}
-
-.post-handle {
-    color: #536471;
-    font-size: 15px;
-}
-
-.post-time {
-    color: #536471;
-    font-size: 15px;
-}
-
-.post-text {
-    color: #0f1419;
-    font-size: 15px;
-    line-height: 1.4;
-    margin-bottom: 12px;
-}
-
-.post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.post-tag {
-    color: #1d9bf0;
-    font-size: 14px;
-    text-decoration: none;
-}
-
-.post-tag:hover {
-    text-decoration: underline;
-}
-
-.post-book-ref {
+.nav-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px;
-    background: #f7f9f9;
-    border-radius: 12px;
-    margin-bottom: 12px;
+    padding: 12px 16px;
+    color: #536471;
     text-decoration: none;
-}
-
-.book-cover {
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.book-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.book-title {
-    font-weight: 600;
-    color: #0f1419;
-    font-size: 14px;
-}
-
-.book-author {
-    color: #536471;
-    font-size: 13px;
-}
-
-.post-link {
-    display: block;
-    text-decoration: none;
-    margin-bottom: 12px;
-}
-
-.post-link-content {
-    padding: 12px;
-    background: #f7f9f9;
-    border-radius: 12px;
-    border: 1px solid #eff3f4;
-}
-
-.post-link-title {
-    display: block;
-    font-weight: 600;
-    color: #0f1419;
-    font-size: 14px;
-    margin-bottom: 4px;
-}
-
-.post-link-desc {
-    color: #536471;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.post-images {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-bottom: 12px;
-}
-
-.post-image {
-    aspect-ratio: 1;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.post-image:hover {
-    transform: scale(1.02);
-}
-
-.post-actions {
-    display: flex;
-    justify-content: space-between;
-    max-width: 425px;
-}
-
-.post-action {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: none;
-    border: none;
-    color: #536471;
-    font-size: 13px;
-    padding: 8px;
-    margin: -8px;
-    border-radius: 50px;
-    cursor: pointer;
+    border-radius: 24px;
+    font-size: 15px;
+    font-weight: 400;
     transition: all 0.2s;
 }
 
-.post-action:hover {
-    background: rgba(29, 155, 240, 0.1);
-    color: #1d9bf0;
+.nav-item:hover {
+    background: #f7f9f9;
+    color: #0f1419;
 }
 
-.post-action.like:hover {
-    background: rgba(249, 24, 128, 0.1);
-    color: #f91880;
+.nav-item.active {
+    color: #0f1419;
+    font-weight: 600;
+    background: #e8f5fe;
 }
 
-.post-action span {
-    font-size: 13px;
+.nav-item svg {
+    flex-shrink: 0;
 }
 
-/* Empty Panel */
-.social-panel-empty {
-    padding: 48px 16px;
-    text-align: center;
+/* Content Column */
+.social-content {
+    flex: 1;
+    padding: 0;
 }
 
-.empty-title {
+.content-panel {
+    display: none;
+}
+
+.content-panel.active {
+    display: block;
+}
+
+.panel-title {
+    padding: 16px;
+    margin: 0;
     font-size: 20px;
     font-weight: 700;
     color: #0f1419;
-    margin-bottom: 8px;
+    border-bottom: 1px solid #eff3f4;
 }
 
-.empty-desc {
-    color: #536471;
-    font-size: 15px;
+/* Content List */
+.content-list {
+    padding: 0;
 }
 
-/* Media Grid */
-.social-media-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    padding: 8px;
-}
-
-.media-item {
-    aspect-ratio: 1;
-    border-radius: 12px;
+.content-item {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    align-items: baseline;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eff3f4;
     text-decoration: none;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    transition: transform 0.2s;
+    transition: background 0.2s;
 }
 
-.media-item:hover {
-    transform: scale(1.02);
+.content-item:hover {
+    background: #f7f9f9;
+}
+
+.item-date {
+    flex-shrink: 0;
+    font-size: 13px;
+    color: #536471;
+    width: 100px;
+}
+
+.item-title {
+    flex: 1;
+    font-size: 14px;
+    color: #0f1419;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.content-item:hover .item-title {
+    color: #1d9bf0;
+}
+
+.view-all-link {
+    display: block;
+    padding: 16px;
+    text-align: center;
+    color: #1d9bf0;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-top: 1px solid #eff3f4;
+}
+
+.view-all-link:hover {
+    text-decoration: underline;
 }
 
 /* Mobile Responsive */
+@media (max-width: 768px) {
+    .social-nav {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: 1px solid #eff3f4;
+        padding: 8px 0;
+        position: relative;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .nav-item {
+        padding: 8px 12px;
+        white-space: nowrap;
+        font-size: 14px;
+    }
+    
+    .nav-item span {
+        display: none;
+    }
+    
+    .nav-item {
+        gap: 6px;
+    }
+    
+    .social-columns {
+        flex-direction: column;
+    }
+    
+    .content-item {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .item-date {
+        width: auto;
+    }
+}
+
 @media (max-width: 500px) {
     .social-cover {
         height: 150px;
@@ -962,81 +556,65 @@ layout: default
         font-size: 13px;
     }
     
-    .social-profile-info {
-        padding: 8px 12px;
-    }
-    
     .profile-actions {
         margin-bottom: 8px;
-    }
-    
-    .social-tab {
-        padding: 12px 0;
-    }
-    
-    .social-tab.active .tab-highlight {
-        width: 40px;
-    }
-    
-    .tab-label {
-        font-size: 14px;
-    }
-    
-    .social-post {
-        padding: 8px 12px;
-    }
-    
-    .post-content {
-        margin-left: 8px;
-    }
-    
-    .post-actions {
-        max-width: 100%;
     }
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Tab switching
-    const tabs = document.querySelectorAll('.social-tab');
-    const panels = document.querySelectorAll('.social-panel');
+    // Handle navigation clicks
+    const navItems = document.querySelectorAll('.nav-item');
+    const panels = document.querySelectorAll('.content-panel');
     
-    tabs.forEach(function(tab) {
-        tab.addEventListener('click', function() {
+    navItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
             var targetTab = this.getAttribute('data-tab');
             
-            // Update tab states
-            tabs.forEach(function(t) { t.classList.remove('active'); });
+            // Update nav states
+            navItems.forEach(function(nav) { nav.classList.remove('active'); });
             this.classList.add('active');
             
             // Update panel states
-            panels.forEach(function(p) {
-                p.classList.remove('active');
-                if (p.id === targetTab + '-panel') {
-                    p.classList.add('active');
+            panels.forEach(function(panel) {
+                panel.classList.remove('active');
+                if (panel.id === targetTab + '-panel') {
+                    panel.classList.add('active');
                 }
             });
+            
+            // Update URL hash
+            history.pushState(null, null, '#' + targetTab);
         });
     });
     
-    // Like button toggle
-    var likeButtons = document.querySelectorAll('.post-action.like');
-    likeButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            this.classList.toggle('liked');
-            var svg = this.querySelector('svg');
-            if (this.classList.contains('liked')) {
-                svg.style.fill = '#f91880';
-                var span = this.querySelector('span');
-                span.textContent = parseInt(span.textContent) + 1;
-            } else {
-                svg.style.fill = '';
-                var span = this.querySelector('span');
-                span.textContent = parseInt(span.textContent) - 1;
+    // Handle initial hash
+    if (window.location.hash) {
+        var hash = window.location.hash.slice(1);
+        var activeNav = document.querySelector('.nav-item[data-tab="' + hash + '"]');
+        if (activeNav) {
+            activeNav.click();
+        }
+    }
+    
+    // Handle browser back/forward
+    window.addEventListener('hashchange', function() {
+        if (window.location.hash) {
+            var hash = window.location.hash.slice(1);
+            var activeNav = document.querySelector('.nav-item[data-tab="' + hash + '"]');
+            if (activeNav) {
+                navItems.forEach(function(nav) { nav.classList.remove('active'); });
+                activeNav.classList.add('active');
+                panels.forEach(function(panel) {
+                    panel.classList.remove('active');
+                    if (panel.id === hash + '-panel') {
+                        panel.classList.add('active');
+                    }
+                });
             }
-        });
+        }
     });
 });
 </script>
