@@ -66,27 +66,27 @@ layout: default
         </div>
     </div>
 
-    <!-- Left Column Navigation (Twitter-style) -->
+    <!-- Two Column Layout -->
     <div class="social-columns">
-        <!-- Left Navigation Tabs -->
+        <!-- Left Navigation -->
         <div class="social-nav">
-            <a href="#blocks" class="nav-item active" data-tab="blocks">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
-                </svg>
-                <span>Blocks</span>
-            </a>
-            <a href="#posts" class="nav-item" data-tab="posts">
+            <a href="#blogs" class="nav-item active" data-tab="blogs">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                     <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
-                <span>Posts</span>
+                <span>Blogs</span>
             </a>
-            <a href="#patterns" class="nav-item" data-tab="patterns">
+            <a href="#posts" class="nav-item" data-tab="posts">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                </svg>
+                <span>Broadcast</span>
+            </a>
+            <a href="#patents" class="nav-item" data-tab="patents">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 </svg>
-                <span>Patterns</span>
+                <span>Patents</span>
             </a>
             <a href="#books" class="nav-item" data-tab="books">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
@@ -100,6 +100,12 @@ layout: default
                 </svg>
                 <span>Games</span>
             </a>
+            <a href="#movies" class="nav-item" data-tab="movies">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+                </svg>
+                <span>Movies</span>
+            </a>
             <a href="#travel" class="nav-item" data-tab="travel">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
@@ -108,47 +114,81 @@ layout: default
             </a>
         </div>
 
-        <!-- Content Column -->
+        <!-- Right Content -->
         <div class="social-content">
-            <!-- Blocks Tab -->
-            <div class="content-panel active" id="blocks-panel">
-                <h2 class="panel-title">Blocks</h2>
-                <div class="content-list">
+            <!-- Blogs Tab -->
+            <div class="content-panel active" id="blogs-panel">
+                <h2 class="panel-title">Blogs</h2>
+                <div class="feed-list">
                     {% assign posts = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/tech'" | sort: "date" | reverse %}
                     {% for post in posts limit: 20 %}
-                    <a href="{{ post.url }}" class="content-item">
-                        <span class="item-date">{{ post.date | date: "%Y-%m-%d" }}</span>
-                        <span class="item-title">{{ post.title }}</span>
+                    <a href="{{ post.url }}" class="feed-item">
+                        <div class="feed-tags">
+                            {% for tag in post.tags %}
+                            {% if tag != "Post" %}
+                            <span class="feed-tag">{{ tag }}</span>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="feed-content">
+                            <h3 class="feed-title">{{ post.title }}</h3>
+                            <p class="feed-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                            <span class="feed-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+                        </div>
                     </a>
                     {% endfor %}
-                    <a href="/blogs/tech/" class="view-all-link">View all posts →</a>
+                    <a href="/blogs/" class="view-all-link">View all blogs →</a>
                 </div>
             </div>
 
-            <!-- Posts Tab -->
+            <!-- Posts Tab (Broadcast/Douban) -->
             <div class="content-panel" id="posts-panel">
-                <h2 class="panel-title">Posts</h2>
-                <div class="content-list">
-                    {% assign posts = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/'" | sort: "date" | reverse %}
-                    {% for post in posts limit: 30 %}
-                    <a href="{{ post.url }}" class="content-item">
-                        <span class="item-date">{{ post.date | date: "%Y-%m-%d" }}</span>
-                        <span class="item-title">{{ post.title }}</span>
-                    </a>
+                <h2 class="panel-title">Broadcast</h2>
+                <div class="feed-list">
+                    {% assign year_str = "2026" %}
+                    {% assign posts_data = site.data.douban[year_str] | reverse %}
+                    {% for item in posts_data limit: 30 %}
+                    <div class="feed-item douban-item">
+                        <div class="feed-tags">
+                            <span class="feed-tag">Broadcast</span>
+                            {% if item.images and item.images.size > 0 %}
+                            <span class="feed-tag photo">Photo</span>
+                            {% endif %}
+                        </div>
+                        <div class="feed-content">
+                            <p class="feed-text">{{ item.content | strip_html | truncate: 150 }}</p>
+                            {% if item.images and item.images.size > 0 %}
+                            <div class="feed-images">
+                                <img src="{{ item.images[0] }}" alt="Image" class="feed-image">
+                            </div>
+                            {% endif %}
+                            <span class="feed-date">{{ item.time }}</span>
+                        </div>
+                    </div>
                     {% endfor %}
-                    <a href="/blogs/" class="view-all-link">View all posts →</a>
+                    <a href="/douban/2026.html" class="view-all-link">View all broadcasts →</a>
                 </div>
             </div>
 
-            <!-- Patterns Tab (Patents) -->
-            <div class="content-panel" id="patterns-panel">
-                <h2 class="panel-title">Patterns</h2>
-                <div class="content-list">
+            <!-- Patents Tab -->
+            <div class="content-panel" id="patents-panel">
+                <h2 class="panel-title">Patents</h2>
+                <div class="feed-list">
                     {% assign patents = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/patent'" | sort: "date" | reverse %}
                     {% for patent in patents limit: 40 %}
-                    <a href="{{ patent.url }}" class="content-item">
-                        <span class="item-date">{{ patent.date | date: "%Y-%m-%d" }}</span>
-                        <span class="item-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" }}</span>
+                    <a href="{{ patent.url }}" class="feed-item">
+                        <div class="feed-tags">
+                            {% for tag in patent.tags %}
+                            {% if tag != "Patent" and tag != "已授权" and tag != "待授权" and tag != "China" and tag != "US" and tag != "Japan" %}
+                            <span class="feed-tag">{{ tag }}</span>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="feed-content">
+                            <h3 class="feed-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</h3>
+                            <p class="feed-excerpt">Patent registration document - {{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}</p>
+                            <span class="feed-date">{{ patent.date | date: "%Y-%m-%d" }}</span>
+                        </div>
                     </a>
                     {% endfor %}
                     <a href="/publications/" class="view-all-link">View all patents →</a>
@@ -158,12 +198,24 @@ layout: default
             <!-- Books Tab -->
             <div class="content-panel" id="books-panel">
                 <h2 class="panel-title">Books</h2>
-                <div class="content-list">
-                    {% assign books = site.data.books.all | sort: "date_read" | reverse %}
+                <div class="feed-list">
+                    {% assign books = site.data.books.all | reverse %}
                     {% for book in books limit: 30 %}
-                    <a href="https://book.douban.com/subject/{{ book.id }}/" target="_blank" class="content-item">
-                        <span class="item-date">{{ book.date_read | slice: 0, 10 }}</span>
-                        <span class="item-title">{{ book.title }} - {{ book.author }}</span>
+                    <a href="https://book.douban.com/subject/{{ book.id }}/" target="_blank" class="feed-item">
+                        <div class="feed-tags">
+                            <span class="feed-tag">{{ book.rating }}</span>
+                            <span class="feed-tag">{{ book.date_read | slice: 0, 4 }}</span>
+                        </div>
+                        <div class="feed-content">
+                            <h3 class="feed-title">{{ book.title }}</h3>
+                            <p class="feed-excerpt">{{ book.author }} · {{ book.publisher }}</p>
+                            {% if book.comment %}
+                            <p class="feed-comment">"{{ book.comment | strip_html | truncate: 100 }}"</p>
+                            {% endif %}
+                        </div>
+                        {% if book.cover %}
+                        <img src="{{ book.cover }}" alt="{{ book.title }}" class="feed-cover">
+                        {% endif %}
                     </a>
                     {% endfor %}
                     <a href="/books/" class="view-all-link">View all books →</a>
@@ -173,27 +225,70 @@ layout: default
             <!-- Games Tab -->
             <div class="content-panel" id="games-panel">
                 <h2 class="panel-title">Games</h2>
-                <div class="content-list">
-                    {% assign games = site.data.games.all | sort: "date" | reverse %}
+                <div class="feed-list">
+                    {% assign games = site.data.games.all | reverse %}
                     {% for game in games limit: 30 %}
-                    <a href="https://www.douban.com/game/{{ game.id }}/" target="_blank" class="content-item">
-                        <span class="item-date">{{ game.date | slice: 0, 10 }}</span>
-                        <span class="item-title">{{ game.title }} - {{ game.platform }}</span>
+                    <a href="https://www.douban.com/game/{{ game.id }}/" target="_blank" class="feed-item">
+                        <div class="feed-tags">
+                            <span class="feed-tag">{{ game.rating }}</span>
+                            <span class="feed-tag">{{ game.date | slice: 0, 4 }}</span>
+                        </div>
+                        <div class="feed-content">
+                            <h3 class="feed-title">{{ game.title }}</h3>
+                            <p class="feed-excerpt">{{ game.platform }} · {{ game.genre }}</p>
+                        </div>
+                        {% if game.cover %}
+                        <img src="{{ game.cover }}" alt="{{ game.title }}" class="feed-cover">
+                        {% endif %}
                     </a>
                     {% endfor %}
                     <a href="/games/all" class="view-all-link">View all games →</a>
                 </div>
             </div>
 
+            <!-- Movies Tab -->
+            <div class="content-panel" id="movies-panel">
+                <h2 class="panel-title">Movies</h2>
+                <div class="feed-list">
+                    {% assign movies = site.data.movies.all | reverse %}
+                    {% for movie in movies limit: 30 %}
+                    <a href="https://movie.douban.com/subject/{{ movie.id }}/" target="_blank" class="feed-item">
+                        <div class="feed-tags">
+                            <span class="feed-tag">{{ movie.rating }}</span>
+                            <span class="feed-tag">{{ movie.year }}</span>
+                        </div>
+                        <div class="feed-content">
+                            <h3 class="feed-title">{{ movie.title }}</h3>
+                            <p class="feed-excerpt">{{ movie.director }} · {{ movie.genre }}</p>
+                        </div>
+                        {% if movie.cover %}
+                        <img src="{{ movie.cover }}" alt="{{ movie.title }}" class="feed-cover">
+                        {% endif %}
+                    </a>
+                    {% endfor %}
+                    <a href="/movies/all.html" class="view-all-link">View all movies →</a>
+                </div>
+            </div>
+
             <!-- Travel Tab -->
             <div class="content-panel" id="travel-panel">
                 <h2 class="panel-title">Travel</h2>
-                <div class="content-list">
+                <div class="feed-list">
                     {% assign travels = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/travelling'" | sort: "date" | reverse %}
                     {% for travel in travels limit: 30 %}
-                    <a href="{{ travel.url }}" class="content-item">
-                        <span class="item-date">{{ travel.date | date: "%Y-%m-%d" }}</span>
-                        <span class="item-title">{{ travel.title }}</span>
+                    <a href="{{ travel.url }}" class="feed-item">
+                        <div class="feed-tags">
+                            {% assign region = travel.url | split: '/' | last %}
+                            <span class="feed-tag">{{ region | replace: '_', ' ' }}</span>
+                        </div>
+                        <div class="feed-content">
+                            <h3 class="feed-title">{{ travel.title }}</h3>
+                            <p class="feed-excerpt">{{ travel.excerpt | strip_html | truncate: 120 }}</p>
+                            <span class="feed-date">{{ travel.date | date: "%Y-%m-%d" }}</span>
+                        </div>
+                        {% if travel.cover %}
+                        <img src="{{ travel.cover }}" alt="{{ travel.title }}" class="feed-cover">
+                        {% endif %}
                     </a>
                     {% endfor %}
                     <a href="/life/" class="view-all-link">View all travel journals →</a>
@@ -204,7 +299,7 @@ layout: default
 </div>
 
 <style>
-/* Social Profile Container */
+/* Container */
 .social-profile-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -212,7 +307,7 @@ layout: default
     min-height: 100vh;
 }
 
-/* Cover Image */
+/* Cover */
 .social-cover {
     height: 200px;
     position: relative;
@@ -239,7 +334,7 @@ layout: default
     50% { transform: translateY(0); opacity: 0.6; }
 }
 
-/* Profile Header */
+/* Header */
 .social-header {
     display: flex;
     justify-content: space-between;
@@ -442,45 +537,106 @@ layout: default
     border-bottom: 1px solid #eff3f4;
 }
 
-/* Content List */
-.content-list {
+/* Feed List */
+.feed-list {
     padding: 0;
 }
 
-.content-item {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    padding: 12px 16px;
+.feed-item {
+    display: block;
+    padding: 16px;
     border-bottom: 1px solid #eff3f4;
     text-decoration: none;
     transition: background 0.2s;
 }
 
-.content-item:hover {
+.feed-item:hover {
     background: #f7f9f9;
 }
 
-.item-date {
-    flex-shrink: 0;
-    font-size: 13px;
+.feed-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.feed-tag {
+    padding: 2px 8px;
+    background: #eff3f4;
+    border-radius: 12px;
+    font-size: 12px;
     color: #536471;
-    width: 100px;
 }
 
-.item-title {
-    flex: 1;
-    font-size: 14px;
-    color: #0f1419;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.content-item:hover .item-title {
+.feed-tag.photo {
+    background: #e8f5fe;
     color: #1d9bf0;
 }
 
+.feed-content {
+    flex: 1;
+}
+
+.feed-title {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f1419;
+}
+
+.feed-excerpt {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #536471;
+    line-height: 1.4;
+}
+
+.feed-comment {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #0f1419;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.feed-text {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #0f1419;
+    line-height: 1.5;
+}
+
+.feed-date {
+    font-size: 13px;
+    color: #536471;
+}
+
+.feed-images {
+    margin: 8px 0;
+}
+
+.feed-image {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.feed-cover {
+    width: 60px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.douban-item {
+    display: flex;
+    flex-direction: column;
+}
+
+/* View All Link */
 .view-all-link {
     display: block;
     padding: 16px;
@@ -527,13 +683,9 @@ layout: default
         flex-direction: column;
     }
     
-    .content-item {
-        flex-direction: column;
-        gap: 4px;
-    }
-    
-    .item-date {
-        width: auto;
+    .feed-cover {
+        width: 50px;
+        height: 70px;
     }
 }
 
@@ -564,7 +716,6 @@ layout: default
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle navigation clicks
     const navItems = document.querySelectorAll('.nav-item');
     const panels = document.querySelectorAll('.content-panel');
     
@@ -573,11 +724,9 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             var targetTab = this.getAttribute('data-tab');
             
-            // Update nav states
             navItems.forEach(function(nav) { nav.classList.remove('active'); });
             this.classList.add('active');
             
-            // Update panel states
             panels.forEach(function(panel) {
                 panel.classList.remove('active');
                 if (panel.id === targetTab + '-panel') {
@@ -585,12 +734,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            // Update URL hash
             history.pushState(null, null, '#' + targetTab);
         });
     });
     
-    // Handle initial hash
     if (window.location.hash) {
         var hash = window.location.hash.slice(1);
         var activeNav = document.querySelector('.nav-item[data-tab="' + hash + '"]');
@@ -599,7 +746,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Handle browser back/forward
     window.addEventListener('hashchange', function() {
         if (window.location.hash) {
             var hash = window.location.hash.slice(1);
