@@ -586,14 +586,89 @@
 }
 
 
-/* Giscus Reactions - Hide negative reactions, keep positive only */
-/* Hide thumbs down (-1) */
-.giscus-frame iframe {
-    /* This targets the iframe content, but we need to use a different approach */
+/* History Today Modal Styles */
+.history-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Since we can't directly style iframe content, we'll add custom CSS that Giscus will load */
-/* Giscus uses data-reaction-label attributes for reaction buttons */
+.history-modal.active {
+    display: flex;
+}
 
-/* Alternative: Use custom CSS injection via Giscus configuration */
-/* We'll need to modify the Giscus script attributes */
+.history-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.history-modal-content {
+    position: relative;
+    z-index: 10000;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.history-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.history-modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.history-modal-image-container {
+    text-align: center;
+}
+
+/* Mobile History Today - Inline Expansion */
+@media (max-width: 768px) {
+    .history-mobile-image {
+        transition: all 0.3s ease;
+    }
+    
+    .history-mobile-image:hover {
+        opacity: 0.9;
+    }
+}
+
+/* Desktop History Today - Thumbnail */
+@media (min-width: 769px) {
+    .history-desktop-image {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .history-desktop-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+}

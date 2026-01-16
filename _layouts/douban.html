@@ -61,6 +61,16 @@ layout: default
             <div id="history-today-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
             <p id="history-today-empty" style="display:none; color: #999; font-size: 0.95rem;">历史上的今天暂无记录。</p>
         </div>
+        
+        <!-- History Today Modal (Desktop) / Lightbox (Mobile) -->
+        <div id="history-modal" class="history-modal" style="display:none;">
+            <div class="history-modal-backdrop"></div>
+            <div class="history-modal-content">
+                <button class="history-modal-close">&times;</button>
+                <div class="history-modal-image-container"></div>
+            </div>
+        </div>
+        
         <script>
             (function () {
                 try {
@@ -103,13 +113,50 @@ layout: default
             var list = document.getElementById('history-today-list');
             var emptyMsg = document.getElementById('history-today-empty');
             var container = document.getElementById('history-today-container');
+            var modal = document.getElementById('history-modal');
+            var modalContainer = modal ? modal.querySelector('.history-modal-image-container') : null;
+
+            // Check if mobile
+            var isMobile = window.innerWidth <= 768;
+
+            // Modal/Lightbox functions
+            function openHistoryImage(imgUrl) {
+                if (!modal || !modalContainer) return;
+                
+                if (isMobile) {
+                    // On mobile: open as overlay
+                    modal.style.display = 'flex';
+                    modalContainer.innerHTML = '<img src="' + imgUrl + '" style="width:100%; height:auto; display:block;">';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    // On desktop: use lightbox
+                    modal.style.display = 'flex';
+                    modalContainer.innerHTML = '<img src="' + imgUrl + '" style="max-width:90vw; max-height:90vh; display:block; margin:auto;">';
+                }
+            }
+
+            function closeHistoryModal() {
+                if (!modal) return;
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+
+            // Set up modal event listeners
+            if (modal) {
+                modal.querySelector('.history-modal-close').addEventListener('click', closeHistoryModal);
+                modal.querySelector('.history-modal-backdrop').addEventListener('click', closeHistoryModal);
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && modal.style.display !== 'none') {
+                        closeHistoryModal();
+                    }
+                });
+            }
 
             if (list && emptyMsg) {
                 if (matches.length > 0) {
                     matches.forEach(function (item) {
                         // Filter out Director/Author/Performer
                         var c = item.content || "";
-                        // Check for common keywords with optional colon (English/Chinese) and spaces
                         var filterRegex = /(导演|表演者|作者|主演|类型|出版)\s*[:：]/;
                         if (filterRegex.test(c)) {
                             return;
@@ -117,16 +164,21 @@ layout: default
                         var el = document.createElement('div');
                         el.style.cssText = "padding: 8px 0; border-bottom: 1px dashed #eee; font-size: 0.95rem; color: #555; line-height: 1.5;";
 
-                        // Parse content safely
                         var content = item.content;
                         
                         var html = '<span style="color:#2d8c3c; font-weight:600; margin-right:8px; display:inline-block; min-width:38px;">' + item.year + '</span> ' + content;
 
-                        // Add images
+                        // Add images with proper click handlers
                         if (item.images && item.images.length > 0) {
-                            html += '<div style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap;">';
+                            html += '<div class="history-images-wrapper" style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap;">';
                             item.images.forEach(function(imgUrl) {
-                                html += '<div style="width:80px; height:80px; background-image:url(\'' + imgUrl + '\'); background-size:cover; background-position:center; border-radius:4px; cursor:pointer;" onclick="window.open(\'' + imgUrl + '\', \'_blank\')"></div>';
+                                if (isMobile) {
+                                    // Mobile: click to expand inline, show full image
+                                    html += '<img src="' + imgUrl + '" class="history-mobile-image" style="width:80px; height:80px; object-fit:cover; border-radius:4px; cursor:pointer;" onclick="this.style.width=\'100%\'; this.style.height=\'auto\'; this.style.objectFit=\'contain\';">';
+                                } else {
+                                    // Desktop: click to open modal
+                                    html += '<img src="' + imgUrl + '" class="history-desktop-image" style="width:80px; height:80px; object-fit:cover; border-radius:4px; cursor:pointer;" onclick="openHistoryImage(\'' + imgUrl + '\')">';
+                                }
                             });
                             html += '</div>';
                         }
