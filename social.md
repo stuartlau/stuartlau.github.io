@@ -119,180 +119,141 @@ layout: default
             <!-- Blogs Tab -->
             <div class="content-panel active" id="blogs-panel">
                 <h2 class="panel-title">Blogs</h2>
-                <div class="feed-list">
+                <div class="feed-list" id="blogs-list">
                     {% assign posts = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/tech'" | sort: "date" | reverse %}
-                    {% for post in posts limit: 20 %}
+                    {% for post in posts %}
                     <a href="{{ post.url }}" class="feed-item">
-                        <div class="feed-tags">
-                            {% for tag in post.tags %}
-                            {% if tag != "Post" %}
-                            <span class="feed-tag">{{ tag }}</span>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
                         <div class="feed-content">
+                            <span class="feed-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
                             <h3 class="feed-title">{{ post.title }}</h3>
-                            <p class="feed-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
-                            <span class="feed-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+                            <p class="feed-excerpt">{{ post.excerpt | strip_html | truncate: 100 }}</p>
                         </div>
                     </a>
                     {% endfor %}
-                    <a href="/blogs/" class="view-all-link">View all blogs →</a>
                 </div>
+                <a href="/blogs/" class="view-all-link">View all blogs →</a>
             </div>
 
-            <!-- Posts Tab (Broadcast/Douban) -->
+            <!-- Posts Tab (Broadcast) -->
             <div class="content-panel" id="posts-panel">
                 <h2 class="panel-title">Broadcast</h2>
-                <div class="feed-list">
+                <div class="feed-list" id="posts-list">
                     {% assign year_str = "2026" %}
                     {% assign posts_data = site.data.douban[year_str] | reverse %}
-                    {% for item in posts_data limit: 30 %}
+                    {% for item in posts_data %}
                     <div class="feed-item douban-item">
-                        <div class="feed-tags">
-                            <span class="feed-tag">Broadcast</span>
-                            {% if item.images and item.images.size > 0 %}
-                            <span class="feed-tag photo">Photo</span>
-                            {% endif %}
-                        </div>
                         <div class="feed-content">
-                            <p class="feed-text">{{ item.content | strip_html | truncate: 150 }}</p>
+                            <span class="feed-meta">{{ item.time }}</span>
+                            <p class="feed-text">{{ item.content | strip_html }}</p>
                             {% if item.images and item.images.size > 0 %}
                             <div class="feed-images">
                                 <img src="{{ item.images[0] }}" alt="Image" class="feed-image">
                             </div>
                             {% endif %}
-                            <span class="feed-date">{{ item.time }}</span>
                         </div>
                     </div>
                     {% endfor %}
-                    <a href="/douban/2026.html" class="view-all-link">View all broadcasts →</a>
                 </div>
+                <a href="/douban/2026.html" class="view-all-link">View all broadcasts →</a>
             </div>
 
             <!-- Patents Tab -->
             <div class="content-panel" id="patents-panel">
                 <h2 class="panel-title">Patents</h2>
-                <div class="feed-list">
+                <div class="feed-list" id="patents-list">
                     {% assign patents = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/patent'" | sort: "date" | reverse %}
-                    {% for patent in patents limit: 40 %}
+                    {% for patent in patents %}
                     <a href="{{ patent.url }}" class="feed-item">
-                        <div class="feed-tags">
-                            {% for tag in patent.tags %}
-                            {% if tag != "Patent" and tag != "已授权" and tag != "待授权" and tag != "China" and tag != "US" and tag != "Japan" %}
-                            <span class="feed-tag">{{ tag }}</span>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
                         <div class="feed-content">
+                            <span class="feed-meta">{{ patent.date | date: "%Y-%m-%d" }}</span>
                             <h3 class="feed-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</h3>
-                            <p class="feed-excerpt">Patent registration document - {{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}</p>
-                            <span class="feed-date">{{ patent.date | date: "%Y-%m-%d" }}</span>
+                            <p class="feed-excerpt">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}</p>
                         </div>
                     </a>
                     {% endfor %}
-                    <a href="/publications/" class="view-all-link">View all patents →</a>
                 </div>
+                <a href="/publications/" class="view-all-link">View all patents →</a>
             </div>
 
             <!-- Books Tab -->
             <div class="content-panel" id="books-panel">
                 <h2 class="panel-title">Books</h2>
-                <div class="feed-list">
+                <div class="feed-list" id="books-list">
                     {% assign books = site.data.books.all | reverse %}
-                    {% for book in books limit: 30 %}
+                    {% for book in books %}
                     <a href="https://book.douban.com/subject/{{ book.id }}/" target="_blank" class="feed-item">
-                        <div class="feed-tags">
-                            <span class="feed-tag">{{ book.rating }}</span>
-                            <span class="feed-tag">{{ book.date_read | slice: 0, 4 }}</span>
-                        </div>
                         <div class="feed-content">
+                            <span class="feed-meta">{{ book.date_read | slice: 0, 4 }} · {{ book.rating }}</span>
                             <h3 class="feed-title">{{ book.title }}</h3>
-                            <p class="feed-excerpt">{{ book.author }} · {{ book.publisher }}</p>
-                            {% if book.comment %}
-                            <p class="feed-comment">"{{ book.comment | strip_html | truncate: 100 }}"</p>
-                            {% endif %}
+                            <p class="feed-excerpt">{{ book.author }}</p>
                         </div>
                         {% if book.cover %}
                         <img src="{{ book.cover }}" alt="{{ book.title }}" class="feed-cover">
                         {% endif %}
                     </a>
                     {% endfor %}
-                    <a href="/books/" class="view-all-link">View all books →</a>
                 </div>
+                <a href="/books/" class="view-all-link">View all books →</a>
             </div>
 
             <!-- Games Tab -->
             <div class="content-panel" id="games-panel">
                 <h2 class="panel-title">Games</h2>
-                <div class="feed-list">
+                <div class="feed-list" id="games-list">
                     {% assign games = site.data.games.all | reverse %}
-                    {% for game in games limit: 30 %}
+                    {% for game in games %}
                     <a href="https://www.douban.com/game/{{ game.id }}/" target="_blank" class="feed-item">
-                        <div class="feed-tags">
-                            <span class="feed-tag">{{ game.rating }}</span>
-                            <span class="feed-tag">{{ game.date | slice: 0, 4 }}</span>
-                        </div>
                         <div class="feed-content">
+                            <span class="feed-meta">{{ game.date | slice: 0, 4 }} · {{ game.rating }}</span>
                             <h3 class="feed-title">{{ game.title }}</h3>
-                            <p class="feed-excerpt">{{ game.platform }} · {{ game.genre }}</p>
+                            <p class="feed-excerpt">{{ game.platform }}</p>
                         </div>
                         {% if game.cover %}
                         <img src="{{ game.cover }}" alt="{{ game.title }}" class="feed-cover">
                         {% endif %}
                     </a>
                     {% endfor %}
-                    <a href="/games/all" class="view-all-link">View all games →</a>
                 </div>
+                <a href="/games/all.html" class="view-all-link">View all games →</a>
             </div>
 
             <!-- Movies Tab -->
             <div class="content-panel" id="movies-panel">
                 <h2 class="panel-title">Movies</h2>
-                <div class="feed-list">
+                <div class="feed-list" id="movies-list">
                     {% assign movies = site.data.movies.all | reverse %}
-                    {% for movie in movies limit: 30 %}
+                    {% for movie in movies %}
                     <a href="https://movie.douban.com/subject/{{ movie.id }}/" target="_blank" class="feed-item">
-                        <div class="feed-tags">
-                            <span class="feed-tag">{{ movie.rating }}</span>
-                            <span class="feed-tag">{{ movie.year }}</span>
-                        </div>
                         <div class="feed-content">
+                            <span class="feed-meta">{{ movie.year }} · {{ movie.rating }}</span>
                             <h3 class="feed-title">{{ movie.title }}</h3>
-                            <p class="feed-excerpt">{{ movie.director }} · {{ movie.genre }}</p>
+                            <p class="feed-excerpt">{{ movie.director }}</p>
                         </div>
                         {% if movie.cover %}
                         <img src="{{ movie.cover }}" alt="{{ movie.title }}" class="feed-cover">
                         {% endif %}
                     </a>
                     {% endfor %}
-                    <a href="/movies/all.html" class="view-all-link">View all movies →</a>
                 </div>
+                <a href="/movies/all.html" class="view-all-link">View all movies →</a>
             </div>
 
             <!-- Travel Tab -->
             <div class="content-panel" id="travel-panel">
                 <h2 class="panel-title">Travel</h2>
-                <div class="feed-list">
+                <div class="feed-list" id="travel-list">
                     {% assign travels = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/travelling'" | sort: "date" | reverse %}
-                    {% for travel in travels limit: 30 %}
+                    {% for travel in travels %}
                     <a href="{{ travel.url }}" class="feed-item">
-                        <div class="feed-tags">
-                            {% assign region = travel.url | split: '/' | last %}
-                            <span class="feed-tag">{{ region | replace: '_', ' ' }}</span>
-                        </div>
                         <div class="feed-content">
+                            <span class="feed-meta">{{ travel.date | date: "%Y-%m-%d" }}</span>
                             <h3 class="feed-title">{{ travel.title }}</h3>
-                            <p class="feed-excerpt">{{ travel.excerpt | strip_html | truncate: 120 }}</p>
-                            <span class="feed-date">{{ travel.date | date: "%Y-%m-%d" }}</span>
+                            <p class="feed-excerpt">{{ travel.excerpt | strip_html | truncate: 80 }}</p>
                         </div>
-                        {% if travel.cover %}
-                        <img src="{{ travel.cover }}" alt="{{ travel.title }}" class="feed-cover">
-                        {% endif %}
                     </a>
                     {% endfor %}
-                    <a href="/life/" class="view-all-link">View all travel journals →</a>
                 </div>
+                <a href="/life/" class="view-all-link">View all travel journals →</a>
             </div>
         </div>
     </div>
@@ -543,60 +504,42 @@ layout: default
 }
 
 .feed-item {
-    display: block;
-    padding: 16px;
+    display: flex;
+    padding: 12px 16px;
     border-bottom: 1px solid #eff3f4;
     text-decoration: none;
     transition: background 0.2s;
+    gap: 12px;
 }
 
 .feed-item:hover {
     background: #f7f9f9;
 }
 
-.feed-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 8px;
-}
-
-.feed-tag {
-    padding: 2px 8px;
-    background: #eff3f4;
-    border-radius: 12px;
-    font-size: 12px;
-    color: #536471;
-}
-
-.feed-tag.photo {
-    background: #e8f5fe;
-    color: #1d9bf0;
-}
-
 .feed-content {
     flex: 1;
+    min-width: 0;
+}
+
+.feed-meta {
+    display: block;
+    font-size: 13px;
+    color: #536471;
+    margin-bottom: 4px;
 }
 
 .feed-title {
-    margin: 0 0 4px 0;
-    font-size: 15px;
+    margin: 0 0 2px 0;
+    font-size: 14px;
     font-weight: 600;
     color: #0f1419;
+    line-height: 1.3;
 }
 
 .feed-excerpt {
-    margin: 0 0 4px 0;
-    font-size: 14px;
+    margin: 0;
+    font-size: 13px;
     color: #536471;
-    line-height: 1.4;
-}
-
-.feed-comment {
-    margin: 4px 0;
-    font-size: 14px;
-    color: #0f1419;
-    font-style: italic;
     line-height: 1.4;
 }
 
@@ -619,25 +562,24 @@ layout: default
 .feed-image {
     max-width: 200px;
     max-height: 150px;
-    border-radius: 12px;
+    border-radius: 8px;
     object-fit: cover;
 }
 
 .feed-cover {
-    width: 60px;
-    height: 80px;
+    width: 50px;
+    height: 70px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 4px;
     flex-shrink: 0;
 }
 
 .douban-item {
-    display: flex;
-    flex-direction: column;
+    display: block;
 }
 
-/* View All Link */
-.view-all-link {
+/* View More Button */
+    .view-all-link {
     display: block;
     padding: 16px;
     text-align: center;
@@ -661,7 +603,6 @@ layout: default
         border-right: none;
         border-bottom: 1px solid #eff3f4;
         padding: 8px 0;
-        position: relative;
         -webkit-overflow-scrolling: touch;
     }
     
@@ -684,8 +625,12 @@ layout: default
     }
     
     .feed-cover {
-        width: 50px;
-        height: 70px;
+        width: 40px;
+        height: 56px;
+    }
+    
+    .feed-item {
+        padding: 10px 12px;
     }
 }
 
@@ -716,6 +661,7 @@ layout: default
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Tab navigation
     const navItems = document.querySelectorAll('.nav-item');
     const panels = document.querySelectorAll('.content-panel');
     
@@ -738,6 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Handle initial hash
     if (window.location.hash) {
         var hash = window.location.hash.slice(1);
         var activeNav = document.querySelector('.nav-item[data-tab="' + hash + '"]');
@@ -746,6 +693,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Handle browser back/forward
     window.addEventListener('hashchange', function() {
         if (window.location.hash) {
             var hash = window.location.hash.slice(1);
