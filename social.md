@@ -34,7 +34,7 @@ layout: default
         </div>
         <p class="profile-handle">@stuartlau</p>
         <p class="profile-bio">Full Stack Engineer & Patent Inventor | 120+ Patents | Building systems at scale</p>
-        
+
         <div class="profile-meta">
             <span class="meta-item">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -605,30 +605,30 @@ layout: default
         padding: 8px 0;
         -webkit-overflow-scrolling: touch;
     }
-    
+
     .nav-item {
         padding: 8px 12px;
         white-space: nowrap;
         font-size: 14px;
     }
-    
+
     .nav-item span {
         display: none;
     }
-    
+
     .nav-item {
         gap: 6px;
     }
-    
+
     .social-columns {
         flex-direction: column;
     }
-    
+
     .feed-cover {
         width: 40px;
         height: 56px;
     }
-    
+
     .feed-item {
         padding: 10px 12px;
     }
@@ -638,21 +638,21 @@ layout: default
     .social-cover {
         height: 150px;
     }
-    
+
     .social-header {
         padding: 0 12px;
     }
-    
+
     .profile-avatar {
         width: 100px;
         height: 100px;
     }
-    
+
     .profile-btn {
         padding: 8px 12px;
         font-size: 13px;
     }
-    
+
     .profile-actions {
         margin-bottom: 8px;
     }
@@ -664,26 +664,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Tab navigation
     const navItems = document.querySelectorAll('.nav-item');
     const panels = document.querySelectorAll('.content-panel');
-    
+
     navItems.forEach(function(item) {
         item.addEventListener('click', function(e) {
             e.preventDefault();
             var targetTab = this.getAttribute('data-tab');
-            
+
             navItems.forEach(function(nav) { nav.classList.remove('active'); });
             this.classList.add('active');
-            
+
             panels.forEach(function(panel) {
                 panel.classList.remove('active');
                 if (panel.id === targetTab + '-panel') {
                     panel.classList.add('active');
                 }
             });
-            
+
             history.pushState(null, null, '#' + targetTab);
         });
     });
-    
+
     // Handle initial hash
     if (window.location.hash) {
         var hash = window.location.hash.slice(1);
@@ -692,7 +692,7 @@ document.addEventListener('DOMContentLoaded', function() {
             activeNav.click();
         }
     }
-    
+
     // Handle browser back/forward
     window.addEventListener('hashchange', function() {
         if (window.location.hash) {
