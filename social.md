@@ -56,14 +56,14 @@ subtitle: 社交媒体资料聚合页
             <div class="profile-info-container">
                 <!-- Avatar overlapping cover -->
                 <div class="profile-avatar">
-                    <img src="{{ site.url }}/images/linkedin_avatar.jpg" alt="Stuart Lau">
+                    <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
                 </div>
                 
                 <!-- Profile Details -->
                 <div class="profile-details">
-                    <h1 class="profile-name">Stuart Lau</h1>
+                    <h1 class="profile-name">刘硕</h1>
                     <p class="profile-handle">@stuartlau</p>
-                    <p class="profile-bio">Full Stack Engineer & Patent Inventor | 120+ Patents | Building systems at scale</p>
+                    <p class="profile-bio">Full Stack Engineer & Patent Inventor | Former Kuaishou, Amazon, Xiaomi | 120+ Patents | Building systems at scale | Traveling the world</p>
                     <div class="profile-meta">
                         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Shanghai, China</span>
                         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg> <a href="{{ site.url }}" target="_blank">stuartlau.github.io</a></span>
@@ -121,7 +121,7 @@ subtitle: 社交媒体资料聚合页
                     {% for item in sorted_posts %}
                     <div class="feed-item douban-item expandable-item">
                         <div class="post-avatar">
-                            <img src="{{ site.url }}/images/linkedin_avatar.jpg" alt="Stuart Lau">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
                         </div>
                         <div class="feed-content">
                             <div class="post-author-line">
@@ -131,12 +131,9 @@ subtitle: 社交媒体资料聚合页
                             <p class="feed-text">{{ item.content | strip_html | strip_newlines }}</p>
                             {% if item.images and item.images.size > 0 %}
                             <div class="social-image-grid">
-                                {% for img in item.images limit: 4 %}
+                                {% for img in item.images %}
                                 <div class="grid-img-wrap" onclick="openLightbox('{{ img }}', {{ item.images | jsonify | escape }})">
                                     <img src="{{ img }}" alt="Douban" class="social-img">
-                                    {% if forloop.index == 4 and item.images.size > 4 %}
-                                    <div class="more-images-overlay">+{{ item.images.size | minus: 3 }}</div>
-                                    {% endif %}
                                 </div>
                                 {% endfor %}
                             </div>
@@ -155,8 +152,11 @@ subtitle: 社交媒体资料聚合页
                 <div class="blogs-column" id="blogs-list">
                     {% assign posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/tech/'" | sort: "date" | reverse %}
                     {% for post in posts %}
-                    <a href="{{ post.url }}" class="blog-card-wide expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
-                        <div class="blog-card-content">
+                    <a href="{{ post.url }}" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                        <div class="post-avatar">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                        </div>
+                        <div class="feed-content">
                             <div class="blog-card-title">{{ post.title }}</div>
                             <div class="blog-card-excerpt">
                                 {% assign plain_content = post.content | strip_html | strip_newlines %}
@@ -177,8 +177,11 @@ subtitle: 社交媒体资料聚合页
                 <div class="feed-list" id="patents-list">
                     {% assign patents = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | sort: "date" | reverse %}
                     {% for patent in patents %}
-                    <a href="{{ patent.url }}" class="blog-card-wide expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
-                        <div class="blog-card-content">
+                    <a href="{{ patent.url }}" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                        <div class="post-avatar">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                        </div>
+                        <div class="feed-content">
                             <div class="blog-card-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</div>
                             <div class="blog-card-excerpt">
                                 {{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}
@@ -199,8 +202,11 @@ subtitle: 社交媒体资料聚合页
                     {% assign books = site.data.books.all | reverse %}
                     {% for book in books %}
                     <a href="https://book.douban.com/subject/{{ book.book_id }}/" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                        <div class="post-avatar">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                        </div>
                         <div class="feed-content">
-                            <span class="feed-meta">{{ book.date_read | slice: 0, 4 }} · ⭐ {{ book.my_rating }}/{{ book.douban_rating }}</span>
+                            <span class="feed-meta">{{ book.date_read | slice: 0, 4 }} · <span class="rating-stars" data-score="{% if book.my_rating %}{{ book.my_rating | times: 2 }}{% else %}{{ book.douban_rating }}{% endif %}"></span> {{ book.my_rating | default: '-' }}/{{ book.douban_rating }}</span>
                             <h5 class="feed-title">{{ book.title }}</h5>
                             <p class="feed-excerpt">{{ book.author }} · {{ book.publisher }}</p>
                             {% if book.my_comment %}
@@ -224,8 +230,11 @@ subtitle: 社交媒体资料聚合页
                     {% assign movies = site.data.movies.all | reverse %}
                     {% for movie in movies %}
                     <a href="https://movie.douban.com/subject/{{ movie.movie_id }}/" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                        <div class="post-avatar">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                        </div>
                         <div class="feed-content">
-                            <span class="feed-meta">{{ movie.watched_date | slice: 0, 4 }} · ⭐ {{ movie.my_rating }}/{{ movie.douban_rating }}</span>
+                            <span class="feed-meta">{{ movie.watched_date | slice: 0, 4 }} · <span class="rating-stars" data-score="{% if movie.my_rating %}{{ movie.my_rating | times: 2 }}{% else %}{{ movie.douban_rating }}{% endif %}"></span> {{ movie.my_rating | default: '-' }}/{{ movie.douban_rating }}</span>
                             <h5 class="feed-title">{{ movie.title }}</h5>
                             <p class="feed-excerpt">{{ movie.directors | join: ", " }} · {{ movie.genres | join: "/" }}</p>
                             {% if movie.my_comment %}
@@ -249,8 +258,11 @@ subtitle: 社交媒体资料聚合页
                     {% assign games = site.data.games.all | reverse %}
                     {% for game in games %}
                     <a href="{{ game.douban_url }}" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                        <div class="post-avatar">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                        </div>
                         <div class="feed-content">
-                            <span class="feed-meta">{{ game.played_date | slice: 0, 4 }} · ⭐ {{ game.my_rating }}/{{ game.douban_rating }}</span>
+                            <span class="feed-meta">{{ game.played_date | slice: 0, 4 }} · <span class="rating-stars" data-score="{% if game.my_rating %}{{ game.my_rating | times: 2 }}{% else %}{{ game.douban_rating }}{% endif %}"></span> {{ game.my_rating | default: '-' }}/{{ game.douban_rating }}</span>
                             <h5 class="feed-title">{{ game.title }}</h5>
                             <p class="feed-excerpt">{{ game.platforms | join: "/" }} · {{ game.genres | join: "/" }}</p>
                             {% if game.developer %}
@@ -537,7 +549,8 @@ subtitle: 社交媒体资料聚合页
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 10px;
+    flex-direction: column; /* Stack icon and text */
+    padding: 10px 5px;
     text-decoration: none;
     color: #536471;
     font-size: 15px;
@@ -550,7 +563,13 @@ subtitle: 社交媒体资料聚合页
 }
 
 .tab-item.active {
-    color: #0f1419;
+    color: #1d9bf0;
+    font-weight: 700;
+}
+
+.tab-item.active svg {
+    stroke: #1d9bf0;
+    fill: rgba(29, 155, 240, 0.1);
 }
 
 .tab-item.active::after {
@@ -563,6 +582,12 @@ subtitle: 社交媒体资料聚合页
     height: 4px;
     background: #1d9bf0;
     border-radius: 2px;
+}
+
+.tab-label {
+    display: block;
+    font-size: 10px;
+    margin-top: 2px;
 }
 
 /* Content Panels */
@@ -600,8 +625,8 @@ subtitle: 社交媒体资料聚合页
 }
 
 .post-avatar img {
-    width: 24px; /* Reduced to compact size */
-    height: 24px;
+    width: 48px; /* Doubled size per request */
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -765,10 +790,39 @@ subtitle: 社交媒体资料聚合页
     display: flex !important;
     gap: 8px;
     margin-top: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin; /* Firefox */
+}
+
+/* Custom Scrollbar for Chrome/Safari/Webkit */
+.social-image-grid::-webkit-scrollbar {
+    height: 6px;
+}
+
+.social-image-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.social-image-grid::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.social-image-grid::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
 }
 
 .grid-img-wrap {
     width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: zoom-in;
+    position: relative;
+    flex-shrink: 0; /* Prevent shrinking in flex container */
+}
     height: 100px;
     flex-shrink: 0;
     position: relative;
@@ -959,7 +1013,7 @@ input:focus {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.25); /* Lighter background */
     color: white;
     border: none;
     padding: 16px;
@@ -970,11 +1024,23 @@ input:focus {
 }
 
 .lightbox-nav:hover {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.4); /* Even lighter on hover */
 }
 
 #lightbox-prev {
     left: 20px;
+}
+
+.lightbox-counter {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 #lightbox-next {
@@ -1039,6 +1105,10 @@ input:focus {
     .tab-icon-mobile {
         display: block !important;
         margin: 0 auto;
+    }
+    
+    #search-toggle {
+        display: none !important;
     }
 
     .tab-item {
@@ -1290,6 +1360,22 @@ function updateLightboxImage() {
     const nextBtn = document.getElementById('lightbox-next');
     if (prevBtn) prevBtn.style.display = currentImages.length > 1 ? 'flex' : 'none';
     if (nextBtn) nextBtn.style.display = currentImages.length > 1 ? 'flex' : 'none';
+
+    // Update Counter
+    let counter = document.getElementById('lightbox-counter');
+    if (!counter) {
+        counter = document.createElement('div');
+        counter.id = 'lightbox-counter';
+        counter.className = 'lightbox-counter';
+        document.getElementById('lightbox').appendChild(counter);
+    }
+    
+    if (currentImages.length > 1) {
+        counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
+        counter.style.display = 'block';
+    } else {
+        counter.style.display = 'none';
+    }
 }
 
 function nextLightboxImage(e) {
@@ -1325,5 +1411,46 @@ document.addEventListener('keydown', function(e) {
         if (e.key === 'ArrowLeft') prevLightboxImage();
         if (e.key === 'Escape') closeLightbox();
     }
+});
+
+// Render Stars
+function renderStars(score) {
+    if (!score) return '';
+    const num = parseFloat(score);
+    const stars = Math.round((num / 2) * 2) / 2;
+    const full = Math.floor(stars);
+    const half = stars % 1 !== 0;
+    const empty = 5 - Math.ceil(stars);
+    
+    const starPath = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z";
+    
+    let html = '';
+    
+    // Full Stars
+    for(let i=0; i<full; i++) {
+        html += `<svg viewBox="0 0 24 24" width="14" height="14" fill="#ffa500"><path d="${starPath}"/></svg>`;
+    }
+    
+    // Half Star
+    if(half) {
+        html += `<span style="position:relative; display:inline-block; width:14px; height:14px;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="#e0e0e0"><path d="${starPath}"/></svg>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="#ffa500" style="position:absolute; left:0; top:0; clip-path: inset(0 50% 0 0);"><path d="${starPath}"/></svg>
+        </span>`;
+    }
+    
+    // Empty Stars
+    for(let i=0; i<empty; i++) {
+        html += `<svg viewBox="0 0 24 24" width="14" height="14" fill="#e0e0e0"><path d="${starPath}"/></svg>`;
+    }
+    
+    return html;
+}
+
+// Initialize Stars
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.rating-stars').forEach(el => {
+        el.innerHTML = renderStars(el.dataset.score);
+    });
 });
 </script>
