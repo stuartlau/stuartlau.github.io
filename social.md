@@ -7,8 +7,8 @@ subtitle: 社交媒体资料聚合页
     <!-- Left Sidebar - Fixed -->
     <aside class="social-left-sidebar">
         <div class="left-sidebar-inner">
-            <a href="/" class="sidebar-logo">
-                <img src="{{ site.url }}/images/linkedin_avatar.jpg" alt="Stuart Lau">
+            <a href="/" class="sidebar-logo-text">
+                STUART LAU
             </a>
             <nav class="sidebar-nav">
                 <a href="/" class="nav-item">
@@ -79,12 +79,30 @@ subtitle: 社交媒体资料聚合页
 
         <!-- Tab Navigation -->
         <div class="content-tabs">
-            <a href="#posts" class="tab-item active" data-tab="posts">Posts</a>
-            <a href="#blogs" class="tab-item" data-tab="blogs">Blogs</a>
-            <a href="#patents" class="tab-item" data-tab="patents">Patents</a>
-            <a href="#books" class="tab-item" data-tab="books">Books</a>
-            <a href="#movies" class="tab-item" data-tab="movies">Movies</a>
-            <a href="#games" class="tab-item" data-tab="games">Games</a>
+            <a href="#posts" class="tab-item active" data-tab="posts">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                <span class="tab-text">Posts</span>
+            </a>
+            <a href="#blogs" class="tab-item" data-tab="blogs">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
+                <span class="tab-text">Blogs</span>
+            </a>
+            <a href="#patents" class="tab-item" data-tab="patents">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span class="tab-text">Patents</span>
+            </a>
+            <a href="#books" class="tab-item" data-tab="books">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                <span class="tab-text">Books</span>
+            </a>
+            <a href="#movies" class="tab-item" data-tab="movies">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+                <span class="tab-text">Movies</span>
+            </a>
+            <a href="#games" class="tab-item" data-tab="games">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
+                <span class="tab-text">Games</span>
+            </a>
         </div>
 
         <!-- Content Panels -->
@@ -260,9 +278,6 @@ subtitle: 社交媒体资料聚合页
                 <div class="widget-title">Search</div>
                 <div class="search-box">
                     <input type="text" id="sidebar-search" placeholder="Search posts...">
-                    <button onclick="performSearch()">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                    </button>
                 </div>
             </div>
             
@@ -329,16 +344,15 @@ subtitle: 社交媒体资料聚合页
     height: 100%;
 }
 
-.sidebar-logo {
+.sidebar-logo-text {
     display: block;
     margin-bottom: 30px;
-}
-
-.sidebar-logo img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
+    font-size: 20px;
+    font-weight: 900;
+    color: #0f1419;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+    padding-left: 16px; /* Align with icons below */
 }
 
 .sidebar-nav {
@@ -414,8 +428,8 @@ subtitle: 社交媒体资料聚合页
 }
 
 .profile-avatar img {
-    width: 130px;
-    height: 130px;
+    width: 100px; /* Reduced from 130px */
+    height: 100px;
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid #fff;
@@ -425,7 +439,7 @@ subtitle: 社交媒体资料聚合页
 
 /* Profile Details */
 .profile-details {
-    margin-top: 75px;
+    margin-top: 50px; /* Reduced from 75px since avatar is smaller */
 }
 
 .profile-name {
@@ -483,6 +497,10 @@ subtitle: 社交媒体资料聚合页
 }
 
 /* Content Tabs */
+.tab-icon-mobile {
+    display: none; /* Hidden by default on PC */
+}
+
 .content-tabs {
     display: flex;
     background: #fff;
@@ -558,8 +576,8 @@ subtitle: 社交媒体资料聚合页
 }
 
 .post-avatar img {
-    width: 40px;
-    height: 40px;
+    width: 20px; /* Reduced to avoid overlapping */
+    height: 20px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -799,20 +817,21 @@ subtitle: 社交媒体资料聚合页
 }
 
 .search-box {
-    display: flex;
-    gap: 8px;
+    position: relative;
+    width: 100%;
 }
 
 .search-box input {
-    flex: 1;
-    padding: 12px 16px;
-    border: 1px solid #eff3f4;
-    border-radius: 20px;
+    width: 100%;
+    padding: 12px 20px;
+    background: #eff3f4;
+    border: 1px solid transparent;
+    border-radius: 30px;
     font-size: 15px;
     outline: none;
+    transition: all 0.2s;
 }
-
-.search-box input:focus {
+input:focus {
     border-color: #1d9bf0;
 }
 
@@ -970,29 +989,47 @@ subtitle: 社交媒体资料聚合页
     
     .social-main {
         width: 100%;
+        margin: 0 auto; /* Center content */
         border-left: none;
         border-right: none;
+    }
+
+    .tab-text {
+        display: none; /* Hide text on mobile */
+    }
+
+    .tab-icon-mobile {
+        display: block; /* Show icons on mobile */
+        margin: 0 auto;
     }
     
     .profile-header {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        padding: 40px 20px !important;
+        padding: 0 !important;
         min-height: 180px !important;
     }
-    
-    .profile-info {
-        padding: 20px 0 0 0 !important;
+
+    .profile-info-container {
+        padding: 0 20px 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-avatar {
+        position: relative;
+        top: -40px;
+        left: 0;
+        margin: 0 auto;
     }
     
-    .profile-meta {
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    
-    .profile-stats {
-        justify-content: center;
+    .profile-details {
+        margin-top: -30px;
+        width: 100%;
+        text-align: center;
     }
     
     .content-tabs {
@@ -1041,7 +1078,11 @@ function performSearch() {
     const searchModal = document.getElementById('search-modal');
     const searchToggle = document.getElementById('search-toggle');
     if (searchModal && searchToggle) {
-        searchToggle.click(); // Trigger the existing search modal
+        // Only trigger modal if hidden
+        if (searchModal.hasAttribute('hidden')) {
+            searchToggle.click();
+        }
+        
         const query = document.getElementById('sidebar-search').value.trim();
         if (query) {
             setTimeout(() => {
@@ -1049,8 +1090,9 @@ function performSearch() {
                 if (searchInput) {
                     searchInput.value = query;
                     searchInput.dispatchEvent(new Event('input'));
+                    searchInput.focus();
                 }
-            }, 100);
+            }, 200);
         }
     }
 }
