@@ -314,8 +314,9 @@
             <!-- Blog Panel -->
             <div class="tab-panel" id="blog-panel">
                 <div class="article-list">
-                    {% assign tech_posts = site.posts | where_exp: "item", "item.categories contains '技术' or item.path
-                    contains 'tech'" %}
+                    {% assign tech_posts_cat = site.posts | where_exp: "item", "item.categories contains '技术'" %}
+                    {% assign tech_posts_path = site.posts | where_exp: "item", "item.path contains 'tech'" %}
+                    {% assign tech_posts = tech_posts_cat | concat: tech_posts_path | uniq | sort: 'date' | reverse %}
                     {% for post in tech_posts limit: 8 %}
                     <a href="{{ post.url }}" class="article-item">
                         <span class="article-date">{{ post.date | date: "%Y-%m-%d" }}</span>
