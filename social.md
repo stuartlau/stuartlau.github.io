@@ -66,12 +66,12 @@ subtitle: 社交媒体资料聚合页
                     <p class="profile-bio">Full Stack Engineer & Patent Inventor | 120+ Patents | Building systems at scale</p>
                     <div class="profile-meta">
                         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Shanghai, China</span>
-                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg> Joined January 2025</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg> <a href="{{ site.url }}" target="_blank">stuartlau.github.io</a></span>
                     </div>
                     <div class="profile-stats">
                         <a href="/publications/"><span class="stat-value">120+</span> Patents</a>
                         <a href="/life/"><span class="stat-value">14</span> Countries</a>
-                        <a href="/blogs/"><span class="stat-value">50+</span> Posts</a>
+                        <a href="/blogs/"><span class="stat-value">180+</span> Blogs</a>
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@ subtitle: 社交媒体资料聚合页
                     {% endfor %}
                     {% assign sorted_posts = all_posts | sort: "time" | reverse %}
                     {% for item in sorted_posts %}
-                    <div class="feed-item douban-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                    <div class="feed-item douban-item expandable-item">
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/linkedin_avatar.jpg" alt="Stuart Lau">
                         </div>
@@ -316,12 +316,19 @@ subtitle: 社交媒体资料聚合页
 
 <style>
 /* Twitter-style Layout */
+* {
+    box-sizing: border-box;
+}
+
 .social-layout {
     display: flex;
-    justify-content:center;
+    justify-content: center;
     margin: 0 auto;
     min-height: 100vh;
     background: #fff;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
 /* Left Sidebar - Fixed */
@@ -364,8 +371,8 @@ subtitle: 社交媒体资料聚合页
 .sidebar-nav .nav-item {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 12px 16px;
+    gap: 12px; /* Reduced gap from 20px */
+    padding: 10px 16px; /* Reduced vertical padding */
     border-radius: 30px;
     color: #0f1419;
     text-decoration: none;
@@ -387,7 +394,7 @@ subtitle: 社交媒体资料聚合页
     width: 55%;
     max-width: 800px;
     min-width: 600px;
-    min-height: 100vh;
+    min-height: 60vh; /* Set to 60vh to avoid excessive white space while maintaining layout */
     border-right: 1px solid #eff3f4;
     border-left: 1px solid #eff3f4;
     background: #fff;
@@ -509,18 +516,33 @@ subtitle: 社交媒体资料聚合页
     position: sticky;
     top: 0;
     z-index: 50;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .content-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        justify-content: flex-start;
+    }
+    
+    .tab-item {
+        flex: 0 0 auto;
+        min-width: 60px;
+    }
 }
 
 .tab-item {
     flex: 1;
-    padding: 16px;
-    text-align: center;
-    color: #536471;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 10px;
     text-decoration: none;
+    color: #536471;
     font-size: 15px;
-    font-weight: 500;
-    transition: all 0.2s;
-    position: relative;
+    transition: background 0.2s;
+    border-bottom: 4px solid transparent;
 }
 
 .tab-item:hover {
@@ -578,8 +600,8 @@ subtitle: 社交媒体资料聚合页
 }
 
 .post-avatar img {
-    width: 20px; /* Reduced to avoid overlapping */
-    height: 20px;
+    width: 48px; /* Increased from 20px, about 2 lines height */
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -986,24 +1008,39 @@ input:focus {
 }
 
 @media (max-width: 768px) {
-    .social-left-sidebar {
-        display: none;
+    .social-left-sidebar, .social-right-sidebar {
+        display: none !important;
     }
     
-    .social-main {
+    .social-layout {
+        display: block;
         width: 100%;
-        margin: 0 auto; /* Center content */
-        border-left: none;
-        border-right: none;
+    }
+
+    .social-main {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+    }
+
+    /* Hide search box on mobile to save space */
+    .search-widget {
+        display: none !important;
     }
 
     .tab-text {
-        display: none; /* Hide text on mobile */
+        display: none; 
     }
 
     .tab-icon-mobile {
-        display: block; /* Show icons on mobile */
+        display: block !important;
         margin: 0 auto;
+    }
+
+    .tab-item {
+        padding: 12px 0;
     }
     
     .profile-header {
@@ -1066,6 +1103,19 @@ document.addEventListener('DOMContentLoaded', function() {
             history.pushState(null, null, '#' + targetTab);
         });
     });
+
+    // Random Cover Image
+    const coverImgs = [
+        'bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg', 'bg6.jpg'
+    ];
+    const randomBg = coverImgs[Math.floor(Math.random() * coverImgs.length)];
+    const coverImgEl = document.querySelector('.profile-cover img');
+    if (coverImgEl) {
+        // Correct path to background image - removing redundant '/' if any
+        let baseUrl = '{{ site.url }}';
+        if (baseUrl.endsWith('/')) baseUrl = baseUrl.slice(0, -1);
+        coverImgEl.src = baseUrl + '/images/background/' + randomBg;
+    }
 
     if (window.location.hash) {
         var hash = window.location.hash.slice(1);
