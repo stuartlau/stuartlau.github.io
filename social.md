@@ -153,7 +153,7 @@ subtitle: 社交媒体资料聚合页
             <!-- Blogs Tab -->
             <div class="content-panel" id="blogs-panel">
                 <div class="blogs-column" id="blogs-list">
-                    {% assign posts = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/tech'" | sort: "date" | reverse %}
+                    {% assign posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/tech/'" | sort: "date" | reverse %}
                     {% for post in posts %}
                     <a href="{{ post.url }}" class="blog-card-wide expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="blog-card-content">
@@ -437,9 +437,10 @@ subtitle: 社交媒体资料聚合页
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Profile Details */
+/* Profile Details - Align with icons below */
 .profile-details {
-    margin-top: 50px; /* Reduced from 75px since avatar is smaller */
+    margin-top: 50px;
+    padding-left: 16px; /* Align with sidebar text */
 }
 
 .profile-name {
@@ -554,11 +555,12 @@ subtitle: 社交媒体资料聚合页
 /* Feed Items */
 .feed-item {
     display: flex;
-    padding: 12px 20px;
+    justify-content: flex-start; /* Compact layout */
+    gap: 16px; /* Tight distance between text and image */
+    padding: 12px 16px;
     border-bottom: 1px solid #eff3f4;
     text-decoration: none;
     transition: background 0.2s;
-    gap: 12px;
 }
 
 .feed-item:hover {
@@ -594,6 +596,7 @@ subtitle: 社交媒体资料聚合页
     font-size: 15px;
     font-weight: 700;
     color: #0f1419;
+    margin-left: 2px; /* Ensure space from avatar */
 }
 
 .feed-meta {
@@ -1030,6 +1033,7 @@ input:focus {
         margin-top: -30px;
         width: 100%;
         text-align: center;
+        padding-left: 0; /* Clear PC alignment */
     }
     
     .content-tabs {
