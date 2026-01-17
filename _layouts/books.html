@@ -26,83 +26,19 @@ layout: default
         </div>
     </div>
 
-    <div class="books-grid" id="books-grid">
+    <div class="books-grid" id="books-grid" data-api-base="/api/books"></div>
 
-        {% for book in book_data %}
-        <a href="{{ book.douban_url }}" target="_blank" class="book-card"
-            data-douban-rating="{{ book.douban_rating | default: 0 }}" data-read-date="{{ book.read_date }}"
-            data-publish-date="{{ book.publish_date }}" data-title="{{ book.title }}"
-            data-status="{{ book.status | default: 'collect' }}" data-author="{{ book.author }}">
+    <!-- Loading indicator -->
+    <div class="infinite-loading" style="display: none;">
+        <div class="infinite-spinner">
+            <div class="spinner"></div>
+            <span>加载中...</span>
+        </div>
+    </div>
 
-            <!-- Cover -->
-            <div class="book-cover">
-                {% if book.cover %}
-                <img src="{{ book.cover }}" alt="{{ book.title }}" loading="lazy">
-                {% else %}
-                <div class="cover-placeholder">
-                    <span>📚</span>
-                </div>
-                {% endif %}
-            </div>
-
-            <!-- Info -->
-            <div class="book-info">
-                <h3 class="book-title" title="{{ book.title }}">
-                    {{ book.title }}
-                </h3>
-
-                <div class="book-author">{{ book.author }}</div>
-
-                <div class="book-meta">
-                    {% if book.my_rating %}
-                    <div class="book-rating">
-                        {% for i in (1..5) %}
-                        <span class="star {% if i <= book.my_rating %}filled{% endif %}">★</span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
-                    {% if book.publish_date %}
-                    <div class="book-date">{{ book.publish_date }}</div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Tooltip -->
-            <!-- Tooltip -->
-            <div class="book-tooltip">
-                {% if book.cover %}
-                <div class="tooltip-poster">
-                    <img src="{{ book.cover }}" alt="{{ book.title }}" loading="lazy">
-                </div>
-                {% endif %}
-                <div class="tooltip-content">
-                    {% if book.author %}
-                    <p><strong>作者：</strong>{{ book.author }}</p>
-                    {% endif %}
-                    {% if book.translator %}
-                    <p><strong>译者：</strong>{{ book.translator }}</p>
-                    {% endif %}
-                    {% if book.publisher %}
-                    <p><strong>出版社：</strong>{{ book.publisher }}</p>
-                    {% endif %}
-                    {% if book.publish_date %}
-                    <p><strong>出版日期：</strong>{{ book.publish_date }}</p>
-                    {% endif %}
-                    {% if book.pages %}
-                    <p><strong>页数：</strong>{{ book.pages }}</p>
-                    {% endif %}
-                    {% if book.douban_rating %}
-                    <p><strong>豆瓣：</strong><span class="rating-highlight">{{ book.douban_rating }}</span>{% if
-                        book.rating_count %} ({{ book.rating_count }}人){% endif %}</p>
-                    {% endif %}
-                    {% if book.my_comment %}
-                    <p class="tooltip-comment">💬 {{ book.my_comment }}</p>
-                    {% endif %}
-                </div>
-            </div>
-        </a>
-        {% endfor %}
+    <!-- End indicator -->
+    <div class="infinite-end" style="display: none; text-align: center; padding: 30px; color: #999;">
+        <span>— 已经到底啦 —</span>
     </div>
 
     <!-- Empty state -->
@@ -125,51 +61,161 @@ layout: default
 
         if (!grid) return;
 
-        const cards = Array.from(grid.querySelectorAll('.book-card'));
+        const apiBase = grid.dataset.apiBase;
+        const itemsPerPage = 24;
+        let currentPage = 1;
+        let isLoading = false;
+        let hasMore = true;
+        let allCards = [];
         let currentMode = 'normal';
 
-        function renderBooks() {
-            // Toggle view mode class
-            if (currentMode === 'minimal') {
-                grid.classList.add('minimal-mode');
-            } else {
-                grid.classList.remove('minimal-mode');
-            }
+        function renderBookCard(book) {
+            const statusClass = book.status ? `status-${book.status}` : '';
+            const coverHtml = book.cover
+                ? `<img src="${book.cover}" alt="${book.title}" loading="lazy">`
+                : `<div class="cover-placeholder"><span>📚</span></div>`;
 
-            // Sort by publish-date descending
-            const sortedCards = [...cards].sort((a, b) => {
+            const ratingHtml = book.my_rating
+                ? `<div class="book-rating">${Array(5).fill(0).map((_, i) =>
+                    `<span class="star ${i < book.my_rating ? 'filled' : ''}">★</span>`).join('')}</div>`
+                : '';
+
+            const dateHtml = book.publish_date
+                ? `<div class="book-date">${book.publish_date}</div>`
+                : '';
+
+            const tooltipHtml = `
+                <div class="book-tooltip">
+                    ${book.cover ? `<div class="tooltip-poster"><img src="${book.cover}" alt="${book.title}"></div>` : ''}
+                    <div class="tooltip-content">
+                        ${book.author ? `<p><strong>作者：</strong>${book.author}</p>` : ''}
+                        ${book.translator ? `<p><strong>译者：</strong>${book.translator}</p>` : ''}
+                        ${book.publisher ? `<p><strong>出版社：</strong>${book.publisher}</p>` : ''}
+                        ${book.publish_date ? `<p><strong>出版日期：</strong>${book.publish_date}</p>` : ''}
+                        ${book.pages ? `<p><strong>页数：</strong>${book.pages}</p>` : ''}
+                        ${book.douban_rating ? `<p><strong>豆瓣：</strong><span class="rating-highlight">${book.douban_rating}</span>${book.rating_count ? ` (${book.rating_count}人)` : ''}</p>` : ''}
+                        ${book.my_comment ? `<p class="tooltip-comment">💬 ${book.my_comment}</p>` : ''}
+                    </div>
+                </div>
+            `;
+
+            return `
+                <a href="${book.douban_url}" target="_blank" class="book-card ${statusClass}"
+                    data-douban-rating="${book.douban_rating || 0}" data-read-date="${book.read_date || ''}"
+                    data-publish-date="${book.publish_date || ''}" data-title="${book.title || ''}"
+                    data-status="${book.status || 'collect'}" data-author="${book.author || ''}">
+                    <div class="book-cover">${coverHtml}</div>
+                    <div class="book-info">
+                        <h3 class="book-title" title="${book.title}">${book.title}</h3>
+                        <div class="book-author">${book.author || ''}</div>
+                        <div class="book-meta">${ratingHtml}${dateHtml}</div>
+                    </div>
+                    ${tooltipHtml}
+                </a>
+            `;
+        }
+
+        async function loadBooks() {
+            if (isLoading || !hasMore) return;
+
+            isLoading = true;
+            document.querySelector('.infinite-loading').style.display = 'block';
+
+            try {
+                const response = await fetch(`${apiBase}/page-${currentPage}.json`);
+                if (!response.ok) throw new Error('Failed to fetch');
+
+                const data = await response.json();
+
+                if (data.data && data.data.length > 0) {
+                    data.data.forEach(book => {
+                        const cardHtml = renderBookCard(book);
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = cardHtml;
+                        const card = tempDiv.firstElementChild;
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(10px)';
+                        grid.appendChild(card);
+
+                        requestAnimationFrame(() => {
+                            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        });
+
+                        allCards.push(card);
+                    });
+
+                    currentPage++;
+                    hasMore = data.page < data.total_pages;
+                } else {
+                    hasMore = false;
+                }
+
+                if (!hasMore) {
+                    document.querySelector('.infinite-end').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Failed to load books:', error);
+                document.querySelector('.infinite-loading span').textContent = '加载失败，点击重试';
+                document.querySelector('.infinite-loading').style.cursor = 'pointer';
+                document.querySelector('.infinite-loading').onclick = loadBooks;
+            } finally {
+                isLoading = false;
+                if (hasMore) {
+                    document.querySelector('.infinite-loading').style.display = 'none';
+                }
+            }
+        }
+
+        function sortAndRender() {
+            const sortedCards = [...allCards].sort((a, b) => {
                 const dateA = a.dataset.publishDate || '';
                 const dateB = b.dataset.publishDate || '';
-                // Extract year for comparison
                 const yearA = dateA.match(/\d{4}/)?.[0] || '0000';
                 const yearB = dateB.match(/\d{4}/)?.[0] || '0000';
                 return yearB.localeCompare(yearA);
             });
 
-            // Reorder cards
             sortedCards.forEach((card, index) => {
                 card.style.display = '';
                 card.style.order = index;
             });
 
-            // Toggle empty state
             if (emptyState) {
-                emptyState.style.display = sortedCards.length === 0 ? 'block' : 'none';
+                emptyState.style.display = allCards.length === 0 ? 'block' : 'none';
             }
         }
 
-        // Event listener for mode links
         modeLinks.forEach(link => {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 modeLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 currentMode = this.dataset.mode;
-                renderBooks();
+
+                if (currentMode === 'minimal') {
+                    grid.classList.add('minimal-mode');
+                } else {
+                    grid.classList.remove('minimal-mode');
+                }
             });
         });
 
-        // Initial render
-        renderBooks();
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && hasMore && !isLoading) {
+                    loadBooks();
+                }
+            });
+        }, { rootMargin: '200px' });
+
+        const endIndicator = document.querySelector('.infinite-end');
+        if (endIndicator) {
+            observer.observe(endIndicator);
+        }
+
+        // Load first page
+        loadBooks();
     });
 </script>

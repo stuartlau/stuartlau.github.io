@@ -1,0 +1,15 @@
+---
+layout: null
+---
+{
+  "page": {{ page.api_page | default: 1 }},
+  "total_pages": {{ page.api_total_pages | default: 1 }},
+  "total_count": {{ page.api_total_count | default: 0 }},
+  "data": [
+    {% if page.api_data %}
+      {% for item in page.api_data %}
+        {{ item | jsonify }}{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    {% endif %}
+  ]
+}

@@ -2,6 +2,7 @@
 layout: page
 permalink: /blogs/index.html
 title: Blogs
+subtitle: 技术博客，记录学习与成长
 ---
 
 <div class="tag-cloud-wrap">
@@ -13,43 +14,19 @@ title: Blogs
   <div id="tag-cloud" class="tag-cloud"></div>
 </div>
 
-<div id="blog-list" class="blog-list"></div>
+<div id="blog-list" class="blog-list" data-api-base="/api/blogs"></div>
 
-{% assign docs = site.pages | where: "layout", "post" %}
-{% assign docs = docs | where_exp: "p", "p.url contains '/blogs/'" %}
-{% assign filtered_docs = "" | split: "," %}
-{% for p in docs %}
-  {% assign has_travelling = false %}
-  {% assign has_moment = false %}
-  {% if p.tags contains 'Travelling' %}
-    {% assign has_travelling = true %}
-  {% endif %}
-  {% if p.tags contains 'Moment' %}
-    {% assign has_moment = true %}
-  {% endif %}
-  {% if p.title contains 'Moment' %}
-    {% assign has_moment = true %}
-  {% endif %}
-  {% if p.tags contains 'Patent' %}
-    {% continue %}
-  {% endif %}
-  {% unless has_travelling or has_moment %}
-    {% assign filtered_docs = filtered_docs | push: p %}
-  {% endunless %}
-{% endfor %}
-{% assign docs = filtered_docs | sort: "date" | reverse %}
+<div class="infinite-loading" id="blog-loading" style="display: none; text-align: center; padding: 20px;">
+  <div class="infinite-spinner">
+    <div class="spinner"></div>
+    <span>加载中...</span>
+  </div>
+</div>
+
+<div class="infinite-end" id="blog-end" style="display: none; text-align: center; padding: 30px; color: #999;">
+  <span>— 已经到底啦 —</span>
+</div>
 
 <script>
-  window.__BLOG_POSTS__ = [
-    {% for p in docs %}
-      {
-        title: {{ p.title | default: p.url | jsonify }},
-        url: {{ p.permalink | default: p.url | relative_url | jsonify }},
-        date: {{ p.date | date_to_xmlschema | jsonify }},
-        tags: {{ p.tags | default: empty | jsonify }},
-        excerpt: {{ p.subtitle | default: p.excerpt | default: p.content | strip_html | strip_newlines | truncate: 100 | jsonify }}
-      }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ];
+  window.__BLOG_POSTS__ = [];
 </script>
-

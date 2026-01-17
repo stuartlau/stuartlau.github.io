@@ -42,86 +42,25 @@ layout: default
         </div>
     </div>
 
+    {% if page.dataset == 'all' %}
+    <div class="movies-grid" id="movies-grid" data-api-base="/api/movies"></div>
+    {% elsif page.year %}
+    <div class="movies-grid" id="movies-grid" data-api-base="/api/movies/{{ page.year }}"></div>
+    {% else %}
+    <div class="movies-grid" id="movies-grid" data-api-base="/api/movies"></div>
+    {% endif %}
 
-    <div class="movies-grid" id="movies-grid">
-        {% for movie in year_data %}
-        <a href="{{ movie.douban_url }}" target="_blank" class="movie-card"
-            data-douban-rating="{{ movie.douban_rating | default: 0 }}" data-date="{{ movie.watched_date }}"
-            data-pub-date="{{ movie.pub_date | default: movie.year }}" data-title="{{ movie.title }}"
-            data-genres="{{ movie.genres | join: ',' }}" data-countries="{{ movie.countries }}">
+    <!-- Loading indicator -->
+    <div class="infinite-loading" style="display: none;">
+        <div class="infinite-spinner">
+            <div class="spinner"></div>
+            <span>加载中...</span>
+        </div>
+    </div>
 
-            <!-- Poster -->
-            <div class="movie-poster">
-                {% if movie.poster %}
-                <img src="{{ movie.poster }}" alt="{{ movie.title }}" loading="lazy">
-                {% else %}
-                <div class="poster-placeholder">
-                    <span>📽️</span>
-                </div>
-                {% endif %}
-            </div>
-
-            <!-- Info -->
-            <div class="movie-info">
-                <h3 class="movie-title" title="{{ movie.title }}">
-                    {{ movie.title }}
-                </h3>
-
-                {% if movie.original_title and movie.original_title != movie.title %}
-                <p class="movie-original-title" title="{{ movie.original_title }}">
-                    {{ movie.original_title }}
-                </p>
-                {% endif %}
-
-                <div class="movie-meta">
-                    {% if movie.my_rating %}
-                    <div class="movie-rating">
-                        {% for i in (1..5) %}
-                        <span class="star {% if i <= movie.my_rating %}filled{% endif %}">★</span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
-                    {% if movie.watched_date %}
-                    <div class="movie-date">{{ movie.watched_date }}</div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Tooltip (shown on hover) -->
-            <div class="movie-tooltip">
-                {% if movie.poster %}
-                <div class="tooltip-poster">
-                    <img src="{{ movie.poster }}" alt="{{ movie.title }}" loading="lazy">
-                </div>
-                {% endif %}
-                <div class="tooltip-content">
-                    {% if movie.directors and movie.directors.size > 0 %}
-                    <p><strong>导演：</strong>{{ movie.directors | join: " / " }}</p>
-                    {% endif %}
-                    {% if movie.cast and movie.cast.size > 0 %}
-                    <p><strong>主演：</strong>{{ movie.cast | slice: 0, 5 | join: " / " }}</p>
-                    {% endif %}
-                    {% if movie.genres and movie.genres.size > 0 %}
-                    <p><strong>类型：</strong>{{ movie.genres | join: " / " }}</p>
-                    {% endif %}
-                    {% if movie.countries %}
-                    <p><strong>国家：</strong>{{ movie.countries }}</p>
-                    {% endif %}
-                    {% if movie.pub_date %}
-                    <p><strong>上映：</strong>{{ movie.pub_date }}</p>
-                    {% endif %}
-                    {% if movie.douban_rating %}
-                    <p><strong>豆瓣：</strong><span class="rating-highlight">{{ movie.douban_rating }}</span>{% if
-                        movie.rating_count %} ({{ movie.rating_count }}人){% endif %}</p>
-                    {% endif %}
-                    {% if movie.my_comment %}
-                    <p class="tooltip-comment">💬 {{ movie.my_comment }}</p>
-                    {% endif %}
-                </div>
-            </div>
-        </a>
-        {% endfor %}
+    <!-- End indicator -->
+    <div class="infinite-end" style="display: none; text-align: center; padding: 30px; color: #999;">
+        <span>— 已经到底啦 —</span>
     </div>
 
     <!-- Empty state -->
@@ -144,28 +83,130 @@ layout: default
 
         if (!grid) return;
 
-        const cards = Array.from(grid.querySelectorAll('.movie-card'));
+        const apiBase = grid.dataset.apiBase;
+        let currentPage = 1;
+        let isLoading = false;
+        let hasMore = true;
+        let allCards = [];
         let currentMode = 'normal';
 
-        function renderMovies() {
-            // Toggle view mode class
+        function renderMovieCard(movie) {
+            const coverHtml = movie.poster
+                ? `<img src="${movie.poster}" alt="${movie.title}" loading="lazy">`
+                : `<div class="poster-placeholder"><span>📽️</span></div>`;
+
+            const ratingHtml = movie.my_rating
+                ? `<div class="movie-rating">${Array(5).fill(0).map((_, i) =>
+                    `<span class="star ${i < movie.my_rating ? 'filled' : ''}">★</span>`).join('')}</div>`
+                : '';
+
+            const dateHtml = movie.watched_date
+                ? `<div class="movie-date">${movie.watched_date}</div>`
+                : '';
+
+            const origTitleHtml = movie.original_title && movie.original_title !== movie.title
+                ? `<p class="movie-original-title" title="${movie.original_title}">${movie.original_title}</p>`
+                : '';
+
+            const tooltipHtml = `
+                <div class="movie-tooltip">
+                    ${movie.poster ? `<div class="tooltip-poster"><img src="${movie.poster}" alt="${movie.title}"></div>` : ''}
+                    <div class="tooltip-content">
+                        ${movie.directors && movie.directors.length > 0 ? `<p><strong>导演：</strong>${movie.directors.join(' / ')}</p>` : ''}
+                        ${movie.cast && movie.cast.length > 0 ? `<p><strong>主演：</strong>${movie.cast.slice(0, 5).join(' / ')}</p>` : ''}
+                        ${movie.genres && movie.genres.length > 0 ? `<p><strong>类型：</strong>${movie.genres.join(' / ')}</p>` : ''}
+                        ${movie.countries ? `<p><strong>国家：</strong>${movie.countries}</p>` : ''}
+                        ${movie.pub_date ? `<p><strong>上映：</strong>${movie.pub_date}</p>` : ''}
+                        ${movie.douban_rating ? `<p><strong>豆瓣：</strong><span class="rating-highlight">${movie.douban_rating}</span>${movie.rating_count ? ` (${movie.rating_count}人)` : ''}</p>` : ''}
+                        ${movie.my_comment ? `<p class="tooltip-comment">💬 ${movie.my_comment}</p>` : ''}
+                    </div>
+                </div>
+            `;
+
+            return `
+                <a href="${movie.douban_url}" target="_blank" class="movie-card"
+                    data-douban-rating="${movie.douban_rating || 0}" data-date="${movie.watched_date || ''}"
+                    data-pub-date="${movie.pub_date || movie.year || ''}" data-title="${movie.title || ''}"
+                    data-genres="${(movie.genres || []).join(',')}" data-countries="${movie.countries || ''}">
+                    <div class="movie-poster">${coverHtml}</div>
+                    <div class="movie-info">
+                        <h3 class="movie-title" title="${movie.title}">${movie.title}</h3>
+                        ${origTitleHtml}
+                        <div class="movie-meta">${ratingHtml}${dateHtml}</div>
+                    </div>
+                    ${tooltipHtml}
+                </a>
+            `;
+        }
+
+        async function loadMovies() {
+            if (isLoading || !hasMore) return;
+
+            isLoading = true;
+            document.querySelector('.infinite-loading').style.display = 'block';
+
+            try {
+                const response = await fetch(`${apiBase}/page-${currentPage}.json`);
+                if (!response.ok) throw new Error('Failed to fetch');
+
+                const data = await response.json();
+
+                if (data.data && data.data.length > 0) {
+                    data.data.forEach(movie => {
+                        const cardHtml = renderMovieCard(movie);
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = cardHtml;
+                        const card = tempDiv.firstElementChild;
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(10px)';
+                        grid.appendChild(card);
+
+                        requestAnimationFrame(() => {
+                            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        });
+
+                        allCards.push(card);
+                    });
+
+                    currentPage++;
+                    hasMore = data.page < data.total_pages;
+                } else {
+                    hasMore = false;
+                }
+
+                if (!hasMore) {
+                    document.querySelector('.infinite-end').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Failed to load movies:', error);
+                document.querySelector('.infinite-loading span').textContent = '加载失败，点击重试';
+                document.querySelector('.infinite-loading').style.cursor = 'pointer';
+                document.querySelector('.infinite-loading').onclick = loadMovies;
+            } finally {
+                isLoading = false;
+                if (hasMore) {
+                    document.querySelector('.infinite-loading').style.display = 'none';
+                }
+            }
+        }
+
+        function sortAndRender() {
             if (currentMode === 'minimal') {
                 grid.classList.add('minimal-mode');
             } else {
                 grid.classList.remove('minimal-mode');
             }
 
-            // Sort by pub-date descending
-            const sortedCards = [...cards].sort((a, b) => {
+            const sortedCards = [...allCards].sort((a, b) => {
                 const dateA = a.dataset.pubDate || '';
                 const dateB = b.dataset.pubDate || '';
                 return dateB.localeCompare(dateA);
             });
 
-            // Remove existing dividers
             grid.querySelectorAll('.year-divider').forEach(d => d.remove());
 
-            // Show and reorder cards with year dividers
             let currentYear = null;
             sortedCards.forEach((card, index) => {
                 card.style.display = '';
@@ -182,24 +223,34 @@ layout: default
                 }
             });
 
-            // Toggle empty state
             if (emptyState) {
-                emptyState.style.display = sortedCards.length === 0 ? 'block' : 'none';
+                emptyState.style.display = allCards.length === 0 ? 'block' : 'none';
             }
         }
 
-        // Event listener for mode links
         modeLinks.forEach(link => {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 modeLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 currentMode = this.dataset.mode;
-                renderMovies();
+                sortAndRender();
             });
         });
 
-        // Initial render
-        renderMovies();
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && hasMore && !isLoading) {
+                    loadMovies();
+                }
+            });
+        }, { rootMargin: '200px' });
+
+        const endIndicator = document.querySelector('.infinite-end');
+        if (endIndicator) {
+            observer.observe(endIndicator);
+        }
+
+        loadMovies();
     });
 </script>

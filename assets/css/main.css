@@ -1829,7 +1829,7 @@ html {
     margin: 0;
     padding: 0;
   }
-  
+
   .author-item {
     display: flex;
     align-items: center;
@@ -1837,7 +1837,7 @@ html {
     margin: 0;
     padding: 0;
   }
-  
+
   .post-meta {
     display: flex;
     align-items: center;
@@ -1847,7 +1847,7 @@ html {
     margin: 8px 0;
     padding: 0;
   }
-  
+
   .headline-wrap {
     margin: 10px 15px;
     padding: 0;
@@ -2110,14 +2110,14 @@ html {
 }
 
 .footer-wrap {
-  margin: 0 auto;
-  width: 100%;
-  *zoom: 1;
-  clear: both;
-  margin-top: 1em;
-  padding-top: 2em;
-  padding-bottom: 3em;
-  background-color: #000000;
+  margin: 0;
+  width: 0;
+  height: 0;
+  padding: 0;
+  background-color: transparent;
+  display: none !important;
+  visibility: hidden !important;
+  overflow: hidden;
 }
 
 .footer-wrap:before,
@@ -3085,7 +3085,197 @@ screen and (max-height:300px) {
 
 @media (-webkit-min-device-pixel-ratio:2),
 (min-resolution:192dpi) {}
+
 .top-navigation-utilities {
   float: right;
   padding-right: 2rem;
+}
+
+/* Blog Cards Styles */
+.blog-list {
+  margin: 20px 0;
+}
+
+.blog-list-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+.blog-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* Blog Card */
+.blog-card {
+  display: block;
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  overflow: visible;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.blog-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color, #1a1a1a);
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.blog-card-date {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.blog-card-tags {
+  color: #2d8c3c;
+  font-size: 0.8rem;
+}
+
+/* Blog Card Tooltip */
+.blog-card-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 300px;
+  background: #fff;
+  color: #333;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000;
+  pointer-events: none;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.blog-card-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: #ddd;
+}
+
+.blog-card:hover .blog-card-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.blog-card-excerpt {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.blog-card-tooltip p {
+  margin: 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.blog-card-tooltip p:first-child {
+  margin-top: 0;
+}
+
+.blog-card-tooltip p:last-child {
+  margin-bottom: 0;
+}
+
+.blog-card-tooltip strong {
+  color: #2d8c3c;
+}
+
+/* Dark Mode Support for Blog Cards */
+[data-theme="dark"] .blog-card {
+  background: #2d2d2d;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .blog-card-title {
+  color: #f0f0f0;
+}
+
+[data-theme="dark"] .blog-card-meta {
+  color: #aaa;
+}
+
+[data-theme="dark"] .blog-card-date {
+  color: #888;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blog-card-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .blog-card {
+    padding: 15px;
+  }
+
+  .blog-card-title {
+    font-size: 1rem;
+  }
+
+  .blog-card-tooltip {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-card {
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .blog-card-title {
+    font-size: 0.95rem;
+  }
 }

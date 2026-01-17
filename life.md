@@ -2,6 +2,7 @@
 layout: page
 permalink: /life/index.html
 title: Life
+subtitle: 旅行与生活的点滴记录
 ---
 
 <div id="life-travel-wrap" class="life-travel-wrap">

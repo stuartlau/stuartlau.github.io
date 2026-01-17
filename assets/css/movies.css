@@ -908,3 +908,41 @@ article.movies-container {
     background: #2d8c3c !important;
     color: white !important;
 }
+
+/* Infinite Scroll Loading Spinner */
+.infinite-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    color: #666;
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #2d8c3c;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Card click fix - ensure entire card is clickable */
+.movie-card {
+    position: relative;
+    z-index: 1;
+}
+
+.movie-card:hover {
+    z-index: 100;
+}
+
+.movie-card:hover .movie-tooltip {
+    z-index: 101;
+}

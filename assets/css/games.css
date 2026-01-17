@@ -914,3 +914,17 @@ article.games-container {
     background: #2d8c3c !important;
     color: white !important;
 }
+
+/* Card click fix - ensure entire card is clickable */
+.game-card {
+    position: relative;
+    z-index: 1;
+}
+
+.game-card:hover {
+    z-index: 100;
+}
+
+.game-card:hover .game-tooltip {
+    z-index: 101;
+}

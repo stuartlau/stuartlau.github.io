@@ -48,6 +48,56 @@
     cloudEl.innerHTML = '<div class="tag-cloud-status">' + escHtml(msg) + '</div>';
   }
 
+  function renderPostCard(p, idx, isEn) {
+    var bgColors = [
+      'rgba(37, 99, 235, 0.08)',
+      'rgba(22, 163, 74, 0.08)',
+      'rgba(202, 138, 4, 0.08)',
+      'rgba(147, 51, 234, 0.08)',
+      'rgba(234, 88, 12, 0.08)',
+      'rgba(8, 145, 178, 0.08)',
+      'rgba(190, 24, 93, 0.08)',
+      'rgba(5, 150, 105, 0.08)',
+    ];
+
+    var title = escHtml(p.title || 'Untitled');
+    var url = escHtml(p.url || '#');
+    var date = p.date ? new Date(p.date).toLocaleDateString('zh-CN') : '';
+    var tags = Array.isArray(p.tags) ? p.tags : [];
+    var bgColor = bgColors[idx % bgColors.length];
+
+    if (isEn && (title.indexOf('专利') !== -1 || (p.tags && p.tags.indexOf('Patent') !== -1))) {
+      var idMatch = title.match(/([A-Z]{2}\d+[A-Z]?)/);
+      if (idMatch) {
+        var id = idMatch[1];
+        var type = title.indexOf('待授权') !== -1 ? 'Pending Patent' : 'Granted Patent';
+        title = type + ' ' + id;
+        url = 'https://patents.google.com/patent/' + id + '/en';
+      }
+    }
+
+    var tagsHtml = tags.length > 0
+      ? '<span class="blog-card-tags">' + tags.slice(0, 3).map(function (t) { return escHtml(t); }).join(' · ') + '</span>'
+      : '';
+
+    var excerpt = escHtml(p.excerpt || '');
+
+    // Store date for sorting
+    var postDate = p.date ? new Date(p.date).getTime() : 0;
+
+    return '<a href="' + url + '" class="blog-card" data-date="' + postDate + '"' + (isEn ? ' target="_blank"' : '') + ' style="background-color:' + bgColor + '; height: auto; min-height: 100px;">' +
+      '<h4 class="blog-card-title">' + title + '</h4>' +
+      '<div class="blog-card-meta">' +
+      (date ? '<span class="blog-card-date">' + date + '</span>' : '') +
+      tagsHtml +
+      '</div>' +
+      '<div class="blog-card-tooltip">' +
+      (excerpt ? '<p class="blog-card-excerpt">' + excerpt + '</p>' : '') +
+      (tags.length > 0 ? '<p><strong>标签：</strong>' + tags.join(' / ') + '</p>' : '') +
+      '</div>' +
+      '</a>';
+  }
+
   function renderList(posts, filterTag) {
     var listEl = qs('#blog-list');
     if (!listEl) return;
@@ -59,69 +109,135 @@
       });
     }
 
+    // Sort by date descending (newest first)
+    shown.sort(function (a, b) {
+      var dateA = a.date ? new Date(a.date).getTime() : 0;
+      var dateB = b.date ? new Date(b.date).getTime() : 0;
+      return dateB - dateA;
+    });
+
     if (!shown.length) {
       listEl.innerHTML = '<div class="blog-list-empty">No posts</div>';
       return;
     }
 
-    // Check language
     var isEn = window.CURRENT_LANG === 'en';
 
-    // Color palette for cards
-    var bgColors = [
-      'rgba(37, 99, 235, 0.08)',   // blue
-      'rgba(22, 163, 74, 0.08)',   // green
-      'rgba(202, 138, 4, 0.08)',   // yellow
-      'rgba(147, 51, 234, 0.08)',  // purple
-      'rgba(234, 88, 12, 0.08)',   // orange
-      'rgba(8, 145, 178, 0.08)',   // cyan
-      'rgba(190, 24, 93, 0.08)',   // pink
-      'rgba(5, 150, 105, 0.08)',   // emerald
-    ];
-
+    // Wrap cards in a grid container
     listEl.innerHTML =
       '<div class="blog-card-grid">' +
       shown
         .map(function (p, idx) {
-          var title = escHtml(p.title || 'Untitled');
-          var url = escHtml(p.url || '#');
-          var date = p.date ? new Date(p.date).toLocaleDateString('zh-CN') : '';
-          var tags = Array.isArray(p.tags) ? p.tags : [];
-          var bgColor = bgColors[idx % bgColors.length];
-
-          // Translation logic for Patents in English mode
-          if (isEn && (title.indexOf('专利') !== -1 || (p.tags && p.tags.indexOf('Patent') !== -1))) {
-            var idMatch = title.match(/([A-Z]{2}\d+[A-Z]?)/);
-            if (idMatch) {
-              var id = idMatch[1];
-              var type = title.indexOf('待授权') !== -1 ? 'Pending Patent' : 'Granted Patent';
-              title = type + ' ' + id;
-              url = 'https://patents.google.com/patent/' + id + '/en';
-            }
-          }
-
-          var tagsHtml = tags.length > 0
-            ? '<span class="blog-card-tags">' + tags.slice(0, 3).map(function (t) { return escHtml(t); }).join(' · ') + '</span>'
-            : '';
-
-          var excerpt = escHtml(p.excerpt || '');
-
-          return '<a href="' + url + '" class="blog-card"' + (isEn ? ' target="_blank"' : '') + ' style="background-color:' + bgColor + '">' +
-            '<h4 class="blog-card-title">' + title + '</h4>' +
-            '<div class="blog-card-meta">' +
-            (date ? '<span class="blog-card-date">' + date + '</span>' : '') +
-            tagsHtml +
-            '</div>' +
-            '<div class="blog-card-tooltip">' +
-            (excerpt ? '<p class="blog-card-excerpt">' + excerpt + '</p>' : '') +
-            (tags.length > 0 ? '<p><strong>标签：</strong>' + tags.join(' / ') + '</p>' : '') +
-            '</div>' +
-            '</a>';
+          return renderPostCard(p, idx, isEn);
         })
         .join('') +
       '</div>';
   }
 
+  var allLoadedPosts = [];
+  var currentFilter = '';
+  var currentPage = 1;
+  var isLoading = false;
+  var hasMore = true;
+  var apiBase = '';
+  var tagsCache = [];
+
+  async function loadPosts() {
+    if (isLoading || !hasMore) return;
+
+    var listEl = qs('#blog-list');
+    var loadingEl = qs('#blog-loading');
+    if (!listEl) return;
+
+    isLoading = true;
+    if (loadingEl) loadingEl.style.display = 'block';
+
+    try {
+      var response = await fetch(apiBase + '/page-' + currentPage + '.json');
+      if (!response.ok) throw new Error('Failed to fetch');
+
+      var data = await response.json();
+
+      if (data.data && data.data.length > 0) {
+        // Add new posts to allLoadedPosts, then sort by date
+        data.data.forEach(function (p) {
+          allLoadedPosts.push(p);
+        });
+
+        // Sort all posts by date descending (newest first)
+        allLoadedPosts.sort(function (a, b) {
+          var dateA = a.date ? new Date(a.date).getTime() : 0;
+          var dateB = b.date ? new Date(b.date).getTime() : 0;
+          return dateB - dateA;
+        });
+
+        // Re-render the list with sorted posts
+        var isEn = window.CURRENT_LANG === 'en';
+        var gridContainer = listEl.querySelector('.blog-card-grid') || document.createElement('div');
+        gridContainer.className = 'blog-card-grid';
+
+        // Clear existing cards and re-render all
+        var existingCards = listEl.querySelectorAll('.blog-card');
+        existingCards.forEach(function (card) { card.remove(); });
+
+        allLoadedPosts.forEach(function (p, idx) {
+          var cardHtml = renderPostCard(p, idx, isEn);
+          var tempDiv = document.createElement('div');
+          tempDiv.innerHTML = cardHtml;
+          var card = tempDiv.firstElementChild;
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(10px)';
+          gridContainer.appendChild(card);
+
+          requestAnimationFrame(function () {
+            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          });
+        });
+
+        if (!listEl.querySelector('.blog-card-grid')) {
+          listEl.appendChild(gridContainer);
+        }
+
+        currentPage++;
+        hasMore = data.page < data.total_pages;
+      } else {
+        hasMore = false;
+      }
+
+      if (!hasMore) {
+        var endEl = qs('#blog-end');
+        if (endEl) endEl.style.display = 'block';
+      }
+    } catch (error) {
+      console.error('Failed to load posts:', error);
+      if (loadingEl) {
+        loadingEl.querySelector('span').textContent = '加载失败，点击重试';
+        loadingEl.style.cursor = 'pointer';
+        loadingEl.onclick = loadPosts;
+      }
+    } finally {
+      isLoading = false;
+      if (hasMore && loadingEl) {
+        loadingEl.style.display = 'none';
+      }
+    }
+  }
+
+  function applyFilter(posts, filterTag) {
+    currentFilter = filterTag;
+    allLoadedPosts = [];
+    currentPage = 1;
+    hasMore = true;
+
+    var listEl = qs('#blog-list');
+    var endEl = qs('#blog-end');
+    if (listEl) listEl.innerHTML = '';
+    if (endEl) endEl.style.display = 'none';
+
+    loadPosts();
+  }
 
   function renderCloud(tags, activeTag, onPick) {
     var cloudEl = qs('#tag-cloud');
@@ -153,23 +269,10 @@
       .domain([min || 1, max || 1])
       .range([12, 52]);
 
-    // Color palette for word cloud
     var colors = [
-      '#2563eb', // blue
-      '#dc2626', // red
-      '#16a34a', // green
-      '#ca8a04', // yellow
-      '#9333ea', // purple
-      '#ea580c', // orange
-      '#0891b2', // cyan
-      '#be185d', // pink
-      '#059669', // emerald
-      '#7c3aed', // violet
-      '#c2410c', // orange-red
-      '#1e40af', // blue-dark
-      '#166534', // green-dark
-      '#991b1b', // red-dark
-      '#581c87'  // purple-dark
+      '#2563eb', '#dc2626', '#16a34a', '#ca8a04', '#9333ea',
+      '#ea580c', '#0891b2', '#be185d', '#059669', '#7c3aed',
+      '#c2410c', '#1e40af', '#166534', '#991b1b', '#581c87'
     ];
 
     var colorMap = Object.create(null);
@@ -177,7 +280,6 @@
 
     var color = function (t) {
       if (activeTag && t === activeTag) return 'var(--link-color)';
-      // Assign consistent color to each tag
       if (!colorMap[t]) {
         colorMap[t] = colors[colorIndex % colors.length];
         colorIndex++;
@@ -247,7 +349,6 @@
           return d.text + ' (' + d.count + ')';
         });
 
-      // Add hover effect: increase font size on mouseover (doesn't change position)
       texts.on('mouseenter', function (d) {
         var self = window.d3.select(this);
         var originalSize = parseFloat(self.attr('data-original-size'));
@@ -264,10 +365,8 @@
           .style('font-size', originalSize + 'px');
       });
 
-      // Click event - must be bound separately
       texts.on('click', function (d) {
         if (!d || !d.text) return;
-        // Stop any ongoing transitions
         window.d3.select(this).interrupt();
         if (onPickCallback && typeof onPickCallback === 'function') {
           onPickCallback(d.text);
@@ -276,24 +375,19 @@
     }
   }
 
-  function init() {
+  async function init() {
     var cloudEl = qs('#tag-cloud');
     var listEl = qs('#blog-list');
     if (!cloudEl || !listEl) return;
 
+    apiBase = listEl.dataset.apiBase || '/api/blogs';
+
     var posts = Array.isArray(window.__BLOG_POSTS__) ? window.__BLOG_POSTS__ : [];
     var tags = buildTagStats(posts);
-
-    renderList(posts, '');
+    tagsCache = tags;
 
     if (!posts.length) {
       setCloudStatus('No posts data');
-      return;
-    }
-
-    if (!tags.length) {
-      setCloudStatus('No tags found in posts');
-      return;
     }
 
     var active = '';
@@ -307,13 +401,29 @@
         activeEl.hidden = !active;
         activeEl.textContent = active ? 'Filter: ' + active : '';
       }
-      renderList(posts, active);
-      renderCloud(tags, active, setActive);
+
+      var filteredPosts = posts;
+      if (active) {
+        filteredPosts = posts.filter(function (p) {
+          return Array.isArray(p.tags) && p.tags.indexOf(active) !== -1;
+        });
+      }
+
+      renderList(filteredPosts, active);
+
+      if (tags.length > 0) {
+        renderCloud(tags, active, setActive);
+      }
     }
 
-    // Expose for external language switcher
     window.refreshPatentList = function () {
-      renderList(posts, active);
+      var filteredPosts = posts;
+      if (active) {
+        filteredPosts = posts.filter(function (p) {
+          return Array.isArray(p.tags) && p.tags.indexOf(active) !== -1;
+        });
+      }
+      renderList(filteredPosts, active);
     };
 
     if (clearBtn) {
@@ -322,11 +432,30 @@
       });
     }
 
-    renderCloud(tags, '', setActive);
+    if (tags.length > 0) {
+      renderCloud(tags, '', setActive);
+    }
 
     window.addEventListener('resize', function () {
-      renderCloud(tags, active, setActive);
+      if (tags.length > 0) {
+        renderCloud(tags, active, setActive);
+      }
     });
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && hasMore && !isLoading) {
+          loadPosts();
+        }
+      });
+    }, { rootMargin: '200px' });
+
+    var endEl = qs('#blog-end');
+    if (endEl) {
+      observer.observe(endEl);
+    }
+
+    loadPosts();
 
     return true;
   }

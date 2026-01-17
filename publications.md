@@ -2,6 +2,7 @@
 layout: page
 permalink: /publications/index.html
 title: Publications
+subtitle: 专利与学术著作展示
 ---
 ## Patent
 

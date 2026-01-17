@@ -39,81 +39,19 @@ layout: default
         </div>
     </div>
 
-    <div class="games-grid" id="games-grid">
+    <div class="games-grid" id="games-grid" data-api-base="/api/games"></div>
 
+    <!-- Loading indicator -->
+    <div class="infinite-loading" style="display: none;">
+        <div class="infinite-spinner">
+            <div class="spinner"></div>
+            <span>加载中...</span>
+        </div>
+    </div>
 
-        {% for game in game_data %}
-        <a href="{{ game.douban_url }}" target="_blank" class="game-card"
-            data-douban-rating="{{ game.douban_rating | default: 0 }}" data-date="{{ game.played_date }}"
-            data-release-date="{{ game.release_date }}" data-title="{{ game.title }}"
-            data-genres="{{ game.genres | join: ',' }}" data-platforms="{{ game.platforms | join: ',' }}">
-
-            <!-- Cover -->
-            <div class="game-cover">
-                {% if game.cover %}
-                <img src="{{ game.cover }}" alt="{{ game.title }}" loading="lazy">
-                {% else %}
-                <div class="cover-placeholder">
-                    <span>🎮</span>
-                </div>
-                {% endif %}
-            </div>
-
-            <!-- Info -->
-            <div class="game-info">
-                <h3 class="game-title" title="{{ game.title }}">
-                    {{ game.title }}
-                </h3>
-
-                <div class="game-meta">
-                    {% if game.my_rating %}
-                    <div class="game-rating">
-                        {% for i in (1..5) %}
-                        <span class="star {% if i <= game.my_rating %}filled{% endif %}">★</span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
-                    {% if game.played_date %}
-                    <div class="game-date">{{ game.played_date }}</div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Tooltip -->
-            <div class="game-tooltip">
-                {% if game.cover %}
-                <div class="tooltip-poster">
-                    <img src="{{ game.cover }}" alt="{{ game.title }}" loading="lazy">
-                </div>
-                {% endif %}
-                <div class="tooltip-content">
-                    {% if game.platforms and game.platforms.size > 0 %}
-                    <p><strong>平台：</strong>{{ game.platforms | join: " / " }}</p>
-                    {% endif %}
-                    {% if game.genres and game.genres.size > 0 %}
-                    <p><strong>类型：</strong>{{ game.genres | join: " / " }}</p>
-                    {% endif %}
-                    {% if game.developer %}
-                    <p><strong>开发：</strong>{{ game.developer }}</p>
-                    {% endif %}
-                    {% if game.publisher %}
-                    <p><strong>发行：</strong>{{ game.publisher }}</p>
-                    {% endif %}
-                    {% if game.release_date %}
-                    <p><strong>发行日期：</strong>{{ game.release_date }}</p>
-                    {% endif %}
-                    {% if game.douban_rating %}
-                    <p><strong>豆瓣：</strong><span class="rating-highlight">{{ game.douban_rating }}</span>{% if
-                        game.rating_count %} ({{ game.rating_count }}人){% endif %}</p>
-                    {% endif %}
-                    {% if game.my_comment %}
-                    <p class="tooltip-comment">💬 {{ game.my_comment }}</p>
-                    {% endif %}
-                </div>
-            </div>
-        </a>
-        {% endfor %}
+    <!-- End indicator -->
+    <div class="infinite-end" style="display: none; text-align: center; padding: 30px; color: #999;">
+        <span>— 已经到底啦 —</span>
     </div>
 
     <!-- Empty state -->
@@ -136,48 +74,156 @@ layout: default
 
         if (!grid) return;
 
-        const cards = Array.from(grid.querySelectorAll('.game-card'));
+        const apiBase = grid.dataset.apiBase;
+        let currentPage = 1;
+        let isLoading = false;
+        let hasMore = true;
+        let allCards = [];
         let currentMode = 'normal';
 
-        function renderGames() {
-            // Toggle view mode class
+        function renderGameCard(game) {
+            const coverHtml = game.cover
+                ? `<img src="${game.cover}" alt="${game.title}" loading="lazy">`
+                : `<div class="cover-placeholder"><span>🎮</span></div>`;
+
+            const ratingHtml = game.my_rating
+                ? `<div class="game-rating">${Array(5).fill(0).map((_, i) =>
+                    `<span class="star ${i < game.my_rating ? 'filled' : ''}">★</span>`).join('')}</div>`
+                : '';
+
+            const dateHtml = game.played_date
+                ? `<div class="game-date">${game.played_date}</div>`
+                : '';
+
+            const tooltipHtml = `
+                <div class="game-tooltip">
+                    ${game.cover ? `<div class="tooltip-poster"><img src="${game.cover}" alt="${game.title}"></div>` : ''}
+                    <div class="tooltip-content">
+                        ${game.platforms && game.platforms.length > 0 ? `<p><strong>平台：</strong>${game.platforms.join(' / ')}</p>` : ''}
+                        ${game.genres && game.genres.length > 0 ? `<p><strong>类型：</strong>${game.genres.join(' / ')}</p>` : ''}
+                        ${game.developer ? `<p><strong>开发：</strong>${game.developer}</p>` : ''}
+                        ${game.publisher ? `<p><strong>发行：</strong>${game.publisher}</p>` : ''}
+                        ${game.release_date ? `<p><strong>发行日期：</strong>${game.release_date}</p>` : ''}
+                        ${game.douban_rating ? `<p><strong>豆瓣：</strong><span class="rating-highlight">${game.douban_rating}</span>${game.rating_count ? ` (${game.rating_count}人)` : ''}</p>` : ''}
+                        ${game.my_comment ? `<p class="tooltip-comment">💬 ${game.my_comment}</p>` : ''}
+                    </div>
+                </div>
+            `;
+
+            return `
+                <a href="${game.douban_url}" target="_blank" class="game-card"
+                    data-douban-rating="${game.douban_rating || 0}" data-date="${game.played_date || ''}"
+                    data-release-date="${game.release_date || ''}" data-title="${game.title || ''}"
+                    data-genres="${(game.genres || []).join(',')}" data-platforms="${(game.platforms || []).join(',')}">
+                    <div class="game-cover">${coverHtml}</div>
+                    <div class="game-info">
+                        <h3 class="game-title" title="${game.title}">${game.title}</h3>
+                        <div class="game-meta">${ratingHtml}${dateHtml}</div>
+                    </div>
+                    ${tooltipHtml}
+                </a>
+            `;
+        }
+
+        async function loadGames() {
+            if (isLoading || !hasMore) return;
+
+            isLoading = true;
+            document.querySelector('.infinite-loading').style.display = 'block';
+
+            try {
+                const response = await fetch(`${apiBase}/page-${currentPage}.json`);
+                if (!response.ok) throw new Error('Failed to fetch');
+
+                const data = await response.json();
+
+                if (data.data && data.data.length > 0) {
+                    data.data.forEach(game => {
+                        const cardHtml = renderGameCard(game);
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = cardHtml;
+                        const card = tempDiv.firstElementChild;
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(10px)';
+                        grid.appendChild(card);
+
+                        requestAnimationFrame(() => {
+                            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        });
+
+                        allCards.push(card);
+                    });
+
+                    currentPage++;
+                    hasMore = data.page < data.total_pages;
+                } else {
+                    hasMore = false;
+                }
+
+                if (!hasMore) {
+                    document.querySelector('.infinite-end').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Failed to load games:', error);
+                document.querySelector('.infinite-loading span').textContent = '加载失败，点击重试';
+                document.querySelector('.infinite-loading').style.cursor = 'pointer';
+                document.querySelector('.infinite-loading').onclick = loadGames;
+            } finally {
+                isLoading = false;
+                if (hasMore) {
+                    document.querySelector('.infinite-loading').style.display = 'none';
+                }
+            }
+        }
+
+        function sortAndRender() {
             if (currentMode === 'minimal') {
                 grid.classList.add('minimal-mode');
             } else {
                 grid.classList.remove('minimal-mode');
             }
 
-            // Sort by release-date descending
-            const sortedCards = [...cards].sort((a, b) => {
+            const sortedCards = [...allCards].sort((a, b) => {
                 const dateA = a.dataset.releaseDate || '';
                 const dateB = b.dataset.releaseDate || '';
                 return dateB.localeCompare(dateA);
             });
 
-            // Reorder cards
             sortedCards.forEach((card, index) => {
                 card.style.display = '';
                 card.style.order = index;
             });
 
-            // Toggle empty state
             if (emptyState) {
-                emptyState.style.display = sortedCards.length === 0 ? 'block' : 'none';
+                emptyState.style.display = allCards.length === 0 ? 'block' : 'none';
             }
         }
 
-        // Event listener for mode links
         modeLinks.forEach(link => {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 modeLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 currentMode = this.dataset.mode;
-                renderGames();
+                sortAndRender();
             });
         });
 
-        // Initial render
-        renderGames();
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && hasMore && !isLoading) {
+                    loadGames();
+                }
+            });
+        }, { rootMargin: '200px' });
+
+        const endIndicator = document.querySelector('.infinite-end');
+        if (endIndicator) {
+            observer.observe(endIndicator);
+        }
+
+        loadGames();
     });
 </script>

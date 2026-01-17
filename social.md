@@ -1,191 +1,193 @@
 ---
 layout: default
+subtitle: 社交媒体资料聚合页
 ---
 
-<div class="social-profile-container">
-    <!-- Cover Image -->
-    <div class="social-cover" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
-        <div class="cover-particles">
-            {% for i in (1..15) %}
-            <div class="cover-particle" style="left: {{ i | times: 6 | plus: 5 }}%; animation-delay: {{ i | times: 0.3 }}s;"></div>
-            {% endfor %}
+<div class="social-layout">
+    <!-- Left Sidebar - Fixed -->
+    <aside class="social-left-sidebar">
+        <div class="left-sidebar-inner">
+            <a href="/" class="sidebar-logo">
+                <img src="{{ site.url }}/images/linkedin_avatar.jpg" alt="Stuart Lau">
+            </a>
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span>Home</span>
+                </a>
+                <a href="/blogs/" class="nav-item">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    <span>Blogs</span>
+                </a>
+                <a href="/publications/" class="nav-item">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>Patents</span>
+                </a>
+                <a href="/life/" class="nav-item">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+                    <span>Travel</span>
+                </a>
+                <a href="/books/index.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                    <span>Books</span>
+                </a>
+                <a href="/movies/all.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+                    <span>Movies</span>
+                </a>
+                <a href="/games/all.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                    <span>Games</span>
+                </a>
+            </nav>
         </div>
-    </div>
+    </aside>
 
-    <!-- Profile Header -->
-    <div class="social-header">
-        <div class="profile-avatar">
-            <img src="{{ site.url }}/images/linkedin_avatar.jpg" alt="Stuart Lau">
-        </div>
-        <div class="profile-actions">
-            <a href="https://github.com/stuartlau" target="_blank" class="profile-btn follow">Follow</a>
-            <a href="mailto:stuart8@126.com" class="profile-btn message">Message</a>
-        </div>
-    </div>
-
-    <!-- Profile Info -->
-    <div class="social-profile-info">
-        <div class="profile-name-row">
-            <h1 class="profile-name">Stuart Lau</h1>
-            <svg class="verified-badge" viewBox="0 0 24 24" width="20" height="20" fill="#1d9bf0">
-                <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .495.083.965.238 1.4-1.272.65-2.147 2.02-2.147 3.6 0 1.435.716 2.69 1.77 3.46-.133.382-.206.783-.206 1.21 0 2.21 1.71 3.998 3.818 3.998.47 0 .92-.084 1.336-.25.62 1.333 1.926 2.25 3.437 2.25 1.512 0 2.818-.917 3.437-2.25.415.165.866.25 1.336.25 2.11 0 3.818-1.79 3.818-4 0-.427-.073-.828-.206-1.21 1.054-.77 1.77-2.025 1.77-3.46zM12 16.5c-.83 0-1.6-.39-2.083-1.058-.32.47-.865.942-1.532 1.02-.82.096-1.473-.5-1.82-.972-.47-.64-.635-1.43-.14-2.2.17-.264.37-.532.595-.803.17-.205.34-.415.505-.63-.37-.55-.585-1.23-.585-1.97 0-1.66 1.35-3 3-3 .42 0 .82.1 1.17.27.35-.55.885-1.05 1.58-1.3.46-.165.97-.18 1.45-.03.32.1.62.24.89.42.27-.33.65-.65 1.12-.85.37-.16.78-.23 1.18-.18.62.07 1.16.39 1.53.88.25-.1.52-.18.8-.23.82-.14 1.58.12 2.07.67.17.2.3.42.38.65.08.23.1.48.05.73-.04.25-.14.49-.28.71.36.42.55.95.55 1.5v3.2c0 .42-.13.82-.37 1.17-.24.35-.58.63-.99.82-.41.19-.87.28-1.34.26-.47-.02-.92-.14-1.33-.35-.41-.21-.76-.5-1.03-.86-.27-.36-.47-.77-.58-1.21-.11-.44-.13-.9-.05-1.35.08-.45.27-.87.54-1.24.27-.37.62-.68 1.02-.92.4-.24.85-.4 1.32-.47v-.42c0-.55-.22-1.07-.62-1.45-.4-.38-.93-.6-1.5-.6z"></path>
-                <path d="M10.5 13.5l-2.5-2.5-.7.7 3 3 6-6-.7-.7z"></path>
-            </svg>
-        </div>
-        <p class="profile-handle">@stuartlau</p>
-        <p class="profile-bio">Full Stack Engineer & Patent Inventor | 120+ Patents | Building systems at scale</p>
-
-        <div class="profile-meta">
-            <span class="meta-item">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
-                Shanghai, China
-            </span>
-            <span class="meta-item">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                </svg>
-                Joined January 2025
-            </span>
-        </div>
-
-        <div class="profile-stats">
-            <a href="/publications/" class="stat-link">
-                <span class="stat-value">120+</span>
-                <span class="stat-label">Patents</span>
-            </a>
-            <a href="/life/" class="stat-link">
-                <span class="stat-value">14</span>
-                <span class="stat-label">Countries</span>
-            </a>
-            <a href="/blogs/" class="stat-link">
-                <span class="stat-value">50+</span>
-                <span class="stat-label">Posts</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- Two Column Layout -->
-    <div class="social-columns">
-        <!-- Left Navigation -->
-        <div class="social-nav">
-            <a href="#blogs" class="nav-item active" data-tab="blogs">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                </svg>
-                <span>Blogs</span>
-            </a>
-            <a href="#posts" class="nav-item" data-tab="posts">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-                </svg>
-                <span>Broadcast</span>
-            </a>
-            <a href="#patents" class="nav-item" data-tab="patents">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
-                <span>Patents</span>
-            </a>
-            <a href="#books" class="nav-item" data-tab="books">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
-                </svg>
-                <span>Books</span>
-            </a>
-            <a href="#games" class="nav-item" data-tab="games">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-                </svg>
-                <span>Games</span>
-            </a>
-            <a href="#movies" class="nav-item" data-tab="movies">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
-                </svg>
-                <span>Movies</span>
-            </a>
-            <a href="#travel" class="nav-item" data-tab="travel">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                </svg>
-                <span>Travel</span>
-            </a>
-        </div>
-
-        <!-- Right Content -->
-        <div class="social-content">
-            <!-- Blogs Tab -->
-            <div class="content-panel active" id="blogs-panel">
-                <h2 class="panel-title">Blogs</h2>
-                <div class="feed-list" id="blogs-list">
-                    {% assign posts = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/tech'" | sort: "date" | reverse %}
-                    {% for post in posts %}
-                    <a href="{{ post.url }}" class="feed-item">
-                        <div class="feed-content">
-                            <span class="feed-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
-                            <h3 class="feed-title">{{ post.title }}</h3>
-                            <p class="feed-excerpt">{{ post.excerpt | strip_html | truncate: 100 }}</p>
-                        </div>
-                    </a>
-                    {% endfor %}
-                </div>
-                <a href="/blogs/" class="view-all-link">View all blogs →</a>
+    <!-- Main Content - Scrollable -->
+    <main class="social-main">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <!-- Cover Image -->
+            <div class="profile-cover">
+                <img src="{{ site.url }}/images/home-bg-art.jpg" alt="Cover">
             </div>
+            
+            <!-- Profile Info Container -->
+            <div class="profile-info-container">
+                <!-- Avatar overlapping cover -->
+                <div class="profile-avatar">
+                    <img src="{{ site.url }}/images/linkedin_avatar.jpg" alt="Stuart Lau">
+                </div>
+                
+                <!-- Profile Details -->
+                <div class="profile-details">
+                    <h1 class="profile-name">Stuart Lau</h1>
+                    <p class="profile-handle">@stuartlau</p>
+                    <p class="profile-bio">Full Stack Engineer & Patent Inventor | 120+ Patents | Building systems at scale</p>
+                    <div class="profile-meta">
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Shanghai, China</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg> Joined January 2025</span>
+                    </div>
+                    <div class="profile-stats">
+                        <a href="/publications/"><span class="stat-value">120+</span> Patents</a>
+                        <a href="/life/"><span class="stat-value">14</span> Countries</a>
+                        <a href="/blogs/"><span class="stat-value">50+</span> Posts</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Tab Navigation -->
+        <div class="content-tabs">
+            <a href="#posts" class="tab-item active" data-tab="posts">Posts</a>
+            <a href="#blogs" class="tab-item" data-tab="blogs">Blogs</a>
+            <a href="#patents" class="tab-item" data-tab="patents">Patents</a>
+            <a href="#books" class="tab-item" data-tab="books">Books</a>
+            <a href="#movies" class="tab-item" data-tab="movies">Movies</a>
+            <a href="#games" class="tab-item" data-tab="games">Games</a>
+        </div>
+
+        <!-- Content Panels -->
+        <div class="content-panels">
             <!-- Posts Tab (Broadcast) -->
-            <div class="content-panel" id="posts-panel">
-                <h2 class="panel-title">Broadcast</h2>
+            <div class="content-panel active" id="posts-panel">
                 <div class="feed-list" id="posts-list">
-                    {% assign year_str = "2026" %}
-                    {% assign posts_data = site.data.douban[year_str] | reverse %}
-                    {% for item in posts_data %}
-                    <div class="feed-item douban-item">
+                    {% assign years = "2026,2025,2024,2023,2022,2021" | split: "," %}
+                    {% assign all_posts = "" | split: "," %}
+                    {% for yr in years %}
+                        {% if site.data.douban[yr] %}
+                            {% assign all_posts = all_posts | concat: site.data.douban[yr] %}
+                        {% endif %}
+                    {% endfor %}
+                    {% assign sorted_posts = all_posts | sort: "time" | reverse %}
+                    {% for item in sorted_posts %}
+                    <div class="feed-item douban-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                        <div class="post-avatar">
+                            <img src="{{ site.url }}/images/linkedin_avatar.jpg" alt="Stuart Lau">
+                        </div>
                         <div class="feed-content">
-                            <span class="feed-meta">{{ item.time }}</span>
-                            <p class="feed-text">{{ item.content | strip_html }}</p>
+                            <div class="post-author-line">
+                                <span class="post-author">@stuartlau</span>
+                                <span class="feed-meta">{{ item.time }}</span>
+                            </div>
+                            <p class="feed-text">{{ item.content | strip_html | strip_newlines }}</p>
                             {% if item.images and item.images.size > 0 %}
-                            <div class="feed-images">
-                                <img src="{{ item.images[0] }}" alt="Image" class="feed-image">
+                            <div class="social-image-grid">
+                                {% for img in item.images limit: 4 %}
+                                <div class="grid-img-wrap" onclick="openLightbox('{{ img }}', {{ item.images | jsonify | escape }})">
+                                    <img src="{{ img }}" alt="Douban" class="social-img">
+                                    {% if forloop.index == 4 and item.images.size > 4 %}
+                                    <div class="more-images-overlay">+{{ item.images.size | minus: 3 }}</div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
                             </div>
                             {% endif %}
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-                <a href="/douban/2026.html" class="view-all-link">View all broadcasts →</a>
+                {% if sorted_posts.size > 10 %}
+                <button class="load-more-btn" onclick="loadMore('posts-list')">Load more content ↓</button>
+                {% endif %}
             </div>
 
-            <!-- Patents Tab -->
-            <div class="content-panel" id="patents-panel">
-                <h2 class="panel-title">Patents</h2>
-                <div class="feed-list" id="patents-list">
-                    {% assign patents = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/patent'" | sort: "date" | reverse %}
-                    {% for patent in patents %}
-                    <a href="{{ patent.url }}" class="feed-item">
-                        <div class="feed-content">
-                            <span class="feed-meta">{{ patent.date | date: "%Y-%m-%d" }}</span>
-                            <h3 class="feed-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</h3>
-                            <p class="feed-excerpt">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}</p>
+            <!-- Blogs Tab -->
+            <div class="content-panel" id="blogs-panel">
+                <div class="blogs-column" id="blogs-list">
+                    {% assign posts = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/tech'" | sort: "date" | reverse %}
+                    {% for post in posts %}
+                    <a href="{{ post.url }}" class="blog-card-wide expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                        <div class="blog-card-content">
+                            <div class="blog-card-title">{{ post.title }}</div>
+                            <div class="blog-card-excerpt">
+                                {% assign plain_content = post.content | strip_html | strip_newlines %}
+                                {{ post.subtitle | default: post.description | default: plain_content | truncate: 200 }}
+                            </div>
+                            <span class="blog-card-date">{{ post.date | date: "%Y-%m-%d" }}</span>
                         </div>
                     </a>
                     {% endfor %}
                 </div>
-                <a href="/publications/" class="view-all-link">View all patents →</a>
+                {% if posts.size > 10 %}
+                <button class="load-more-btn" onclick="loadMore('blogs-list')">Load more content ↓</button>
+                {% endif %}
+            </div>
+
+            <!-- Patents Tab -->
+            <div class="content-panel" id="patents-panel">
+                <div class="feed-list" id="patents-list">
+                    {% assign patents = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | sort: "date" | reverse %}
+                    {% for patent in patents %}
+                    <a href="{{ patent.url }}" class="blog-card-wide expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                        <div class="blog-card-content">
+                            <div class="blog-card-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</div>
+                            <div class="blog-card-excerpt">
+                                {{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}
+                            </div>
+                            <span class="blog-card-date">{{ patent.date | date: "%Y-%m-%d" }}</span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% if patents.size > 10 %}
+                <button class="load-more-btn" onclick="loadMore('patents-list')">Load more content ↓</button>
+                {% endif %}
             </div>
 
             <!-- Books Tab -->
             <div class="content-panel" id="books-panel">
-                <h2 class="panel-title">Books</h2>
                 <div class="feed-list" id="books-list">
                     {% assign books = site.data.books.all | reverse %}
                     {% for book in books %}
-                    <a href="https://book.douban.com/subject/{{ book.id }}/" target="_blank" class="feed-item">
+                    <a href="https://book.douban.com/subject/{{ book.book_id }}/" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="feed-content">
-                            <span class="feed-meta">{{ book.date_read | slice: 0, 4 }} · {{ book.rating }}</span>
-                            <h3 class="feed-title">{{ book.title }}</h3>
-                            <p class="feed-excerpt">{{ book.author }}</p>
+                            <span class="feed-meta">{{ book.date_read | slice: 0, 4 }} · ⭐ {{ book.my_rating }}/{{ book.douban_rating }}</span>
+                            <h5 class="feed-title">{{ book.title }}</h5>
+                            <p class="feed-excerpt">{{ book.author }} · {{ book.publisher }}</p>
+                            {% if book.my_comment %}
+                            <p class="feed-comment">📖 {{ book.my_comment | truncate: 60 }}</p>
+                            {% endif %}
                         </div>
                         {% if book.cover %}
                         <img src="{{ book.cover }}" alt="{{ book.title }}" class="feed-cover">
@@ -193,20 +195,49 @@ layout: default
                     </a>
                     {% endfor %}
                 </div>
-                <a href="/books/" class="view-all-link">View all books →</a>
+                {% if books.size > 10 %}
+                <button class="load-more-btn" onclick="loadMore('books-list')">Load more content ↓</button>
+                {% endif %}
+            </div>
+
+            <!-- Movies Tab -->
+            <div class="content-panel" id="movies-panel">
+                <div class="feed-list" id="movies-list">
+                    {% assign movies = site.data.movies.all | reverse %}
+                    {% for movie in movies %}
+                    <a href="https://movie.douban.com/subject/{{ movie.movie_id }}/" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                        <div class="feed-content">
+                            <span class="feed-meta">{{ movie.watched_date | slice: 0, 4 }} · ⭐ {{ movie.my_rating }}/{{ movie.douban_rating }}</span>
+                            <h5 class="feed-title">{{ movie.title }}</h5>
+                            <p class="feed-excerpt">{{ movie.directors | join: ", " }} · {{ movie.genres | join: "/" }}</p>
+                            {% if movie.my_comment %}
+                            <p class="feed-comment">💬 {{ movie.my_comment | truncate: 60 }}</p>
+                            {% endif %}
+                        </div>
+                        {% if movie.poster %}
+                        <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="feed-cover">
+                        {% endif %}
+                    </a>
+                    {% endfor %}
+                </div>
+                {% if movies.size > 10 %}
+                <button class="load-more-btn" onclick="loadMore('movies-list')">Load more content ↓</button>
+                {% endif %}
             </div>
 
             <!-- Games Tab -->
             <div class="content-panel" id="games-panel">
-                <h2 class="panel-title">Games</h2>
                 <div class="feed-list" id="games-list">
                     {% assign games = site.data.games.all | reverse %}
                     {% for game in games %}
-                    <a href="https://www.douban.com/game/{{ game.id }}/" target="_blank" class="feed-item">
+                    <a href="{{ game.douban_url }}" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="feed-content">
-                            <span class="feed-meta">{{ game.date | slice: 0, 4 }} · {{ game.rating }}</span>
-                            <h3 class="feed-title">{{ game.title }}</h3>
-                            <p class="feed-excerpt">{{ game.platform }}</p>
+                            <span class="feed-meta">{{ game.played_date | slice: 0, 4 }} · ⭐ {{ game.my_rating }}/{{ game.douban_rating }}</span>
+                            <h5 class="feed-title">{{ game.title }}</h5>
+                            <p class="feed-excerpt">{{ game.platforms | join: "/" }} · {{ game.genres | join: "/" }}</p>
+                            {% if game.developer %}
+                            <p class="feed-comment">🎮 {{ game.developer }}</p>
+                            {% endif %}
                         </div>
                         {% if game.cover %}
                         <img src="{{ game.cover }}" alt="{{ game.title }}" class="feed-cover">
@@ -214,273 +245,286 @@ layout: default
                     </a>
                     {% endfor %}
                 </div>
-                <a href="/games/all.html" class="view-all-link">View all games →</a>
-            </div>
-
-            <!-- Movies Tab -->
-            <div class="content-panel" id="movies-panel">
-                <h2 class="panel-title">Movies</h2>
-                <div class="feed-list" id="movies-list">
-                    {% assign movies = site.data.movies.all | reverse %}
-                    {% for movie in movies %}
-                    <a href="https://movie.douban.com/subject/{{ movie.id }}/" target="_blank" class="feed-item">
-                        <div class="feed-content">
-                            <span class="feed-meta">{{ movie.year }} · {{ movie.rating }}</span>
-                            <h3 class="feed-title">{{ movie.title }}</h3>
-                            <p class="feed-excerpt">{{ movie.director }}</p>
-                        </div>
-                        {% if movie.cover %}
-                        <img src="{{ movie.cover }}" alt="{{ movie.title }}" class="feed-cover">
-                        {% endif %}
-                    </a>
-                    {% endfor %}
-                </div>
-                <a href="/movies/all.html" class="view-all-link">View all movies →</a>
-            </div>
-
-            <!-- Travel Tab -->
-            <div class="content-panel" id="travel-panel">
-                <h2 class="panel-title">Travel</h2>
-                <div class="feed-list" id="travel-list">
-                    {% assign travels = site.pages | where: "layout", "post" | where_exp: "p", "p.url contains '/blogs/travelling'" | sort: "date" | reverse %}
-                    {% for travel in travels %}
-                    <a href="{{ travel.url }}" class="feed-item">
-                        <div class="feed-content">
-                            <span class="feed-meta">{{ travel.date | date: "%Y-%m-%d" }}</span>
-                            <h3 class="feed-title">{{ travel.title }}</h3>
-                            <p class="feed-excerpt">{{ travel.excerpt | strip_html | truncate: 80 }}</p>
-                        </div>
-                    </a>
-                    {% endfor %}
-                </div>
-                <a href="/life/" class="view-all-link">View all travel journals →</a>
+                {% if games.size > 10 %}
+                <button class="load-more-btn" onclick="loadMore('games-list')">Load more content ↓</button>
+                {% endif %}
             </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Right Sidebar - Fixed -->
+    <aside class="social-right-sidebar">
+        <div class="right-sidebar-inner">
+            <!-- Search Box -->
+            <div class="search-widget">
+                <div class="widget-title">Search</div>
+                <div class="search-box">
+                    <input type="text" id="sidebar-search" placeholder="Search posts...">
+                    <button onclick="performSearch()">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- On This Day -->
+            <div class="history-widget">
+                <div class="widget-title">On This Day</div>
+                <div class="history-list" id="history-today">
+                    <div class="history-item">Loading...</div>
+                </div>
+            </div>
+            
+            <!-- Social Links -->
+            <div class="social-links-widget">
+                <a href="https://github.com/stuartlau" target="_blank" class="social-link-item">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://www.linkedin.com/in/stuartlau" target="_blank" class="social-link-item">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="mailto:stuart8@126.com" class="social-link-item">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    <span>Email</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()">
+    <button id="lightbox-prev" class="lightbox-nav" onclick="prevLightboxImage(event)">‹</button>
+    <img id="lightbox-img" src="" alt="Zoomed view">
+    <button id="lightbox-next" class="lightbox-nav" onclick="nextLightboxImage(event)">›</button>
 </div>
 
 <style>
-/* Container */
-.social-profile-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: #fff;
-    min-height: 100vh;
-}
-
-/* Cover */
-.social-cover {
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-}
-
-.cover-particles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
-.cover-particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    animation: float-up 8s infinite ease-in-out;
-}
-
-@keyframes float-up {
-    0%, 100% { transform: translateY(100px); opacity: 0; }
-    50% { transform: translateY(0); opacity: 0.6; }
-}
-
-/* Header */
-.social-header {
+/* Twitter-style Layout */
+.social-layout {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 0 16px;
-    margin-top: -50px;
-    position: relative;
-}
-
-.profile-avatar {
-    width: 134px;
-    height: 134px;
-    border-radius: 50%;
-    border: 4px solid #fff;
-    overflow: hidden;
+    justify-content:center;
+    margin: 0 auto;
+    min-height: 100vh;
     background: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.profile-avatar img {
-    width: 100%;
+/* Left Sidebar - Fixed */
+.social-left-sidebar {
+    position: fixed;
+    top: 0;
+    left: calc(50% - 700px);
+    width: 15%;
+    max-width: 240px;
+    min-width: 180px;
+    height: 100vh;
+    padding: 20px 16px;
+    background: #fff;
+    z-index: 100;
+}
+
+.left-sidebar-inner {
+    display: flex;
+    flex-direction: column;
     height: 100%;
+}
+
+.sidebar-logo {
+    display: block;
+    margin-bottom: 30px;
+}
+
+.sidebar-logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     object-fit: cover;
 }
 
-.profile-actions {
+.sidebar-nav {
     display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.profile-btn {
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s;
-}
-
-.profile-btn.follow {
-    background: #1d9bf0;
-    color: #fff;
-}
-
-.profile-btn.follow:hover {
-    background: #1a8cd8;
-}
-
-.profile-btn.message {
-    background: #fff;
+.sidebar-nav .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 16px;
+    border-radius: 30px;
     color: #0f1419;
-    border: 1px solid #cfd9de;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 400;
+    transition: background 0.2s;
 }
 
-.profile-btn.message:hover {
+.sidebar-nav .nav-item:hover {
     background: #f7f9f9;
 }
 
-/* Profile Info */
-.social-profile-info {
-    padding: 12px 16px;
+.sidebar-nav .nav-item span {
+    font-weight: 500;
 }
 
-.profile-name-row {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+/* Main Content - Centered */
+.social-main {
+    width: 55%;
+    max-width: 800px;
+    min-width: 600px;
+    min-height: 100vh;
+    border-right: 1px solid #eff3f4;
+    border-left: 1px solid #eff3f4;
+    background: #fff;
+}
+
+/* Profile Header - Twitter Style */
+.profile-header {
+    position: relative;
+    border-bottom: 1px solid #eff3f4;
+}
+
+/* Cover Image */
+.profile-cover {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.profile-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Profile Info Container */
+.profile-info-container {
+    padding: 0 16px 16px;
+    position: relative;
+}
+
+/* Avatar - Overlapping Cover */
+.profile-avatar {
+    position: absolute;
+    top: -65px;
+    left: 16px;
+}
+
+.profile-avatar img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Details */
+.profile-details {
+    margin-top: 75px;
 }
 
 .profile-name {
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 800;
     color: #0f1419;
-    margin: 0;
-}
-
-.verified-badge {
-    flex-shrink: 0;
+    margin: 0 0 2px 0;
 }
 
 .profile-handle {
     color: #536471;
     font-size: 15px;
-    margin: 2px 0;
+    margin: 0 0 12px 0;
 }
 
 .profile-bio {
     color: #0f1419;
     font-size: 15px;
-    line-height: 1.4;
-    margin: 12px 0;
+    line-height: 1.5;
+    margin: 0 0 12px 0;
 }
 
 .profile-meta {
     display: flex;
-    gap: 16px;
+    gap: 20px;
+    color: #536471;
+    font-size: 14px;
     margin-bottom: 12px;
 }
 
-.meta-item {
+.profile-meta span {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: #536471;
-    font-size: 14px;
 }
 
 .profile-stats {
     display: flex;
-    gap: 20px;
+    gap: 24px;
 }
 
-.stat-link {
-    display: flex;
-    gap: 4px;
+.profile-stats a {
+    color: #536471;
+    font-size: 15px;
     text-decoration: none;
 }
 
-.stat-link:hover .stat-value {
+.profile-stats a:hover .stat-value {
     text-decoration: underline;
 }
 
-.stat-value {
-    font-weight: 600;
+.profile-stats .stat-value {
+    font-weight: 700;
     color: #0f1419;
-    font-size: 14px;
 }
 
-.stat-label {
-    color: #536471;
-    font-size: 14px;
-}
-
-/* Two Column Layout */
-.social-columns {
+/* Content Tabs */
+.content-tabs {
     display: flex;
-    border-top: 1px solid #eff3f4;
-}
-
-/* Left Navigation */
-.social-nav {
-    width: 200px;
-    flex-shrink: 0;
-    padding: 12px 0;
-    border-right: 1px solid #eff3f4;
+    background: #fff;
+    border-bottom: 1px solid #eff3f4;
     position: sticky;
     top: 0;
-    height: fit-content;
+    z-index: 50;
 }
 
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
+.tab-item {
+    flex: 1;
+    padding: 16px;
+    text-align: center;
     color: #536471;
     text-decoration: none;
-    border-radius: 24px;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: 500;
     transition: all 0.2s;
+    position: relative;
 }
 
-.nav-item:hover {
+.tab-item:hover {
     background: #f7f9f9;
+}
+
+.tab-item.active {
     color: #0f1419;
 }
 
-.nav-item.active {
-    color: #0f1419;
-    font-weight: 600;
-    background: #e8f5fe;
+.tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: #1d9bf0;
+    border-radius: 2px;
 }
 
-.nav-item svg {
-    flex-shrink: 0;
-}
-
-/* Content Column */
-.social-content {
-    flex: 1;
-    padding: 0;
-}
-
+/* Content Panels */
 .content-panel {
     display: none;
 }
@@ -489,23 +533,10 @@ layout: default
     display: block;
 }
 
-.panel-title {
-    padding: 16px;
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-    color: #0f1419;
-    border-bottom: 1px solid #eff3f4;
-}
-
-/* Feed List */
-.feed-list {
-    padding: 0;
-}
-
+/* Feed Items */
 .feed-item {
     display: flex;
-    padding: 12px 16px;
+    padding: 12px 20px;
     border-bottom: 1px solid #eff3f4;
     text-decoration: none;
     transition: background 0.2s;
@@ -521,194 +552,665 @@ layout: default
     min-width: 0;
 }
 
-.feed-meta {
-    display: block;
-    font-size: 13px;
-    color: #536471;
-    margin-bottom: 4px;
-}
-
-.feed-title {
-    margin: 0 0 2px 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: #0f1419;
-    line-height: 1.3;
-}
-
-.feed-excerpt {
-    margin: 0;
-    font-size: 13px;
-    color: #536471;
-    line-height: 1.4;
-}
-
-.feed-text {
-    margin: 0 0 8px 0;
-    font-size: 14px;
-    color: #0f1419;
-    line-height: 1.5;
-}
-
-.feed-date {
-    font-size: 13px;
-    color: #536471;
-}
-
-.feed-images {
-    margin: 8px 0;
-}
-
-.feed-image {
-    max-width: 200px;
-    max-height: 150px;
-    border-radius: 8px;
-    object-fit: cover;
-}
-
-.feed-cover {
-    width: 50px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 4px;
+/* Post Avatar */
+.post-avatar {
     flex-shrink: 0;
 }
 
-.douban-item {
+.post-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Post Author Line */
+.post-author-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.post-author {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f1419;
+}
+
+.feed-meta {
+    font-size: 13px;
+    color: #536471;
+}
+
+.feed-text {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #0f1419;
+    margin: 0;
+}
+
+.feed-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f1419;
+    margin: 0 0 4px 0;
+}
+
+.feed-excerpt {
+    font-size: 14px;
+    color: #536471;
+    margin: 0 0 4px 0;
+    line-height: 1.4;
+}
+
+.feed-comment {
+    font-size: 13px;
+    color: #536471;
+    margin: 4px 0 0 0;
+    font-style: italic;
+}
+
+.feed-cover {
+    width: 60px;
+    height: 85px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+/* Blog Cards */
+.blog-card-wide {
+    text-decoration: none;
+    background: #fff;
+    border-bottom: 1px solid #eff3f4;
+    transition: background 0.2s;
     display: block;
 }
 
-/* View More Button */
-    .view-all-link {
-    display: block;
-    padding: 16px;
+.blog-card-wide:hover {
+    background: #f7f9f9;
+}
+
+.blog-card-content {
+    padding: 16px 20px;
+}
+
+.blog-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f1419;
+    margin-bottom: 8px;
+}
+
+.blog-card-excerpt {
+    font-size: 14px;
+    color: #536471;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.blog-card-date {
+    font-size: 13px;
+    color: #8b98a5;
+}
+
+/* Media Grid */
+.media-section {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.media-section h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f1419;
+    margin: 0 0 12px 0;
+}
+
+.media-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.media-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    width: 80px;
+}
+
+.media-item img {
+    width: 70px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+
+.media-item span {
+    font-size: 11px;
+    color: #536471;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+/* Load More Button */
+.load-more-btn {
+    width: 100%;
+    padding: 16px;
+    background: none;
+    border: none;
+    color: #1d9bf0;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.load-more-btn:hover {
+    background: #f7f9f9;
+}
+
+/* Social Image Grid */
+.social-image-grid {
+    display: flex !important;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.grid-img-wrap {
+    width: 120px;
+    height: 100px;
+    flex-shrink: 0;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.social-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.2s;
+}
+
+.grid-img-wrap:hover .social-img {
+    transform: scale(1.05);
+}
+
+.more-images-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    pointer-events: none;
+}
+
+/* Right Sidebar - Fixed */
+.social-right-sidebar {
+    position: fixed;
+    top: 0;
+    right: calc(50% - 700px);
+    width: 30%;
+    max-width: 380px;
+    min-width: 280px;
+    height: 100vh;
+    padding: 20px;
+    background: #fff;
+    overflow-y: auto;
+}
+
+.right-sidebar-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 12px;
+}
+
+/* Widget Styles */
+.widget-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f1419;
+    margin-bottom: 12px;
+}
+
+/* Search Widget */
+.search-widget {
+    background: #f7f9f9;
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.search-box {
+    display: flex;
+    gap: 8px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #eff3f4;
+    border-radius: 20px;
+    font-size: 15px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #1d9bf0;
+}
+
+.search-box button {
+    padding: 12px 16px;
+    background: #1d9bf0;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-box button:hover {
+    background: #1a8cd8;
+}
+
+/* History Widget */
+.history-widget {
+    background: #f7f9f9;
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-item {
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #0f1419;
+}
+
+.history-item a {
     color: #1d9bf0;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    border-top: 1px solid #eff3f4;
 }
 
-.view-all-link:hover {
+.history-item a:hover {
     text-decoration: underline;
 }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .social-nav {
-        width: 100%;
-        display: flex;
-        overflow-x: auto;
-        border-right: none;
-        border-bottom: 1px solid #eff3f4;
-        padding: 8px 0;
-        -webkit-overflow-scrolling: touch;
-    }
+/* Social Links Widget */
+.social-links-widget {
+    background: #f7f9f9;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
 
-    .nav-item {
-        padding: 8px 12px;
-        white-space: nowrap;
-        font-size: 14px;
-    }
+.social-link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+    color: #0f1419;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
 
-    .nav-item span {
+.social-link-item:hover {
+    background: #eff3f4;
+}
+
+/* Lightbox */
+#lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+#lightbox-img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 4px;
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: none;
+    padding: 16px;
+    cursor: pointer;
+    font-size: 24px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.lightbox-nav:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+#lightbox-prev {
+    left: 20px;
+}
+
+#lightbox-next {
+    right: 20px;
+}
+
+/* Responsive */
+@media (max-width: 1280px) {
+    .social-right-sidebar {
         display: none;
-    }
-
-    .nav-item {
-        gap: 6px;
-    }
-
-    .social-columns {
-        flex-direction: column;
-    }
-
-    .feed-cover {
-        width: 40px;
-        height: 56px;
-    }
-
-    .feed-item {
-        padding: 10px 12px;
     }
 }
 
-@media (max-width: 500px) {
-    .social-cover {
-        height: 150px;
+@media (max-width: 1080px) {
+    .social-left-sidebar {
+        left: 0;
+        width: 80px;
+        padding: 20px 10px;
     }
-
-    .social-header {
-        padding: 0 12px;
+    
+    .sidebar-nav .nav-item {
+        justify-content: center;
+        padding: 12px;
     }
-
-    .profile-avatar {
-        width: 100px;
-        height: 100px;
+    
+    .sidebar-nav .nav-item span {
+        display: none;
     }
-
-    .profile-btn {
-        padding: 8px 12px;
-        font-size: 13px;
+    
+    .social-main {
+        margin-left: 0;
     }
+}
 
-    .profile-actions {
-        margin-bottom: 8px;
+@media (max-width: 768px) {
+    .social-left-sidebar {
+        display: none;
+    }
+    
+    .social-main {
+        width: 100%;
+        border-left: none;
+        border-right: none;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 40px 20px !important;
+        min-height: 180px !important;
+    }
+    
+    .profile-info {
+        padding: 20px 0 0 0 !important;
+    }
+    
+    .profile-meta {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .profile-stats {
+        justify-content: center;
+    }
+    
+    .content-tabs {
+        overflow-x: auto;
+    }
+    
+    .tab-item {
+        padding: 12px 20px;
+        white-space: nowrap;
     }
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Tab navigation
-    const navItems = document.querySelectorAll('.nav-item');
+    const tabItems = document.querySelectorAll('.tab-item');
     const panels = document.querySelectorAll('.content-panel');
 
-    navItems.forEach(function(item) {
+    tabItems.forEach(function(item) {
         item.addEventListener('click', function(e) {
             e.preventDefault();
             var targetTab = this.getAttribute('data-tab');
-
-            navItems.forEach(function(nav) { nav.classList.remove('active'); });
+            tabItems.forEach(function(tab) { tab.classList.remove('active'); });
             this.classList.add('active');
-
             panels.forEach(function(panel) {
                 panel.classList.remove('active');
-                if (panel.id === targetTab + '-panel') {
-                    panel.classList.add('active');
-                }
             });
-
+            const activePanel = document.getElementById(targetTab + '-panel');
+            if (activePanel) activePanel.classList.add('active');
             history.pushState(null, null, '#' + targetTab);
         });
     });
 
-    // Handle initial hash
     if (window.location.hash) {
         var hash = window.location.hash.slice(1);
-        var activeNav = document.querySelector('.nav-item[data-tab="' + hash + '"]');
-        if (activeNav) {
-            activeNav.click();
+        var activeTab = document.querySelector('.tab-item[data-tab="' + hash + '"]');
+        if (activeTab) activeTab.click();
+    }
+    
+    // Load "On This Day" content
+    loadHistoryToday();
+});
+
+// Search functionality - use existing search modal
+function performSearch() {
+    const searchModal = document.getElementById('search-modal');
+    const searchToggle = document.getElementById('search-toggle');
+    if (searchModal && searchToggle) {
+        searchToggle.click(); // Trigger the existing search modal
+        const query = document.getElementById('sidebar-search').value.trim();
+        if (query) {
+            setTimeout(() => {
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    searchInput.value = query;
+                    searchInput.dispatchEvent(new Event('input'));
+                }
+            }, 100);
         }
     }
+}
 
-    // Handle browser back/forward
-    window.addEventListener('hashchange', function() {
-        if (window.location.hash) {
-            var hash = window.location.hash.slice(1);
-            var activeNav = document.querySelector('.nav-item[data-tab="' + hash + '"]');
-            if (activeNav) {
-                navItems.forEach(function(nav) { nav.classList.remove('active'); });
-                activeNav.classList.add('active');
-                panels.forEach(function(panel) {
-                    panel.classList.remove('active');
-                    if (panel.id === hash + '-panel') {
-                        panel.classList.add('active');
-                    }
-                });
+// Allow Enter key in search box
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarSearch = document.getElementById('sidebar-search');
+    if (sidebarSearch) {
+        sidebarSearch.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
             }
-        }
+        });
+    }
+});
+
+// Convert absolute time to relative time (e.g., "2026-01-16 14:30" -> "1 day" or "23h")
+function getRelativeTime(timeStr) {
+    if (!timeStr) return timeStr;
+    
+    const postTime = new Date(timeStr);
+    const now = new Date();
+    const diffMs = now - postTime;
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (diffMinutes < 60) {
+        return diffMinutes + 'm';
+    } else if (diffHours < 24) {
+        return diffHours + 'h';
+    } else if (diffDays <= 7) {
+        return diffDays + ' day' + (diffDays > 1 ? 's' : '');
+    } else {
+        // Return original format for posts older than 7 days
+        return timeStr.split(' ')[0]; // Just the date part
+    }
+}
+
+// Apply relative time to all feed meta elements after page load
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        document.querySelectorAll('.feed-meta').forEach(el => {
+            const originalTime = el.textContent.trim();
+            if (originalTime.match(/\d{4}-\d{2}-\d{2}/)) {
+                const relativeTime = getRelativeTime(originalTime);
+                if (relativeTime !== originalTime) {
+                    el.setAttribute('title', originalTime); // Keep original as tooltip
+                    el.textContent = relativeTime;
+                }
+            }
+        });
+    }, 500);
+});
+
+// Prevent avatar images from being zoomable
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.post-avatar img, .profile-avatar img, .sidebar-logo img').forEach(img => {
+        img.style.cursor = 'default';
+        img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+        });
     });
+});
+
+// Load history on this day from Douban posts
+function loadHistoryToday() {
+    const today = new Date();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${month}-${day}`;
+    
+    const historyList = document.getElementById('history-today');
+    if (!historyList) return;
+    
+    // Get all posts from the page
+    const allPosts = Array.from(document.querySelectorAll('.douban-item'));
+    const todayPosts = allPosts.filter(item => {
+        const metaEl = item.querySelector('.feed-meta');
+        if (metaEl) {
+            const dateStr = metaEl.textContent.trim();
+            return dateStr.includes(todayStr);
+        }
+        return false;
+    }).slice(0, 3); // Limit to 3 items
+    
+    if (todayPosts.length > 0) {
+        historyList.innerHTML = todayPosts.map(post => {
+            const text = post.querySelector('.feed-text').textContent.trim();
+            const meta = post.querySelector('.feed-meta').textContent.trim();
+            return `<div class="history-item"><strong>${meta.split(' ')[0]}</strong><br>${text.substring(0, 100)}${text.length > 100 ? '...' : ''}</div>`;
+        }).join('');
+    } else {
+        historyList.innerHTML = '<div class="history-item">No posts on this day in previous years.</div>';
+    }
+}
+
+function loadMore(listId) {
+    const list = document.getElementById(listId);
+    if (!list) return;
+    const hiddenItems = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none');
+    for (let i = 0; i < Math.min(hiddenItems.length, 10); i++) {
+        hiddenItems[i].style.display = '';
+    }
+    const remainingHidden = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none' || el.style.display === '');
+    if (remainingHidden.length === 0) {
+        const btn = list.parentElement.querySelector('.load-more-btn');
+        if (btn) btn.style.display = 'none';
+    }
+}
+
+let currentImages = [];
+let currentImageIndex = 0;
+
+function openLightbox(src, imagesArr) {
+    currentImages = imagesArr || [src];
+    currentImageIndex = currentImages.indexOf(src);
+    if (currentImageIndex === -1) currentImageIndex = 0;
+
+    const lb = document.getElementById('lightbox');
+    updateLightboxImage();
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function updateLightboxImage() {
+    const lbImg = document.getElementById('lightbox-img');
+    if (lbImg) lbImg.src = currentImages[currentImageIndex];
+    
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
+    if (prevBtn) prevBtn.style.display = currentImages.length > 1 ? 'flex' : 'none';
+    if (nextBtn) nextBtn.style.display = currentImages.length > 1 ? 'flex' : 'none';
+}
+
+function nextLightboxImage(e) {
+    if (e) e.stopPropagation();
+    currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+    updateLightboxImage();
+}
+
+function prevLightboxImage(e) {
+    if (e) e.stopPropagation();
+    currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+    updateLightboxImage();
+}
+
+function closeLightbox() {
+    const lb = document.getElementById('lightbox');
+    if (lb) lb.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+document.addEventListener('keydown', function(e) {
+    const lb = document.getElementById('lightbox');
+    if (lb && lb.style.display === 'flex') {
+        if (e.key === 'ArrowRight') nextLightboxImage();
+        if (e.key === 'ArrowLeft') prevLightboxImage();
+        if (e.key === 'Escape') closeLightbox();
+    }
 });
 </script>

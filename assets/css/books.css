@@ -95,7 +95,6 @@ article.books-container {
     position: relative;
     width: 100%;
     padding-bottom: 145%;
-    /* Book aspect ratio (slightly taller than games) */
     overflow: hidden;
     background: #f5f0e6;
     border-radius: 8px 8px 0 0;
@@ -105,9 +104,10 @@ article.books-container {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
     object-fit: cover;
+    margin: 10% auto;
 }
 
 .cover-placeholder {
@@ -546,12 +546,13 @@ article.books-container {
 .books-grid.minimal-mode .book-card h3.book-title {
     height: auto;
     margin: 0;
-    font-size: 1rem !important;
+    font-size: 0.75rem !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
     color: #1a1a1a !important;
+    font-weight: 400;
 }
 
 /* Dark mode override for minimal mode title */
@@ -682,4 +683,42 @@ article.books-container {
 [data-theme="light"] .mode-link.active,
 .mode-link.active[data-theme="light"] {
     color: #2d8c3c !important;
+}
+
+/* Infinite Scroll Loading Spinner */
+.infinite-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    color: #666;
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #2d8c3c;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Card click fix - ensure entire card is clickable */
+.book-card {
+    position: relative;
+    z-index: 1;
+}
+
+.book-card:hover {
+    z-index: 100;
+}
+
+.book-card:hover .book-tooltip {
+    z-index: 101;
 }

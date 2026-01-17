@@ -4,16 +4,37 @@ layout: default
 
 <link rel="stylesheet" href="/assets/css/douban.css">
 <style>
-    /* Ensure proper touch handling on mobile */
     .status-bubble {
         -webkit-tap-highlight-color: transparent;
     }
 
-    /* Hide popup on desktop */
     @media (min-width: 769px) {
         .status-popup {
             display: none !important;
         }
+    }
+
+    .infinite-spinner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 20px;
+        color: #666;
+    }
+
+    .spinner {
+        width: 24px;
+        height: 24px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #2d8c3c;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 </style>
 
@@ -61,8 +82,7 @@ layout: default
             <div id="history-today-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
             <p id="history-today-empty" style="display:none; color: #999; font-size: 0.95rem;">历史上的今天暂无记录。</p>
         </div>
-        
-        <!-- History Today Modal (Desktop) / Lightbox (Mobile) -->
+
         <div id="history-modal" class="history-modal" style="display:none;">
             <div class="history-modal-backdrop"></div>
             <div class="history-modal-content">
@@ -70,11 +90,10 @@ layout: default
                 <div class="history-modal-image-container"></div>
             </div>
         </div>
-        
+
         <script>
             (function () {
                 try {
-                    // Collect all Douban data for history check
                     var historyData = [];
                     {% assign history_years = "2026,2025,2024,2023,2022,2021" | split: "," %}
                     {% for y in history_years %}
@@ -101,11 +120,9 @@ layout: default
             }
 
             var matches = historyData.filter(function (item) {
-                // item.time format "YYYY-MM-DD HH:mm", extract MM-DD
                 return item.time.substring(5, 10) === searchDate && item.year !== String(today.getFullYear());
             });
 
-            // Sort descending by year
             matches.sort(function (a, b) {
                 return b.year - a.year;
             });
@@ -116,20 +133,16 @@ layout: default
             var modal = document.getElementById('history-modal');
             var modalContainer = modal ? modal.querySelector('.history-modal-image-container') : null;
 
-            // Check if mobile
             var isMobile = window.innerWidth <= 768;
 
-            // Modal/Lightbox functions
             function openHistoryImage(imgUrl) {
                 if (!modal || !modalContainer) return;
-                
+
                 if (isMobile) {
-                    // On mobile: open as overlay
                     modal.style.display = 'flex';
                     modalContainer.innerHTML = '<img src="' + imgUrl + '" style="width:100%; height:auto; display:block;">';
                     document.body.style.overflow = 'hidden';
                 } else {
-                    // On desktop: use lightbox
                     modal.style.display = 'flex';
                     modalContainer.innerHTML = '<img src="' + imgUrl + '" style="max-width:90vw; max-height:90vh; display:block; margin:auto;">';
                 }
@@ -141,7 +154,6 @@ layout: default
                 document.body.style.overflow = '';
             }
 
-            // Set up modal event listeners
             if (modal) {
                 modal.querySelector('.history-modal-close').addEventListener('click', closeHistoryModal);
                 modal.querySelector('.history-modal-backdrop').addEventListener('click', closeHistoryModal);
@@ -155,9 +167,8 @@ layout: default
             if (list && emptyMsg) {
                 if (matches.length > 0) {
                     matches.forEach(function (item) {
-                        // Filter out Director/Author/Performer
                         var c = item.content || "";
-                        var filterRegex = /(导演|表演者|作者|主演|类型|出版)\s*[:：]/;
+                        var filterRegex = /(导演|表演者|Author|主演|类型|出版)\s*[:：]/;
                         if (filterRegex.test(c)) {
                             return;
                         }
@@ -165,24 +176,21 @@ layout: default
                         el.style.cssText = "padding: 8px 0; border-bottom: 1px dashed #eee; font-size: 0.95rem; color: #555; line-height: 1.5;";
 
                         var content = item.content;
-                        
+
                         var html = '<span style="color:#2d8c3c; font-weight:600; margin-right:8px; display:inline-block; min-width:38px;">' + item.year + '</span> ' + content;
 
-                        // Add images with proper click handlers
                         if (item.images && item.images.length > 0) {
                             html += '<div class="history-images-wrapper" style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap;">';
                             item.images.forEach(function(imgUrl) {
                                 if (isMobile) {
-                                    // Mobile: click to expand inline, show full image
                                     html += '<img src="' + imgUrl + '" class="history-mobile-image" style="width:80px; height:80px; object-fit:cover; border-radius:4px; cursor:pointer;" onclick="this.style.width=\'100%\'; this.style.height=\'auto\'; this.style.objectFit=\'contain\';">';
                                 } else {
-                                    // Desktop: click to open modal
                                     html += '<img src="' + imgUrl + '" class="history-desktop-image" style="width:80px; height:80px; object-fit:cover; border-radius:4px; cursor:pointer;" onclick="openHistoryImage(\'' + imgUrl + '\')">';
                                 }
                             });
                             html += '</div>';
                         }
-                        
+
                         el.innerHTML = html;
                         list.appendChild(el);
                     });
@@ -199,182 +207,270 @@ layout: default
     </div>
 
     <div id="douban-month-filter" class="douban-month-filter"></div>
-    <div class="douban-feed-list">
-        {% assign year_str = page.year | append: "" %}
-        {% assign year_data = site.data.douban[year_str] %}
+    <div class="douban-feed-list" id="douban-feed-list" data-api-base="/api/douban/{{ page.year }}"></div>
 
-        {% if year_data %}
-        {% assign last_month = "" %}
-        {% for status in year_data %}
-        {% assign content_to_check = status.content | strip %}
-        {% if content_to_check contains '导演:' or
-        content_to_check contains '表演者:' or
-        content_to_check contains '作者:' %}
-        {% continue %}
-        {% endif %}
-        {% assign current_month = status.time | slice: 5, 2 %}
-        {% if current_month != last_month %}
-        <div class="month-separator" data-month="{{ current_month }}">{{ current_month }}月</div>
-        {% assign last_month = current_month %}
-        {% endif %}
-
-        <div class="douban-status-item" data-status-id="status-{{ forloop.index }}" data-month="{{ current_month }}">
-            <div class="status-avatar">
-                <img src="/images/douban_avatar.jpg" alt="Avatar">
-            </div>
-            <div class="status-bubble" data-popup-target="popup-{{ forloop.index }}">
-                <div class="status-content">{{ status.content }}</div>
-
-                {% if status.images and status.images.size > 0 %}
-                <div class="status-images">
-                    {% for img in status.images %}
-                    <div class="status-image-thumb" style="background-image: url('{{ img }}');"></div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-
-                <div class="status-footer">
-                    <span class="status-time">{{ status.time }}</span>
-                    <div class="giscus-stats" onclick="event.stopPropagation(); toggleGiscus(this)" title="点击展开评论">
-                        <span class="giscus-count-item comment-count"
-                            style="display:inline-flex; align-items:center; gap:4px; font-size:0.9rem; color:#888;">
-                            <svg class="giscus-icon" viewBox="0 0 16 16" version="1.1" width="14" height="14"
-                                aria-hidden="true" style="fill:currentColor;">
-                                <path
-                                    d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.457 1.457 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.75.75 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
-                                </path>
-                            </svg>
-                            <span class="count-text">...</span>
-                        </span>
-                        <span class="giscus-count-item reaction-count"
-                            style="display:inline-flex; align-items:center; gap:4px; font-size:0.9rem; color:#888; margin-left:8px;">
-                            <svg class="giscus-icon" viewBox="0 0 16 16" version="1.1" width="14" height="14"
-                                aria-hidden="true" style="fill:currentColor;">
-                                <path
-                                    d="m8 14.25.345.666a.75.75 0 0 1-.69 0l-.008-.004-.018-.01a7.152 7.152 0 0 1-.31-.17 22.055 22.055 0 0 1-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.066 22.066 0 0 1-3.744 2.584l-.018.01-.006.003h-.002ZM4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.58 20.58 0 0 0 8 13.393a20.58 20.58 0 0 0 3.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 0 1-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5Z">
-                                </path>
-                            </svg>
-                            <span class="count-text">...</span>
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Giscus Container -->
-                <!-- Use time + content size for stable, unique ID even if Chinese slugify fails -->
-                <div class="giscus-wrapper" id="giscus-{{ forloop.index }}"
-                    data-term="douban-{{ status.time | replace:' ','-' | replace:':','-' }}-{{ status.content | size }}"
-                    style="display:none; margin-top: 15px;" onclick="event.stopPropagation()"></div>
-            </div>
+    <div class="infinite-loading" id="douban-loading" style="display: none;">
+        <div class="infinite-spinner">
+            <div class="spinner"></div>
+            <span>加载中...</span>
         </div>
+    </div>
 
-        <!-- Popup for mobile -->
-        <div class="status-popup" id="popup-{{ forloop.index }}" data-status-id="status-{{ forloop.index }}">
-            <button class="status-popup-close">×</button>
-            <div class="status-popup-content">
-                <div class="status-popup-avatar">
-                    <img src="/images/douban_avatar.jpg" alt="Avatar">
-                    <span class="status-popup-time">{{ status.time }}</span>
-                </div>
-                <div class="status-popup-text">{{ status.content }}</div>
-
-                {% if status.images and status.images.size > 0 %}
-                <div class="status-popup-images">
-                    {% for img in status.images %}
-                    <img src="{{ img }}" class="status-popup-image-full">
-                    {% endfor %}
-                </div>
-                {% endif %}
-
-
-            </div>
-        </div>
-        {% endfor %}
-        {% else %}
-        <p>No data found for year {{ year_str }} (Debug: page.year={{ page.year }})</p>
-        {% endif %}
+    <div class="infinite-end" id="douban-end" style="display: none; text-align: center; padding: 30px; color: #999;">
+        <span>— 已经到底啦 —</span>
     </div>
 </div>
 
 <script>
-    // Month Filter Functionality
-    (function () {
-        var pageYear = parseInt("{{ page.year }}");
-        var now = new Date();
-        var currentYear = now.getFullYear();
-        var currentMonth = now.getMonth() + 1;
+    document.addEventListener('DOMContentLoaded', function () {
+        const feedList = document.getElementById('douban-feed-list');
+        const monthFilter = document.getElementById('douban-month-filter');
+        const apiBase = feedList.dataset.apiBase;
 
-        var container = document.getElementById('douban-month-filter');
-        if (!container) return;
+        let currentMonth = null;
+        let currentPage = 1;
+        let isLoading = false;
+        let hasMore = true;
+        let allItems = [];
 
-        var maxMonth = 12;
-        if (pageYear === currentYear) {
-            if (currentMonth === 1) return; // If Jan, no need to generate filter
-            maxMonth = currentMonth;
-        } else if (pageYear > currentYear) {
-            return;
-        }
+        function renderStatusItem(status, index) {
+            const imagesHtml = status.images && status.images.length > 0
+                ? `<div class="status-images">${status.images.map(img =>
+                    `<div class="status-image-thumb" style="background-image: url('${img}');"></div>`).join('')}</div>`
+                : '';
 
-        for (var m = 1; m <= maxMonth; m++) {
-            var btn = document.createElement('button');
-            var mStr = (m < 10 ? '0' : '') + m;
-            btn.textContent = m + '月';
-            btn.className = 'month-filter-btn';
-            btn.setAttribute('data-target-month', mStr);
+            const now = new Date();
+            const statusDate = new Date(status.time.replace(' ', 'T'));
+            const diffMs = now - statusDate;
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffMinutes = Math.floor(diffMs / (1000 * 60));
 
-            btn.onclick = function () {
-                var target = this.getAttribute('data-target-month');
-                var isActive = this.classList.contains('active');
-
-                var allBtns = container.querySelectorAll('.month-filter-btn');
-                allBtns.forEach(function (b) { b.classList.remove('active'); });
-
-                if (!isActive) {
-                    this.classList.add('active');
-                    filterMonth(target);
+            let timeDisplay;
+            if (diffDays < 7 && diffDays >= 0) {
+                if (diffDays > 0) {
+                    timeDisplay = `${diffDays}Day ${diffHours % 24}h`;
+                } else if (diffHours > 0) {
+                    timeDisplay = `${diffHours}h ${diffMinutes % 60}m`;
                 } else {
-                    filterMonth(null);
+                    timeDisplay = `${diffMinutes}m`;
                 }
-            };
-            container.appendChild(btn);
+            } else {
+                const year = statusDate.getFullYear();
+                const month = String(statusDate.getMonth() + 1).padStart(2, '0');
+                const day = String(statusDate.getDate()).padStart(2, '0');
+                timeDisplay = `${year}-${month}-${day}`;
+            }
+
+            return `
+                <div class="douban-status-item" data-status-id="status-${index}" data-month="${status.time.substring(5, 7)}">
+                    <div class="status-avatar">
+                        <img src="/images/douban_avatar.jpg" alt="Stuart Lau" class="no-click-zoom">
+                    </div>
+                    <div class="status-bubble" data-popup-target="popup-${index}">
+                        <div class="status-header-row">
+                            <span class="status-author">@stuartlau</span>
+                            <span class="status-time">${timeDisplay}</span>
+                        </div>
+                        <div class="status-content">${status.content}</div>
+                        ${imagesHtml}
+                        <div class="status-footer">
+                            <div class="giscus-stats" onclick="event.stopPropagation(); toggleGiscus(this)" title="点击展开评论">
+                                <span class="giscus-count-item comment-count"
+                                    style="display:inline-flex; align-items:center; gap:4px; font-size:0.9rem; color:#888;">
+                                    <svg class="giscus-icon" viewBox="0 0 16 16" version="1.1" width="14" height="14"
+                                        aria-hidden="true" style="fill:currentColor;">
+                                        <path
+                                            d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.457 1.457 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.75.75 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                        </path>
+                                    </svg>
+                                    <span class="count-text">...</span>
+                                </span>
+                                <span class="giscus-count-item reaction-count"
+                                    style="display:inline-flex; align-items:center; gap:4px; font-size:0.9rem; color:#888; margin-left:8px;">
+                                    <svg class="giscus-icon" viewBox="0 0 16 16" version="1.1" width="14" height="14"
+                                        aria-hidden="true" style="fill:currentColor;">
+                                        <path
+                                            d="m8 14.25.345.666a.75.75 0 0 1-.69 0l-.008-.004-.018-.01a7.152 7.152 0 0 1-.31-.17 22.055 22.055 0 0 1-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.066 22.066 0 0 1-3.744 2.584l-.018.01-.006.003h-.002ZM4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.58 20.58 0 0 0 8 13.393a20.58 20.58 0 0 0 3.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 0 1-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5Z">
+                                        </path>
+                                    </svg>
+                                    <span class="count-text">...</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="giscus-wrapper" id="giscus-${index}"
+                            data-term="douban-${status.time.replace(/ /g, '-').replace(/:/g, '-')}-${status.content ? status.content.length : 0}"
+                            style="display:none; margin-top: 15px;" onclick="event.stopPropagation()"></div>
+                    </div>
+                </div>
+                <div class="status-popup" id="popup-${index}" data-status-id="status-${index}">
+                    <button class="status-popup-close">×</button>
+                    <div class="status-popup-content">
+                        <div class="status-popup-header">
+                            <div class="status-popup-avatar">
+                                <img src="/images/douban_avatar.jpg" alt="Stuart Lau" class="no-click-zoom">
+                            </div>
+                            <div class="status-popup-meta">
+                                <span class="status-popup-author">@stuartlau</span>
+                                <span class="status-popup-time">${timeDisplay}</span>
+                            </div>
+                        </div>
+                        <div class="status-popup-text">${status.content}</div>
+                        ${status.images && status.images.length > 0
+                            ? `<div class="status-popup-images">${status.images.map(img =>
+                                `<img src="${img}" class="status-popup-image-full">`).join('')}</div>`
+                            : ''}
+                    </div>
+                </div>
+            `;
         }
 
-        // Auto-select the first month button (representing the latest month)
-        // This ensures not all feed items are loaded/shown at once
-        var firstBtn = container.querySelector('.month-filter-btn');
-        if (firstBtn) {
-            firstBtn.click();
+        async function loadStatuses() {
+            if (isLoading || !hasMore) return;
+
+            isLoading = true;
+            document.getElementById('douban-loading').style.display = 'block';
+
+            try {
+                let url = `${apiBase}/page-${currentPage}.json`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Failed to fetch');
+
+                const data = await response.json();
+
+                if (data.data && data.data.length > 0) {
+                    let lastMonth = '';
+                    data.data.forEach((status, idx) => {
+                        const contentToCheck = (status.content || '').strip();
+                        if (contentToCheck.includes('导演:') || contentToCheck.includes('表演者:') ||
+                            contentToCheck.includes('作者:')) {
+                            return;
+                        }
+
+                        const currentMonth = status.time.substring(5, 7);
+                        if (currentMonth !== lastMonth) {
+                            const separator = document.createElement('div');
+                            separator.className = 'month-separator';
+                            separator.dataset.month = currentMonth;
+                            separator.textContent = `${currentMonth}月`;
+                            feedList.appendChild(separator);
+                            lastMonth = currentMonth;
+                        }
+
+                        const itemHtml = renderStatusItem(status, allItems.length + 1000);
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = itemHtml;
+                        const item = tempDiv.firstElementChild;
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(10px)';
+                        feedList.appendChild(item);
+
+                        requestAnimationFrame(() => {
+                            item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        });
+
+                        allItems.push(item);
+                    });
+
+                    currentPage++;
+                    hasMore = data.page < data.total_pages;
+                } else {
+                    hasMore = false;
+                }
+
+                if (!hasMore) {
+                    document.getElementById('douban-end').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Failed to load statuses:', error);
+                document.getElementById('douban-loading').querySelector('span').textContent = '加载失败，点击重试';
+                document.getElementById('douban-loading').style.cursor = 'pointer';
+                document.getElementById('douban-loading').onclick = loadStatuses;
+            } finally {
+                isLoading = false;
+                if (hasMore) {
+                    document.getElementById('douban-loading').style.display = 'none';
+                }
+            }
+        }
+
+        function setupMonthFilter() {
+            const pageYear = parseInt("{{ page.year }}");
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth() + 1;
+
+            const maxMonth = 12;
+            if (pageYear === currentYear) {
+                if (currentMonth === 1) return;
+            }
+
+            for (let m = 1; m <= maxMonth; m++) {
+                const btn = document.createElement('button');
+                const mStr = (m < 10 ? '0' : '') + m;
+                btn.textContent = m + '月';
+                btn.className = 'month-filter-btn';
+                btn.setAttribute('data-target-month', mStr);
+
+                btn.onclick = function () {
+                    const target = this.getAttribute('data-target-month');
+                    const isActive = this.classList.contains('active');
+
+                    const allBtns = monthFilter.querySelectorAll('.month-filter-btn');
+                    allBtns.forEach(b => b.classList.remove('active'));
+
+                    if (!isActive) {
+                        this.classList.add('active');
+                        filterMonth(target);
+                    } else {
+                        filterMonth(null);
+                    }
+                };
+                monthFilter.appendChild(btn);
+            }
+
+            const firstBtn = monthFilter.querySelector('.month-filter-btn');
+            if (firstBtn) {
+                firstBtn.click();
+            }
         }
 
         function filterMonth(m) {
-            var items = document.querySelectorAll('.douban-status-item');
-            var separators = document.querySelectorAll('.month-separator');
+            currentMonth = m;
+            feedList.innerHTML = '';
+            allItems = [];
+            currentPage = 1;
+            hasMore = true;
 
-            items.forEach(function (item) {
-                if (!m || item.getAttribute('data-month') === m) {
-                    item.style.display = '';
-                    // Lazy load images if we were using data-src? 
-                    // For now browser native lazy loading is adding implicitly by Jekyll often, 
-                    // or we can add it to template.
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+            document.getElementById('douban-end').style.display = 'none';
 
-            separators.forEach(function (sep) {
-                if (!m || sep.getAttribute('data-month') === m) {
-                    sep.style.display = '';
-                } else {
-                    sep.style.display = 'none';
-                }
-            });
+            loadStatuses();
         }
-    })();
 
+        setupMonthFilter();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && hasMore && !isLoading) {
+                    loadStatuses();
+                }
+            });
+        }, { rootMargin: '200px' });
+
+        const endIndicator = document.getElementById('douban-end');
+        if (endIndicator) {
+            observer.observe(endIndicator);
+        }
+    });
+</script>
+
+<script>
     // Desktop Lightbox Functionality
     document.addEventListener('DOMContentLoaded', function () {
-        if (window.innerWidth <= 768) return; // Skip on mobile, use popup
+        if (window.innerWidth <= 768) return;
 
-        // Create lightbox structure
         var lightbox = document.createElement('div');
         lightbox.id = 'desktop-lightbox';
         lightbox.style.cssText = 'display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; user-select:none;';
@@ -402,7 +498,6 @@ layout: default
             lbImg.src = currentGroup[currentIndex];
             counter.textContent = (currentIndex + 1) + ' / ' + currentGroup.length;
 
-            // Manage nav button visibility/state
             prevBtn.style.display = currentGroup.length > 1 ? 'flex' : 'none';
             nextBtn.style.display = currentGroup.length > 1 ? 'flex' : 'none';
 
@@ -432,7 +527,6 @@ layout: default
             }
         }
 
-        // Event Listeners
         lightbox.addEventListener('click', function (e) {
             if (e.target === lightbox || e.target === closeBtn) {
                 closeLightbox();
@@ -457,16 +551,13 @@ layout: default
             if (e.key === 'ArrowRight') showNext();
         });
 
-        // Add click event to all status thumbnails
         document.body.addEventListener('click', function (e) {
             if (e.target.classList.contains('status-image-thumb')) {
-                // Find parent container to identify the group
                 var parent = e.target.closest('.status-images');
                 if (parent) {
                     var thumbs = Array.from(parent.querySelectorAll('.status-image-thumb'));
                     currentGroup = thumbs.map(function (t) {
                         var bg = t.style.backgroundImage;
-                        // Handle url("...") or url(...)
                         if (bg.indexOf('"') > -1) {
                             return bg.slice(5, -2);
                         } else {
@@ -486,47 +577,34 @@ layout: default
 
     // Mobile popup functionality
     document.addEventListener('DOMContentLoaded', function () {
-        // Only run on mobile
         if (window.innerWidth > 768) return;
 
-        // Handle popup open
         document.addEventListener('click', function (e) {
-            // Find the closest status bubble that was clicked
             const bubble = e.target.closest('.status-bubble');
             if (!bubble) return;
 
-            // Don't trigger if clicking on a link
             if (e.target.tagName === 'A') return;
-
-            // Don't trigger if clicking on reply or comments
             if (e.target.closest('.status-footer') || e.target.closest('.comment-box') || e.target.closest('.giscus-wrapper')) return;
 
-            // Get the target popup ID from the data attribute
             const popupId = bubble.getAttribute('data-popup-target');
             if (!popupId) return;
 
             const popup = document.getElementById(popupId);
             if (popup) {
-                // Hide all other popups first
                 document.querySelectorAll('.status-popup').forEach(p => {
                     p.classList.remove('active');
                 });
 
-                // Show the correct popup
                 document.body.style.overflow = 'hidden';
                 popup.classList.add('active');
-
-                // Prevent the click from bubbling up
                 e.stopPropagation();
             }
         });
 
-        // Handle popup close
         document.addEventListener('click', function (e) {
             const popup = e.target.closest('.status-popup');
             const closeBtn = e.target.closest('.status-popup-close');
 
-            // If clicking the close button or outside the popup content
             if (closeBtn || (popup && e.target === popup)) {
                 document.body.style.overflow = '';
                 document.querySelectorAll('.status-popup').forEach(p => {
@@ -536,7 +614,6 @@ layout: default
             }
         });
 
-        // Close popup when pressing ESC key
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 document.body.style.overflow = '';
@@ -556,6 +633,7 @@ layout: default
             });
         }
     });
+
     // Giscus Stats Lazy Loading
     document.addEventListener('DOMContentLoaded', function () {
         console.log('Giscus Stats: Initializing Observer...');
@@ -563,7 +641,6 @@ layout: default
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
                     var statsEl = entry.target;
-                    // Verify if already loaded to avoid duplicate calls
                     if (!statsEl.hasAttribute('data-fetched')) {
                         fetchGiscusStats(statsEl);
                         statsEl.setAttribute('data-fetched', 'true');
@@ -579,7 +656,6 @@ layout: default
     });
 
     function fetchGiscusStats(el) {
-        // Skip on localhost/dev environment (CORS not allowed)
         var hostname = window.location.hostname;
         if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.includes('192.168')) {
             console.log('Giscus Stats: Skipped on local dev environment');
@@ -613,17 +689,13 @@ layout: default
                 var comments = 0;
                 var reactions = 0;
 
-                // Handle different response structures
                 if (data && data.discussion) {
-                    // New Giscus API structure
                     comments = data.discussion.totalCommentCount || 0;
-                    // Reactions can be in different places
                     if (data.discussion.reactions && data.discussion.reactions.totalCount !== undefined) {
                         reactions = data.discussion.reactions.totalCount;
                     } else if (data.discussion.reactionCount !== undefined) {
                         reactions = data.discussion.reactionCount;
                     } else {
-                        // Count individual reactions if available
                         var reactionGroups = data.discussion.reactionGroups;
                         if (Array.isArray(reactionGroups)) {
                             reactions = reactionGroups.reduce(function (sum, g) {
@@ -647,14 +719,11 @@ layout: default
             })
             .catch(function (err) {
                 console.error('Giscus Stats: Failed to fetch', err);
-                // On error, show 0
                 var commentText = el.querySelector('.comment-count .count-text');
                 var reactionText = el.querySelector('.reaction-count .count-text');
                 if (commentText) commentText.textContent = "0";
                 if (reactionText) reactionText.textContent = "0";
             });
     }
-
-
 </script>
 <script src="/assets/js/giscus-handler.js"></script>
