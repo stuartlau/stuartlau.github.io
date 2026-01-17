@@ -578,8 +578,8 @@ subtitle: 社交媒体资料聚合页
 .feed-item {
     display: flex;
     justify-content: flex-start; /* Compact layout */
-    gap: 16px; /* Tight distance between text and image */
-    padding: 12px 16px;
+    gap: 10px; /* Tight distance between text and image */
+    padding: 12px 0; /* Remove horizontal padding per request */
     border-bottom: 1px solid #eff3f4;
     text-decoration: none;
     transition: background 0.2s;
@@ -600,8 +600,8 @@ subtitle: 社交媒体资料聚合页
 }
 
 .post-avatar img {
-    width: 48px; /* Increased from 20px, about 2 lines height */
-    height: 48px;
+    width: 24px; /* Reduced to compact size */
+    height: 24px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -951,6 +951,8 @@ input:focus {
     max-width: 90%;
     max-height: 90%;
     border-radius: 4px;
+    object-fit: contain;
+    cursor: zoom-out;
 }
 
 .lightbox-nav {
@@ -1263,11 +1265,18 @@ let currentImages = [];
 let currentImageIndex = 0;
 
 function openLightbox(src, imagesArr) {
+    const lb = document.getElementById('lightbox');
+    
+    // If the image is already open, close it (toggle effect)
+    if (lb.style.display === 'flex' && currentImages.length === 1 && currentImages[0] === src) {
+        closeLightbox();
+        return;
+    }
+
     currentImages = imagesArr || [src];
     currentImageIndex = currentImages.indexOf(src);
     if (currentImageIndex === -1) currentImageIndex = 0;
 
-    const lb = document.getElementById('lightbox');
     updateLightboxImage();
     lb.style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -1299,7 +1308,15 @@ function closeLightbox() {
     const lb = document.getElementById('lightbox');
     if (lb) lb.style.display = 'none';
     document.body.style.overflow = 'auto';
+    currentImages = []; // Reset current images
 }
+
+// Close lightbox when clicking the image itself
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'lightbox-img') {
+        closeLightbox();
+    }
+});
 
 document.addEventListener('keydown', function(e) {
     const lb = document.getElementById('lightbox');

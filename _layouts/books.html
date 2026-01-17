@@ -8,7 +8,11 @@ layout: default
 
     {% if page.dataset %}
     {% assign dataset_str = page.dataset | append: "" %}
+    {% if dataset_str == "all" %}
+    {% assign book_data = site.data.books.all %}
+    {% else %}
     {% assign book_data = site.data.books[dataset_str] %}
+    {% endif %}
     {% endif %}
 
     {% if book_data %}

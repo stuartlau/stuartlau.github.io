@@ -8,7 +8,11 @@ layout: default
 
     {% if page.dataset %}
     {% assign dataset_str = page.dataset | append: "" %}
+    {% if dataset_str == "all" %}
+    {% assign year_data = site.data.movies.all %}
+    {% else %}
     {% assign year_data = site.data.movies[dataset_str] %}
+    {% endif %}
     {% elsif page.year %}
     {% assign year_str = page.year | append: "" %}
     {% assign year_data = site.data.movies[year_str] %}
