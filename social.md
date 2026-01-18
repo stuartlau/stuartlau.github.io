@@ -343,6 +343,20 @@ subtitle: 社交媒体资料聚合页
     overflow-x: hidden;
 }
 
+/* Left Sidebar - Fixed */
+.social-left-sidebar {
+    position: fixed;
+    top: 0;
+    left: calc(50% - 700px);
+    width: 15%;
+    max-width: 240px;
+    min-width: 180px;
+    height: 100vh;
+    padding: 20px 16px;
+    background: #fff;
+    z-index: 100;
+}
+
 .left-sidebar-inner {
     display: flex;
     flex-direction: column;
@@ -388,45 +402,14 @@ subtitle: 社交媒体资料聚合页
 }
 
 /* Main Content - Centered */
-.social-layout {
-    display: flex;
-    justify-content: center;
-    max-width: 1400px;
-    margin: 0 auto;
-    min-height: 100vh;
-}
-
 .social-main {
-    flex: 1;
-    max-width: 700px;
-    min-width: 0;
+    width: 55%;
+    max-width: 800px;
+    min-width: 600px;
+    min-height: 60vh; /* Set to 60vh to avoid excessive white space while maintaining layout */
     border-right: 1px solid #eff3f4;
     border-left: 1px solid #eff3f4;
     background: #fff;
-}
-
-/* Left Sidebar - Fixed */
-.social-left-sidebar {
-    position: sticky;
-    top: 0;
-    width: 280px;
-    height: 100vh;
-    padding: 20px 30px;
-    border-right: 1px solid #eff3f4;
-    background: #fff;
-    flex-shrink: 0;
-}
-
-/* Right Sidebar - Fixed */
-.social-right-sidebar {
-    position: sticky;
-    top: 0;
-    width: 350px;
-    height: 100vh;
-    padding: 20px;
-    background: #fff;
-    flex-shrink: 0;
-    overflow-y: auto;
 }
 
 /* Profile Header - Twitter Style */
@@ -1069,11 +1052,6 @@ input:focus {
     .social-right-sidebar {
         display: none;
     }
-    
-    .social-main {
-        max-width: none;
-        margin-right: 0;
-    }
 }
 
 @media (max-width: 1080px) {
@@ -1093,10 +1071,7 @@ input:focus {
     }
     
     .social-main {
-        margin-left: 80px;
-        margin-right: 0;
-        max-width: none;
-        width: calc(100% - 80px);
+        margin-left: 0;
     }
 }
 
