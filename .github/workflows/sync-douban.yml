@@ -1,0 +1,62 @@
+name: Sync Douban Data
+
+on:
+  workflow_dispatch:
+    inputs:
+      year:
+        description: 'Year to sync (e.g., 2026, or "all")'
+        required: false
+        default: 'all'
+  schedule:
+    # Run weekly on Sunday at 3:00 UTC
+    - cron: '0 3 * * 0'
+
+jobs:
+  sync-douban:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4 pyyaml
+          
+      - name: Create data directory
+        run: mkdir -p _data/douban
+        
+      - name: Run Douban sync script
+        run: |
+          python scripts/sync_douban.py --year ${{ github.event.inputs.year || 'all' }}
+        env:
+          DOUBAN_COOKIE: ${{ secrets.DOUBAN_COOKIE }}
+          
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet _data/; then
+            echo "No changes detected"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Create Pull Request
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: 'data: sync douban data - $(date +%Y-%m-%d)'
+          body: |
+            Automated sync of Douban broadcast data.
+            
+            - Updated: ${{ github.event.inputs.year || 'all years' }}
+            - Triggered by: ${{ github.actor }}
+          branch: douban-sync-$(date +%Y%m%d)
+          commit-message: 'data: sync douban data - $(date +%Y-%m-%d)'
+          token: ${{ secrets.GITHUB_TOKEN }}

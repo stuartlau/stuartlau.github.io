@@ -9,7 +9,7 @@ owner:
   name: Stuart Lau
   avatar: about-SL-sketch.jpg
   bio: Je pense, donc je suis.
-  # email: stuart8 # Un@126.com comment to display email publicly
+  email: stuart8@126.com
   # cv: https://stuartlau.github.io/file/CV-HanlinCAI.pdf
   # Social networking links are used in author-bio sidebar. Update and remove as you like.
   # twitter: yourID
@@ -21,7 +21,7 @@ owner:
   # facebook: caihanlin2002
   instagram: surelau
   xiaohongshu: 5dc678040000000001001e92
-  douban: shuoleo
+  # douban: shuoleo
   # lastfm:
   # tumblr:
   # For Google Authorship https://plus.google.com/authorship
@@ -103,9 +103,3 @@ related_posts:
 
 include: [".htaccess"]
 exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "minimal-mistakes.sublime-project", "minimal-mistakes.sublime-workspace", "node_modules"]
-
-plugins:
-  - jekyll-feed
-  - jekyll-sitemap
-  - jekyll-seo-tag
-  - jekyll-paginate

@@ -314,10 +314,14 @@
             <!-- Blog Panel -->
             <div class="tab-panel" id="blog-panel">
                 <div class="article-list">
-                    {% assign tech_posts_cat = site.posts | where_exp: "item", "item.categories contains '技术'" %}
-                    {% assign tech_posts_path = site.posts | where_exp: "item", "item.path contains 'tech'" %}
-                    {% assign tech_posts = tech_posts_cat | concat: tech_posts_path | uniq | sort: 'date' | reverse %}
-                    {% for post in tech_posts limit: 8 %}
+                    {% assign sorted_posts = "" | split: "" %}
+                    {% for post in site.pages %}
+                      {% if post.url contains '/blogs/' and post.layout == 'post' and post.date %}
+                        {% assign sorted_posts = sorted_posts | push: post %}
+                      {% endif %}
+                    {% endfor %}
+                    {% assign sorted_posts = sorted_posts | sort: "date" | reverse %}
+                    {% for post in sorted_posts limit: 12 %}
                     <a href="{{ post.url }}" class="article-item">
                         <span class="article-date">{{ post.date | date: "%Y-%m-%d" }}</span>
                         <h3 class="article-title">{{ post.title }}</h3>

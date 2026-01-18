@@ -3,6 +3,26 @@ layout: default
 subtitle: 社交媒体资料聚合页
 ---
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.pathname.includes('social')) {
+        document.body.classList.add('social-page');
+        // Hide default header elements
+        var nav = document.querySelector('.navigation-wrapper');
+        var authorTop = document.querySelector('.article-author-top');
+        var headline = document.querySelector('.headline-wrap');
+        if (nav) nav.style.display = 'none';
+        if (authorTop) authorTop.style.display = 'none';
+        if (headline) headline.style.display = 'none';
+        // Adjust main padding
+        var main = document.querySelector('#main');
+        var articleWrap = document.querySelector('.article-wrap');
+        if (main) main.style.marginTop = '0';
+        if (articleWrap) articleWrap.style.padding = '0';
+    }
+});
+</script>
+
 <div class="social-layout">
     <!-- Left Sidebar - Fixed -->
     <aside class="social-left-sidebar">
@@ -333,28 +353,25 @@ subtitle: 社交媒体资料聚合页
 }
 
 .social-layout {
+    position: relative;
     display: flex;
     justify-content: center;
-    margin: 0 auto;
     min-height: 100vh;
     background: #fff;
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden;
 }
 
-/* Left Sidebar - Fixed */
+/* Left Sidebar - Fixed to left */
 .social-left-sidebar {
     position: fixed;
     top: 0;
-    left: calc(50% - 700px);
-    width: 15%;
-    max-width: 240px;
-    min-width: 180px;
+    left: 0;
+    width: 275px;
     height: 100vh;
-    padding: 20px 16px;
+    padding: 12px 24px;
     background: #fff;
-    z-index: 100;
+    z-index: 1000;
+    border-right: 1px solid #eff3f4;
+    overflow-y: auto;
 }
 
 .left-sidebar-inner {
@@ -365,13 +382,12 @@ subtitle: 社交媒体资料聚合页
 
 .sidebar-logo-text {
     display: block;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    padding: 12px;
     font-size: 20px;
     font-weight: 900;
     color: #0f1419;
     text-decoration: none;
-    letter-spacing: -0.5px;
-    padding-left: 16px; /* Align with icons below */
 }
 
 .sidebar-nav {
@@ -383,8 +399,8 @@ subtitle: 社交媒体资料聚合页
 .sidebar-nav .nav-item {
     display: flex;
     align-items: center;
-    gap: 12px; /* Reduced gap from 20px */
-    padding: 10px 16px; /* Reduced vertical padding */
+    gap: 20px;
+    padding: 12px 16px;
     border-radius: 30px;
     color: #0f1419;
     text-decoration: none;
@@ -403,13 +419,14 @@ subtitle: 社交媒体资料聚合页
 
 /* Main Content - Centered */
 .social-main {
-    width: 55%;
-    max-width: 800px;
-    min-width: 600px;
-    min-height: 60vh; /* Set to 60vh to avoid excessive white space while maintaining layout */
+    flex: 1;
+    width: 600px;
+    min-width: 0;
+    margin-left: 275px;
+    margin-right: 350px;
+    background: #fff;
     border-right: 1px solid #eff3f4;
     border-left: 1px solid #eff3f4;
-    background: #fff;
 }
 
 /* Profile Header - Twitter Style */
@@ -442,12 +459,12 @@ subtitle: 社交媒体资料聚合页
 /* Avatar - Overlapping Cover */
 .profile-avatar {
     position: absolute;
-    top: -65px;
+    top: 130px; /* Position so half shows in cover, half in content area */
     left: 16px;
 }
 
 .profile-avatar img {
-    width: 100px; /* Reduced from 130px */
+    width: 100px;
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
@@ -456,10 +473,10 @@ subtitle: 社交媒体资料聚合页
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Profile Details - Align with icons below */
+/* Profile Details - Positioned below avatar */
 .profile-details {
-    margin-top: 50px;
-    padding-left: 16px; /* Align with sidebar text */
+    margin-top: 60px;
+    padding-left: 16px;
 }
 
 .profile-name {
@@ -863,14 +880,14 @@ subtitle: 社交媒体资料聚合页
 .social-right-sidebar {
     position: fixed;
     top: 0;
-    right: calc(50% - 700px);
-    width: 30%;
-    max-width: 380px;
-    min-width: 280px;
+    right: 0;
+    width: 350px;
     height: 100vh;
-    padding: 20px;
+    padding: 12px 24px;
     background: #fff;
     overflow-y: auto;
+    border-left: 1px solid #eff3f4;
+    z-index: 1000;
 }
 
 .right-sidebar-inner {
@@ -1052,13 +1069,20 @@ input:focus {
     .social-right-sidebar {
         display: none;
     }
+    
+    .social-main {
+        margin-right: 0;
+    }
 }
 
 @media (max-width: 1080px) {
     .social-left-sidebar {
-        left: 0;
         width: 80px;
-        padding: 20px 10px;
+        padding: 12px 8px;
+    }
+    
+    .sidebar-logo-text {
+        display: none;
     }
     
     .sidebar-nav .nav-item {
@@ -1071,7 +1095,8 @@ input:focus {
     }
     
     .social-main {
-        margin-left: 0;
+        margin-left: 80px;
+        margin-right: 0;
     }
 }
 

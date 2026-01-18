@@ -72,3 +72,4 @@ benchmark_results/
 *.pid
 *.seed
 
+node_modules/
