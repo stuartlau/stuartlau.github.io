@@ -420,13 +420,31 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Main Content - Centered */
 .social-main {
     flex: 1;
-    width: 600px;
-    min-width: 0;
+    width: calc(100% - 275px - 350px);
+    min-width: 600px;
+    max-width: 700px;
     margin-left: 275px;
     margin-right: 350px;
     background: #fff;
     border-right: 1px solid #eff3f4;
     border-left: 1px solid #eff3f4;
+}
+
+@media (max-width: 768px) {
+    .social-main {
+        width: 100%;
+        margin-left: 0;
+        min-width: 0;
+        border: none;
+    }
+
+    .social-left-sidebar, .social-right-sidebar {
+        display: none !important;
+    }
+
+    .social-layout {
+        display: block;
+    }
 }
 
 /* Profile Header - Twitter Style */

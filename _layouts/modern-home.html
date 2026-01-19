@@ -76,35 +76,37 @@
     <!-- Dynamic Content Section -->
     <section class="content-section">
         <div class="content-main">
-            <!-- Horizontal Tabs for PC -->
-            <div class="horizontal-tabs">
-                <button class="h-tab-btn active" data-tab="experience">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                    </svg>
-                    <span>Experience</span>
-                </button>
-                <button class="h-tab-btn" data-tab="patents">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                    <span>Patents</span>
-                </button>
-                <button class="h-tab-btn" data-tab="blog">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                    </svg>
-                    <span>Blogs</span>
-                </button>
-                <button class="h-tab-btn" data-tab="travel">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="10" r="3"></circle>
-                        <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"></path>
-                    </svg>
-                    <span>Travel</span>
-                </button>
+            <!-- Tab Container -->
+            <div class="tab-container">
+                <div class="tab-header">
+                    <button class="h-tab-btn active" data-tab="experience">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                        <span>Experience</span>
+                    </button>
+                    <button class="h-tab-btn" data-tab="patents">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        <span>Patents</span>
+                    </button>
+                    <button class="h-tab-btn" data-tab="blog">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                        <span>Blogs</span>
+                    </button>
+                    <button class="h-tab-btn" data-tab="travel">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="10" r="3"></circle>
+                            <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"></path>
+                        </svg>
+                        <span>Travel</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Experience Panel -->
@@ -336,179 +338,10 @@
 
             <!-- Travel Panel -->
             <div class="tab-panel" id="travel-panel">
-                <div class="world-map-container">
-                    <div class="world-map-header">
-                        <h2 class="world-map-title">Where I've Been</h2>
-                        <p class="world-map-subtitle">14 countries across 3 continents</p>
-                    </div>
-                    <div class="world-map">
-                        <svg viewBox="0 0 1000 500" class="world-map-svg">
-                            <!-- Simplified World Map Background -->
-                            <defs>
-                                <linearGradient id="oceanGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#e0f2fe;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#bae6fd;stop-opacity:1" />
-                                </linearGradient>
-                                <filter id="glow">
-                                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                                    <feMerge>
-                                        <feMergeNode in="coloredBlur"/>
-                                        <feMergeNode in="SourceGraphic"/>
-                                    </feMerge>
-                                </filter>
-                            </defs>
-
-                            <!-- Ocean Background -->
-                            <rect width="1000" height="500" fill="url(#oceanGradient)" />
-
-                            <!-- Asia Region -->
-                            <ellipse cx="200" cy="350" rx="180" ry="100" fill="#fef3c7" opacity="0.6" />
-                            <ellipse cx="200" cy="350" rx="140" ry="80" fill="#fef3c7" opacity="0.8" />
-
-                            <!-- Europe Region -->
-                            <ellipse cx="500" cy="250" rx="200" ry="120" fill="#dbeafe" opacity="0.6" />
-                            <ellipse cx="500" cy="250" rx="160" ry="100" fill="#dbeafe" opacity="0.8" />
-
-                            <!-- Asia Trip Route -->
-                            <path d="M100 380 Q150 350 180 300 T250 200 T320 120" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round" stroke-dasharray="8,4" />
-                            <path d="M320 120 Q350 150 380 180" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round" stroke-dasharray="8,4" />
-
-                            <!-- Europe Trip Route -->
-                            <path d="M320 120 Q400 80 480 100 T600 150 T700 130" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-dasharray="8,4" />
-                            <path d="M700 130 Q750 160 800 180" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-dasharray="8,4" />
-
-                            <!-- Tokyo -->
-                            <g class="map-marker" data-city="Tokyo">
-                                <circle cx="100" cy="380" r="12" fill="#ef4444" filter="url(#glow)" />
-                                <circle cx="100" cy="380" r="6" fill="#fff" />
-                                <text x="100" y="405" class="city-label">Tokyo</text>
-                                <text x="100" y="420" class="year-label">2017</text>
-                            </g>
-
-                            <!-- Seoul -->
-                            <g class="map-marker" data-city="Seoul">
-                                <circle cx="150" cy="340" r="12" fill="#ef4444" filter="url(#glow)" />
-                                <circle cx="150" cy="340" r="6" fill="#fff" />
-                                <text x="150" y="365" class="city-label">Seoul</text>
-                                <text x="150" y="380" class="year-label">2025</text>
-                            </g>
-
-                            <!-- Bangkok -->
-                            <g class="map-marker" data-city="Bangkok">
-                                <circle cx="200" cy="300" r="12" fill="#ef4444" filter="url(#glow)" />
-                                <circle cx="200" cy="300" r="6" fill="#fff" />
-                                <text x="200" y="325" class="city-label">Bangkok</text>
-                                <text x="200" y="340" class="year-label">2016</text>
-                            </g>
-
-                            <!-- Hong Kong -->
-                            <g class="map-marker" data-city="Hong Kong">
-                                <circle cx="250" cy="250" r="12" fill="#ef4444" filter="url(#glow)" />
-                                <circle cx="250" cy="250" r="6" fill="#fff" />
-                                <text x="250" y="275" class="city-label">HK</text>
-                                <text x="250" y="290" class="year-label">2013</text>
-                            </g>
-
-                            <!-- Taipei -->
-                            <g class="map-marker" data-city="Taipei">
-                                <circle cx="280" cy="280" r="12" fill="#ef4444" filter="url(#glow)" />
-                                <circle cx="280" cy="280" r="6" fill="#fff" />
-                                <text x="280" y="305" class="city-label">Taipei</text>
-                                <text x="280" y="320" class="year-label">2013</text>
-                            </g>
-
-                            <!-- Beijing -->
-                            <g class="map-marker" data-city="Beijing">
-                                <circle cx="320" cy="280" r="12" fill="#ef4444" filter="url(#glow)" />
-                                <circle cx="320" cy="280" r="6" fill="#fff" />
-                                <text x="320" y="305" class="city-label">Beijing</text>
-                                <text x="320" y="320" class="year-label">2017</text>
-                            </g>
-
-                            <!-- Venice -->
-                            <g class="map-marker" data-city="Venice">
-                                <circle cx="480" cy="220" r="12" fill="#3b82f6" filter="url(#glow)" />
-                                <circle cx="480" cy="220" r="6" fill="#fff" />
-                                <text x="480" y="245" class="city-label">Venice</text>
-                                <text x="480" y="260" class="year-label">2019</text>
-                            </g>
-
-                            <!-- Paris -->
-                            <g class="map-marker" data-city="Paris">
-                                <circle cx="500" cy="200" r="12" fill="#3b82f6" filter="url(#glow)" />
-                                <circle cx="500" cy="200" r="6" fill="#fff" />
-                                <text x="500" y="225" class="city-label">Paris</text>
-                                <text x="500" y="240" class="year-label">2017</text>
-                            </g>
-
-                            <!-- Rome -->
-                            <g class="map-marker" data-city="Rome">
-                                <circle cx="520" cy="240" r="12" fill="#3b82f6" filter="url(#glow)" />
-                                <circle cx="520" cy="240" r="6" fill="#fff" />
-                                <text x="520" y="265" class="city-label">Rome</text>
-                                <text x="520" y="280" class="year-label">2016</text>
-                            </g>
-
-                            <!-- Lisbon -->
-                            <g class="map-marker" data-city="Lisbon">
-                                <circle cx="450" cy="260" r="12" fill="#3b82f6" filter="url(#glow)" />
-                                <circle cx="450" cy="260" r="6" fill="#fff" />
-                                <text x="450" y="285" class="city-label">Lisbon</text>
-                                <text x="450" y="300" class="year-label">2016</text>
-                            </g>
-
-                            <!-- Madrid -->
-                            <g class="map-marker" data-city="Madrid">
-                                <circle cx="470" cy="280" r="12" fill="#8b5cf6" filter="url(#glow)" />
-                                <circle cx="470" cy="280" r="6" fill="#fff" />
-                                <text x="470" y="305" class="city-label">Madrid</text>
-                                <text x="470" y="320" class="year-label">2016</text>
-                            </g>
-
-                            <!-- Amsterdam -->
-                            <g class="map-marker" data-city="Amsterdam">
-                                <circle cx="510" cy="170" r="12" fill="#8b5cf6" filter="url(#glow)" />
-                                <circle cx="510" cy="170" r="6" fill="#fff" />
-                                <text x="510" y="195" class="city-label">Amsterdam</text>
-                                <text x="510" y="210" class="year-label">2019</text>
-                            </g>
-
-                            <!-- Vienna -->
-                            <g class="map-marker" data-city="Vienna">
-                                <circle cx="550" cy="200" r="12" fill="#8b5cf6" filter="url(#glow)" />
-                                <circle cx="550" cy="200" r="6" fill="#fff" />
-                                <text x="550" y="225" class="city-label">Vienna</text>
-                                <text x="550" y="240" class="year-label">2018</text>
-                            </g>
-
-                            <!-- Barcelona -->
-                            <g class="map-marker" data-city="Barcelona">
-                                <circle cx="490" cy="270" r="12" fill="#8b5cf6" filter="url(#glow)" />
-                                <circle cx="490" cy="270" r="6" fill="#fff" />
-                                <text x="490" y="295" class="city-label">Barcelona</text>
-                                <text x="490" y="310" class="year-label">2017</text>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="travel-stats">
-                        <div class="travel-stat-card">
-                            <div class="travel-stat-icon">🌏</div>
-                            <div class="travel-stat-value">14</div>
-                            <div class="travel-stat-label">Countries</div>
-                        </div>
-                        <div class="travel-stat-card">
-                            <div class="travel-stat-icon">📸</div>
-                            <div class="travel-stat-value">50+</div>
-                            <div class="travel-stat-label">Cities</div>
-                        </div>
-                        <div class="travel-stat-card">
-                            <div class="travel-stat-icon">✈️</div>
-                            <div class="travel-stat-value">100+</div>
-                            <div class="travel-stat-label">Flights</div>
-                        </div>
-                    </div>
-                    <a href="/life/" class="panel-link">View all travel journals →</a>
+                <div class="life-travel-wrap">
+                    <div class="life-travel-map" id="home-travel-map"></div>
                 </div>
+                <a href="/life/" class="panel-link">View all travel journals →</a>
             </div>
         </div>
     </section>
@@ -616,7 +449,109 @@
             shuffleCollectionList('books-list');
             shuffleCollectionList('games-list');
             shufflePatentList();
+
+            // Initialize travel map when Travel tab is clicked
+            document.querySelectorAll('.h-tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.dataset.tab === 'travel') {
+                        initHomeTravelMap();
+                    }
+                });
+            });
         });
+
+        let homeTravelMapInitialized = false;
+        function initHomeTravelMap() {
+            if (homeTravelMapInitialized) return;
+            const mapEl = document.getElementById('home-travel-map');
+            if (!mapEl || !window.L) return;
+
+            homeTravelMapInitialized = true;
+
+            var map = window.L.map(mapEl, {
+                scrollWheelZoom: false,
+                worldCopyJump: true
+            });
+
+            var mapStyles = {
+                'ESRI World Imagery': window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 19,
+                    attribution: '&copy; Esri'
+                }),
+                'OpenStreetMap': window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; OpenStreetMap'
+                }),
+                'CartoDB Positron': window.L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; CartoDB'
+                })
+            };
+
+            var currentStyle = localStorage.getItem('map-style') || 'CartoDB Positron';
+            if (!mapStyles[currentStyle]) currentStyle = 'CartoDB Positron';
+            mapStyles[currentStyle].addTo(map);
+
+            window.L.control.layers(mapStyles, null, {
+                position: 'topright',
+                collapsed: true
+            }).addTo(map);
+
+            map.on('baselayerchange', function (e) {
+                localStorage.setItem('map-style', e.name);
+            });
+
+            fetch('/travel-points.json')
+                .then(function(r) { return r.json(); })
+                .then(function(points) {
+                    points = Array.isArray(points) ? points : [];
+                    var layers = [];
+
+                    function iconForStatus(status, tags) {
+                        var s = String(status || 'visited').toLowerCase();
+                        var cls = s === 'planned' ? 'travel-marker travel-marker-planned' : 'travel-marker travel-marker-visited';
+                        var isMobile = window.innerWidth < 768;
+                        var size = isMobile ? [8, 8] : [14, 14];
+                        return window.L.divIcon({
+                            className: cls,
+                            iconSize: size
+                        });
+                    }
+
+                    (points || []).forEach(function(p) {
+                        var loc = p && p.location;
+                        if (!Array.isArray(loc) || loc.length < 2) return;
+                        var lng = Number(loc[0]);
+                        var lat = Number(loc[1]);
+                        if (!isFinite(lng) || !isFinite(lat)) return;
+
+                        var popup = '<div class="travel-popup">';
+                        popup += '<div class="travel-popup-title"><a href="' + (p.url || '#') + '">' + (p.title || '') + '</a></div>';
+                        popup += '</div>';
+
+                        var status = p.status || 'visited';
+                        var marker = window.L.marker([lat, lng], {
+                            icon: iconForStatus(status, p.tags)
+                        }).bindPopup(popup, {
+                            maxWidth: 400,
+                            className: 'travel-popup-wrapper'
+                        });
+
+                        marker.addTo(map);
+                        layers.push(marker);
+                    });
+
+                    if (layers.length) {
+                        var group = window.L.featureGroup(layers);
+                        map.fitBounds(group.getBounds().pad(0.2));
+                    } else {
+                        map.setView([0, 0], 2);
+                    }
+                })
+                .catch(function(e) {
+                    console.error('Travel map error:', e);
+                });
+        }
     </script>
 </body>
 
