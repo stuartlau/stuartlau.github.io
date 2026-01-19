@@ -622,44 +622,42 @@ body {
     width: 100%;
 }
 
-/* Tab Container - All tabs in one box */
+/* Tab Container - All tabs in one compact box */
 .tab-container {
+    display: inline-flex;
     background: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
-    padding: 16px;
+    padding: 8px;
     margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .tab-header {
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 6px;
 }
 
-/* Horizontal Tabs */
+/* Horizontal Tabs - Compact */
 .h-tab-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
+    gap: 6px;
+    padding: 8px 16px;
     background: #f9fafb;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     color: #6b7280;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    flex: 1;
-    justify-content: center;
-    min-width: 120px;
+    white-space: nowrap;
 }
 
 .h-tab-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .h-tab-btn:hover {
@@ -706,13 +704,18 @@ body {
 }
 
 @media (max-width: 600px) {
+    .tab-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
     .tab-header {
-        flex-direction: column;
+        flex-wrap: nowrap;
     }
 
     .h-tab-btn {
-        width: 100%;
-        flex: none;
+        flex-shrink: 0;
     }
 
     .life-travel-map {

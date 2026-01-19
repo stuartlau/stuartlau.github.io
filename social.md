@@ -139,9 +139,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                     {% assign sorted_posts = all_posts | sort: "time" | reverse %}
                     {% for item in sorted_posts %}
-                    <div class="feed-item douban-item expandable-item">
+                    <div class="feed-item douban-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
-                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-img" loading="lazy">
                         </div>
                         <div class="feed-content">
                             <div class="post-author-line">
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="social-image-grid">
                                 {% for img in item.images %}
                                 <div class="grid-img-wrap" onclick="openLightbox('{{ img }}', {{ item.images | jsonify | escape }})">
-                                    <img src="{{ img }}" alt="Douban" class="social-img">
+                                    <img src="{{ img }}" alt="Douban" class="social-img lazy-img" loading="lazy">
                                 </div>
                                 {% endfor %}
                             </div>
@@ -421,8 +421,8 @@ document.addEventListener('DOMContentLoaded', function() {
 .social-main {
     flex: 1;
     width: calc(100% - 275px - 350px);
-    min-width: 600px;
-    max-width: 700px;
+    min-width: 0;
+    max-width: 680px;
     margin-left: 275px;
     margin-right: 350px;
     background: #fff;
@@ -430,7 +430,99 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left: 1px solid #eff3f4;
 }
 
+/* Left Sidebar - Fixed */
+.social-left-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 275px;
+    height: 100vh;
+    padding: 12px 24px;
+    background: #fff;
+    z-index: 1000;
+    border-right: 1px solid #eff3f4;
+    overflow-y: auto;
+}
+
+/* Right Sidebar - Fixed */
+.social-right-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px;
+    height: 100vh;
+    padding: 12px 24px;
+    background: #fff;
+    overflow-y: auto;
+    border-left: 1px solid #eff3f4;
+    z-index: 1000;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .social-right-sidebar {
+        width: 300px;
+    }
+
+    .social-main {
+        width: calc(100% - 275px - 300px);
+        margin-right: 300px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .social-right-sidebar {
+        display: none;
+    }
+
+    .social-main {
+        width: calc(100% - 275px);
+        margin-right: 0;
+        max-width: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .social-left-sidebar {
+        width: 80px;
+        padding: 12px 8px;
+    }
+
+    .sidebar-logo-text {
+        display: none;
+    }
+
+    .sidebar-nav .nav-item {
+        justify-content: center;
+        padding: 12px;
+    }
+
+    .sidebar-nav .nav-item span {
+        display: none;
+    }
+
+    .social-main {
+        width: calc(100% - 80px);
+        margin-left: 80px;
+    }
+}
+
 @media (max-width: 768px) {
+    .social-left-sidebar, .social-right-sidebar {
+        display: none !important;
+    }
+
+    .social-layout {
+        display: block;
+    }
+
+    .social-main {
+        width: 100%;
+        margin-left: 0;
+        min-width: 0;
+        border: none;
+    }
+}
     .social-main {
         width: 100%;
         margin-left: 0;
