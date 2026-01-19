@@ -14,11 +14,29 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nav) nav.style.display = 'none';
         if (authorTop) authorTop.style.display = 'none';
         if (headline) headline.style.display = 'none';
-        // Adjust main padding
+        
+        // CRITICAL: Remove width constraints from parent containers
+        // This fixes the middle column being squeezed issue
         var main = document.querySelector('#main');
         var articleWrap = document.querySelector('.article-wrap');
-        if (main) main.style.marginTop = '0';
-        if (articleWrap) articleWrap.style.padding = '0';
+        var article = document.querySelector('article');
+        
+        if (main) {
+            main.style.marginTop = '0';
+            main.style.maxWidth = 'none';
+            main.style.width = '100%';
+            main.style.padding = '0';
+        }
+        if (articleWrap) {
+            articleWrap.style.maxWidth = 'none';
+            articleWrap.style.width = '100%';
+            articleWrap.style.padding = '0';
+            articleWrap.style.margin = '0';
+        }
+        if (article) {
+            article.style.maxWidth = 'none';
+            article.style.width = '100%';
+        }
     }
 });
 </script>
@@ -35,15 +53,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
                     <span>Home</span>
                 </a>
-                <a href="/blogs/" class="nav-item">
-                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    <span>Blogs</span>
-                </a>
                 <a href="/publications/" class="nav-item">
                     <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                     <span>Patents</span>
                 </a>
-                <a href="/life/" class="nav-item">
+                <a href="/travel/" class="nav-item">
                     <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
                     <span>Travel</span>
                 </a>
@@ -78,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div class="profile-stats">
                         <a href="/publications/"><span class="stat-value">120+</span> Patents</a>
-                        <a href="/life/"><span class="stat-value">14</span> Countries</a>
+                        <a href="/travel/"><span class="stat-value">14</span> Countries</a>
                         <a href="/blogs/"><span class="stat-value">180+</span> Blogs</a>
                     </div>
                 </div>
@@ -151,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                 </div>
                 {% if sorted_posts.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('posts-list')">Load more content ↓</button>
+                <button class="load-more-btn" onclick="loadMore('posts-list')">Load more ↓</button>
                 {% endif %}
             </div>
 
@@ -176,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                 </div>
                 {% if posts.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('blogs-list')">Load more content ↓</button>
+                <button class="load-more-btn" onclick="loadMore('blogs-list')">Load more ↓</button>
                 {% endif %}
             </div>
 
@@ -200,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                 </div>
                 {% if patents.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('patents-list')">Load more content ↓</button>
+                <button class="load-more-btn" onclick="loadMore('patents-list')">Load more ↓</button>
                 {% endif %}
             </div>
 
@@ -228,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                 </div>
                 {% if books.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('books-list')">Load more content ↓</button>
+                <button class="load-more-btn" onclick="loadMore('books-list')">Load more ↓</button>
                 {% endif %}
             </div>
 
@@ -256,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                 </div>
                 {% if movies.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('movies-list')">Load more content ↓</button>
+                <button class="load-more-btn" onclick="loadMore('movies-list')">Load more ↓</button>
                 {% endif %}
             </div>
 
@@ -284,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                 </div>
                 {% if games.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('games-list')">Load more content ↓</button>
+                <button class="load-more-btn" onclick="loadMore('games-list')">Load more ↓</button>
                 {% endif %}
             </div>
         </div>
@@ -542,7 +556,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Avatar - Overlapping Cover */
 .profile-avatar {
     position: absolute;
-    top: 130px; /* Position so half shows in cover, half in content area */
+    top: 100px; /* Position so half shows in cover, half in content area */
     left: 16px;
 }
 
@@ -1286,7 +1300,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Random Cover Image
     const coverImgs = [
-        'bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg', 'bg6.jpg'
+        'bg1.jpg', 'bg2.jpg', 'bg3.jpg'
     ];
     const randomBg = coverImgs[Math.floor(Math.random() * coverImgs.length)];
     const coverImgEl = document.querySelector('.profile-cover img');

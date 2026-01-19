@@ -80,20 +80,23 @@
             <div class="tab-container">
                 <div class="tab-header">
                     <button class="h-tab-btn active" data-tab="experience">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
                             <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                             <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
                         </svg>
                         <span>Experience</span>
                     </button>
                     <button class="h-tab-btn" data-tab="patents">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                         </svg>
                         <span>Patents</span>
                     </button>
                     <button class="h-tab-btn" data-tab="blog">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                         </svg>
@@ -307,9 +310,9 @@
                 <div class="article-list">
                     {% assign sorted_posts = "" | split: "" %}
                     {% for post in site.pages %}
-                      {% if post.url contains '/blogs/' and post.layout == 'post' and post.date %}
-                        {% assign sorted_posts = sorted_posts | push: post %}
-                      {% endif %}
+                    {% if post.url contains '/blogs/' and post.layout == 'post' and post.date %}
+                    {% assign sorted_posts = sorted_posts | push: post %}
+                    {% endif %}
                     {% endfor %}
                     {% assign sorted_posts = sorted_posts | sort: "date" | reverse %}
                     {% for post in sorted_posts limit: 12 %}
@@ -331,7 +334,7 @@
 
             <!-- Travel Panel -->
             <div class="tab-panel" id="travel-panel">
-                <a href="/life/" class="panel-link">View all travel journals →</a>
+                <a href="/travel/" class="panel-link">View all travel journals →</a>
             </div>
         </div>
     </section>

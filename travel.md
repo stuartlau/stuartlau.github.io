@@ -1,6 +1,6 @@
 ---
 layout: page
-permalink: /life/index.html
+permalink: /travel/index.html
 title: 我的旅行记录
 ---
 
