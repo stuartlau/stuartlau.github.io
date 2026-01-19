@@ -338,8 +338,133 @@
 
             <!-- Travel Panel -->
             <div class="tab-panel" id="travel-panel">
-                <div class="life-travel-wrap">
-                    <div class="life-travel-map" id="home-travel-map"></div>
+                <div class="travel-map-section">
+                    <svg viewBox="0 0 1000 300" class="travel-map-svg">
+                        <!-- Background regions -->
+                        <ellipse cx="200" cy="200" rx="180" ry="80" fill="#fef2f2" opacity="0.5" />
+                        <ellipse cx="700" cy="150" rx="250" ry="100" fill="#eff6ff" opacity="0.5" />
+
+                        <!-- Asia route - Red -->
+                        <path d="M80 220 Q120 200 160 180 T260 120 T320 80" fill="none" stroke="#f87171"
+                            stroke-width="3" stroke-linecap="round" />
+
+                        <!-- Europe route 1 - Blue -->
+                        <path d="M320 80 Q400 60 500 80 T650 120 T750 100" fill="none" stroke="#60a5fa" stroke-width="3"
+                            stroke-linecap="round" />
+
+                        <!-- Europe route 2 - Green -->
+                        <path d="M750 100 Q800 130 850 150 T920 180" fill="none" stroke="#4ade80" stroke-width="3"
+                            stroke-linecap="round" />
+
+                        <!-- Asia cities -->
+                        <g class="travel-city">
+                            <circle cx="80" cy="220" r="6" fill="#f87171" />
+                            <text x="80" y="238" class="travel-city-label">Tokyo</text>
+                            <text x="80" y="252" class="travel-year-label">2017</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="140" cy="190" r="6" fill="#f87171" />
+                            <text x="140" y="208" class="travel-city-label">Seoul</text>
+                            <text x="140" y="222" class="travel-year-label">2025</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="200" cy="150" r="6" fill="#f87171" />
+                            <text x="200" y="168" class="travel-city-label">Bangkok</text>
+                            <text x="200" y="182" class="travel-year-label">2016</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="260" cy="120" r="6" fill="#f87171" />
+                            <text x="260" y="138" class="travel-city-label">HK</text>
+                            <text x="260" y="152" class="travel-year-label">2013</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="320" cy="80" r="6" fill="#f87171" />
+                            <text x="320" y="98" class="travel-city-label">Taipei</text>
+                            <text x="320" y="112" class="travel-year-label">2013</text>
+                        </g>
+
+                        <!-- Europe cities -->
+                        <g class="travel-city">
+                            <circle cx="420" cy="70" r="6" fill="#60a5fa" />
+                            <text x="420" y="88" class="travel-city-label">Venice</text>
+                            <text x="420" y="102" class="travel-year-label">2019</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="500" cy="80" r="6" fill="#60a5fa" />
+                            <text x="500" y="98" class="travel-city-label">Paris</text>
+                            <text x="500" y="112" class="travel-year-label">2017</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="580" cy="100" r="6" fill="#60a5fa" />
+                            <text x="580" y="118" class="travel-city-label">Rome</text>
+                            <text x="580" y="132" class="travel-year-label">2016</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="650" cy="120" r="6" fill="#60a5fa" />
+                            <text x="650" y="138" class="travel-city-label">Lisbon</text>
+                            <text x="650" y="152" class="travel-year-label">2016</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="750" cy="100" r="6" fill="#4ade80" />
+                            <text x="750" y="118" class="travel-city-label">Madrid</text>
+                            <text x="750" y="132" class="travel-year-label">2016</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="800" cy="130" r="6" fill="#4ade80" />
+                            <text x="800" y="148" class="travel-city-label">Amsterdam</text>
+                            <text x="800" y="162" class="travel-year-label">2019</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="850" cy="150" r="6" fill="#4ade80" />
+                            <text x="850" y="168" class="travel-city-label">Vienna</text>
+                            <text x="850" y="182" class="travel-year-label">2018</text>
+                        </g>
+                        <g class="travel-city">
+                            <circle cx="920" cy="180" r="6" fill="#4ade80" />
+                            <text x="920" y="198" class="travel-city-label">Beijing</text>
+                            <text x="920" y="212" class="travel-year-label">2017</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="travel-regions">
+                    <div class="travel-region">
+                        <div class="travel-region-header">
+                            <span class="region-dot asia"></span>
+                            <span class="region-name">Asia</span>
+                        </div>
+                        <div class="travel-tags">
+                            <a href="/blogs/travelling/Asia/Japan/东京_Tokyo" class="travel-tag asia">Tokyo 2017</a>
+                            <a href="/blogs/travelling/Asia/SouthKorea/首尔_Seoul" class="travel-tag asia">Seoul 2025</a>
+                            <a href="/blogs/travelling/Asia/Thailand/曼谷_Bangkok" class="travel-tag asia">Bangkok
+                                2016</a>
+                            <a href="/blogs/travelling/Asia/China/香港/香港_HongKong" class="travel-tag asia">Hong Kong
+                                2013</a>
+                            <a href="/blogs/travelling/Asia/China/台湾/台北_Taipei" class="travel-tag asia">Taipei 2013</a>
+                        </div>
+                    </div>
+                    <div class="travel-region">
+                        <div class="travel-region-header">
+                            <span class="region-dot europe"></span>
+                            <span class="region-name">Europe</span>
+                        </div>
+                        <div class="travel-tags">
+                            <a href="/blogs/travelling/Europe/Italy/威尼斯_Venice" class="travel-tag europe">Venice
+                                2019</a>
+                            <a href="/blogs/travelling/Europe/France/巴黎_Paris" class="travel-tag europe">Paris 2017</a>
+                            <a href="/blogs/travelling/Europe/Spain/巴塞罗那_Barcelona" class="travel-tag europe">Barcelona
+                                2017</a>
+                            <a href="/blogs/travelling/Europe/Italy/罗马_Rome" class="travel-tag europe">Rome 2016</a>
+                            <a href="/blogs/travelling/Europe/Portugal/里斯本_Lisbon" class="travel-tag europe">Lisbon
+                                2016</a>
+                            <a href="/blogs/travelling/Europe/Spain/马德里_Madrid" class="travel-tag europe">Madrid
+                                2016</a>
+                            <a href="/blogs/travelling/Europe/Netherlands/阿姆斯特丹_Amsterdam"
+                                class="travel-tag europe">Amsterdam 2019</a>
+                            <a href="/blogs/travelling/Europe/Austria/维也纳_Vienna" class="travel-tag europe">Vienna
+                                2018</a>
+                        </div>
+                    </div>
                 </div>
                 <a href="/life/" class="panel-link">View all travel journals →</a>
             </div>
@@ -449,109 +574,7 @@
             shuffleCollectionList('books-list');
             shuffleCollectionList('games-list');
             shufflePatentList();
-
-            // Initialize travel map when Travel tab is clicked
-            document.querySelectorAll('.h-tab-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    if (this.dataset.tab === 'travel') {
-                        initHomeTravelMap();
-                    }
-                });
-            });
         });
-
-        let homeTravelMapInitialized = false;
-        function initHomeTravelMap() {
-            if (homeTravelMapInitialized) return;
-            const mapEl = document.getElementById('home-travel-map');
-            if (!mapEl || !window.L) return;
-
-            homeTravelMapInitialized = true;
-
-            var map = window.L.map(mapEl, {
-                scrollWheelZoom: false,
-                worldCopyJump: true
-            });
-
-            var mapStyles = {
-                'ESRI World Imagery': window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                    maxZoom: 19,
-                    attribution: '&copy; Esri'
-                }),
-                'OpenStreetMap': window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '&copy; OpenStreetMap'
-                }),
-                'CartoDB Positron': window.L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                    maxZoom: 19,
-                    attribution: '&copy; CartoDB'
-                })
-            };
-
-            var currentStyle = localStorage.getItem('map-style') || 'CartoDB Positron';
-            if (!mapStyles[currentStyle]) currentStyle = 'CartoDB Positron';
-            mapStyles[currentStyle].addTo(map);
-
-            window.L.control.layers(mapStyles, null, {
-                position: 'topright',
-                collapsed: true
-            }).addTo(map);
-
-            map.on('baselayerchange', function (e) {
-                localStorage.setItem('map-style', e.name);
-            });
-
-            fetch('/travel-points.json')
-                .then(function(r) { return r.json(); })
-                .then(function(points) {
-                    points = Array.isArray(points) ? points : [];
-                    var layers = [];
-
-                    function iconForStatus(status, tags) {
-                        var s = String(status || 'visited').toLowerCase();
-                        var cls = s === 'planned' ? 'travel-marker travel-marker-planned' : 'travel-marker travel-marker-visited';
-                        var isMobile = window.innerWidth < 768;
-                        var size = isMobile ? [8, 8] : [14, 14];
-                        return window.L.divIcon({
-                            className: cls,
-                            iconSize: size
-                        });
-                    }
-
-                    (points || []).forEach(function(p) {
-                        var loc = p && p.location;
-                        if (!Array.isArray(loc) || loc.length < 2) return;
-                        var lng = Number(loc[0]);
-                        var lat = Number(loc[1]);
-                        if (!isFinite(lng) || !isFinite(lat)) return;
-
-                        var popup = '<div class="travel-popup">';
-                        popup += '<div class="travel-popup-title"><a href="' + (p.url || '#') + '">' + (p.title || '') + '</a></div>';
-                        popup += '</div>';
-
-                        var status = p.status || 'visited';
-                        var marker = window.L.marker([lat, lng], {
-                            icon: iconForStatus(status, p.tags)
-                        }).bindPopup(popup, {
-                            maxWidth: 400,
-                            className: 'travel-popup-wrapper'
-                        });
-
-                        marker.addTo(map);
-                        layers.push(marker);
-                    });
-
-                    if (layers.length) {
-                        var group = window.L.featureGroup(layers);
-                        map.fitBounds(group.getBounds().pad(0.2));
-                    } else {
-                        map.setView([0, 0], 2);
-                    }
-                })
-                .catch(function(e) {
-                    console.error('Travel map error:', e);
-                });
-        }
     </script>
 </body>
 

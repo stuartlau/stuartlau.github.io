@@ -47,18 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
                     <span>Travel</span>
                 </a>
-                <a href="/books/index.html" class="nav-item">
-                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
-                    <span>Books</span>
-                </a>
-                <a href="/movies/all.html" class="nav-item">
-                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
-                    <span>Movies</span>
-                </a>
-                <a href="/games/all.html" class="nav-item">
-                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-                    <span>Games</span>
-                </a>
             </nav>
         </div>
     </aside>
@@ -219,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <!-- Books Tab -->
             <div class="content-panel" id="books-panel">
                 <div class="feed-list" id="books-list">
-                    {% assign books = site.data.books.all | reverse %}
+                    {% assign books = site.data.books.all | sort: "date_read" | reverse %}
                     {% for book in books %}
                     <a href="https://book.douban.com/subject/{{ book.book_id }}/" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
@@ -247,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <!-- Movies Tab -->
             <div class="content-panel" id="movies-panel">
                 <div class="feed-list" id="movies-list">
-                    {% assign movies = site.data.movies.all | reverse %}
+                    {% assign movies = site.data.movies.all | sort: "watched_date" | reverse %}
                     {% for movie in movies %}
                     <a href="https://movie.douban.com/subject/{{ movie.movie_id }}/" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
@@ -275,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <!-- Games Tab -->
             <div class="content-panel" id="games-panel">
                 <div class="feed-list" id="games-list">
-                    {% assign games = site.data.games.all | reverse %}
+                    {% assign games = site.data.games.all | sort: "played_date" | reverse %}
                     {% for game in games %}
                     <a href="{{ game.douban_url }}" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
