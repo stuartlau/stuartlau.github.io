@@ -556,7 +556,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Avatar - Overlapping Cover */
 .profile-avatar {
     position: absolute;
-    top: 100px; /* Position so half shows in cover, half in content area */
+    top: 50px; /* Position so half shows in cover, half in content area */
     left: 16px;
 }
 
@@ -1198,6 +1198,23 @@ input:focus {
 }
 
 @media (max-width: 768px) {
+    /* Prevent horizontal scroll and reset margins */
+    html, body {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Reset Jekyll default containers */
+    #main, .article-wrap, article {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
     .social-left-sidebar, .social-right-sidebar {
         display: none !important;
     }
@@ -1205,6 +1222,10 @@ input:focus {
     .social-layout {
         display: block;
         width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .social-main {
@@ -1212,7 +1233,20 @@ input:focus {
         max-width: 100% !important;
         min-width: 0 !important;
         margin: 0 !important;
+        padding: 0 !important;
         border: none !important;
+        overflow-x: hidden;
+    }
+
+    /* Profile cover should span full width */
+    .profile-header, .profile-cover {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .profile-cover img {
+        width: 100% !important;
     }
 
     /* Hide search box on mobile to save space */

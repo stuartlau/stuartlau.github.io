@@ -1640,8 +1640,9 @@ html {
 .top-navigation {
   margin: 0 auto;
   width: 100%;
-  display: inline;
-  float: left;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   width: 83.33333333333334%;
   margin-left: 8.333333333333334%;
   margin-right: 8.333333333333334%;
@@ -3088,6 +3089,12 @@ screen and (max-height:300px) {
   padding-right: 0;
   display: flex;
   align-items: center;
+  order: -1;
+  /* Move to left side */
+  margin-right: auto;
+  /* Push nav items to the right */
+  padding-left: 25%;
+  gap: 8px;
 }
 
 /* Blog Cards Styles */
