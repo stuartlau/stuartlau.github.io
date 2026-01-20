@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% for item in sorted_posts %}
                     <div class="feed-item douban-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
-                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-img" loading="lazy">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="feed-content">
                             <div class="post-author-line">
@@ -155,7 +155,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="social-image-grid">
                                 {% for img in item.images %}
                                 <div class="grid-img-wrap" onclick="openLightbox('{{ img }}', {{ item.images | jsonify | escape }})">
-                                    <img src="{{ img }}" alt="Douban" class="social-img lazy-img" loading="lazy">
+                                    <div class="img-placeholder">
+                                        <div class="img-loading-spinner"></div>
+                                    </div>
+                                    <img data-src="{{ img }}" alt="Douban" class="social-img lazy-img">
                                 </div>
                                 {% endfor %}
                             </div>
@@ -236,7 +239,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             {% endif %}
                         </div>
                         {% if book.cover %}
-                        <img src="{{ book.cover }}" alt="{{ book.title }}" class="feed-cover">
+                        <div class="feed-cover-placeholder">
+                            <div class="cover-loading-spinner"></div>
+                        </div>
+                        <img data-src="{{ book.cover }}" alt="{{ book.title }}" class="feed-cover lazy-img">
                         {% endif %}
                     </a>
                     {% endfor %}
@@ -264,7 +270,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             {% endif %}
                         </div>
                         {% if movie.poster %}
-                        <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="feed-cover">
+                        <div class="feed-cover-placeholder">
+                            <div class="cover-loading-spinner"></div>
+                        </div>
+                        <img data-src="{{ movie.poster }}" alt="{{ movie.title }}" class="feed-cover lazy-img">
                         {% endif %}
                     </a>
                     {% endfor %}
@@ -292,7 +301,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             {% endif %}
                         </div>
                         {% if game.cover %}
-                        <img src="{{ game.cover }}" alt="{{ game.title }}" class="feed-cover">
+                        <div class="feed-cover-placeholder">
+                            <div class="cover-loading-spinner"></div>
+                        </div>
+                        <img data-src="{{ game.cover }}" alt="{{ game.title }}" class="feed-cover lazy-img">
                         {% endif %}
                     </a>
                     {% endfor %}
@@ -799,6 +811,32 @@ document.addEventListener('DOMContentLoaded', function() {
     object-fit: cover;
     border-radius: 6px;
     flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.feed-cover.loaded {
+    opacity: 1;
+}
+
+.feed-cover-placeholder {
+    width: 60px;
+    height: 85px;
+    background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cover-loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e0e0e0;
+    border-top-color: #1d9bf0;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
 }
 
 /* Blog Cards */
@@ -950,11 +988,60 @@ document.addEventListener('DOMContentLoaded', function() {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.2s;
+    transition: transform 0.2s, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.social-img.loaded {
+    opacity: 1;
 }
 
 .grid-img-wrap:hover .social-img {
     transform: scale(1.05);
+}
+
+/* Image Lazy Loading Styles */
+.img-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 120px;
+    background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.img-loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #e0e0e0;
+    border-top-color: #1d9bf0;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.lazy-avatar {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lazy-avatar.loaded {
+    opacity: 1;
+}
+
+/* Fade in animation for loaded images */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.social-img.loaded {
+    animation: fadeIn 0.3s ease;
 }
 
 .more-images-overlay {
@@ -1428,7 +1515,119 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, 500);
+
+    // Initialize lazy loading for images
+    initImageLazyLoading();
+
+    // Initialize avatar lazy loading
+    initAvatarLazyLoading();
 });
+
+// Image Lazy Loading with Intersection Observer
+function initImageLazyLoading() {
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    const src = img.dataset.src;
+
+                    if (src) {
+                        // Create a new image to preload
+                        const preloadImg = new Image();
+                        preloadImg.onload = function() {
+                            img.src = src;
+                            img.classList.add('loaded');
+
+                            // Remove placeholder
+                            const placeholder = img.parentElement.querySelector('.img-placeholder');
+                            if (placeholder) {
+                                placeholder.style.display = 'none';
+                            }
+                        };
+                        preloadImg.onerror = function() {
+                            // On error, still show the image (or show error state)
+                            img.src = src;
+                            img.classList.add('loaded');
+                            const placeholder = img.parentElement.querySelector('.img-placeholder');
+                            if (placeholder) {
+                                placeholder.style.display = 'none';
+                            }
+                        };
+                        preloadImg.src = src;
+
+                        // Mark as observed
+                        img.dataset.loaded = 'true';
+                    }
+
+                    observer.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '100px 0px',
+            threshold: 0.01
+        });
+
+        // Observe all lazy images
+        document.querySelectorAll('.lazy-img[data-src]').forEach(img => {
+            imageObserver.observe(img);
+        });
+
+        // Also observe already visible images (without data-src, meaning src is set)
+        document.querySelectorAll('.lazy-img:not([data-src])').forEach(img => {
+            img.classList.add('loaded');
+        });
+    } else {
+        // Fallback for older browsers - load all images immediately
+        document.querySelectorAll('.lazy-img[data-src]').forEach(img => {
+            img.src = img.dataset.src;
+            img.classList.add('loaded');
+            const placeholder = img.parentElement.querySelector('.img-placeholder');
+            if (placeholder) {
+                placeholder.style.display = 'none';
+            }
+        });
+    }
+}
+
+// Avatar Lazy Loading
+function initAvatarLazyLoading() {
+    const avatarObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.classList.add('loaded');
+                avatarObserver.unobserve(img);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.lazy-avatar').forEach(img => {
+        avatarObserver.observe(img);
+    });
+}
+
+// Re-initialize lazy loading after loadMore is called
+const originalLoadMore = loadMore;
+loadMore = function(listId) {
+    const list = document.getElementById(listId);
+    if (!list) return;
+    const hiddenItems = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none');
+    for (let i = 0; i < Math.min(hiddenItems.length, 10); i++) {
+        hiddenItems[i].style.display = '';
+    }
+
+    // Re-initialize lazy loading for newly visible images
+    setTimeout(() => {
+        initImageLazyLoading();
+    }, 100);
+
+    const remainingHidden = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none' || el.style.display === '');
+    if (remainingHidden.length === 0) {
+        const btn = list.parentElement.querySelector('.load-more-btn');
+        if (btn) btn.style.display = 'none';
+    }
+};
 
 // Prevent avatar images from being zoomable
 document.addEventListener('DOMContentLoaded', function() {
