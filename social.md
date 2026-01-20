@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="img-placeholder">
                                         <div class="img-loading-spinner"></div>
                                     </div>
-                                    <img data-src="{{ img }}" alt="Douban" class="social-img lazy-img">
+                                    <img src="{{ img }}" alt="Douban" class="social-img lazy-img" loading="lazy" onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
                                 </div>
                                 {% endfor %}
                             </div>
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="feed-cover-placeholder">
                             <div class="cover-loading-spinner"></div>
                         </div>
-                        <img data-src="{{ book.cover }}" alt="{{ book.title }}" class="feed-cover lazy-img">
+                        <img src="{{ book.cover }}" alt="{{ book.title }}" class="feed-cover lazy-img" onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
                         {% endif %}
                     </a>
                     {% endfor %}
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="feed-cover-placeholder">
                             <div class="cover-loading-spinner"></div>
                         </div>
-                        <img data-src="{{ movie.poster }}" alt="{{ movie.title }}" class="feed-cover lazy-img">
+                        <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="feed-cover lazy-img" onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
                         {% endif %}
                     </a>
                     {% endfor %}
@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="feed-cover-placeholder">
                             <div class="cover-loading-spinner"></div>
                         </div>
-                        <img data-src="{{ game.cover }}" alt="{{ game.title }}" class="feed-cover lazy-img">
+                        <img src="{{ game.cover }}" alt="{{ game.title }}" class="feed-cover lazy-img" onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
                         {% endif %}
                     </a>
                     {% endfor %}
@@ -1526,8 +1526,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, 500);
 
-    // Initialize lazy loading for images
-    initImageLazyLoading();
+    // Initialize lazy loading for images - native loading="lazy" handles most cases
+    // The onload handlers in HTML handle the placeholder removal
 
     // Initialize avatar lazy loading
     initAvatarLazyLoading();
@@ -1535,73 +1535,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize infinite scroll
     initInfiniteScroll();
 });
-
-// Image Lazy Loading with Intersection Observer
-function initImageLazyLoading() {
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    const src = img.dataset.src;
-
-                    if (src) {
-                        // Create a new image to preload
-                        const preloadImg = new Image();
-                        preloadImg.onload = function() {
-                            img.src = src;
-                            img.classList.add('loaded');
-
-                            // Remove placeholder
-                            const placeholder = img.parentElement.querySelector('.img-placeholder');
-                            if (placeholder) {
-                                placeholder.style.display = 'none';
-                            }
-                        };
-                        preloadImg.onerror = function() {
-                            // On error, still show the image (or show error state)
-                            img.src = src;
-                            img.classList.add('loaded');
-                            const placeholder = img.parentElement.querySelector('.img-placeholder');
-                            if (placeholder) {
-                                placeholder.style.display = 'none';
-                            }
-                        };
-                        preloadImg.src = src;
-
-                        // Mark as observed
-                        img.dataset.loaded = 'true';
-                    }
-
-                    observer.unobserve(img);
-                }
-            });
-        }, {
-            rootMargin: '100px 0px',
-            threshold: 0.01
-        });
-
-        // Observe all lazy images
-        document.querySelectorAll('.lazy-img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-
-        // Also observe already visible images (without data-src, meaning src is set)
-        document.querySelectorAll('.lazy-img:not([data-src])').forEach(img => {
-            img.classList.add('loaded');
-        });
-    } else {
-        // Fallback for older browsers - load all images immediately
-        document.querySelectorAll('.lazy-img[data-src]').forEach(img => {
-            img.src = img.dataset.src;
-            img.classList.add('loaded');
-            const placeholder = img.parentElement.querySelector('.img-placeholder');
-            if (placeholder) {
-                placeholder.style.display = 'none';
-            }
-        });
-    }
-}
 
 // Avatar Lazy Loading
 function initAvatarLazyLoading() {
@@ -1629,11 +1562,6 @@ loadMore = function(listId) {
     for (let i = 0; i < Math.min(hiddenItems.length, 10); i++) {
         hiddenItems[i].style.display = '';
     }
-
-    // Re-initialize lazy loading for newly visible images
-    setTimeout(() => {
-        initImageLazyLoading();
-    }, 100);
 
     const remainingHidden = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none' || el.style.display === '');
     if (remainingHidden.length === 0) {
@@ -1743,9 +1671,6 @@ function loadMore(listId) {
                 sentinel.classList.add('end');
             }
         }
-
-        // Re-initialize lazy loading for new images
-        initImageLazyLoading();
     }, 300);
 }
 
