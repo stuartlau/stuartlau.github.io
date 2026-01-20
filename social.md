@@ -141,7 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                     {% assign sorted_posts = all_posts | sort: "time" | reverse %}
                     {% for item in sorted_posts %}
-                    <div class="feed-item douban-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                    {% assign post_id = item.time | replace: " ", "-" | replace: ":", "-" %}
+                    <div class="feed-item douban-item expandable-item" data-post-id="douban-{{ post_id }}" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
@@ -158,11 +159,35 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="img-placeholder">
                                         <div class="img-loading-spinner"></div>
                                     </div>
-                                    <img data-src="{{ img }}" alt="Douban" class="social-img lazy-img">
+                                    <img data-src="{{ img }}" alt="Douban" class="social-img lazy-img no-zoom">
                                 </div>
                                 {% endfor %}
                             </div>
                             {% endif %}
+                            
+                            <!-- Interaction Buttons -->
+                            <div class="post-actions">
+                                <button class="action-btn comment-btn" onclick="togglePostComments(this)" data-post-id="douban-{{ post_id }}">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                    </svg>
+                                    <span class="action-count" id="comment-count-{{ post_id }}">评论</span>
+                                </button>
+                                <button class="action-btn like-btn" onclick="togglePostComments(this)" data-post-id="douban-{{ post_id }}">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                    <span class="action-count" id="like-count-{{ post_id }}">点赞</span>
+                                </button>
+                            </div>
+                            
+                            <!-- Giscus Comments Container (hidden by default) -->
+                            <div class="post-giscus-wrapper" id="giscus-{{ post_id }}" data-term="douban-{{ post_id }}" style="display:none;">
+                                <div class="giscus-loading">
+                                    <div class="giscus-loading-spinner"></div>
+                                    <span>加载评论中...</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
@@ -841,6 +866,114 @@ document.addEventListener('DOMContentLoaded', function() {
     border-top-color: #1d9bf0;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+}
+
+/* Post Actions */
+.post-actions {
+    display: flex;
+    gap: 20px;
+    margin-top: 12px;
+    padding-top: 8px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: #536471;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    background: rgba(29, 155, 240, 0.1);
+    color: #1d9bf0;
+}
+
+.action-btn:hover svg {
+    stroke: #1d9bf0;
+}
+
+.action-btn.active {
+    color: #1d9bf0;
+}
+
+.action-btn.active svg {
+    stroke: #1d9bf0;
+    fill: rgba(29, 155, 240, 0.2);
+}
+
+.like-btn:hover {
+    background: rgba(249, 24, 128, 0.1);
+    color: #f91880;
+}
+
+.like-btn:hover svg {
+    stroke: #f91880;
+}
+
+.like-btn.active {
+    color: #f91880;
+}
+
+.like-btn.active svg {
+    stroke: #f91880;
+    fill: rgba(249, 24, 128, 0.3);
+}
+
+.action-count {
+    font-weight: 500;
+}
+
+/* Giscus Wrapper for Posts */
+.post-giscus-wrapper {
+    margin-top: 12px;
+    padding: 16px;
+    background: #f7f9f9;
+    border-radius: 12px;
+    border: 1px solid #eff3f4;
+}
+
+.giscus-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    color: #536471;
+    font-size: 14px;
+}
+
+.giscus-loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e0e0e0;
+    border-top-color: #1d9bf0;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* Buttons with data show count prominently */
+.action-btn.has-data {
+    color: #0f1419;
+    font-weight: 600;
+}
+
+.action-btn.has-data .action-count {
+    background: rgba(29, 155, 240, 0.1);
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: #1d9bf0;
+}
+
+.like-btn.has-data .action-count {
+    background: rgba(249, 24, 128, 0.1);
+    color: #f91880;
 }
 
 /* Blog Cards */
@@ -1847,6 +1980,11 @@ function loadMore(listId) {
 
         // Trigger lazy loading for newly visible images
         reobserveLazyImages();
+        
+        // Preload stats for newly visible posts (if it's the posts list)
+        if (listId === 'posts-list' && typeof preloadPostStats === 'function') {
+            setTimeout(preloadPostStats, 500);
+        }
     }, 300);
 }
 
@@ -2003,4 +2141,220 @@ document.addEventListener('DOMContentLoaded', function() {
         el.innerHTML = renderStars(el.dataset.score);
     });
 });
+// ============================================
+// Post Comments & Reactions (Giscus Integration)
+// ============================================
+
+var activePostGiscus = null;
+var postGiscusIframe = null;
+var currentPostTerm = null;
+
+// Preload discussion stats for visible posts
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait a bit for the page to stabilize
+    setTimeout(function() {
+        preloadPostStats();
+    }, 1000);
+});
+
+// Preload stats for visible posts using GitHub GraphQL API via proxy
+async function preloadPostStats() {
+    const visiblePosts = document.querySelectorAll('.douban-item:not([style*="display:none"])');
+    
+    for (const post of visiblePosts) {
+        const postId = post.getAttribute('data-post-id');
+        if (!postId) continue;
+        
+        try {
+            await fetchPostStats(postId);
+        } catch (e) {
+            console.warn('Failed to fetch stats for:', postId, e);
+        }
+        
+        // Small delay between requests to avoid rate limiting
+        await new Promise(r => setTimeout(r, 200));
+    }
+}
+
+// Fetch stats for a single post from giscus API
+async function fetchPostStats(term) {
+    const repo = 'stuartlau/stuartlau.github.io';
+    const repoId = 'R_kgDOOf5c7g';
+    const category = 'Announcements';
+    const categoryId = 'DIC_kwDOOf5c7s4Cz_Oz';
+    
+    // Use giscus's internal API to search for discussions
+    const searchUrl = `https://giscus.app/api/discussions?` + new URLSearchParams({
+        repo: repo,
+        term: term,
+        category: category,
+        strict: '0',
+        reactionsEnabled: 'true',
+        emitMetadata: 'false'
+    });
+    
+    try {
+        const response = await fetch(searchUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('API request failed');
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.discussion) {
+            updatePostStatsUI(term, {
+                commentCount: data.discussion.totalCommentCount || 0,
+                reactionCount: data.discussion.reactionCount || 0,
+                reactions: data.discussion.reactions || {}
+            });
+        }
+    } catch (e) {
+        // Fallback: just show the buttons without counts
+        console.log('Stats not available for:', term);
+    }
+}
+
+// Update the UI with fetched stats
+function updatePostStatsUI(term, stats) {
+    const postId = term.replace('douban-', '');
+    
+    // Update comment count
+    const commentEl = document.getElementById('comment-count-' + postId);
+    if (commentEl && stats.commentCount > 0) {
+        commentEl.textContent = stats.commentCount;
+        commentEl.closest('.action-btn').classList.add('has-data');
+    }
+    
+    // Update like count (reactions)
+    const likeEl = document.getElementById('like-count-' + postId);
+    if (likeEl && stats.reactionCount > 0) {
+        likeEl.textContent = stats.reactionCount;
+        likeEl.closest('.action-btn').classList.add('has-data');
+    }
+}
+
+// Toggle giscus comments for a post
+function togglePostComments(btn) {
+    var postId = btn.getAttribute('data-post-id');
+    var wrapper = document.getElementById('giscus-' + postId.replace('douban-', ''));
+    
+    if (!wrapper) {
+        console.error('Giscus wrapper not found for:', postId);
+        return;
+    }
+    
+    var term = wrapper.getAttribute('data-term');
+    
+    // If clicking the same one that's already open, just hide it
+    if (wrapper.style.display !== 'none' && wrapper.querySelector('.giscus-container')) {
+        wrapper.style.display = 'none';
+        btn.classList.remove('active');
+        return;
+    }
+    
+    // Hide all other giscus wrappers
+    document.querySelectorAll('.post-giscus-wrapper').forEach(function(w) {
+        if (w !== wrapper) {
+            w.style.display = 'none';
+        }
+    });
+    
+    // Remove active state from all buttons
+    document.querySelectorAll('.action-btn.active').forEach(function(b) {
+        b.classList.remove('active');
+    });
+    
+    // Show this wrapper and set button active
+    wrapper.style.display = 'block';
+    btn.classList.add('active');
+    
+    // Initialize or reuse giscus
+    if (!activePostGiscus) {
+        initPostGiscus(wrapper, term);
+    } else {
+        movePostGiscus(wrapper, term);
+    }
+}
+
+function initPostGiscus(wrapper, term) {
+    // Remove loading indicator
+    var loading = wrapper.querySelector('.giscus-loading');
+    if (loading) loading.style.display = 'none';
+    
+    // Create container
+    activePostGiscus = document.createElement('div');
+    activePostGiscus.className = 'giscus-container';
+    wrapper.appendChild(activePostGiscus);
+    
+    currentPostTerm = term;
+    
+    // Create giscus script
+    var script = document.createElement('script');
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute("data-repo", "stuartlau/stuartlau.github.io");
+    script.setAttribute("data-repo-id", "R_kgDOOf5c7g");
+    script.setAttribute("data-category", "Announcements");
+    script.setAttribute("data-category-id", "DIC_kwDOOf5c7s4Cz_Oz");
+    script.setAttribute("data-mapping", "specific");
+    script.setAttribute("data-term", term);
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+    script.setAttribute("data-lang", "zh-CN");
+    script.setAttribute("crossorigin", "anonymous");
+    script.setAttribute("async", "");
+    
+    script.onload = function() {
+        console.log('✓ Post Giscus loaded for:', term);
+        setTimeout(function() {
+            postGiscusIframe = activePostGiscus.querySelector('iframe.giscus-frame');
+            if (postGiscusIframe) {
+                console.log('✓ Post Giscus iframe found');
+            }
+        }, 1000);
+    };
+    
+    activePostGiscus.appendChild(script);
+}
+
+function movePostGiscus(wrapper, term) {
+    if (!activePostGiscus) return;
+    
+    // Remove loading indicator from new wrapper
+    var loading = wrapper.querySelector('.giscus-loading');
+    if (loading) loading.style.display = 'none';
+    
+    // Move container to new wrapper
+    wrapper.appendChild(activePostGiscus);
+    
+    // Update term if different
+    if (currentPostTerm !== term) {
+        updatePostGiscusTerm(term);
+    }
+}
+
+function updatePostGiscusTerm(newTerm) {
+    if (!postGiscusIframe) {
+        console.error('No post giscus iframe to update');
+        return;
+    }
+    
+    var currentSrc = postGiscusIframe.src;
+    var newSrc = currentSrc.replace(
+        /term=[^&]*/,
+        'term=' + encodeURIComponent(newTerm)
+    );
+    
+    console.log('Updating post giscus term to:', newTerm);
+    postGiscusIframe.src = newSrc;
+    currentPostTerm = newTerm;
+}
 </script>
