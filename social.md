@@ -167,9 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     {% endfor %}
                 </div>
-                {% if sorted_posts.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('posts-list')">Load more ↓</button>
-                {% endif %}
+                <div class="scroll-sentinel" id="posts-sentinel"></div>
             </div>
 
             <!-- Blogs Tab -->
@@ -192,9 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </a>
                     {% endfor %}
                 </div>
-                {% if posts.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('blogs-list')">Load more ↓</button>
-                {% endif %}
+                <div class="scroll-sentinel" id="blogs-sentinel"></div>
             </div>
 
             <!-- Patents Tab -->
@@ -216,9 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </a>
                     {% endfor %}
                 </div>
-                {% if patents.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('patents-list')">Load more ↓</button>
-                {% endif %}
+                <div class="scroll-sentinel" id="patents-sentinel"></div>
             </div>
 
             <!-- Books Tab -->
@@ -247,9 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </a>
                     {% endfor %}
                 </div>
-                {% if books.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('books-list')">Load more ↓</button>
-                {% endif %}
+                <div class="scroll-sentinel" id="books-sentinel"></div>
             </div>
 
             <!-- Movies Tab -->
@@ -278,9 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </a>
                     {% endfor %}
                 </div>
-                {% if movies.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('movies-list')">Load more ↓</button>
-                {% endif %}
+                <div class="scroll-sentinel" id="movies-sentinel"></div>
             </div>
 
             <!-- Games Tab -->
@@ -309,9 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </a>
                     {% endfor %}
                 </div>
-                {% if games.size > 10 %}
-                <button class="load-more-btn" onclick="loadMore('games-list')">Load more ↓</button>
-                {% endif %}
+                <div class="scroll-sentinel" id="games-sentinel"></div>
             </div>
         </div>
     </main>
@@ -655,6 +643,7 @@ document.addEventListener('DOMContentLoaded', function() {
     top: 0;
     z-index: 50;
     width: 100%;
+    flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
@@ -662,11 +651,23 @@ document.addEventListener('DOMContentLoaded', function() {
         overflow-x: auto;
         white-space: nowrap;
         justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2px;
     }
-    
+
     .tab-item {
         flex: 0 0 auto;
-        min-width: 60px;
+        min-width: 70px;
+        padding: 12px 16px;
+    }
+
+    .tab-text {
+        display: none;
+    }
+
+    .tab-icon-mobile {
+        display: block !important;
+        margin: 0;
     }
 }
 
@@ -675,7 +676,7 @@ document.addEventListener('DOMContentLoaded', function() {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column; /* Stack icon and text */
+    flex-direction: column;
     padding: 10px 5px;
     text-decoration: none;
     color: #536471;
@@ -920,21 +921,30 @@ document.addEventListener('DOMContentLoaded', function() {
     width: 100%;
 }
 
-/* Load More Button */
-.load-more-btn {
+/* Scroll Sentinel for Infinite Scroll */
+.scroll-sentinel {
     width: 100%;
-    padding: 16px;
-    background: none;
-    border: none;
-    color: #1d9bf0;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, transparent, #f7f9f9 20%);
 }
 
-.load-more-btn:hover {
-    background: #f7f9f9;
+.scroll-sentinel.loading::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e0e0e0;
+    border-top-color: #1d9bf0;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.scroll-sentinel.end::after {
+    content: 'No more content';
+    color: #536471;
+    font-size: 13px;
 }
 
 /* Social Image Grid */
@@ -1521,6 +1531,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize avatar lazy loading
     initAvatarLazyLoading();
+
+    // Initialize infinite scroll
+    initInfiniteScroll();
 });
 
 // Image Lazy Loading with Intersection Observer
@@ -1686,7 +1699,84 @@ function loadMore(listId) {
     }
 }
 
-let currentImages = [];
+let loadMoreState = {};
+
+function loadMore(listId) {
+    const list = document.getElementById(listId);
+    if (!list) return;
+
+    if (!loadMoreState[listId]) {
+        loadMoreState[listId] = { loaded: 10, loading: false, ended: false };
+    }
+    const state = loadMoreState[listId];
+    if (state.loading || state.ended) return;
+
+    const sentinel = document.getElementById(listId.replace('list', 'sentinel'));
+    if (sentinel) sentinel.classList.add('loading');
+
+    state.loading = true;
+
+    setTimeout(() => {
+        const hiddenItems = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none');
+        const toLoad = Math.min(hiddenItems.length, 10);
+
+        if (toLoad === 0) {
+            state.ended = true;
+            if (sentinel) {
+                sentinel.classList.remove('loading');
+                sentinel.classList.add('end');
+            }
+            return;
+        }
+
+        for (let i = 0; i < toLoad; i++) {
+            hiddenItems[i].style.display = '';
+        }
+
+        state.loaded += toLoad;
+        state.loading = false;
+        state.ended = hiddenItems.length <= 10;
+
+        if (sentinel) {
+            sentinel.classList.remove('loading');
+            if (state.ended) {
+                sentinel.classList.add('end');
+            }
+        }
+
+        // Re-initialize lazy loading for new images
+        initImageLazyLoading();
+    }, 300);
+}
+
+// Initialize Infinite Scroll with Intersection Observer
+function initInfiniteScroll() {
+    if (!('IntersectionObserver' in window)) {
+        return;
+    }
+
+    const panels = ['posts', 'blogs', 'patents', 'books', 'movies', 'games'];
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sentinel = entry.target;
+                const listId = sentinel.id.replace('sentinel', 'list');
+                loadMore(listId);
+            }
+        });
+    }, {
+        rootMargin: '200px 0px',
+        threshold: 0
+    });
+
+    panels.forEach(panel => {
+        const sentinel = document.getElementById(panel + '-sentinel');
+        if (sentinel) {
+            observer.observe(sentinel);
+        }
+    });
+}
 let currentImageIndex = 0;
 
 function openLightbox(src, imagesArr) {
