@@ -4,6 +4,10 @@ title: Stuart Lau
 #Comment out url when working locally to resolve base urls correctly
 url: https://stuartlau.github.io
 
+# CDN Configuration for faster image loading
+# jsDelivr provides free CDN for GitHub repositories
+cdn_url: https://cdn.jsdelivr.net/gh/stuartlau/stuartlau.github.io@main
+
 # Owner/author information
 owner:
   name: Stuart Lau

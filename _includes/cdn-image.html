@@ -1,0 +1,15 @@
+{%- comment -%}
+CDN Image Helper
+Usage: {% include cdn-image.html src="/images/example.jpg" alt="Example" class="my-class" %}
+This will output the image with CDN URL in production, or local URL in development.
+{%- endcomment -%}
+{%- assign cdn_base = site.cdn_url | default: site.url -%}
+{%- assign img_src = include.src -%}
+{%- if img_src contains 'http://' or img_src contains 'https://' -%}
+{%- assign final_src = img_src -%}
+{%- else -%}
+{%- assign final_src = cdn_base | append: img_src -%}
+{%- endif -%}
+<img src="{{ final_src }}" alt="{{ include.alt | default: '' }}" {% if include.class %}class="{{ include.class }}" {%
+    endif %} {% if include.loading %}loading="{{ include.loading }}" {% endif %} {% if include.width
+    %}width="{{ include.width }}" {% endif %} {% if include.height %}height="{{ include.height }}" {% endif %}>
