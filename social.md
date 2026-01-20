@@ -342,10 +342,13 @@ document.addEventListener('DOMContentLoaded', function() {
     </aside>
 </div>
 
-<div id="lightbox" onclick="closeLightbox()">
-    <button id="lightbox-prev" class="lightbox-nav" onclick="prevLightboxImage(event)">‹</button>
-    <img id="lightbox-img" src="" alt="Zoomed view">
-    <button id="lightbox-next" class="lightbox-nav" onclick="nextLightboxImage(event)">›</button>
+<div id="lightbox" onclick="handleLightboxClick(event)">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        <button id="lightbox-prev" class="lightbox-nav" onclick="prevLightboxImage(event)">‹</button>
+        <img id="lightbox-img" src="" alt="Zoomed view">
+        <button id="lightbox-next" class="lightbox-nav" onclick="nextLightboxImage(event)">›</button>
+    </div>
 </div>
 
 <style>
@@ -1198,64 +1201,128 @@ input:focus {
     background: #eff3f4;
 }
 
-/* Lightbox */
+/* Lightbox - Non-fullscreen popup style */
 #lightbox {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.95);
+    background: rgba(0,0,0,0.7);
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 10000;
+    cursor: pointer; /* Click anywhere to close */
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 85%;
+    max-height: 85%;
+    cursor: default; /* Prevent close when clicking content */
 }
 
 #lightbox-img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 4px;
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 8px;
     object-fit: contain;
-    cursor: zoom-out;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    cursor: default;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: rgba(255,255,255,0.9);
+    color: #333;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.lightbox-close:hover {
+    background: #fff;
 }
 
 .lightbox-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255,255,255,0.25); /* Lighter background */
-    color: white;
+    background: rgba(255,255,255,0.9);
+    color: #333;
     border: none;
-    padding: 16px;
+    padding: 12px;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 20px;
     border-radius: 50%;
     transition: background 0.2s;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .lightbox-nav:hover {
-    background: rgba(255,255,255,0.4); /* Even lighter on hover */
+    background: #fff;
 }
 
 #lightbox-prev {
-    left: 20px;
+    left: -60px;
+}
+
+#lightbox-next {
+    right: -60px;
 }
 
 .lightbox-counter {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 5px 10px;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 4px 12px;
     border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
 }
 
-#lightbox-next {
-    right: 20px;
+@media (max-width: 768px) {
+    .lightbox-content {
+        max-width: 95%;
+    }
+    
+    .lightbox-nav {
+        width: 36px;
+        height: 36px;
+        padding: 8px;
+        font-size: 16px;
+    }
+    
+    #lightbox-prev {
+        left: 10px;
+    }
+    
+    #lightbox-next {
+        right: 10px;
+    }
+    
+    .lightbox-close {
+        top: -35px;
+        right: 5px;
+    }
 }
 
 /* Responsive */
@@ -1295,9 +1362,8 @@ input:focus {
 }
 
 @media (max-width: 768px) {
-    /* Prevent horizontal scroll and reset margins */
+    /* Mobile layout adjustments */
     html, body {
-        overflow-x: hidden !important;
         width: 100% !important;
         max-width: 100vw !important;
         margin: 0 !important;
@@ -1320,7 +1386,7 @@ input:focus {
         display: block;
         width: 100%;
         max-width: 100vw;
-        overflow-x: hidden;
+        overflow: visible; /* Allow sticky to work */
         margin: 0 !important;
         padding: 0 !important;
     }
@@ -1332,7 +1398,7 @@ input:focus {
         margin: 0 !important;
         padding: 0 !important;
         border: none !important;
-        overflow-x: hidden;
+        overflow: visible; /* Allow sticky to work */
     }
 
     /* Profile cover should span full width */
@@ -1399,7 +1465,14 @@ input:focus {
     }
     
     .content-tabs {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #fff;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-bottom: 1px solid #eff3f4;
     }
     
     .tab-item {
@@ -1836,18 +1909,21 @@ function updateLightboxImage() {
 
     // Update Counter
     let counter = document.getElementById('lightbox-counter');
-    if (!counter) {
+    const contentWrapper = document.querySelector('.lightbox-content');
+    if (!counter && contentWrapper) {
         counter = document.createElement('div');
         counter.id = 'lightbox-counter';
         counter.className = 'lightbox-counter';
-        document.getElementById('lightbox').appendChild(counter);
+        contentWrapper.appendChild(counter);
     }
     
-    if (currentImages.length > 1) {
-        counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
-        counter.style.display = 'block';
-    } else {
-        counter.style.display = 'none';
+    if (counter) {
+        if (currentImages.length > 1) {
+            counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
+            counter.style.display = 'block';
+        } else {
+            counter.style.display = 'none';
+        }
     }
 }
 
@@ -1870,12 +1946,13 @@ function closeLightbox() {
     currentImages = []; // Reset current images
 }
 
-// Close lightbox when clicking the image itself
-document.addEventListener('click', function(e) {
-    if (e.target.id === 'lightbox-img') {
+// Handle click on lightbox background (close when clicking outside content)
+function handleLightboxClick(e) {
+    // Only close if clicking directly on the lightbox backdrop
+    if (e.target.id === 'lightbox') {
         closeLightbox();
     }
-});
+}
 
 document.addEventListener('keydown', function(e) {
     const lb = document.getElementById('lightbox');

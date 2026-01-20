@@ -62,12 +62,24 @@
         let converted = 0;
 
         images.forEach(img => {
+            // Process src attribute
             const originalSrc = img.getAttribute('src');
-            const newSrc = toCdnUrl(originalSrc);
+            if (originalSrc) {
+                const newSrc = toCdnUrl(originalSrc);
+                if (newSrc !== originalSrc) {
+                    img.setAttribute('src', newSrc);
+                    converted++;
+                }
+            }
 
-            if (newSrc !== originalSrc) {
-                img.setAttribute('src', newSrc);
-                converted++;
+            // Process data-src attribute (for lazy loading)
+            const dataSrc = img.getAttribute('data-src');
+            if (dataSrc) {
+                const newDataSrc = toCdnUrl(dataSrc);
+                if (newDataSrc !== dataSrc) {
+                    img.setAttribute('data-src', newDataSrc);
+                    converted++;
+                }
             }
 
             // Also handle srcset if present
@@ -119,18 +131,42 @@
             mutation.addedNodes.forEach(node => {
                 if (node.nodeType === 1) { // Element node
                     if (node.tagName === 'IMG') {
-                        const newSrc = toCdnUrl(node.getAttribute('src'));
-                        if (newSrc !== node.getAttribute('src')) {
-                            node.setAttribute('src', newSrc);
+                        // Process src
+                        const src = node.getAttribute('src');
+                        if (src) {
+                            const newSrc = toCdnUrl(src);
+                            if (newSrc !== src) {
+                                node.setAttribute('src', newSrc);
+                            }
+                        }
+                        // Process data-src
+                        const dataSrc = node.getAttribute('data-src');
+                        if (dataSrc) {
+                            const newDataSrc = toCdnUrl(dataSrc);
+                            if (newDataSrc !== dataSrc) {
+                                node.setAttribute('data-src', newDataSrc);
+                            }
                         }
                     }
                     // Also check for images within the added node
                     const images = node.querySelectorAll && node.querySelectorAll('img');
                     if (images) {
                         images.forEach(img => {
-                            const newSrc = toCdnUrl(img.getAttribute('src'));
-                            if (newSrc !== img.getAttribute('src')) {
-                                img.setAttribute('src', newSrc);
+                            // Process src
+                            const src = img.getAttribute('src');
+                            if (src) {
+                                const newSrc = toCdnUrl(src);
+                                if (newSrc !== src) {
+                                    img.setAttribute('src', newSrc);
+                                }
+                            }
+                            // Process data-src
+                            const dataSrc = img.getAttribute('data-src');
+                            if (dataSrc) {
+                                const newDataSrc = toCdnUrl(dataSrc);
+                                if (newDataSrc !== dataSrc) {
+                                    img.setAttribute('data-src', newDataSrc);
+                                }
                             }
                         });
                     }
