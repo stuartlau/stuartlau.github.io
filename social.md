@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="img-placeholder">
                                         <div class="img-loading-spinner"></div>
                                     </div>
-                                    <img src="{{ img }}" alt="Douban" class="social-img lazy-img" loading="lazy" onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
+                                    <img data-src="{{ img }}" alt="Douban" class="social-img lazy-img">
                                 </div>
                                 {% endfor %}
                             </div>
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="feed-cover-placeholder">
                             <div class="cover-loading-spinner"></div>
                         </div>
-                        <img src="{{ book.cover }}" alt="{{ book.title }}" class="feed-cover lazy-img" onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
+                        <img data-src="{{ book.cover }}" alt="{{ book.title }}" class="feed-cover lazy-img">
                         {% endif %}
                     </a>
                     {% endfor %}
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="feed-cover-placeholder">
                             <div class="cover-loading-spinner"></div>
                         </div>
-                        <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="feed-cover lazy-img" onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
+                        <img data-src="{{ movie.poster }}" alt="{{ movie.title }}" class="feed-cover lazy-img">
                         {% endif %}
                     </a>
                     {% endfor %}
@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="feed-cover-placeholder">
                             <div class="cover-loading-spinner"></div>
                         </div>
-                        <img src="{{ game.cover }}" alt="{{ game.title }}" class="feed-cover lazy-img" onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
+                        <img data-src="{{ game.cover }}" alt="{{ game.title }}" class="feed-cover lazy-img">
                         {% endif %}
                     </a>
                     {% endfor %}
@@ -1426,6 +1426,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const activePanel = document.getElementById(targetTab + '-panel');
             if (activePanel) activePanel.classList.add('active');
             history.pushState(null, null, '#' + targetTab);
+            
+            // Trigger lazy loading for images in the newly active panel
+            setTimeout(function() {
+                if (typeof reobserveLazyImages === 'function') {
+                    reobserveLazyImages();
+                }
+            }, 50);
         });
     });
 
@@ -1526,8 +1533,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, 500);
 
-    // Initialize lazy loading for images - native loading="lazy" handles most cases
-    // The onload handlers in HTML handle the placeholder removal
+    // Initialize true lazy loading for images using data-src
+    initImageLazyLoading();
 
     // Initialize avatar lazy loading
     initAvatarLazyLoading();
@@ -1535,6 +1542,130 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize infinite scroll
     initInfiniteScroll();
 });
+
+// Global image lazy loading observer
+let imageLazyObserver = null;
+
+// True Image Lazy Loading - only loads images when visible
+function initImageLazyLoading() {
+    if (!('IntersectionObserver' in window)) {
+        // Fallback: load all images immediately for older browsers
+        loadAllImages();
+        return;
+    }
+
+    imageLazyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = entry.target;
+                
+                // Check if we're observing a wrapper (.grid-img-wrap) or an image directly
+                if (target.classList.contains('grid-img-wrap')) {
+                    // It's a wrapper, load the image stored in _lazyImg
+                    const img = target._lazyImg;
+                    if (img && img.dataset.src) {
+                        loadLazyImage(img);
+                    }
+                } else {
+                    // It's a direct image (feed-cover)
+                    loadLazyImage(target);
+                }
+                
+                imageLazyObserver.unobserve(target);
+            }
+        });
+    }, { 
+        rootMargin: '200px 0px', // Start loading 200px before visible
+        threshold: 0 
+    });
+
+    // Only observe images that are currently visible (not display:none)
+    observeVisibleLazyImages();
+}
+
+// Load a single lazy image
+function loadLazyImage(img) {
+    const src = img.dataset.src;
+    if (!src) return;
+    
+    // Set loading state
+    img.onload = function() {
+        this.classList.add('loaded');
+        // Hide the placeholder (check for various placeholder types)
+        const placeholder = this.previousElementSibling;
+        if (placeholder && (
+            placeholder.classList.contains('img-placeholder') || 
+            placeholder.classList.contains('feed-cover-placeholder')
+        )) {
+            placeholder.style.display = 'none';
+        }
+    };
+    
+    img.onerror = function() {
+        // Hide placeholder on error too
+        const placeholder = this.previousElementSibling;
+        if (placeholder) placeholder.style.display = 'none';
+        // Hide the broken image
+        this.style.display = 'none';
+    };
+    
+    // Start loading
+    img.src = src;
+    img.removeAttribute('data-src');
+}
+
+// Load all images (fallback for older browsers)
+function loadAllImages() {
+    document.querySelectorAll('.lazy-img[data-src]').forEach(img => {
+        loadLazyImage(img);
+    });
+}
+
+// Observe only visible lazy images (not display:none items, and in active panel)
+function observeVisibleLazyImages() {
+    if (!imageLazyObserver) return;
+    
+    // For images inside .grid-img-wrap (Posts), observe the wrapper instead
+    // because the img itself has tiny dimensions before loading
+    document.querySelectorAll('.grid-img-wrap').forEach(wrap => {
+        const img = wrap.querySelector('.lazy-img[data-src]');
+        if (!img) return;
+        
+        // Check if in active panel
+        const panel = wrap.closest('.content-panel');
+        if (panel && !panel.classList.contains('active')) return;
+        
+        // Check if parent item is visible
+        const feedItem = wrap.closest('.expandable-item') || wrap.closest('.feed-item');
+        if (feedItem && feedItem.style.display === 'none') return;
+        
+        // Store reference to the image on the wrapper
+        wrap._lazyImg = img;
+        imageLazyObserver.observe(wrap);
+    });
+    
+    // For other lazy images (Books, Movies, Games covers), observe directly
+    document.querySelectorAll('.feed-cover.lazy-img[data-src]').forEach(img => {
+        // Check if in active panel
+        const panel = img.closest('.content-panel');
+        if (panel && !panel.classList.contains('active')) return;
+        
+        // Check if parent item is visible
+        const feedItem = img.closest('.expandable-item') || img.closest('.feed-item');
+        if (feedItem && feedItem.style.display === 'none') return;
+        
+        imageLazyObserver.observe(img);
+    });
+}
+
+// Re-observe newly visible images (called after loadMore or tab switch)
+function reobserveLazyImages() {
+    if (!imageLazyObserver) {
+        loadAllImages();
+        return;
+    }
+    observeVisibleLazyImages();
+}
 
 // Avatar Lazy Loading
 function initAvatarLazyLoading() {
@@ -1552,23 +1683,6 @@ function initAvatarLazyLoading() {
         avatarObserver.observe(img);
     });
 }
-
-// Re-initialize lazy loading after loadMore is called
-const originalLoadMore = loadMore;
-loadMore = function(listId) {
-    const list = document.getElementById(listId);
-    if (!list) return;
-    const hiddenItems = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none');
-    for (let i = 0; i < Math.min(hiddenItems.length, 10); i++) {
-        hiddenItems[i].style.display = '';
-    }
-
-    const remainingHidden = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none' || el.style.display === '');
-    if (remainingHidden.length === 0) {
-        const btn = list.parentElement.querySelector('.load-more-btn');
-        if (btn) btn.style.display = 'none';
-    }
-};
 
 // Prevent avatar images from being zoomable
 document.addEventListener('DOMContentLoaded', function() {
@@ -1610,20 +1724,6 @@ function loadHistoryToday() {
         }).join('');
     } else {
         historyList.innerHTML = '<div class="history-item">No posts on this day in previous years.</div>';
-    }
-}
-
-function loadMore(listId) {
-    const list = document.getElementById(listId);
-    if (!list) return;
-    const hiddenItems = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none');
-    for (let i = 0; i < Math.min(hiddenItems.length, 10); i++) {
-        hiddenItems[i].style.display = '';
-    }
-    const remainingHidden = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none' || el.style.display === '');
-    if (remainingHidden.length === 0) {
-        const btn = list.parentElement.querySelector('.load-more-btn');
-        if (btn) btn.style.display = 'none';
     }
 }
 
@@ -1671,6 +1771,9 @@ function loadMore(listId) {
                 sentinel.classList.add('end');
             }
         }
+
+        // Trigger lazy loading for newly visible images
+        reobserveLazyImages();
     }, 300);
 }
 
