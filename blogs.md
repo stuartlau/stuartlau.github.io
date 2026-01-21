@@ -15,51 +15,14 @@ subtitle: 技术博客，记录学习与成长
 </div>
 
 <div id="blog-list" class="blog-list">
-  {% assign sorted_posts = "" | split: "" %}
-  {% for post in site.pages %}
-    {% if post.url contains '/blogs/tech/' and post.layout == 'post' and post.date %}
-      {% assign sorted_posts = sorted_posts | push: post %}
-    {% endif %}
-  {% endfor %}
-  {% assign sorted_posts = sorted_posts | sort: "date" | reverse %}
-  {% for post in sorted_posts limit: 10 %}
-  <a href="{{ post.url }}" class="blog-item" data-tags="{{ post.tags | join: ',' }}">
-    <div class="blog-item-header">
-      <span class="blog-date">{{ post.date | date: "%Y-%m-%d" }}</span>
-      <span class="blog-tags">
-        {% for tag in post.tags limit: 2 %}
-          {% unless tag == "Post" or tag == "Jekyll" or tag == "featured" %}
-            <span class="blog-tag">{{ tag }}</span>
-          {% endunless %}
-        {% endfor %}
-      </span>
-    </div>
-    <h3 class="blog-title">{{ post.title }}</h3>
-    {% if post.subtitle %}
-    <p class="blog-subtitle">{{ post.subtitle }}</p>
-    {% endif %}
-  </a>
-  {% endfor %}
+  <div class="loading-state">Loading posts...</div>
 </div>
 
-{% if sorted_posts.size > 10 %}
-<button id="load-more-blogs" class="load-more-btn" onclick="loadMoreBlogs()">Load more blogs ↓</button>
-{% endif %}
-
-<div id="all-posts-data" data-posts='[
-  {% for post in sorted_posts %}
-  {
-    "url": "{{ post.url }}",
-    "title": "{{ post.title | escape }}",
-    "date": "{{ post.date | date: "%Y-%m-%d" }}",
-    "subtitle": "{{ post.subtitle | default: post.description | default: "" | escape }}",
-    "tags": [{% for tag in post.tags %}"{{ tag }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
-  }{% unless forloop.last %},{% endunless %}
-  {% endfor %}
-]'></div>
+<button id="load-more-blogs" class="load-more-btn hidden" onclick="loadMoreBlogs()">Load more blogs ↓</button>
 
 <style>
-.blog-list { max-width: 800px; margin: 0 auto; }
+.blog-list { max-width: 800px; margin: 0 auto; min-height: 200px; }
+.loading-state { text-align: center; padding: 40px; color: #9ca3af; font-size: 1.1rem; }
 .blog-item {
     display: block;
     padding: 20px 24px;
@@ -134,144 +97,181 @@ subtitle: 技术博客，记录学习与成长
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s;
+    outline: none;
+    border: none;
 }
 .load-more-btn:hover { background: #f3f4f6; color: #374151; }
 .load-more-btn.hidden { display: none; }
 </style>
 
 <script>
-// Tag cloud and blog filtering
-document.addEventListener('DOMContentLoaded', function() {
-    // Collect all tags from posts
-    const tagCounts = {};
-    const blogItems = document.querySelectorAll('.blog-item');
-    
-    blogItems.forEach(item => {
-        const tags = (item.dataset.tags || '').split(',').filter(t => t && t !== 'Post' && t !== 'Jekyll' && t !== 'featured');
-        tags.forEach(tag => {
-            tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-        });
-    });
-    
-    // Create tag cloud
-    const cloudEl = document.getElementById('tag-cloud');
-    if (cloudEl && Object.keys(tagCounts).length > 0) {
-        const tags = Object.keys(tagCounts).map(tag => ({ tag, count: tagCounts[tag] }));
-        const minCount = Math.min(...tags.map(t => t.count));
-        const maxCount = Math.max(...tags.map(t => t.count));
-        const sizeScale = d3.scale.linear().domain([minCount, maxCount]).range([12, 28]);
+// State
+let allPosts = [];
+let filteredPosts = [];
+let visibleCount = 0;
+let activeTag = '';
+const PAGE_SIZE = 10;
+
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const response = await fetch('/api/blogs.json');
+        if (!response.ok) throw new Error('Failed to load data');
         
-        tags.sort((a, b) => a.tag.localeCompare(b.tag));
+        allPosts = await response.json();
+        // Initial setup
+        initTagCloud();
+        applyFilter(); 
         
-        tags.forEach(({ tag, count }) => {
-            const a = document.createElement('a');
-            a.className = 'tag';
-            a.dataset.tag = tag;
-            a.textContent = tag;
-            a.style.fontSize = sizeScale(count) + 'px';
-            a.title = count + ' posts';
-            a.addEventListener('click', () => toggleTag(tag));
-            cloudEl.appendChild(a);
-        });
-    }
-    
-    // Setup load more
-    window.blogsData = JSON.parse(document.getElementById('all-posts-data').dataset.posts);
-    window.blogsVisible = 10;
-    
-    const loadMoreBtn = document.getElementById('load-more-blogs');
-    if (loadMoreBtn && window.blogsData.length <= 10) {
-        loadMoreBtn.classList.add('hidden');
+    } catch (e) {
+        console.error(e);
+        document.getElementById('blog-list').innerHTML = 
+            '<div class="loading-state">Failed to load posts. Please try again later.</div>';
     }
 });
 
-let activeTag = '';
+function initTagCloud() {
+    const tagCounts = {};
+    allPosts.forEach(post => {
+        if (post.tags) {
+            post.tags.forEach(tag => {
+                if (tag && tag !== 'Post' && tag !== 'Jekyll' && tag !== 'featured') {
+                    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+                }
+            });
+        }
+    });
+
+    const cloudEl = document.getElementById('tag-cloud');
+    if (!cloudEl || Object.keys(tagCounts).length === 0) return;
+
+    const tags = Object.keys(tagCounts).map(tag => ({ tag, count: tagCounts[tag] }));
+    const minCount = Math.min(...tags.map(t => t.count));
+    const maxCount = Math.max(...tags.map(t => t.count));
+
+    // Manual scale function
+    const sizeScale = (count) => {
+        if (maxCount === minCount) return 16;
+        return 12 + ((count - minCount) / (maxCount - minCount)) * (16); // 12px to 28px
+    };
+
+    tags.sort((a, b) => a.tag.localeCompare(b.tag));
+
+    tags.forEach(({ tag, count }) => {
+        const a = document.createElement('a');
+        a.className = 'tag';
+        a.dataset.tag = tag;
+        a.textContent = tag;
+        a.style.fontSize = sizeScale(count) + 'px';
+        a.title = count + ' posts';
+        a.addEventListener('click', () => toggleTag(tag));
+        cloudEl.appendChild(a);
+    });
+    
+    // Setup clear button
+    const clearBtn = document.getElementById('tag-cloud-clear');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => toggleTag(activeTag));
+    }
+}
 
 function toggleTag(tag) {
     const cloudEl = document.getElementById('tag-cloud');
     const clearBtn = document.getElementById('tag-cloud-clear');
     const activeEl = document.getElementById('tag-cloud-active');
-    const blogItems = document.querySelectorAll('.blog-item');
-    const loadMoreBtn = document.getElementById('load-more-blogs');
     
     if (activeTag === tag) {
+        // Deactivate
         activeTag = '';
         cloudEl.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
         clearBtn.hidden = true;
         activeEl.hidden = true;
-        
-        // Show first 10 items
-        blogItems.forEach((item, index) => {
-            item.classList.toggle('hidden', index >= 10);
-        });
-        
-        if (window.blogsData && window.blogsData.length > 10) {
-            loadMoreBtn.classList.remove('hidden');
-        }
-        window.blogsVisible = 10;
     } else {
+        // Activate
         activeTag = tag;
         cloudEl.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
-        cloudEl.querySelector(`[data-tag="${tag}"]`).classList.add('active');
+        const tagEl = cloudEl.querySelector(`[data-tag="${tag}"]`);
+        if (tagEl) tagEl.classList.add('active');
+        
         clearBtn.hidden = false;
         activeEl.textContent = 'Filter: ' + tag;
         activeEl.hidden = false;
-        
-        // Filter items
-        let visibleCount = 0;
-        blogItems.forEach(item => {
-            const tags = (item.dataset.tags || '').split(',');
-            const matches = tags.includes(tag) && tags.includes(tag); // Already filtered above
-            item.classList.toggle('hidden', !tags.includes(tag));
-            if (!tags.includes(tag)) visibleCount++;
-        });
-        
-        loadMoreBtn.classList.add('hidden');
-        window.blogsVisible = visibleCount;
+    }
+    
+    applyFilter();
+}
+
+function applyFilter() {
+    if (activeTag) {
+        filteredPosts = allPosts.filter(p => p.tags && p.tags.includes(activeTag));
+    } else {
+        filteredPosts = [...allPosts];
+    }
+    
+    // Reset list
+    const list = document.getElementById('blog-list');
+    list.innerHTML = '';
+    visibleCount = 0;
+    
+    if (filteredPosts.length === 0) {
+        list.innerHTML = '<div class="loading-state">No posts found for this tag.</div>';
+        document.getElementById('load-more-blogs').classList.add('hidden');
+    } else {
+        loadMoreBlogs();
     }
 }
 
 function loadMoreBlogs() {
-    const blogList = document.getElementById('blog-list');
-    const loadMoreBtn = document.getElementById('load-more-blogs');
+    const list = document.getElementById('blog-list');
+    const start = visibleCount;
+    const end = Math.min(start + PAGE_SIZE, filteredPosts.length);
     
-    if (!window.blogsData) return;
+    if (start >= end) return;
     
     const fragment = document.createDocumentFragment();
-    const start = window.blogsVisible;
-    const end = Math.min(start + 10, window.blogsData.length);
     
     for (let i = start; i < end; i++) {
-        const post = window.blogsData[i];
+        const post = filteredPosts[i];
         const a = document.createElement('a');
         a.href = post.url;
-        a.className = 'blog-item' + (activeTag && !post.tags.includes(activeTag) ? ' hidden' : '');
-        a.dataset.tags = post.tags.join(',');
+        a.className = 'blog-item';
         
-        const tagsHtml = post.tags
+        // Tags to display
+        const displayTags = (post.tags || [])
             .filter(t => t !== 'Post' && t !== 'Jekyll' && t !== 'featured')
             .slice(0, 2)
             .map(t => `<span class="blog-tag">${t}</span>`)
             .join('');
-        
+            
         a.innerHTML = `
-            <div class="blog-item-header">
-                <span class="blog-date">${post.date}</span>
-                <span class="blog-tags">${tagsHtml}</span>
+            <div class="blog-item-author" style="display:flex; align-items:flex-start; margin-bottom:8px;">
+                <div class="post-avatar" style="width:40px; height:40px; margin-right:12px; flex-shrink:0;">
+                    <img src="/images/douban_avatar.jpg" alt="Stuart Lau" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+                </div>
+                <div style="flex:1;">
+                    <div class="post-info" style="display:flex; align-items:center; flex-wrap:wrap;">
+                        <span style="font-weight:700; color:#0f1419; margin-right:4px;">@stuartlau</span>
+                        <span style="color:#536471; font-size:15px; margin-right:8px;">· ${post.date || ''}</span>
+                        <div class="blog-tags" style="margin-left:auto;">${displayTags}</div>
+                    </div>
+                </div>
             </div>
-            <h3 class="blog-title">${post.title}</h3>
-            ${post.subtitle ? `<p class="blog-subtitle">${post.subtitle}</p>` : ''}
+            <div style="padding-left:52px;">
+                <h3 class="blog-title" style="margin:0 0 6px 0;">${post.title}</h3>
+                ${post.subtitle ? `<p class="blog-subtitle">${post.subtitle}</p>` : ''}
+            </div>
         `;
         fragment.appendChild(a);
     }
     
-    blogList.appendChild(fragment);
-    window.blogsVisible = end;
+    list.appendChild(fragment);
+    visibleCount = end;
     
-    if (end >= window.blogsData.length) {
+    // Button visibility
+    const loadMoreBtn = document.getElementById('load-more-blogs');
+    if (visibleCount >= filteredPosts.length) {
         loadMoreBtn.classList.add('hidden');
+    } else {
+        loadMoreBtn.classList.remove('hidden');
     }
 }
-
-document.getElementById('tag-cloud-clear')?.addEventListener('click', () => toggleTag(activeTag));
 </script>

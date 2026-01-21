@@ -200,19 +200,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="blogs-column" id="blogs-list">
                     {% assign posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/tech/'" | sort: "date" | reverse %}
                     {% for post in posts %}
-                    <a href="{{ post.url }}" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                    <!-- Updated Blog Item Layout -->
+                    <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
-                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="feed-content">
-                            <div class="blog-card-title">{{ post.title }}</div>
-                            <div class="blog-card-excerpt">
-                                {% assign plain_content = post.content | strip_html | strip_newlines %}
-                                {{ post.subtitle | default: post.description | default: plain_content | truncate: 200 }}
+                            <div class="post-author-line">
+                                <span class="post-author">@stuartlau</span>
+                                <span class="feed-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
                             </div>
-                            <span class="blog-card-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+                            
+                            <a href="{{ post.url }}" style="text-decoration:none; color:inherit; display:block;">
+                                <div class="blog-card-title" style="margin-bottom:6px; font-weight:700; font-size:16px; color:#0f1419;">{{ post.title }}</div>
+                                <div class="blog-card-excerpt" style="font-size:15px; color:#536471; line-height:1.5;">
+                                    {% assign plain_content = post.content | strip_html | strip_newlines %}
+                                    {{ post.subtitle | default: post.description | default: plain_content | truncate: 200 }}
+                                </div>
+                            </a>
                         </div>
-                    </a>
+                    </div>
                     {% endfor %}
                 </div>
                 <div class="scroll-sentinel" id="blogs-sentinel"></div>
@@ -252,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="feed-content">
                             <div class="post-author-line">
                                 <span class="post-author">@stuartlau</span>
-                                <span class="feed-meta">{{ book.date_read | slice: 0, 4 }} 阅读了</span>
+                                <span class="feed-meta">{{ book.read_date }}</span>
                             </div>
                             
                             {% if book.my_comment %}
@@ -277,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="quote-subtitle">{{ book.author }} · {{ book.publisher }}</div>
                                     <div class="quote-rating-row">
                                         <span class="rating-stars" data-score="{% if book.my_rating %}{{ book.my_rating | times: 2 }}{% else %}{{ book.douban_rating }}{% endif %}"></span>
-                                        <span class="quote-score">{{ book.my_rating | default: '-' }}/{{ book.douban_rating }}</span>
+                                        <span class="quote-score">{{ book.my_rating | default: book.douban_rating }}</span>
                                     </div>
                                 </div>
                             </a>
@@ -300,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="feed-content">
                             <div class="post-author-line">
                                 <span class="post-author">@stuartlau</span>
-                                <span class="feed-meta">{{ movie.watched_date | slice: 0, 4 }} 看过</span>
+                                <span class="feed-meta">{{ movie.watched_date }}</span>
                             </div>
                             
                             {% if movie.my_comment %}
@@ -323,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="quote-subtitle">{{ movie.directors | join: ", " }} · {{ movie.genres | join: "/" }}</div>
                                     <div class="quote-rating-row">
                                         <span class="rating-stars" data-score="{% if movie.my_rating %}{{ movie.my_rating | times: 2 }}{% else %}{{ movie.douban_rating }}{% endif %}"></span>
-                                        <span class="quote-score">{{ movie.my_rating | default: '-' }}/{{ movie.douban_rating }}</span>
+                                        <span class="quote-score">{{ movie.my_rating | default: movie.douban_rating }}</span>
                                     </div>
                                 </div>
                             </a>
@@ -346,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="feed-content">
                             <div class="post-author-line">
                                 <span class="post-author">@stuartlau</span>
-                                <span class="feed-meta">{{ game.played_date | slice: 0, 4 }} 玩过</span>
+                                <span class="feed-meta">{{ game.played_date }}</span>
                             </div>
 
                             {% if game.my_comment %}
@@ -372,7 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     {% endif %}
                                     <div class="quote-rating-row">
                                         <span class="rating-stars" data-score="{% if game.my_rating %}{{ game.my_rating | times: 2 }}{% else %}{{ game.douban_rating }}{% endif %}"></span>
-                                        <span class="quote-score">{{ game.my_rating | default: '-' }}/{{ game.douban_rating }}</span>
+                                        <span class="quote-score">{{ game.my_rating | default: game.douban_rating }}</span>
                                     </div>
                                 </div>
                             </a>
@@ -640,7 +647,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Avatar - Overlapping Cover */
 .profile-avatar {
     position: absolute;
-    top: 50px; /* Position so half shows in cover, half in content area */
+    top: -50px; /* Position so half shows in cover, half in content area */
     left: 16px;
 }
 
@@ -656,8 +663,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Profile Details - Positioned below avatar */
 .profile-details {
-    margin-top: 60px;
-    padding-left: 16px;
+    margin-top: 55px;
+    padding-left: 0;
 }
 
 .profile-name {
@@ -2120,12 +2127,44 @@ function loadHistoryToday() {
     
     if (todayPosts.length > 0) {
         historyList.innerHTML = todayPosts.map(post => {
-            const text = post.querySelector('.feed-text').textContent.trim();
+            // Text
+            const textEl = post.querySelector('.feed-text');
+            const text = textEl ? textEl.innerHTML : '';
+            
+            // Images
+            let imgHtml = '';
+            // 1. Check for post images (douban status)
+            const gridImgs = post.querySelector('.grid-images');
+            if (gridImgs) {
+                 const imgs = Array.from(gridImgs.querySelectorAll('img')).slice(0, 3);
+                 if (imgs.length) {
+                     imgHtml = `<div style="display:flex; gap:4px; margin-top:8px;">` + 
+                         imgs.map(img => `<div style="width:60px; height:60px; border-radius:4px; overflow:hidden;"><img src="${img.dataset.src||img.src}" style="width:100%; height:100%; object-fit:cover;"></div>`).join('') +
+                         `</div>`;
+                 }
+            } 
+            // 2. Check for quote card cover (books/movies/games)
+            else {
+                const coverImg = post.querySelector('.quote-img');
+                if (coverImg) {
+                    const src = coverImg.dataset.src || coverImg.src;
+                    imgHtml = `<div style="margin-top:8px;"><img src="${src}" style="height:80px; width:auto; border-radius:4px;"></div>`;
+                }
+            }
+
             const meta = post.querySelector('.feed-meta').textContent.trim();
-            return `<div class="history-item"><strong>${meta.split(' ')[0]}</strong><br>${text.substring(0, 100)}${text.length > 100 ? '...' : ''}</div>`;
+            // Try to extract Year from meta (e.g. "2023-01-21" -> "2023")
+            const yearMatch = meta.match(/\d{4}/);
+            const year = yearMatch ? yearMatch[0] : meta;
+            
+            return `<div class="history-item" style="padding-bottom:12px; margin-bottom:12px; border-bottom:1px solid #eff3f4;">
+                <div style="font-size:13px; color:#536471; margin-bottom:4px; font-weight:600;">${year}</div>
+                <div style="font-size:14px; line-height:1.5;">${text}</div>
+                ${imgHtml}
+            </div>`;
         }).join('');
     } else {
-        historyList.innerHTML = '<div class="history-item">No posts on this day in previous years.</div>';
+        historyList.innerHTML = '<div class="history-item" style="color:#536471; font-size:14px;">No memories found for today in history.</div>';
     }
 }
 
@@ -2306,26 +2345,29 @@ function renderStars(score) {
     const half = stars % 1 !== 0;
     const empty = 5 - Math.ceil(stars);
     
+    // SVG Styling: Align middle to match text and other stars properly
+    const svgAttr = 'viewBox="0 0 24 24" width="14" height="14" style="display:inline-block; vertical-align:middle; margin-top:-2px;"';
     const starPath = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z";
     
     let html = '';
     
     // Full Stars
     for(let i=0; i<full; i++) {
-        html += `<svg viewBox="0 0 24 24" width="14" height="14" fill="#ffa500"><path d="${starPath}"/></svg>`;
+        html += `<svg ${svgAttr} fill="#ffa500"><path d="${starPath}"/></svg>`;
     }
     
     // Half Star
     if(half) {
-        html += `<span style="position:relative; display:inline-block; width:14px; height:14px;">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="#e0e0e0"><path d="${starPath}"/></svg>
+        // Use inline-flex and middle alignment for the container
+        html += `<span style="position:relative; display:inline-block; width:14px; height:14px; vertical-align:middle; margin-top:-2px;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="#e0e0e0" style="position:absolute; left:0; top:0;"><path d="${starPath}"/></svg>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="#ffa500" style="position:absolute; left:0; top:0; clip-path: inset(0 50% 0 0);"><path d="${starPath}"/></svg>
         </span>`;
     }
     
     // Empty Stars
     for(let i=0; i<empty; i++) {
-        html += `<svg viewBox="0 0 24 24" width="14" height="14" fill="#e0e0e0"><path d="${starPath}"/></svg>`;
+        html += `<svg ${svgAttr} fill="#e0e0e0"><path d="${starPath}"/></svg>`;
     }
     
     return html;

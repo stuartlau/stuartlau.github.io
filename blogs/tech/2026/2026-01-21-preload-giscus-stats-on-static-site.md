@@ -5,7 +5,7 @@ date: 2026-01-21
 categories: Tech
 tags: [Giscus, Jekyll, GraphQL, CORS, Frontend]
 description: "详细记录了在静态博客（Jekyll）的动态流页面中集成 Giscus 评论系统的全过程。面对浏览器 CORS 跨域限制，从尝试直连 API 到使用 corsproxy.io 失败，最终通过 allorigins.win 成功解决问题的排坑实录。"
-header-img: "https://user-gold-cdn.xitu.io/2019/3/22/169a4d626f362741?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"
+
 ---
 
 在上一篇文章中，我提到为博客的 Social 页面添加了点赞和评论功能。其中最核心的挑战在于：**如何在用户不点开评论框的情况下，就在列表中直接显示每条动态的"评论数"和"点赞数"？**
