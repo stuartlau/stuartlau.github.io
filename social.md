@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="profile-header">
             <!-- Cover Image -->
             <div class="profile-cover">
-                <img src="{{ site.url }}/images/home-bg-art.jpg" alt="Cover">
+                <img src="" alt="Cover" id="cover-img">
             </div>
             
             <!-- Profile Info Container -->
@@ -1892,12 +1892,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Random Cover Image from Unsplash (free, no API key needed)
-    const unsplashTopics = ['nature', 'landscape', 'mountain', 'ocean', 'forest', 'sky'];
-    const randomTopic = unsplashTopics[Math.floor(Math.random() * unsplashTopics.length)];
-    const coverImgEl = document.querySelector('.profile-cover img');
+    const coverImgEl = document.getElementById('cover-img');
     if (coverImgEl) {
+        const unsplashTopics = ['nature', 'landscape', 'mountain', 'ocean', 'forest', 'sky'];
+        const randomTopic = unsplashTopics[Math.floor(Math.random() * unsplashTopics.length)];
         // Use Unsplash Source API for random high-quality images
-        coverImgEl.src = 'https://source.unsplash.com/1200x400/?' + randomTopic;
+        coverImgEl.src = 'https://source.unsplash.com/1200x400/?' + randomTopic + '&t=' + Date.now();
         // Fallback to gradient if image fails to load
         coverImgEl.onerror = function() {
             this.style.display = 'none';
