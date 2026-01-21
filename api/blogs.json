@@ -17,13 +17,13 @@ permalink: /api/blogs.json
     }
 {% for entry in sorted_entries %
     }
-    {% if entry.title %
+{% if entry.title %
     }
-    {% if has_output %
+{% if has_output %
     },
     {% endif %
     }
-    {
+{
         "title": {
             { entry.title | jsonify
             }
@@ -42,9 +42,9 @@ permalink: /api/blogs.json
             }
         }
     }
-    {% assign has_output = true %
+{% assign has_output = true %
     }
-    {% endif %
+{% endif %
     }
 {% endfor %
     }
