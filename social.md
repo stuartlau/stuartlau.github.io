@@ -1891,17 +1891,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Random Cover Image
-    const coverImgs = [
-        'bg1.jpg', 'bg2.jpg', 'bg3.jpg'
-    ];
-    const randomBg = coverImgs[Math.floor(Math.random() * coverImgs.length)];
+    // Random Cover Image from Unsplash (free, no API key needed)
+    const unsplashTopics = ['nature', 'landscape', 'mountain', 'ocean', 'forest', 'sky'];
+    const randomTopic = unsplashTopics[Math.floor(Math.random() * unsplashTopics.length)];
     const coverImgEl = document.querySelector('.profile-cover img');
     if (coverImgEl) {
-        // Correct path to background image - removing redundant '/' if any
-        let baseUrl = '{{ site.url }}';
-        if (baseUrl.endsWith('/')) baseUrl = baseUrl.slice(0, -1);
-        coverImgEl.src = baseUrl + '/images/background/' + randomBg;
+        // Use Unsplash Source API for random high-quality images
+        coverImgEl.src = 'https://source.unsplash.com/1200x400/?' + randomTopic;
+        // Fallback to gradient if image fails to load
+        coverImgEl.onerror = function() {
+            this.style.display = 'none';
+        };
     }
 
     if (window.location.hash) {
@@ -2310,6 +2310,12 @@ function initInfiniteScroll() {
 let currentImageIndex = 0;
 
 function openLightbox(src, imagesArr) {
+    // Disable lightbox on mobile devices to avoid performance issues
+    const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        return; // Do nothing on mobile
+    }
+    
     const lb = document.getElementById('lightbox');
     
     // If the image is already open, close it (toggle effect)
