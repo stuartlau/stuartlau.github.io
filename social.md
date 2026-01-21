@@ -3,6 +3,32 @@ layout: default
 subtitle: 社交媒体资料聚合页
 ---
 
+<!-- Critical CSS - Inject immediately to prevent FOUC -->
+<style>
+/* Hide default layout elements immediately */
+.social-page .navigation-wrapper,
+.social-page .article-author-top,
+.social-page .headline-wrap { display: none !important; }
+.social-page #main { margin-top: 0 !important; max-width: none !important; width: 100% !important; padding: 0 !important; }
+.social-page .article-wrap { max-width: none !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+.social-page article { max-width: none !important; width: 100% !important; }
+
+/* Skeleton loading for images */
+.lazy-img:not(.loaded) { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* Pre-define avatar/cover sizes to prevent layout shift */
+.profile-avatar img { width: 100px; height: 100px; }
+.post-avatar img { width: 40px; height: 40px; }
+.profile-cover { height: 200px; }
+</style>
+
+<script>
+// Add social-page class immediately (before DOMContentLoaded)
+document.documentElement.classList.add('social-page');
+document.body && document.body.classList.add('social-page');
+</script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     if (window.location.pathname.includes('social')) {
