@@ -646,6 +646,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     .social-layout {
         display: block;
+        padding: 0 12px; /* Add horizontal padding for breathing room */
     }
 
     .social-main {
@@ -653,6 +654,11 @@ document.addEventListener('DOMContentLoaded', function() {
         margin-left: 0;
         min-width: 0;
         border: none;
+    }
+    
+    .profile-header {
+        margin: 0 -12px; /* Extend cover to full width */
+        width: calc(100% + 24px);
     }
 }
 
@@ -668,7 +674,7 @@ document.addEventListener('DOMContentLoaded', function() {
     height: 200px;
     overflow: hidden;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    background-image: url('https://source.unsplash.com/featured/1200x400/?nature,landscape');
+    background-image: url('https://source.unsplash.com/featured/1200x400/?nature,landscape,travel');
     background-size: cover;
     background-position: center;
 }
