@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="profile-details">
                     <h1 class="profile-name">Stuart Lau</h1>
                     <p class="profile-handle">@stuartlau</p>
-                    <p class="profile-bio">Full Stack Engineer & Patent Inventor | Former employees of Xiaohongshu, Kuaishou, Amazon and Xiaomi | 120+ Patents | World traveller</p>
+                    <p class="profile-bio">Software Development Engineer & Patent Inventor | Former employees of Xiaohongshu, Kuaishou, Amazon and Xiaomi | World traveller</p>
                     <div class="profile-meta">
                         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Shanghai, China</span>
                         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg> <a href="{{ site.url }}" target="_blank">stuartlau.github.io</a></span>
@@ -623,12 +623,15 @@ document.addEventListener('DOMContentLoaded', function() {
     border-bottom: 1px solid #eff3f4;
 }
 
-/* Cover Image */
+/* Cover Image - Dynamic background from Unsplash */
 .profile-cover {
     width: 100%;
     height: 200px;
     overflow: hidden;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image: url('https://source.unsplash.com/featured/1200x400/?nature,landscape');
+    background-size: cover;
+    background-position: center;
 }
 
 .profile-cover img {
@@ -665,6 +668,7 @@ document.addEventListener('DOMContentLoaded', function() {
 .profile-details {
     margin-top: 55px;
     padding-left: 0;
+    text-align: left;
 }
 
 .profile-name {
@@ -1628,25 +1632,55 @@ input:focus {
     font-weight: 500;
 }
 
-/* Mobile adjustments for quote card */
+/* Mobile adjustments for quote card - Show full info like PC */
 @media (max-width: 480px) {
     .quote-card {
-        flex-direction: column;
+        flex-direction: row;
+        padding: 10px;
     }
 
     .quote-media {
-        width: 100%;
-        height: 160px; /* Show a banner-like image on mobile */
+        width: 70px;
+        height: 100px;
+        min-width: 70px;
         border-right: none;
-        border-bottom: 1px solid #cfd9de;
+        border-bottom: none;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    
+    .quote-info {
+        padding: 0 0 0 10px;
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .quote-title {
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .quote-author {
+        font-size: 12px;
+    }
+    
+    .quote-rating {
+        margin-top: 4px;
+    }
+    
+    .quote-score {
+        font-size: 12px;
     }
     
     [data-theme="dark"] .quote-media {
-        border-bottom-color: #2f3336;
+        border-color: #2f3336;
     }
     
     .quote-img {
-        object-position: top center;
+        object-fit: cover;
+        object-position: center;
     }
 }
 
