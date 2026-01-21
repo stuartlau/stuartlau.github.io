@@ -230,18 +230,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="feed-list" id="patents-list">
                     {% assign patents = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | sort: "date" | reverse %}
                     {% for patent in patents %}
-                    <a href="{{ patent.url }}" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                    <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
-                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="feed-content">
-                            <div class="blog-card-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</div>
-                            <div class="blog-card-excerpt">
-                                {{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}
+                            <div class="post-author-line">
+                                <span class="post-author">@stuartlau</span>
+                                <span class="feed-meta">{{ patent.date | date: "%Y-%m-%d" }}</span>
                             </div>
-                            <span class="blog-card-date">{{ patent.date | date: "%Y-%m-%d" }}</span>
+                            
+                            <a href="{{ patent.url }}" style="text-decoration:none; color:inherit; display:block;">
+                                <div class="blog-card-title" style="margin-bottom:6px; font-weight:700; font-size:16px; color:#0f1419;">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</div>
+                                <div class="blog-card-excerpt" style="font-size:15px; color:#536471; line-height:1.5;">
+                                    {{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}
+                                </div>
+                            </a>
                         </div>
-                    </a>
+                    </div>
                     {% endfor %}
                 </div>
                 <div class="scroll-sentinel" id="patents-sentinel"></div>
@@ -1891,13 +1897,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Random Cover Image from Unsplash (free, no API key needed)
+    // Random Cover Image from Lorem Picsum (free, stable, no API key needed)
     const coverImgEl = document.getElementById('cover-img');
     if (coverImgEl) {
-        const unsplashTopics = ['nature', 'landscape', 'mountain', 'ocean', 'forest', 'sky'];
-        const randomTopic = unsplashTopics[Math.floor(Math.random() * unsplashTopics.length)];
-        // Use Unsplash Source API for random high-quality images
-        coverImgEl.src = 'https://source.unsplash.com/1200x400/?' + randomTopic + '&t=' + Date.now();
+        // Use Lorem Picsum for random high-quality images
+        // Random seed ensures different image on each page load
+        const randomSeed = Math.floor(Math.random() * 1000);
+        coverImgEl.src = 'https://picsum.photos/seed/' + randomSeed + '/1200/400';
         // Fallback to gradient if image fails to load
         coverImgEl.onerror = function() {
             this.style.display = 'none';

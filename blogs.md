@@ -74,16 +74,17 @@ subtitle: 技术博客，记录学习与成长
     font-size: 0.8rem;
 }
 .tag {
-    padding: 6px 14px;
-    background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 13px;
     text-decoration: none;
     cursor: pointer;
     transition: all 0.2s;
+    color: #fff;
+    font-weight: 500;
 }
-.tag:hover, .tag.active { background: rgba(16, 185, 129, 0.2); }
+.tag:hover { opacity: 0.8; transform: scale(1.05); }
+.tag.active { box-shadow: 0 0 0 2px #000; }
 .load-more-btn {
     display: block;
     width: 100%;
@@ -156,15 +157,25 @@ function initTagCloud() {
 
     tags.sort((a, b) => a.tag.localeCompare(b.tag));
 
+    // Color palette for tags (vibrant colors)
+    const colors = [
+        '#2563eb', '#dc2626', '#16a34a', '#ca8a04', '#9333ea',
+        '#ea580c', '#0891b2', '#be185d', '#059669', '#7c3aed',
+        '#c2410c', '#1e40af', '#166534', '#991b1b', '#581c87'
+    ];
+    let colorIndex = 0;
+    
     tags.forEach(({ tag, count }) => {
         const a = document.createElement('a');
         a.className = 'tag';
         a.dataset.tag = tag;
         a.textContent = tag;
         a.style.fontSize = sizeScale(count) + 'px';
+        a.style.backgroundColor = colors[colorIndex % colors.length];
         a.title = count + ' posts';
         a.addEventListener('click', () => toggleTag(tag));
         cloudEl.appendChild(a);
+        colorIndex++;
     });
     
     // Setup clear button
