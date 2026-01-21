@@ -245,25 +245,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="feed-list" id="books-list">
                     {% assign books = site.data.books.all | sort: "date_read" | reverse %}
                     {% for book in books %}
-                    <a href="https://book.douban.com/subject/{{ book.book_id }}/" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                    <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
-                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="feed-content">
-                            <span class="feed-meta">{{ book.date_read | slice: 0, 4 }} · <span class="rating-stars" data-score="{% if book.my_rating %}{{ book.my_rating | times: 2 }}{% else %}{{ book.douban_rating }}{% endif %}"></span> {{ book.my_rating | default: '-' }}/{{ book.douban_rating }}</span>
-                            <h5 class="feed-title">{{ book.title }}</h5>
-                            <p class="feed-excerpt">{{ book.author }} · {{ book.publisher }}</p>
+                            <div class="post-author-line">
+                                <span class="post-author">@stuartlau</span>
+                                <span class="feed-meta">{{ book.date_read | slice: 0, 4 }} 阅读了</span>
+                            </div>
+                            
                             {% if book.my_comment %}
-                            <p class="feed-comment">📖 {{ book.my_comment | truncate: 60 }}</p>
+                            <p class="feed-text" style="margin-bottom: 12px;">{{ book.my_comment }}</p>
+                            {% else %}
+                            <!-- Empty spacer if no comment -->
+                            <div style="height: 4px;"></div>
                             {% endif %}
+
+                            <!-- Quote Card Style -->
+                            <a href="https://book.douban.com/subject/{{ book.book_id }}/" target="_blank" class="quote-card">
+                                {% if book.cover %}
+                                <div class="quote-media">
+                                    <div class="img-placeholder">
+                                        <div class="img-loading-spinner"></div>
+                                    </div>
+                                    <img data-src="{{ book.cover }}" alt="{{ book.title }}" class="quote-img lazy-img no-zoom">
+                                </div>
+                                {% endif %}
+                                <div class="quote-details">
+                                    <div class="quote-title">{{ book.title }}</div>
+                                    <div class="quote-subtitle">{{ book.author }} · {{ book.publisher }}</div>
+                                    <div class="quote-rating-row">
+                                        <span class="rating-stars" data-score="{% if book.my_rating %}{{ book.my_rating | times: 2 }}{% else %}{{ book.douban_rating }}{% endif %}"></span>
+                                        <span class="quote-score">{{ book.my_rating | default: '-' }}/{{ book.douban_rating }}</span>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                        {% if book.cover %}
-                        <div class="feed-cover-placeholder">
-                            <div class="cover-loading-spinner"></div>
-                        </div>
-                        <img data-src="{{ book.cover }}" alt="{{ book.title }}" class="feed-cover lazy-img">
-                        {% endif %}
-                    </a>
+                    </div>
                     {% endfor %}
                 </div>
                 <div class="scroll-sentinel" id="books-sentinel"></div>
@@ -274,25 +293,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="feed-list" id="movies-list">
                     {% assign movies = site.data.movies.all | sort: "watched_date" | reverse %}
                     {% for movie in movies %}
-                    <a href="https://movie.douban.com/subject/{{ movie.movie_id }}/" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                    <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
-                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="feed-content">
-                            <span class="feed-meta">{{ movie.watched_date | slice: 0, 4 }} · <span class="rating-stars" data-score="{% if movie.my_rating %}{{ movie.my_rating | times: 2 }}{% else %}{{ movie.douban_rating }}{% endif %}"></span> {{ movie.my_rating | default: '-' }}/{{ movie.douban_rating }}</span>
-                            <h5 class="feed-title">{{ movie.title }}</h5>
-                            <p class="feed-excerpt">{{ movie.directors | join: ", " }} · {{ movie.genres | join: "/" }}</p>
+                            <div class="post-author-line">
+                                <span class="post-author">@stuartlau</span>
+                                <span class="feed-meta">{{ movie.watched_date | slice: 0, 4 }} 看过</span>
+                            </div>
+                            
                             {% if movie.my_comment %}
-                            <p class="feed-comment">💬 {{ movie.my_comment | truncate: 60 }}</p>
+                            <p class="feed-text" style="margin-bottom: 12px;">{{ movie.my_comment }}</p>
+                            {% else %}
+                            <div style="height: 4px;"></div>
                             {% endif %}
+
+                            <a href="https://movie.douban.com/subject/{{ movie.movie_id }}/" target="_blank" class="quote-card">
+                                {% if movie.poster %}
+                                <div class="quote-media">
+                                    <div class="img-placeholder">
+                                        <div class="img-loading-spinner"></div>
+                                    </div>
+                                    <img data-src="{{ movie.poster }}" alt="{{ movie.title }}" class="quote-img lazy-img no-zoom">
+                                </div>
+                                {% endif %}
+                                <div class="quote-details">
+                                    <div class="quote-title">{{ movie.title }}</div>
+                                    <div class="quote-subtitle">{{ movie.directors | join: ", " }} · {{ movie.genres | join: "/" }}</div>
+                                    <div class="quote-rating-row">
+                                        <span class="rating-stars" data-score="{% if movie.my_rating %}{{ movie.my_rating | times: 2 }}{% else %}{{ movie.douban_rating }}{% endif %}"></span>
+                                        <span class="quote-score">{{ movie.my_rating | default: '-' }}/{{ movie.douban_rating }}</span>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                        {% if movie.poster %}
-                        <div class="feed-cover-placeholder">
-                            <div class="cover-loading-spinner"></div>
-                        </div>
-                        <img data-src="{{ movie.poster }}" alt="{{ movie.title }}" class="feed-cover lazy-img">
-                        {% endif %}
-                    </a>
+                    </div>
                     {% endfor %}
                 </div>
                 <div class="scroll-sentinel" id="movies-sentinel"></div>
@@ -303,25 +339,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="feed-list" id="games-list">
                     {% assign games = site.data.games.all | sort: "played_date" | reverse %}
                     {% for game in games %}
-                    <a href="{{ game.douban_url }}" target="_blank" class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                    <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
-                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
+                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="feed-content">
-                            <span class="feed-meta">{{ game.played_date | slice: 0, 4 }} · <span class="rating-stars" data-score="{% if game.my_rating %}{{ game.my_rating | times: 2 }}{% else %}{{ game.douban_rating }}{% endif %}"></span> {{ game.my_rating | default: '-' }}/{{ game.douban_rating }}</span>
-                            <h5 class="feed-title">{{ game.title }}</h5>
-                            <p class="feed-excerpt">{{ game.platforms | join: "/" }} · {{ game.genres | join: "/" }}</p>
-                            {% if game.developer %}
-                            <p class="feed-comment">🎮 {{ game.developer }}</p>
+                            <div class="post-author-line">
+                                <span class="post-author">@stuartlau</span>
+                                <span class="feed-meta">{{ game.played_date | slice: 0, 4 }} 玩过</span>
+                            </div>
+
+                            {% if game.my_comment %}
+                            <p class="feed-text" style="margin-bottom: 12px;">{{ game.my_comment }}</p>
+                            {% else %}
+                            <div style="height: 4px;"></div>
                             {% endif %}
+                            
+                            <a href="{{ game.douban_url }}" target="_blank" class="quote-card">
+                                {% if game.cover %}
+                                <div class="quote-media">
+                                    <div class="img-placeholder">
+                                        <div class="img-loading-spinner"></div>
+                                    </div>
+                                    <img data-src="{{ game.cover }}" alt="{{ game.title }}" class="quote-img lazy-img no-zoom">
+                                </div>
+                                {% endif %}
+                                <div class="quote-details">
+                                    <div class="quote-title">{{ game.title }}</div>
+                                    <div class="quote-subtitle">{{ game.platforms | join: "/" }} · {{ game.genres | join: "/" }}</div>
+                                    {% if game.developer %}
+                                    <div class="quote-subtitle" style="margin-top: 4px;">🎮 {{ game.developer }}</div>
+                                    {% endif %}
+                                    <div class="quote-rating-row">
+                                        <span class="rating-stars" data-score="{% if game.my_rating %}{{ game.my_rating | times: 2 }}{% else %}{{ game.douban_rating }}{% endif %}"></span>
+                                        <span class="quote-score">{{ game.my_rating | default: '-' }}/{{ game.douban_rating }}</span>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                        {% if game.cover %}
-                        <div class="feed-cover-placeholder">
-                            <div class="cover-loading-spinner"></div>
-                        </div>
-                        <img data-src="{{ game.cover }}" alt="{{ game.title }}" class="feed-cover lazy-img">
-                        {% endif %}
-                    </a>
+                    </div>
                     {% endfor %}
                 </div>
                 <div class="scroll-sentinel" id="games-sentinel"></div>
@@ -1455,10 +1511,138 @@ input:focus {
     }
     
     .lightbox-close {
-        top: -35px;
-        right: 5px;
+        top: -40px;
+        right: 0;
     }
 }
+
+/* Post Header (Twitter-like) */
+.post-author-line {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.post-author {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text-color);
+}
+
+/* Quote Card Style (Twitter-like) */
+.quote-card {
+    display: flex;
+    border: 1px solid #cfd9de; /* Twitter border color */
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 8px;
+    text-decoration: none;
+    transition: background-color 0.2s, border-color 0.2s;
+    background-color: #fff;
+}
+
+.quote-card:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-color: #bbcdd6;
+}
+
+[data-theme="dark"] .quote-card {
+    border-color: #2f3336;
+    background-color: transparent;
+}
+
+[data-theme="dark"] .quote-card:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: #3e4448;
+}
+
+.quote-media {
+    width: 72px;
+    min-width: 72px;
+    position: relative;
+    border-right: 1px solid #cfd9de;
+    background-color: #f7f9f9;
+}
+
+[data-theme="dark"] .quote-media {
+    border-right-color: #2f3336;
+    background-color: #1a1a1a;
+}
+
+.quote-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.quote-details {
+    padding: 10px;
+    flex: 1;
+    min-width: 0; /* Prevent flex overflow */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.quote-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.quote-subtitle {
+    font-size: 13px;
+    color: #536471;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+[data-theme="dark"] .quote-subtitle {
+    color: #71767b;
+}
+
+.quote-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.quote-score {
+    font-size: 13px;
+    color: #ff9800; /* Douban orange equivalent */
+    font-weight: 500;
+}
+
+/* Mobile adjustments for quote card */
+@media (max-width: 480px) {
+    .quote-card {
+        flex-direction: column;
+    }
+
+    .quote-media {
+        width: 100%;
+        height: 160px; /* Show a banner-like image on mobile */
+        border-right: none;
+        border-bottom: 1px solid #cfd9de;
+    }
+    
+    [data-theme="dark"] .quote-media {
+        border-bottom-color: #2f3336;
+    }
+    
+    .quote-img {
+        object-position: top center;
+    }
+}
+
 
 /* Responsive */
 @media (max-width: 1280px) {
@@ -1767,8 +1951,8 @@ function initImageLazyLoading() {
             if (entry.isIntersecting) {
                 const target = entry.target;
                 
-                // Check if we're observing a wrapper (.grid-img-wrap) or an image directly
-                if (target.classList.contains('grid-img-wrap')) {
+                // Check if we're observing a wrapper (.grid-img-wrap or .quote-media) or an image directly
+                if (target.classList.contains('grid-img-wrap') || target.classList.contains('quote-media')) {
                     // It's a wrapper, load the image stored in _lazyImg
                     const img = target._lazyImg;
                     if (img && img.dataset.src) {
@@ -1852,17 +2036,27 @@ function observeVisibleLazyImages() {
         imageLazyObserver.observe(wrap);
     });
     
-    // For other lazy images (Books, Movies, Games covers), observe directly
-    document.querySelectorAll('.feed-cover.lazy-img[data-src]').forEach(img => {
+    // For Quote Cards (Books, Movies, Games), observe the media wrapper
+    document.querySelectorAll('.quote-media').forEach(wrap => {
+        const img = wrap.querySelector('.lazy-img[data-src]');
+        if (!img) return;
+
         // Check if in active panel
-        const panel = img.closest('.content-panel');
+        const panel = wrap.closest('.content-panel');
         if (panel && !panel.classList.contains('active')) return;
-        
+
         // Check if parent item is visible
-        const feedItem = img.closest('.expandable-item') || img.closest('.feed-item');
+        const feedItem = wrap.closest('.expandable-item') || wrap.closest('.feed-item');
         if (feedItem && feedItem.style.display === 'none') return;
         
-        imageLazyObserver.observe(img);
+        // Ensure no-zoom is added
+        if (!img.classList.contains('no-zoom')) {
+            img.classList.add('no-zoom');
+        }
+
+        // Store reference
+        wrap._lazyImg = img;
+        imageLazyObserver.observe(wrap);
     });
 }
 
