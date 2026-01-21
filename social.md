@@ -445,6 +445,13 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </div>
 
+<!-- Mobile Back to Top Button -->
+<button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+</button>
+
 <style>
 /* Twitter-style Layout */
 * {
@@ -1713,6 +1720,48 @@ input:focus {
 }
 
 
+/* Back to Top Button - Mobile Only */
+.back-to-top {
+    display: none;
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    align-items: center;
+    justify-content: center;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+}
+
+.back-to-top:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .back-to-top {
+        display: flex;
+    }
+}
+
 /* Responsive */
 @media (max-width: 1280px) {
     .social-right-sidebar {
@@ -1918,7 +1967,30 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load "On This Day" content
     loadHistoryToday();
+    
+    // Back to Top Button - show/hide on scroll
+    const backToTopBtn = document.getElementById('back-to-top');
+    if (backToTopBtn) {
+        let lastScrollY = 0;
+        window.addEventListener('scroll', function() {
+            const scrollY = window.scrollY || window.pageYOffset;
+            if (scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+            lastScrollY = scrollY;
+        }, { passive: true });
+    }
 });
+
+// Scroll to top function
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
 
 // Search functionality - use existing search modal
 function performSearch() {
