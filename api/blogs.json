@@ -3,56 +3,26 @@ layout: null
 permalink: /api/blogs.json
 ---
 [
-    {% assign all_pages = site.pages | where: "layout",
-        "post" %
-    }
-{% assign tech_pages = "" | split: "" %
-    }
-{% for page in all_pages %
-    }
-{% if page.path contains 'blogs/tech/' %
-    }
-{% assign tech_pages = tech_pages | push: page %
-    }
-{% endif %
-    }
-{% endfor %
-    }
-{% assign sorted_entries = tech_pages | sort: 'date' | reverse %
-    }
-{% assign has_output = false %
-    }
-{% for entry in sorted_entries %
-    }
-{% if entry.title %
-    }
-{% if has_output %
-    },
-    {% endif %
-    }
+{% assign all_pages = site.pages | where: "layout", "post" %}
+{% assign tech_pages = "" | split: "" %}
+{% for page in all_pages %}
+{% if page.path contains 'blogs/tech/' %}
+{% assign tech_pages = tech_pages | push: page %}
+{% endif %}
+{% endfor %}
+{% assign sorted_entries = tech_pages | sort: 'date' | reverse %}
+{% assign has_output = false %}
+{% for entry in sorted_entries %}
+{% if entry.title %}
+{% if has_output %},{% endif %}
 {
-        "title": {
-            { entry.title | jsonify
-            }
-        },
-        "url": {
-            { entry.url | relative_url | jsonify
-            }
-        },
-        "date": "{{ entry.date | date: '%Y-%m-%d' }}",
-        "subtitle": {
-            { entry.subtitle | default: entry.description | default: '' | strip_html | strip_newlines | jsonify
-            }
-        },
-        "tags": {
-            { entry.tags | jsonify
-            }
-        }
-    }
-{% assign has_output = true %
-    }
-{% endif %
-    }
-{% endfor %
-    }
+    "title": {{ entry.title | jsonify }},
+    "url": {{ entry.url | relative_url | jsonify }},
+    "date": "{{ entry.date | date: '%Y-%m-%d' }}",
+    "subtitle": {{ entry.subtitle | default: entry.description | default: '' | strip_html | strip_newlines | jsonify }},
+    "tags": {{ entry.tags | jsonify }}
+}
+{% assign has_output = true %}
+{% endif %}
+{% endfor %}
 ]
