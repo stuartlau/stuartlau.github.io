@@ -168,13 +168,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             <!-- Interaction Buttons -->
                             <div class="post-actions">
                                 <button class="action-btn comment-btn" onclick="togglePostComments(this)" data-post-id="douban-{{ post_id }}">
-                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
                                     </svg>
                                     <span class="action-count" id="comment-count-{{ post_id }}">评论</span>
                                 </button>
                                 <button class="action-btn like-btn" onclick="togglePostComments(this)" data-post-id="douban-{{ post_id }}">
-                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                                     </svg>
                                     <span class="action-count" id="like-count-{{ post_id }}">点赞</span>
@@ -869,24 +869,26 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 /* Post Actions */
+/* Post Actions */
 .post-actions {
     display: flex;
-    gap: 20px;
-    margin-top: 12px;
-    padding-top: 8px;
+    gap: 16px;
+    margin-top: 6px;
+    padding-top: 0;
 }
 
 .action-btn {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: none;
     border: none;
     color: #536471;
     cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 13px;
+    padding: 4px 8px;
+    margin-left: -8px; /* Align slightly left to match text logic */
+    border-radius: 16px;
+    font-size: 12px;
     transition: all 0.2s;
 }
 
@@ -2184,7 +2186,9 @@ async function fetchPostStats(term) {
     const categoryId = 'DIC_kwDOOf5c7s4Cz_Oz';
     
     // Use giscus's internal API to search for discussions
-    const searchUrl = `https://giscus.app/api/discussions?` + new URLSearchParams({
+    // Note: We specificly use a CORS proxy to bypass browser restrictions
+    // because giscus.app does not allow direct cross-origin requests from client-side
+    const apiUrl = `https://giscus.app/api/discussions?` + new URLSearchParams({
         repo: repo,
         term: term,
         category: category,
@@ -2193,19 +2197,21 @@ async function fetchPostStats(term) {
         emitMetadata: 'false'
     });
     
+    // Use allorigins.win as a more lenient CORS proxy
+    const searchUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(apiUrl);
+    
     try {
         const response = await fetch(searchUrl, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
+            method: 'GET'
+            // No headers needed for this proxy
         });
         
         if (!response.ok) {
-            throw new Error('API request failed');
+            throw new Error('Proxy request failed: ' + response.status);
         }
         
-        const data = await response.json();
+        const proxyData = await response.json();
+        const data = JSON.parse(proxyData.contents); // allorigins wraps the response in 'contents'
         
         if (data && data.discussion) {
             updatePostStatsUI(term, {
@@ -2215,8 +2221,8 @@ async function fetchPostStats(term) {
             });
         }
     } catch (e) {
-        // Fallback: just show the buttons without counts
-        console.log('Stats not available for:', term);
+        // Fallback: just show the buttons without counts or debug log
+        // console.warn('Stats fetch failed for', term);
     }
 }
 

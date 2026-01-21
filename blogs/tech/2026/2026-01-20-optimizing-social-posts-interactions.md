@@ -137,6 +137,21 @@ if (data.discussion) {
 
 为了避免触发 API 速率限制，我在请求之间加入了 200ms 的延时。
 
+### 遇到的坑：API 跨域问题
+
+在实现数预加载时，我发现浏览器会拦截对 giscus.app API 的直接请求（CORS 错误）。这是因为 Giscus 的 API 没有开放 `Access-Control-Allow-Origin: *` 给任意前端调用。
+
+为了解决这个问题，我引入了一个 CORS 代理（如 `allorigins.win`）：
+
+```javascript
+// 使用 CORS 代理绕过浏览器限制
+const searchUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(apiUrl);
+const proxyData = await response.json();
+const data = JSON.parse(proxyData.contents);
+```
+
+这样，前端请求先发给代理服务器，由代理服务器去请求 Giscus API，再把结果透传回来，完美绕过了浏览器的同源策略限制。
+
 ## 4. 移动端体验优化与冲突解决
 
 ### Sticky Tabs
