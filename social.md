@@ -1416,6 +1416,22 @@ input:focus {
     align-items: center;
     z-index: 10000;
     cursor: pointer; /* Click anywhere to close */
+    -webkit-tap-highlight-color: transparent;
+}
+
+#lightbox.loading::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 .lightbox-content {
@@ -1432,6 +1448,12 @@ input:focus {
     object-fit: contain;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     cursor: default;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#lightbox-img.loaded {
+    opacity: 1;
 }
 
 .lightbox-close {
@@ -2302,12 +2324,41 @@ function openLightbox(src, imagesArr) {
 
     updateLightboxImage();
     lb.style.display = 'flex';
+    // Prevent body scroll on mobile
     document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
 }
 
 function updateLightboxImage() {
     const lbImg = document.getElementById('lightbox-img');
-    if (lbImg) lbImg.src = currentImages[currentImageIndex];
+    const lb = document.getElementById('lightbox');
+    
+    if (!lbImg) return;
+    
+    // Show loading state
+    lbImg.classList.remove('loaded');
+    lb.classList.add('loading');
+    
+    // Set up load handlers
+    lbImg.onload = function() {
+        lbImg.classList.add('loaded');
+        lb.classList.remove('loading');
+    };
+    
+    lbImg.onerror = function() {
+        lb.classList.remove('loading');
+        closeLightbox(); // Close on error
+    };
+    
+    // Set timeout for slow loading
+    setTimeout(() => {
+        if (!lbImg.classList.contains('loaded') && lb.style.display === 'flex') {
+            lb.classList.remove('loading'); // Remove spinner after 5s anyway
+        }
+    }, 5000);
+    
+    lbImg.src = currentImages[currentImageIndex];
     
     const prevBtn = document.getElementById('lightbox-prev');
     const nextBtn = document.getElementById('lightbox-next');
@@ -2348,8 +2399,18 @@ function prevLightboxImage(e) {
 
 function closeLightbox() {
     const lb = document.getElementById('lightbox');
-    if (lb) lb.style.display = 'none';
-    document.body.style.overflow = 'auto';
+    const lbImg = document.getElementById('lightbox-img');
+    if (lb) {
+        lb.style.display = 'none';
+        lb.classList.remove('loading');
+    }
+    if (lbImg) {
+        lbImg.classList.remove('loaded');
+        lbImg.src = ''; // Clear image to free memory
+    }
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
     currentImages = []; // Reset current images
 }
 
