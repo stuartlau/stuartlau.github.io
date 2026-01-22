@@ -56,7 +56,15 @@ subtitle: 技术博客，记录学习与成长
 }
 .blog-title { margin: 0 0 4px 0; font-size: 1.1rem; font-weight: 600; color: #1f2937; }
 .blog-subtitle { margin: 0; font-size: 0.9rem; color: #6b7280; }
-.tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 0; }
+.tag-cloud { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 8px; 
+    padding: 16px 0; 
+    max-height: 200px; 
+    overflow: hidden;
+    align-content: flex-start;
+}
 .tag-cloud-clear {
     padding: 4px 12px;
     background: #f3f4f6;

@@ -13,6 +13,11 @@ subtitle: 社交媒体资料聚合页
 .social-page .article-wrap { max-width: none !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
 .social-page article { max-width: none !important; width: 100% !important; }
 
+/* Mobile horizontal padding - must use !important to override */
+@media (max-width: 768px) {
+    .social-page .social-layout { padding: 0 16px !important; }
+}
+
 /* Skeleton loading for images */
 .lazy-img:not(.loaded) { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
