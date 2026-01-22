@@ -646,7 +646,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     .social-layout {
         display: block;
-        padding: 0 12px; /* Add horizontal padding for breathing room */
+        padding: 0 16px; /* Increased horizontal padding for better breathing room */
     }
 
     .social-main {
@@ -657,8 +657,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     .profile-header {
-        margin: 0 -12px; /* Extend cover to full width */
-        width: calc(100% + 24px);
+        margin: 0 -16px; /* Extend cover to full width */
+        width: calc(100% + 32px);
+    }
+    
+    /* Ensure content tabs and feed items respect the padding */
+    .content-tabs {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .feed-item {
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 
