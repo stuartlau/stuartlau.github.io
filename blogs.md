@@ -59,10 +59,8 @@ subtitle: 技术博客，记录学习与成长
 .tag-cloud { 
     display: flex; 
     flex-wrap: wrap; 
-    gap: 8px; 
-    padding: 16px 0; 
-    max-height: 200px; 
-    overflow: hidden;
+    gap: 6px; 
+    padding: 12px 0; 
     align-content: flex-start;
 }
 .tag-cloud-clear {
@@ -157,10 +155,11 @@ function initTagCloud() {
     const minCount = Math.min(...tags.map(t => t.count));
     const maxCount = Math.max(...tags.map(t => t.count));
 
-    // Manual scale function
+    // Manual scale function - larger range for more visible size difference
     const sizeScale = (count) => {
-        if (maxCount === minCount) return 16;
-        return 12 + ((count - minCount) / (maxCount - minCount)) * (16); // 12px to 28px
+        if (maxCount === minCount) return 14;
+        // Range from 11px to 26px based on frequency
+        return 11 + ((count - minCount) / (maxCount - minCount)) * 15;
     };
 
     tags.sort((a, b) => a.tag.localeCompare(b.tag));
