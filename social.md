@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="bio-item"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 0h-4V4h4v2z"/></svg> Software Engineer</span>
                         <span class="bio-item"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg> Patent Inventor</span>
                         <span class="bio-item"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg> Ex Xiaohongshu, Kuaishou, Amazon, Xiaomi</span>
-                        <span class="bio-item"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg> World Traveller</span>
                     </div>
                     <div class="profile-meta">
                         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Shanghai, China</span>
@@ -182,11 +181,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
+                        <div class="post-author-line">
+                            <span class="post-author">@stuartlau</span>
+                            <span class="feed-meta">{{ item.time }}</span>
+                        </div>
                         <div class="feed-content">
-                            <div class="post-author-line">
-                                <span class="post-author">@stuartlau</span>
-                                <span class="feed-meta">{{ item.time }}</span>
-                            </div>
                             <p class="feed-text">{{ item.content | strip_html | strip_newlines }}</p>
                             {% if item.images and item.images.size > 0 %}
                             <div class="social-image-grid">
@@ -241,12 +240,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
+                        <div class="post-author-line">
+                            <span class="post-author">@stuartlau</span>
+                            <span class="feed-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+                        </div>
                         <div class="feed-content">
-                            <div class="post-author-line">
-                                <span class="post-author">@stuartlau</span>
-                                <span class="feed-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
-                            </div>
-                            
                             <a href="{{ post.url }}" style="text-decoration:none; color:inherit; display:block;">
                                 <div class="blog-card-title" style="margin-bottom:6px; font-weight:700; font-size:16px; color:#0f1419;">{{ post.title }}</div>
                                 <div class="blog-card-excerpt" style="font-size:15px; color:#536471; line-height:1.5;">
@@ -270,12 +268,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
+                        <div class="post-author-line">
+                            <span class="post-author">@stuartlau</span>
+                            <span class="feed-meta">{{ patent.date | date: "%Y-%m-%d" }}</span>
+                        </div>
                         <div class="feed-content">
-                            <div class="post-author-line">
-                                <span class="post-author">@stuartlau</span>
-                                <span class="feed-meta">{{ patent.date | date: "%Y-%m-%d" }}</span>
-                            </div>
-                            
                             <a href="{{ patent.url }}" style="text-decoration:none; color:inherit; display:block;">
                                 <div class="blog-card-title" style="margin-bottom:6px; font-weight:700; font-size:16px; color:#0f1419;">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</div>
                                 <div class="blog-card-excerpt" style="font-size:15px; color:#536471; line-height:1.5;">
@@ -298,12 +295,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
+                        <div class="post-author-line">
+                            <span class="post-author">@stuartlau</span>
+                            <span class="feed-meta">{{ book.read_date }}</span>
+                        </div>
                         <div class="feed-content">
-                            <div class="post-author-line">
-                                <span class="post-author">@stuartlau</span>
-                                <span class="feed-meta">{{ book.read_date }}</span>
-                            </div>
-                            
                             {% if book.my_comment %}
                             <p class="feed-text" style="margin-bottom: 12px;">{{ book.my_comment }}</p>
                             {% else %}
@@ -346,12 +342,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
+                        <div class="post-author-line">
+                            <span class="post-author">@stuartlau</span>
+                            <span class="feed-meta">{{ movie.watched_date }}</span>
+                        </div>
                         <div class="feed-content">
-                            <div class="post-author-line">
-                                <span class="post-author">@stuartlau</span>
-                                <span class="feed-meta">{{ movie.watched_date }}</span>
-                            </div>
-                            
                             {% if movie.my_comment %}
                             <p class="feed-text" style="margin-bottom: 12px;">{{ movie.my_comment }}</p>
                             {% else %}
@@ -392,12 +387,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
+                        <div class="post-author-line">
+                            <span class="post-author">@stuartlau</span>
+                            <span class="feed-meta">{{ game.played_date }}</span>
+                        </div>
                         <div class="feed-content">
-                            <div class="post-author-line">
-                                <span class="post-author">@stuartlau</span>
-                                <span class="feed-meta">{{ game.played_date }}</span>
-                            </div>
-
                             {% if game.my_comment %}
                             <p class="feed-text" style="margin-bottom: 12px;">{{ game.my_comment }}</p>
                             {% else %}
@@ -916,12 +910,10 @@ document.addEventListener('DOMContentLoaded', function() {
     display: block;
 }
 
-/* Feed Items */
+/* Feed Items - New layout: header row (avatar + author), content row below */
 .feed-item {
-    display: flex;
-    justify-content: flex-start; /* Compact layout */
-    gap: 10px; /* Tight distance between text and image */
-    padding: 12px 0; /* Remove horizontal padding per request */
+    display: block;
+    padding: 12px 0;
     border-bottom: 1px solid #eff3f4;
     text-decoration: none;
     transition: background 0.2s;
@@ -931,41 +923,45 @@ document.addEventListener('DOMContentLoaded', function() {
     background: #f7f9f9;
 }
 
-.feed-content {
-    flex: 1;
-    min-width: 0;
-}
-
-/* Post Avatar */
-.post-avatar {
-    flex-shrink: 0;
+/* Header row: avatar + author info */
+.feed-item .post-avatar {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 8px;
 }
 
 .post-avatar img {
-    width: 48px; /* Doubled size per request */
-    height: 48px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-/* Post Author Line */
+/* Author line next to avatar */
 .post-author-line {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
+    gap: 6px;
+    vertical-align: top;
+    padding-top: 2px;
 }
 
 .post-author {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     color: #0f1419;
-    margin-left: 2px; /* Ensure space from avatar */
 }
 
 .feed-meta {
     font-size: 13px;
     color: #536471;
+}
+
+/* Feed Content - full width below header */
+.feed-content {
+    display: block;
+    margin-top: 8px;
+    min-width: 0;
 }
 
 .feed-text {
