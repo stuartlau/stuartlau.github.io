@@ -910,9 +910,12 @@ document.addEventListener('DOMContentLoaded', function() {
     display: block;
 }
 
-/* Feed Items - New layout: header row (avatar + author), content row below */
+/* Feed Items - Grid layout: avatar spans 2 rows, content below full width */
 .feed-item {
-    display: block;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 2px 10px;
     padding: 12px 0;
     border-bottom: 1px solid #eff3f4;
     text-decoration: none;
@@ -923,43 +926,46 @@ document.addEventListener('DOMContentLoaded', function() {
     background: #f7f9f9;
 }
 
-/* Header row: avatar + author info */
-.feed-item .post-avatar {
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 8px;
+/* Post Avatar - spans row 1 and 2 */
+.post-avatar {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    align-self: start;
 }
 
 .post-avatar img {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-/* Author line next to avatar */
+/* Author line - row 1, column 2 */
 .post-author-line {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    vertical-align: top;
-    padding-top: 2px;
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
 .post-author {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     color: #0f1419;
+    line-height: 1.3;
 }
 
 .feed-meta {
     font-size: 13px;
     color: #536471;
+    line-height: 1.3;
 }
 
-/* Feed Content - full width below header */
+/* Feed Content - row 3, spans full width */
 .feed-content {
-    display: block;
+    grid-column: 1 / -1;
+    grid-row: 3;
     margin-top: 8px;
     min-width: 0;
 }
