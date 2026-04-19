@@ -726,7 +726,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Profile Details - Positioned below avatar */
 .profile-details {
-    margin-top: 60px; /* Increased to prevent avatar overlapping name */
+    margin-top: 76px; /* Increased from 60px to completely clear the avatar and its shadow, preventing overlap with the name */
     padding-left: 0;
     text-align: left;
 }
@@ -961,9 +961,9 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #536471;
 }
 
-/* Feed Content - row 2, spans full width, compact */
+/* Feed Content - row 2, strictly right column (Twitter/X style) */
 .feed-content {
-    grid-column: 1 / -1;
+    grid-column: 2;
     grid-row: 2;
     margin-top: 4px;
     min-width: 0;
