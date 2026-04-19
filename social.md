@@ -701,10 +701,11 @@ document.addEventListener('DOMContentLoaded', function() {
     display: block;
 }
 
-/* Profile Info Container */
+/* Profile Info Container - Using horizontal layout to match X/Twitter feed/card style */
 .profile-info-container {
-    padding: 0 16px 16px;
+    padding: 16px 16px 16px 132px; /* 100px avatar + 16px left + 16px gap to place name strictly on the right */
     position: relative;
+    min-height: 70px;
 }
 
 /* Avatar - Overlapping Cover */
@@ -724,9 +725,9 @@ document.addEventListener('DOMContentLoaded', function() {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Profile Details - Positioned below avatar */
+/* Profile Details - Positioned to the right of avatar */
 .profile-details {
-    margin-top: 76px; /* Increased from 60px to completely clear the avatar and its shadow, preventing overlap with the name */
+    margin-top: -6px; /* Slightly lift text to vertically align well with the avatar */
     padding-left: 0;
     text-align: left;
 }
@@ -1960,9 +1961,10 @@ input:focus {
     }
 
     .profile-info-container {
-        padding: 0 16px 16px;
-        display: block; /* revert back to standard block layout */
+        padding: 16px 16px 16px 132px; /* Keep horizontal layout consistently on mobile */
+        display: block; 
         text-align: left;
+        min-height: 70px;
     }
 
     .profile-avatar {
@@ -1973,7 +1975,7 @@ input:focus {
     }
 
     .profile-details {
-        margin-top: 76px; /* Exactly same as desktop to clear the avatar */
+        margin-top: -6px;
         width: 100%;
         text-align: left;
         padding-left: 0;
