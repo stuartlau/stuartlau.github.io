@@ -1955,33 +1955,28 @@ input:focus {
     }
     
     .profile-header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        /* Remove flex column center logic to keep left alignment like Twitter */
         padding: 0 !important;
-        min-height: 180px !important;
     }
 
     .profile-info-container {
-        padding: 0 20px 20px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        padding: 0 16px 16px;
+        display: block; /* revert back to standard block layout */
+        text-align: left;
     }
 
     .profile-avatar {
-        position: relative;
-        top: -40px;
-        left: 0;
-        margin: 0 auto;
+        position: absolute;
+        top: -50px;
+        left: 16px;
+        margin: 0;
     }
-    
+
     .profile-details {
-        margin-top: -30px;
+        margin-top: 76px; /* Exactly same as desktop to clear the avatar */
         width: 100%;
-        text-align: center;
-        padding-left: 0; /* Clear PC alignment */
+        text-align: left;
+        padding-left: 0;
     }
     
     .content-tabs {
