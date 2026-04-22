@@ -2617,37 +2617,42 @@ function prevLightboxImage(e) {
 var _lightboxClosing = false;
 
 function closeLightbox() {
-    if (_lightboxClosing) return; // Prevent recursive calls
+    if (_lightboxClosing) return;
     _lightboxClosing = true;
     
-    const lb = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lightbox-img');
-    if (lbImg) {
-        lbImg.onload = null;  // Clear handlers BEFORE changing src
-        lbImg.onerror = null;
-        lbImg.classList.remove('loaded');
-        lbImg.src = ''; // Clear image to free memory
-    }
-    if (lb) {
-        lb.style.display = 'none';
-        lb.classList.remove('loading');
-    }
-    currentImages = []; // Reset current images
-    
-    // Restore scroll in next frame to avoid layout thrashing
-    requestAnimationFrame(function() {
+    try {
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+        
+        if (lb) {
+            lb.style.display = 'none';
+            lb.classList.remove('loading');
+        }
+        
+        if (lbImg) {
+            lbImg.onload = null;
+            lbImg.onerror = null;
+            lbImg.classList.remove('loaded');
+            lbImg.src = '';
+        }
+        
+        currentImages = [];
         document.body.style.overflow = '';
+    } catch (e) {
+        console.error('Error closing lightbox:', e);
+    } finally {
         _lightboxClosing = false;
-    });
+    }
 }
 
-// Handle click on lightbox background (close when clicking outside content)
+// Handle click on lightbox background
 function handleLightboxClick(e) {
-    // Close if clicking backdrop OR the image itself
-    if (e.target.id === 'lightbox' || e.target.id === 'lightbox-img') {
-        e.stopPropagation();
-        closeLightbox();
+    // If clicking on nav buttons or close button, don't close here
+    if (e.target.closest('.lightbox-nav') || e.target.closest('.lightbox-close')) {
+        return;
     }
+    // Any other click in the lightbox (backdrop, image, or content blank space) closes it
+    closeLightbox();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
