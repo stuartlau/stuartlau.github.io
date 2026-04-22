@@ -872,7 +872,7 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #536471;
     font-size: 15px;
     transition: background 0.2s;
-    border-bottom: 4px solid transparent;
+    position: relative;
 }
 
 .tab-item:hover {
