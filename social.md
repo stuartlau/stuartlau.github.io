@@ -160,6 +160,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
                 <span class="tab-text">Games</span>
             </a>
+            <a href="#history" class="tab-item" data-tab="history">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                <span class="tab-text">On This Day</span>
+            </a>
         </div>
 
         <!-- Content Panels -->
@@ -425,6 +429,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="scroll-sentinel" id="games-sentinel"></div>
             </div>
+
+            <!-- On This Day Tab -->
+            <div class="content-panel" id="history-panel">
+                <div class="feed-list" id="history-feed-list">
+                    <div class="feed-item" style="justify-content:center; color:#536471; font-size:14px; padding:24px;">Loading...</div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -467,7 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div id="lightbox" onclick="handleLightboxClick(event)">
-    <div class="lightbox-content" onclick="event.stopPropagation()">
+    <div class="lightbox-content">
         <button class="lightbox-close" onclick="closeLightbox()">×</button>
         <button id="lightbox-prev" class="lightbox-nav" onclick="prevLightboxImage(event)">‹</button>
         <img id="lightbox-img" src="" alt="Zoomed view">
@@ -2340,10 +2351,7 @@ function loadHistoryToday() {
     const day = String(today.getDate()).padStart(2, '0');
     const todayStr = `${month}-${day}`;
     
-    const historyList = document.getElementById('history-today');
-    if (!historyList) return;
-    
-    // Get all posts from the page
+    // Get all posts from the page (including hidden ones)
     const allPosts = Array.from(document.querySelectorAll('.douban-item'));
     const todayPosts = allPosts.filter(item => {
         const metaEl = item.querySelector('.feed-meta');
@@ -2352,48 +2360,83 @@ function loadHistoryToday() {
             return dateStr.includes(todayStr);
         }
         return false;
-    }).slice(0, 3); // Limit to 3 items
+    });
     
-    if (todayPosts.length > 0) {
-        historyList.innerHTML = todayPosts.map(post => {
-            // Text
-            const textEl = post.querySelector('.feed-text');
-            const text = textEl ? textEl.innerHTML : '';
-            
-            // Images
-            let imgHtml = '';
-            // 1. Check for post images (douban status)
-            const gridImgs = post.querySelector('.grid-images');
-            if (gridImgs) {
-                 const imgs = Array.from(gridImgs.querySelectorAll('img')).slice(0, 3);
-                 if (imgs.length) {
-                     imgHtml = `<div style="display:flex; gap:4px; margin-top:8px;">` + 
-                         imgs.map(img => `<div style="width:60px; height:60px; border-radius:4px; overflow:hidden;"><img src="${img.dataset.src||img.src}" style="width:100%; height:100%; object-fit:cover;"></div>`).join('') +
-                         `</div>`;
-                 }
-            } 
-            // 2. Check for quote card cover (books/movies/games)
-            else {
-                const coverImg = post.querySelector('.quote-img');
-                if (coverImg) {
-                    const src = coverImg.dataset.src || coverImg.src;
-                    imgHtml = `<div style="margin-top:8px;"><img src="${src}" style="height:80px; width:auto; border-radius:4px;"></div>`;
+    // --- Populate sidebar widget (desktop, limit to 3) ---
+    const historyList = document.getElementById('history-today');
+    if (historyList) {
+        const sidebarPosts = todayPosts.slice(0, 3);
+        if (sidebarPosts.length > 0) {
+            historyList.innerHTML = sidebarPosts.map(post => {
+                const textEl = post.querySelector('.feed-text');
+                const text = textEl ? textEl.innerHTML : '';
+                let imgHtml = '';
+                const gridImgs = post.querySelector('.grid-images');
+                if (gridImgs) {
+                     const imgs = Array.from(gridImgs.querySelectorAll('img')).slice(0, 3);
+                     if (imgs.length) {
+                         imgHtml = `<div style="display:flex; gap:4px; margin-top:8px;">` + 
+                             imgs.map(img => `<div style="width:60px; height:60px; border-radius:4px; overflow:hidden;"><img src="${img.dataset.src||img.src}" style="width:100%; height:100%; object-fit:cover;"></div>`).join('') +
+                             `</div>`;
+                     }
+                } else {
+                    const coverImg = post.querySelector('.quote-img');
+                    if (coverImg) {
+                        const src = coverImg.dataset.src || coverImg.src;
+                        imgHtml = `<div style="margin-top:8px;"><img src="${src}" style="height:80px; width:auto; border-radius:4px;"></div>`;
+                    }
                 }
-            }
-
-            const meta = post.querySelector('.feed-meta').textContent.trim();
-            // Try to extract Year from meta (e.g. "2023-01-21" -> "2023")
-            const yearMatch = meta.match(/\d{4}/);
-            const year = yearMatch ? yearMatch[0] : meta;
-            
-            return `<div class="history-item" style="padding-bottom:12px; margin-bottom:12px; border-bottom:1px solid #eff3f4;">
-                <div style="font-size:13px; color:#536471; margin-bottom:4px; font-weight:600;">${year}</div>
-                <div style="font-size:14px; line-height:1.5;">${text}</div>
-                ${imgHtml}
-            </div>`;
-        }).join('');
-    } else {
-        historyList.innerHTML = '<div class="history-item" style="color:#536471; font-size:14px;">No memories found for today in history.</div>';
+                const meta = post.querySelector('.feed-meta').textContent.trim();
+                const yearMatch = meta.match(/\d{4}/);
+                const year = yearMatch ? yearMatch[0] : meta;
+                return `<div class="history-item" style="padding-bottom:12px; margin-bottom:12px; border-bottom:1px solid #eff3f4;">
+                    <div style="font-size:13px; color:#536471; margin-bottom:4px; font-weight:600;">${year}</div>
+                    <div style="font-size:14px; line-height:1.5;">${text}</div>
+                    ${imgHtml}
+                </div>`;
+            }).join('');
+        } else {
+            historyList.innerHTML = '<div class="history-item" style="color:#536471; font-size:14px;">No memories found for today in history.</div>';
+        }
+    }
+    
+    // --- Populate history tab panel (mobile, show all, feed-item format) ---
+    const historyFeedList = document.getElementById('history-feed-list');
+    if (historyFeedList) {
+        if (todayPosts.length > 0) {
+            historyFeedList.innerHTML = todayPosts.map(post => {
+                const textEl = post.querySelector('.feed-text');
+                const text = textEl ? textEl.textContent : '';
+                const meta = post.querySelector('.feed-meta').textContent.trim();
+                
+                // Reconstruct images
+                let imagesHtml = '';
+                const imgGrid = post.querySelector('.social-image-grid');
+                if (imgGrid) {
+                    imagesHtml = imgGrid.outerHTML;
+                }
+                // Quote card (books/movies/games)
+                const quoteCard = post.querySelector('.quote-card');
+                let quoteHtml = quoteCard ? quoteCard.outerHTML : '';
+                
+                return `<div class="feed-item">
+                    <div class="post-avatar">
+                        <img src="/images/douban_avatar.jpg" alt="Stuart Lau" loading="lazy">
+                    </div>
+                    <div class="post-author-line">
+                        <span class="post-author">@stuartlau</span>
+                        <span class="feed-meta">${meta}</span>
+                    </div>
+                    <div class="feed-content">
+                        <p class="feed-text">${text}</p>
+                        ${imagesHtml}
+                        ${quoteHtml}
+                    </div>
+                </div>`;
+            }).join('');
+        } else {
+            historyFeedList.innerHTML = '<div class="feed-item" style="justify-content:center; color:#536471; font-size:14px; padding:24px;">今天暂无历史记录 📅</div>';
+        }
     }
 }
 
@@ -2570,47 +2613,52 @@ function prevLightboxImage(e) {
     updateLightboxImage();
 }
 
+var _lightboxClosing = false;
+
 function closeLightbox() {
+    if (_lightboxClosing) return; // Prevent recursive calls
+    _lightboxClosing = true;
+    
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
+    if (lbImg) {
+        lbImg.onload = null;  // Clear handlers BEFORE changing src
+        lbImg.onerror = null;
+        lbImg.classList.remove('loaded');
+        lbImg.src = ''; // Clear image to free memory
+    }
     if (lb) {
         lb.style.display = 'none';
         lb.classList.remove('loading');
     }
-    if (lbImg) {
-        lbImg.classList.remove('loaded');
-        lbImg.src = ''; // Clear image to free memory
-    }
-    document.body.style.overflow = '';
     currentImages = []; // Reset current images
+    
+    // Restore scroll in next frame to avoid layout thrashing
+    requestAnimationFrame(function() {
+        document.body.style.overflow = '';
+        _lightboxClosing = false;
+    });
 }
 
 // Handle click on lightbox background (close when clicking outside content)
 function handleLightboxClick(e) {
-    // Only close if clicking directly on the lightbox backdrop
-    if (e.target.id === 'lightbox') {
+    // Close if clicking backdrop OR the image itself
+    if (e.target.id === 'lightbox' || e.target.id === 'lightbox-img') {
+        e.stopPropagation();
         closeLightbox();
     }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const lbImg = document.getElementById('lightbox-img');
-    if (lbImg) {
-        lbImg.addEventListener('click', function(e) {
-            e.stopPropagation();
-            closeLightbox();
-        });
-    }
-    
     // Add touch swipe support for mobile
     const lb = document.getElementById('lightbox');
     let touchStartX = 0;
     let touchEndX = 0;
     if (lb) {
-        lb.addEventListener('touchstart', e => {
+        lb.addEventListener('touchstart', function(e) {
             touchStartX = e.changedTouches[0].screenX;
         }, {passive: true});
-        lb.addEventListener('touchend', e => {
+        lb.addEventListener('touchend', function(e) {
             touchEndX = e.changedTouches[0].screenX;
             if (touchEndX < touchStartX - 50) nextLightboxImage();
             if (touchEndX > touchStartX + 50) prevLightboxImage();
