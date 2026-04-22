@@ -650,7 +650,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     .social-layout {
         display: block;
-        padding: 0 16px; /* Increased horizontal padding for better breathing room */
+        padding: 0 8px;
     }
 
     .social-main {
@@ -661,8 +661,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     .profile-header {
-        margin: 0 -16px; /* Extend cover to full width */
-        width: calc(100% + 32px);
+        margin: 0 -8px;
+        width: calc(100% + 16px);
     }
     
     /* Ensure content tabs and feed items respect the padding */
@@ -921,7 +921,7 @@ document.addEventListener('DOMContentLoaded', function() {
     display: grid;
     grid-template-columns: 40px 1fr;
     grid-template-rows: auto auto;
-    gap: 4px 10px;
+    gap: 0 10px;
     padding: 12px 16px; /* Added 16px horizontal spacing */
     border-bottom: 1px solid #eff3f4;
     text-decoration: none;
@@ -972,6 +972,8 @@ document.addEventListener('DOMContentLoaded', function() {
     grid-column: 2;
     grid-row: 2;
     min-width: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .feed-text {
@@ -979,6 +981,7 @@ document.addEventListener('DOMContentLoaded', function() {
     line-height: 1.5;
     color: #0f1419;
     margin: 0;
+    padding: 0;
 }
 
 .feed-title {
