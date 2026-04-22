@@ -918,7 +918,7 @@ document.addEventListener('DOMContentLoaded', function() {
     grid-template-columns: 40px 1fr;
     grid-template-rows: auto auto;
     gap: 4px 10px;
-    padding: 12px 0;
+    padding: 12px 16px; /* Added 16px horizontal spacing */
     border-bottom: 1px solid #eff3f4;
     text-decoration: none;
     transition: background 0.2s;
@@ -928,11 +928,11 @@ document.addEventListener('DOMContentLoaded', function() {
     background: #f7f9f9;
 }
 
-/* Post Avatar - row 1, vertically centered */
+/* Post Avatar - row 1 & 2, vertically top aligned */
 .post-avatar {
     grid-column: 1;
-    grid-row: 1;
-    align-self: center;
+    grid-row: 1 / span 2; /* Span both text rows */
+    align-self: start;
 }
 
 .post-avatar img {
@@ -942,14 +942,14 @@ document.addEventListener('DOMContentLoaded', function() {
     object-fit: cover;
 }
 
-/* Author line - row 1, column 2, vertically centered with avatar */
+/* Author line - row 1, column 2 */
 .post-author-line {
     grid-column: 2;
     grid-row: 1;
     display: flex;
     align-items: center;
     gap: 6px;
-    align-self: center;
+    /* Removed align-self: center to stay at the top */
 }
 
 .post-author {
@@ -967,7 +967,6 @@ document.addEventListener('DOMContentLoaded', function() {
 .feed-content {
     grid-column: 2;
     grid-row: 2;
-    margin-top: 4px;
     min-width: 0;
 }
 
