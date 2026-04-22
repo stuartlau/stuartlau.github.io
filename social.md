@@ -701,9 +701,9 @@ document.addEventListener('DOMContentLoaded', function() {
     display: block;
 }
 
-/* Profile Info Container - Using horizontal layout to match X/Twitter feed/card style */
+/* Profile Info Container - Block layout (text below avatar) */
 .profile-info-container {
-    padding: 16px 16px 16px 132px; /* 100px avatar + 16px left + 16px gap to place name strictly on the right */
+    padding: 0 16px 16px;
     position: relative;
     min-height: 70px;
 }
@@ -725,9 +725,9 @@ document.addEventListener('DOMContentLoaded', function() {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Profile Details - Positioned to the right of avatar */
+/* Profile Details - Positioned below avatar */
 .profile-details {
-    margin-top: -6px; /* Slightly lift text to vertically align well with the avatar */
+    margin-top: 76px; /* High enough to clear the 50px avatar protrusion and shadow */
     padding-left: 0;
     text-align: left;
 }
@@ -1961,7 +1961,7 @@ input:focus {
     }
 
     .profile-info-container {
-        padding: 16px 16px 16px 132px; /* Keep horizontal layout consistently on mobile */
+        padding: 0 16px 16px;
         display: block; 
         text-align: left;
         min-height: 70px;
@@ -1975,7 +1975,7 @@ input:focus {
     }
 
     .profile-details {
-        margin-top: -6px;
+        margin-top: 76px;
         width: 100%;
         text-align: left;
         padding-left: 0;
