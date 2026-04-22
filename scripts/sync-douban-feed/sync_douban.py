@@ -227,12 +227,47 @@ def extract_text(item):
         '.status-saying blockquote p',
         'p.text'
     ]
+    
+    # Try fetching full text if truncated
+    expand_link = None
+    for a in item.select('a'):
+        a_text = a.get_text()
+        if a_text and ('全文' in a_text or '展开' in a_text):
+            expand_link = a.get('href')
+            break
+            
+    if expand_link:
+        try:
+            print(f"DEBUG: Found truncated text, fetching full text from: {expand_link}")
+            time.sleep(1) # Be nice to Douban API
+            cookie_path = os.path.expanduser("~/.douban.cookie")
+            cookie = open(cookie_path).read().strip() if os.path.exists(cookie_path) else ""
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Cookie': cookie
+            }
+            res = requests.get(expand_link, headers=headers, timeout=10)
+            if res.status_code == 200:
+                soup = BeautifulSoup(res.text, 'html.parser')
+                # Usually in .topic-richtext for topics or #link-report for statuses
+                full_el = soup.select_one('.topic-richtext') or soup.find(id='link-report')
+                if full_el:
+                    # Remove any nested invisible elements just in case, though Douban usually doesn't hide them here
+                    txt = full_el.get_text(separator=" ", strip=True)
+                    txt = re.sub(r'\s+', ' ', txt).strip()
+                    txt = re.sub(r'^.*?说[:：]', '', txt).strip()
+                    if txt: return txt
+        except Exception as e:
+            print(f"DEBUG: Failed to fetch full text: {e}")
+
+    # Fallback / Normal extraction
     for selector in text_selectors:
         el = item.select_one(selector)
         if el:
             txt = el.get_text(separator=" ", strip=True)
             txt = re.sub(r'\s+', ' ', txt).strip()
             txt = re.sub(r'^.*?说[:：]', '', txt).strip()
+            txt = re.sub(r'\s*[（\(]全文[）\)]\s*$', '', txt) # strip trailing (全文)
             if txt: return txt
     return ""
 

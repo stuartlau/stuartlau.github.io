@@ -2037,6 +2037,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Random seed ensures different image on each page load
         const randomSeed = Math.floor(Math.random() * 1000);
         coverImgEl.src = 'https://loremflickr.com/1200/400/landscape?random=' + randomSeed;
+        
+        // Allow cover image to be zoomed
+        coverImgEl.style.cursor = 'pointer';
+        coverImgEl.onclick = function(e) {
+            e.preventDefault();
+            if (this.src) openLightbox(this.src);
+        };
+        
         // Fallback to gradient if image fails to load
         coverImgEl.onerror = function() {
             this.style.display = 'none';
@@ -2488,10 +2496,8 @@ function openLightbox(src, imagesArr) {
 
     updateLightboxImage();
     lb.style.display = 'flex';
-    // Prevent body scroll on mobile
+    // Prevent body scroll
     document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
 }
 
 function updateLightboxImage() {
@@ -2573,8 +2579,6 @@ function closeLightbox() {
         lbImg.src = ''; // Clear image to free memory
     }
     document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.width = '';
     currentImages = []; // Reset current images
 }
 
