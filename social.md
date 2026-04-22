@@ -839,6 +839,10 @@ document.addEventListener('DOMContentLoaded', function() {
         justify-content: flex-start;
         -webkit-overflow-scrolling: touch;
         padding-bottom: 2px;
+        scrollbar-width: none; /* Firefox */
+    }
+    .content-tabs::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
     }
 
     .tab-item {
@@ -847,13 +851,13 @@ document.addEventListener('DOMContentLoaded', function() {
         padding: 12px 16px;
     }
 
+    /* Keep using text on mobile, just horizontal scroll */
     .tab-text {
-        display: none;
+        display: inline !important;
     }
 
     .tab-icon-mobile {
-        display: block !important;
-        margin: 0;
+        display: none !important;
     }
 }
 
@@ -1939,12 +1943,11 @@ input:focus {
     }
 
     .tab-text {
-        display: none; 
+        display: inline !important; 
     }
 
     .tab-icon-mobile {
-        display: block !important;
-        margin: 0 auto;
+        display: none !important;
     }
     
     #search-toggle {
@@ -2033,7 +2036,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Use Lorem Picsum for random high-quality images
         // Random seed ensures different image on each page load
         const randomSeed = Math.floor(Math.random() * 1000);
-        coverImgEl.src = 'https://picsum.photos/seed/' + randomSeed + '/1200/400';
+        coverImgEl.src = 'https://loremflickr.com/1200/400/landscape?random=' + randomSeed;
         // Fallback to gradient if image fails to load
         coverImgEl.onerror = function() {
             this.style.display = 'none';
@@ -2469,11 +2472,7 @@ function initInfiniteScroll() {
 let currentImageIndex = 0;
 
 function openLightbox(src, imagesArr) {
-    // Disable lightbox on mobile devices to avoid performance issues
-    const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if (isMobile) {
-        return; // Do nothing on mobile
-    }
+    // Lightbox is enabled for all devices
     
     const lb = document.getElementById('lightbox');
     
@@ -2586,6 +2585,31 @@ function handleLightboxClick(e) {
         closeLightbox();
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const lbImg = document.getElementById('lightbox-img');
+    if (lbImg) {
+        lbImg.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeLightbox();
+        });
+    }
+    
+    // Add touch swipe support for mobile
+    const lb = document.getElementById('lightbox');
+    let touchStartX = 0;
+    let touchEndX = 0;
+    if (lb) {
+        lb.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+        lb.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchEndX < touchStartX - 50) nextLightboxImage();
+            if (touchEndX > touchStartX + 50) prevLightboxImage();
+        }, {passive: true});
+    }
+});
 
 document.addEventListener('keydown', function(e) {
     const lb = document.getElementById('lightbox');
