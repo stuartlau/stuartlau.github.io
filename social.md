@@ -727,7 +727,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Profile Details - Positioned below avatar */
 .profile-details {
-    margin-top: 76px; /* High enough to clear the 50px avatar protrusion and shadow */
+    padding-top: 76px; /* Use padding instead of margin to prevent CSS margin collapse */
+    margin-top: 0;
     padding-left: 0;
     text-align: left;
 }
@@ -1975,7 +1976,8 @@ input:focus {
     }
 
     .profile-details {
-        margin-top: 76px;
+        padding-top: 76px;
+        margin-top: 0;
         width: 100%;
         text-align: left;
         padding-left: 0;
