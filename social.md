@@ -116,11 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="profile-details">
                     <h1 class="profile-name">Stuart Lau</h1>
                     <p class="profile-handle">@stuartlau</p>
-                    <div class="profile-bio-items">
-                        <span class="bio-item"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 0h-4V4h4v2z"/></svg> Software Engineer</span>
-                        <span class="bio-item"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg> Patent Inventor</span>
-                        <span class="bio-item"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg> Ex Xiaohongshu, Kuaishou, Amazon, Xiaomi</span>
-                    </div>
+                    <!-- Profile Bio - Category labels removed as requested -->
                     <div class="profile-meta">
                         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Shanghai, China</span>
                         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg> <a href="{{ site.url }}" target="_blank">stuartlau.github.io</a></span>
@@ -162,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </a>
             <a href="#history" class="tab-item" data-tab="history">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
-                <span class="tab-text">OTD</span>
+                <span class="tab-text" id="otd-tab-label">04/23</span>
             </a>
         </div>
 
@@ -478,6 +474,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div id="lightbox">
+    <div class="lightbox-backdrop"></div>
     <div class="lightbox-content">
         <button class="lightbox-close" onclick="closeLightbox()">×</button>
         <button id="lightbox-prev" class="lightbox-nav" onclick="prevLightboxImage(event)">‹</button>
@@ -1525,13 +1522,21 @@ input:focus {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.7);
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 10000;
-    cursor: pointer; /* Click anywhere to close */
     -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    cursor: pointer;
 }
 
 #lightbox.loading::after {
@@ -2621,7 +2626,12 @@ function prevLightboxImage(e) {
 
 var _lightboxClosing = false;
 
-function closeLightbox() {
+function closeLightbox(e) {
+    if (e && e.stopPropagation) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+    
     if (_lightboxClosing) return;
     _lightboxClosing = true;
     
@@ -2631,6 +2641,8 @@ function closeLightbox() {
     if (lb) {
         lb.style.display = 'none';
         lb.classList.remove('loading');
+        // Reset pointer events just in case
+        lb.style.pointerEvents = '';
     }
     
     if (lbImg) {
@@ -2642,35 +2654,42 @@ function closeLightbox() {
     
     currentImages = [];
     
-    // Restore scroll immediately for better response, 
-    // but keep flag for a short while to prevent re-triggering
-    document.body.style.overflow = '';
+    // Restore scroll with a slight delay to ensure UI state consistency
     setTimeout(function() {
+        document.body.style.overflow = '';
         _lightboxClosing = false;
-    }, 200);
+    }, 50);
 }
 
 // Handle click on lightbox
 function handleLightboxClick(e) {
-    // If clicking on nav buttons, don't close here
-    if (e.target.closest('.lightbox-nav')) {
-        return;
-    }
+    const isNav = e.target.closest('.lightbox-nav');
+    const isImg = e.target.id === 'lightbox-img';
     
-    // Close everything else
-    e.preventDefault();
-    e.stopPropagation();
-    closeLightbox();
+    // If clicking on image or backdrop, close
+    if (!isNav) {
+        closeLightbox(e);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Update OTD Tab Date
+    try {
+        const now = new Date();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const label = document.getElementById('otd-tab-label');
+        if (label) label.textContent = mm + '/' + dd;
+    } catch(e) {}
+
     const lb = document.getElementById('lightbox');
+    const lbBackdrop = document.querySelector('.lightbox-backdrop');
     if (lb) {
         lb.addEventListener('click', handleLightboxClick);
     }
-    
-    // Add touch swipe support for mobile
-    let touchStartX = 0;
+    if (lbBackdrop) {
+        lbBackdrop.addEventListener('click', closeLightbox);
+    }
     let touchEndX = 0;
     if (lb) {
         lb.addEventListener('touchstart', function(e) {
