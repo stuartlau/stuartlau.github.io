@@ -1043,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .expand-btn {
-    color: #1d9bf0;
+    color: #8b98a5; /* Subtle gray */
     background: none;
     border: none;
     padding: 0;
@@ -1051,6 +1051,15 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor: pointer;
     margin-top: 4px;
     font-weight: 500;
+}
+
+.feed-content a {
+    color: #536471;
+    text-decoration: none;
+}
+
+.feed-content a:hover {
+    text-decoration: underline;
 }
 
 .expand-btn:hover {
@@ -2543,17 +2552,12 @@ function checkTextOverflow() {
             el.classList.add('collapsed');
             const btn = document.createElement('button');
             btn.className = 'expand-btn';
-            btn.textContent = '(展开)';
+            btn.textContent = '...全文';
             btn.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (el.classList.contains('collapsed')) {
-                    el.classList.remove('collapsed');
-                    btn.textContent = '(收缩)';
-                } else {
-                    el.classList.add('collapsed');
-                    btn.textContent = '(展开)';
-                }
+                el.classList.remove('collapsed');
+                btn.remove();
             };
             el.parentNode.insertBefore(btn, el.nextSibling);
         }
@@ -2624,11 +2628,33 @@ function loadHistoryToday() {
         if (todayPosts.length > 0) {
             postsOtdList.style.display = 'block';
             postsOtdList.innerHTML = todayPosts.map(post => {
-                const clone = post.cloneNode(true);
-                clone.style.display = 'flex';
-                clone.style.background = ''; // Remove special background
-                clone.classList.remove('memory-item'); // Remove special class
-                return clone.outerHTML;
+                const textEl = post.querySelector('.feed-text');
+                const text = textEl ? textEl.innerHTML : '';
+                const meta = post.querySelector('.feed-meta').textContent.trim();
+                const yearMatch = meta.match(/\d{4}-\d{2}-\d{2}/) || meta.match(/\d{4}/);
+                const dateStr = yearMatch ? yearMatch[0] : meta;
+                
+                // Reconstruct images/quotes
+                let extraHtml = '';
+                const imgGrid = post.querySelector('.social-image-grid');
+                if (imgGrid) extraHtml += imgGrid.outerHTML;
+                const quoteCard = post.querySelector('.quote-card');
+                if (quoteCard) extraHtml += quoteCard.outerHTML;
+                const blogCard = post.querySelector('.blog-preview-card');
+                if (blogCard) extraHtml += blogCard.outerHTML;
+                
+                return `<div class="feed-item">
+                    <div class="post-avatar">
+                        <img src="/images/douban_avatar.jpg" alt="Stuart Lau" loading="lazy">
+                    </div>
+                    <div class="post-author-line">
+                        <span class="feed-meta" style="font-weight:600; color:#536471;">${dateStr}</span>
+                    </div>
+                    <div class="feed-content">
+                        <p class="feed-text">${text}</p>
+                        ${extraHtml}
+                    </div>
+                </div>`;
             }).join('');
         } else {
             postsOtdList.style.display = 'none';
