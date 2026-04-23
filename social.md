@@ -1022,6 +1022,29 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #0f1419;
     margin: 0;
     padding: 0;
+    word-break: break-all;
+}
+
+.feed-text.collapsed {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.expand-btn {
+    color: #1d9bf0;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.expand-btn:hover {
+    text-decoration: underline;
 }
 
 .feed-title {
@@ -2166,6 +2189,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
+            // Check text overflow for the newly active tab
+            setTimeout(checkTextOverflow, 50);
+            
             // Trigger lazy loading for images in the newly active panel
             setTimeout(function() {
                 if (typeof reobserveLazyImages === 'function') {
@@ -2311,6 +2337,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize infinite scroll
     initInfiniteScroll();
+
+    // Check text overflow on initial load
+    setTimeout(checkTextOverflow, 800);
 });
 
 // Global image lazy loading observer
@@ -2475,6 +2504,51 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Check for text overflow and add Expand/Collapse button
+function checkTextOverflow() {
+    document.querySelectorAll('.feed-text:not([data-expand-init])').forEach(el => {
+        // Only process visible items (roughly)
+        const panel = el.closest('.content-panel');
+        if (panel && !panel.classList.contains('active')) return;
+
+        // Clone to calculate actual height
+        const clone = el.cloneNode(true);
+        clone.style.visibility = 'hidden';
+        clone.style.position = 'absolute';
+        clone.style.width = el.offsetWidth + 'px';
+        clone.style.lineHeight = '1.5';
+        clone.style.webkitLineClamp = 'none';
+        clone.style.display = 'block';
+        document.body.appendChild(clone);
+        
+        const fullHeight = clone.offsetHeight;
+        const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+        const maxHeight = lineHeight * 6.1; // Allow a tiny bit of buffer
+        
+        document.body.removeChild(clone);
+
+        if (fullHeight > maxHeight) {
+            el.classList.add('collapsed');
+            const btn = document.createElement('button');
+            btn.className = 'expand-btn';
+            btn.textContent = '(展开)';
+            btn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (el.classList.contains('collapsed')) {
+                    el.classList.remove('collapsed');
+                    btn.textContent = '(收缩)';
+                } else {
+                    el.classList.add('collapsed');
+                    btn.textContent = '(展开)';
+                }
+            };
+            el.parentNode.insertBefore(btn, el.nextSibling);
+        }
+        el.dataset.expandInit = 'true';
+    });
+}
+
 // Load history on this day from Douban posts
 function loadHistoryToday() {
     const today = new Date();
@@ -2636,6 +2710,9 @@ function loadMore(listId) {
 
         // Trigger lazy loading for newly visible images
         reobserveLazyImages();
+        
+        // Trigger text overflow check
+        setTimeout(checkTextOverflow, 100);
         
         // Preload stats for newly visible posts (if it's the posts list)
         if (listId === 'posts-list' && typeof preloadPostStats === 'function') {
