@@ -239,8 +239,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <!-- Blogs Tab -->
             <div class="content-panel" id="blogs-panel">
+                <div class="tag-cloud-wrap" style="margin: 16px; background: #fff; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
+                    <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Article Topics</div>
+                    </div>
+                    <div id="blog-tag-cloud" class="tag-cloud" style="width: 100%; height: 200px; overflow: hidden;"></div>
+                </div>
+
                 <div class="blogs-column" id="blogs-list">
                     {% assign posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/tech/'" | sort: "date" | reverse %}
+                    <script>
+                    window.__BLOG_POST_TAGS__ = [{% for p in posts %}{{ p.tags | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}];
+                    </script>
                     {% for post in posts %}
                     <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
@@ -2208,6 +2218,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } else if (targetTab === 'patents') {
                 setTimeout(initPatentCloud, 100);
+            } else if (targetTab === 'blogs') {
+                setTimeout(initBlogCloud, 100);
             }
             
             // Check text overflow for the newly active tab
@@ -3337,7 +3349,61 @@ function initPatentCloud() {
                 .enter().append("text")
                 .style("font-size", d => d.size + "px")
                 .style("font-family", "Inter")
-                .style("fill", (d, i) => d3.scale.category10()(i))
+                .style("fill", (d, i) => {
+                    const colors = ['#1d9bf0', '#16a34a', '#dc2626', '#ca8a04', '#9333ea', '#ea580c', '#0891b2', '#be185d', '#059669', '#7c3aed'];
+                    return colors[i % colors.length];
+                })
+                .attr("text-anchor", "middle")
+                .attr("transform", d => `translate(${d.x},${d.y})rotate(${d.rotate})`)
+                .text(d => d.text);
+        })
+        .start();
+}
+
+function initBlogCloud() {
+    if (window._blogCloudInitialized) return;
+    const cloudEl = document.getElementById('blog-tag-cloud');
+    if (!cloudEl || !window.d3) return;
+    window._blogCloudInitialized = true;
+
+    const counts = {};
+    (window.__BLOG_POST_TAGS__ || []).forEach(tags => {
+        (tags || []).forEach(t => {
+            if (!t) return;
+            counts[t] = (counts[t] || 0) + 1;
+        });
+    });
+
+    const data = Object.keys(counts).map(t => ({ text: t, size: counts[t] }));
+    const width = cloudEl.clientWidth || 600;
+    const height = 200;
+
+    const sizeScale = d3.scale.linear()
+        .domain([d3.min(data, d => d.size) || 1, d3.max(data, d => d.size) || 1])
+        .range([14, 40]);
+
+    d3.layout.cloud()
+        .size([width, height])
+        .words(data.map(d => ({ text: d.text, size: sizeScale(d.size) })))
+        .padding(5)
+        .rotate(0)
+        .font("Inter, system-ui, sans-serif")
+        .fontSize(d => d.size)
+        .on("end", words => {
+            d3.select("#blog-tag-cloud").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(${width/2},${height/2})`)
+                .selectAll("text")
+                .data(words)
+                .enter().append("text")
+                .style("font-size", d => d.size + "px")
+                .style("font-family", "Inter")
+                .style("fill", (d, i) => {
+                    const colors = ['#1d9bf0', '#16a34a', '#dc2626', '#ca8a04', '#9333ea', '#ea580c', '#0891b2', '#be185d', '#059669', '#7c3aed'];
+                    return colors[i % colors.length];
+                })
                 .attr("text-anchor", "middle")
                 .attr("transform", d => `translate(${d.x},${d.y})rotate(${d.rotate})`)
                 .text(d => d.text);
