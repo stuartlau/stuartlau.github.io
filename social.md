@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="profile-stats">
                         <a href="/publications/"><span class="stat-value">120+</span> Patents</a>
                         <a href="/travel/"><span class="stat-value">14</span> Countries</a>
-                        <a href="/blogs/"><span class="stat-value">180+</span> Blogs</a>
+                        <a href="/blogs/"><span class="stat-value">180+</span> Articles</a>
                     </div>
                 </div>
             </div>
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </a>
             <a href="#blogs" class="tab-item" data-tab="blogs">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
-                <span class="tab-text">Blogs</span>
+                <span class="tab-text">Articles</span>
             </a>
             <a href="#patents" class="tab-item" data-tab="patents">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -2620,37 +2620,29 @@ function closeLightbox() {
     if (_lightboxClosing) return;
     _lightboxClosing = true;
     
-    try {
-        const lb = document.getElementById('lightbox');
-        const lbImg = document.getElementById('lightbox-img');
-        
-        if (lb) {
-            lb.style.display = 'none';
-            lb.classList.remove('loading');
-            lb.style.pointerEvents = 'none'; // Temporarily disable to prevent double clicks
-        }
-        
-        if (lbImg) {
-            lbImg.onload = null;
-            lbImg.onerror = null;
-            lbImg.classList.remove('loaded');
-            lbImg.src = '';
-        }
-        
-        currentImages = [];
-        
-        // Restore scroll and reset state with a slight delay
-        // This prevents race conditions on some mobile browsers
-        setTimeout(function() {
-            document.body.style.overflow = '';
-            if (lb) lb.style.pointerEvents = '';
-            _lightboxClosing = false;
-        }, 100);
-    } catch (e) {
-        console.error('Error closing lightbox:', e);
-        _lightboxClosing = false;
-        document.body.style.overflow = '';
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    
+    if (lb) {
+        lb.style.display = 'none';
+        lb.classList.remove('loading');
     }
+    
+    if (lbImg) {
+        lbImg.onload = null;
+        lbImg.onerror = null;
+        lbImg.classList.remove('loaded');
+        lbImg.src = '';
+    }
+    
+    currentImages = [];
+    
+    // Restore scroll immediately for better response, 
+    // but keep flag for a short while to prevent re-triggering
+    document.body.style.overflow = '';
+    setTimeout(function() {
+        _lightboxClosing = false;
+    }, 200);
 }
 
 // Handle click on lightbox
@@ -2660,9 +2652,9 @@ function handleLightboxClick(e) {
         return;
     }
     
-    // Close button and everything else (backdrop, image, content blank space) closes it
-    // We already have closeLightbox() on the close button's onclick, 
-    // but the bubble will end up here too. The flag _lightboxClosing handles it.
+    // Close everything else
+    e.preventDefault();
+    e.stopPropagation();
     closeLightbox();
 }
 
