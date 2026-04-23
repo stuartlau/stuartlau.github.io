@@ -1,5 +1,20 @@
 [
   {
+    "douban_url": "https://book.douban.com/subject/37077307/",
+    "book_id": "37077307",
+    "title": "泰勒·斯威夫特：一代巨星的崛起",
+    "read_date": "2026-01-18",
+    "author": "[英]杰奎琳·斯诺登（Jacqueline Snowden）主编",
+    "publisher": "湖南文艺出版社",
+    "translator": "刘勇军",
+    "publish_date": "2024-12",
+    "pages": "268",
+    "isbn": "9787572620928",
+    "douban_rating": "7.6",
+    "rating_count": "261",
+    "status": "collect"
+  },
+  {
     "douban_url": "https://book.douban.com/subject/36414284/",
     "book_id": "36414284",
     "title": "Elon Musk",
@@ -1996,6 +2011,19 @@
     "rating_count": "148",
     "status": "wish",
     "cover": "/images/books/3306520.jpg"
+  },
+  {
+    "douban_url": "https://book.douban.com/subject/6550259/",
+    "book_id": "6550259",
+    "title": "Home Design in an Aging World",
+    "read_date": "2026-04-12",
+    "author": "Wid Chapman",
+    "publisher": "Fairchild Pubns",
+    "publish_date": "2008-2-1",
+    "pages": "352",
+    "isbn": "9781563674723",
+    "douban_rating": "",
+    "status": "collect"
   },
   {
     "douban_url": "https://book.douban.com/subject/2000732/",
