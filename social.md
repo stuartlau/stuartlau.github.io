@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </aside>
 </div>
 
-<div id="lightbox" onclick="handleLightboxClick(event)">
+<div id="lightbox">
     <div class="lightbox-content">
         <button class="lightbox-close" onclick="closeLightbox()">×</button>
         <button id="lightbox-prev" class="lightbox-nav" onclick="prevLightboxImage(event)">‹</button>
@@ -2627,6 +2627,7 @@ function closeLightbox() {
         if (lb) {
             lb.style.display = 'none';
             lb.classList.remove('loading');
+            lb.style.pointerEvents = 'none'; // Temporarily disable to prevent double clicks
         }
         
         if (lbImg) {
@@ -2637,27 +2638,41 @@ function closeLightbox() {
         }
         
         currentImages = [];
-        document.body.style.overflow = '';
+        
+        // Restore scroll and reset state with a slight delay
+        // This prevents race conditions on some mobile browsers
+        setTimeout(function() {
+            document.body.style.overflow = '';
+            if (lb) lb.style.pointerEvents = '';
+            _lightboxClosing = false;
+        }, 100);
     } catch (e) {
         console.error('Error closing lightbox:', e);
-    } finally {
         _lightboxClosing = false;
+        document.body.style.overflow = '';
     }
 }
 
-// Handle click on lightbox background
+// Handle click on lightbox
 function handleLightboxClick(e) {
-    // If clicking on nav buttons or close button, don't close here
-    if (e.target.closest('.lightbox-nav') || e.target.closest('.lightbox-close')) {
+    // If clicking on nav buttons, don't close here
+    if (e.target.closest('.lightbox-nav')) {
         return;
     }
-    // Any other click in the lightbox (backdrop, image, or content blank space) closes it
+    
+    // Close button and everything else (backdrop, image, content blank space) closes it
+    // We already have closeLightbox() on the close button's onclick, 
+    // but the bubble will end up here too. The flag _lightboxClosing handles it.
     closeLightbox();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Add touch swipe support for mobile
     const lb = document.getElementById('lightbox');
+    if (lb) {
+        lb.addEventListener('click', handleLightboxClick);
+    }
+    
+    // Add touch swipe support for mobile
     let touchStartX = 0;
     let touchEndX = 0;
     if (lb) {
