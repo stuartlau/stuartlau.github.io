@@ -140,6 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
                 <span class="tab-text">Articles</span>
             </a>
+            <a href="#travel" class="tab-item" data-tab="travel">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.08 16.19 7 11.88 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                <span class="tab-text">Travel</span>
+            </a>
             <a href="#patents" class="tab-item" data-tab="patents">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 <span class="tab-text">Patents</span>
@@ -235,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="blogs-column" id="blogs-list">
                     {% assign posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/tech/'" | sort: "date" | reverse %}
                     {% for post in posts %}
-                    <!-- Updated Blog Item Layout -->
                     <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
@@ -263,6 +266,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                 </div>
                 <div class="scroll-sentinel" id="blogs-sentinel"></div>
+            </div>
+
+            <!-- Travel Tab -->
+            <div class="content-panel" id="travel-panel">
+                <div id="life-travel-wrap" class="life-travel-wrap" style="padding: 16px;">
+                    <div class="tag-cloud-wrap" style="margin-bottom: 24px; background: #f8f9fa; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
+                        <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Travel Cloud</div>
+                            <button id="life-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
+                        </div>
+                        <div id="life-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
+                        <div id="life-tag-cloud" class="tag-cloud" style="width: 100%; height: 260px; overflow: hidden;"></div>
+                    </div>
+                    <div id="life-travel-map" class="life-travel-map" style="width: 100%; height: 500px; border-radius: 16px; border: 1px solid #eff3f4; z-index: 1;"></div>
+                </div>
             </div>
 
             <!-- Patents Tab -->
@@ -2110,6 +2128,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (activePanel) activePanel.classList.add('active');
             history.pushState(null, null, '#' + targetTab);
             
+            // Handle Travel Tab specific logic
+            if (targetTab === 'travel') {
+                if (window._travelMap && window._travelMap.invalidateSize) {
+                    setTimeout(() => window._travelMap.invalidateSize(), 150);
+                } else if (typeof initTravelComponent === 'function') {
+                    initTravelComponent();
+                }
+            }
+            
             // Trigger lazy loading for images in the newly active panel
             setTimeout(function() {
                 if (typeof reobserveLazyImages === 'function') {
@@ -3073,5 +3100,39 @@ function updatePostGiscusTerm(newTerm) {
     console.log('Updating post giscus term to:', newTerm);
     postGiscusIframe.src = newSrc;
     currentPostTerm = newTerm;
+}
+</script>
+
+<!-- Travel Dependencies -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@3.5.17/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-cloud@1/build/d3.layout.cloud.js"></script>
+
+<script>
+// Adapted Travel Init for Social Page
+function initTravelComponent() {
+    if (window._travelInitialized) {
+        if (window._travelMap) window._travelMap.invalidateSize();
+        return;
+    }
+    
+    const wrap = document.getElementById('life-travel-wrap');
+    if (!wrap) return;
+
+    window._travelInitialized = true;
+    
+    // Lazy load the travel logic
+    const script = document.createElement('script');
+    script.src = '/assets/js/life-travel.js';
+    script.onload = () => {
+        console.log('✓ Travel logic loaded');
+        // The script initialized itself, but we might need to invalidateSize 
+        // after a delay to ensure it catches the visible container
+        setTimeout(() => {
+            if (window._travelMap) window._travelMap.invalidateSize();
+        }, 500);
+    };
+    document.head.appendChild(script);
 }
 </script>

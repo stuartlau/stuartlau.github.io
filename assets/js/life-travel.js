@@ -437,6 +437,7 @@
     }
 
     onReady && onReady({ map: map, setHighlight: setHighlight });
+    window._travelMap = map; // Expose for tab switching refresh
     return map;
   }
 
