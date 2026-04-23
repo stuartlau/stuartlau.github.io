@@ -932,8 +932,8 @@ document.addEventListener('DOMContentLoaded', function() {
     display: grid;
     grid-template-columns: 40px 1fr;
     grid-template-rows: auto auto;
-    gap: 0 10px;
-    padding: 12px 16px; /* Added 16px horizontal spacing */
+    gap: 0 12px;
+    padding: 12px 24px; /* Roomy padding for desktop */
     border-bottom: 1px solid #eff3f4;
     text-decoration: none;
     transition: background 0.2s;
@@ -1978,16 +1978,21 @@ input:focus {
     }
 
     .profile-info-container {
-        padding: 0 16px 16px;
+        padding: 0 8px 16px;
         display: block; 
         text-align: left;
         min-height: 70px;
+    }
+    
+    .feed-item {
+        padding: 12px 8px !important; /* Half padding for mobile */
+        gap: 0 10px;
     }
 
     .profile-avatar {
         position: absolute;
         top: -50px;
-        left: 16px;
+        left: 8px;
         margin: 0;
     }
 
