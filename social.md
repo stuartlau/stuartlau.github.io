@@ -170,14 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="content-panels">
             <!-- Posts Tab (Broadcast) -->
             <div class="content-panel active" id="posts-panel">
-                <!-- Highlighted OTD Section -->
-                <div id="posts-otd-container" style="display:none; border-bottom: 8px solid #eff3f4;">
-                    <div style="padding: 12px 16px; display: flex; align-items: center; gap: 8px; color: #1d9bf0; font-weight: 700; font-size: 14px;">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
-                        <span id="otd-header-title">Memories from Today</span>
-                    </div>
-                    <div id="posts-otd-list"></div>
-                </div>
+                <!-- Integrated OTD Section -->
+                <div id="posts-otd-list" style="display:none;"></div>
                 
                 <div class="feed-list" id="posts-list">
                     {% assign years = "2026,2025,2024,2023,2022,2021" | split: "," %}
@@ -2537,29 +2531,21 @@ function loadHistoryToday() {
         }
     }
     
-    // --- Populate Posts Tab Highlight Section ---
-    const postsOtdContainer = document.getElementById('posts-otd-container');
+    // --- Populate Posts Tab Integrated Section ---
     const postsOtdList = document.getElementById('posts-otd-list');
-    const otdHeaderTitle = document.getElementById('otd-header-title');
     
-    if (otdHeaderTitle) otdHeaderTitle.textContent = `Memories from ${todayStr}`;
-    
-    if (postsOtdContainer && postsOtdList) {
+    if (postsOtdList) {
         if (todayPosts.length > 0) {
-            postsOtdContainer.style.display = 'block';
+            postsOtdList.style.display = 'block';
             postsOtdList.innerHTML = todayPosts.map(post => {
                 const clone = post.cloneNode(true);
                 clone.style.display = 'flex';
-                clone.style.background = '#f7f9f9'; // Slightly different background
-                // Add a "memory" ribbon or indicator
-                const authorLine = clone.querySelector('.post-author-line');
-                if (authorLine) {
-                    authorLine.innerHTML += ' <span style="background:#1d9bf0; color:#fff; font-size:10px; padding:2px 6px; border-radius:10px; margin-left:8px;">Memory</span>';
-                }
+                clone.style.background = ''; // Remove special background
+                clone.classList.remove('memory-item'); // Remove special class
                 return clone.outerHTML;
             }).join('');
         } else {
-            postsOtdContainer.style.display = 'none';
+            postsOtdList.style.display = 'none';
         }
     }
 
