@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div id="life-travel-wrap" class="life-travel-wrap" style="padding: 16px;">
                     <div class="tag-cloud-wrap" style="margin-bottom: 24px; background: #f8f9fa; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
                         <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Travel Cloud</div>
+                            <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Foot Print</div>
                             <button id="life-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                         </div>
                         <div id="life-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
@@ -1737,14 +1737,32 @@ body.lightbox-open {
 
 @media (max-width: 768px) {
     .lightbox-content {
-        max-width: 95%;
+        max-width: 100%;
+        max-height: 100%;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+        border-radius: 0;
+    }
+    
+    #lightbox-img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        object-fit: contain;
     }
     
     .lightbox-nav {
-        width: 36px;
-        height: 36px;
-        padding: 8px;
-        font-size: 16px;
+        width: 44px;
+        height: 44px;
+        background: rgba(0,0,0,0.3);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.2);
     }
     
     #lightbox-prev {
@@ -1756,8 +1774,16 @@ body.lightbox-open {
     }
     
     .lightbox-close {
-        top: -40px;
-        right: 0;
+        top: 20px;
+        right: 20px;
+        background: rgba(0,0,0,0.5);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .lightbox-counter {
+        bottom: 20px;
+        background: rgba(0,0,0,0.5);
     }
 }
 
