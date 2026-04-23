@@ -474,12 +474,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div id="lightbox">
-    <div class="lightbox-backdrop"></div>
+    <div class="lightbox-backdrop" id="lb-backdrop"></div>
     <div class="lightbox-content">
-        <button class="lightbox-close" onclick="closeLightbox()">×</button>
-        <button id="lightbox-prev" class="lightbox-nav" onclick="prevLightboxImage(event)">‹</button>
+        <button class="lightbox-close" id="lb-close">×</button>
+        <button id="lightbox-prev" class="lightbox-nav">‹</button>
         <img id="lightbox-img" src="" alt="Zoomed view">
-        <button id="lightbox-next" class="lightbox-nav" onclick="nextLightboxImage(event)">›</button>
+        <button id="lightbox-next" class="lightbox-nav">›</button>
     </div>
 </div>
 
@@ -1513,6 +1513,13 @@ input:focus {
 
 .social-link-item:hover {
     background: #eff3f4;
+}
+
+/* Prevent scroll when lightbox open on mobile/iOS */
+body.lightbox-open {
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
 }
 
 /* Lightbox - Non-fullscreen popup style */
@@ -2626,26 +2633,25 @@ function prevLightboxImage(e) {
 }
 
 var _lightboxClosing = false;
+var _lastScrollY = 0;
 
 function closeLightbox(e) {
-    // If it's an event, prevent default behavior immediately
     if (e) {
-        if (typeof e.preventDefault === 'function') e.preventDefault();
-        if (typeof e.stopPropagation === 'function') e.stopPropagation();
+        e.stopPropagation();
     }
     
     if (_lightboxClosing) return;
     
     const lb = document.getElementById('lightbox');
     if (!lb || lb.style.display === 'none') return;
-
-    _lightboxClosing = true;
-    const lbImg = document.getElementById('lightbox-img');
     
-    // Hide immediately
+    _lightboxClosing = true;
+    
+    // Hide UI immediately
     lb.style.display = 'none';
     lb.classList.remove('loading');
     
+    const lbImg = document.getElementById('lightbox-img');
     if (lbImg) {
         lbImg.onload = null;
         lbImg.onerror = null;
@@ -2655,23 +2661,51 @@ function closeLightbox(e) {
     
     currentImages = [];
     
-    // Use a small delay for scroll restoration to avoid "tap-through" issues on mobile
+    // Restore scroll for iOS/Mobile
+    document.body.classList.remove('lightbox-open');
+    document.body.style.top = '';
+    window.scrollTo(0, _lastScrollY);
+    
     setTimeout(function() {
-        document.body.style.overflow = '';
         _lightboxClosing = false;
-    }, 150);
+    }, 100);
 }
 
-// Handle interaction on lightbox
-function handleLightboxInteraction(e) {
-    // Check if we hit navigation buttons
-    const isNav = e.target.closest('.lightbox-nav');
-    if (isNav) {
-        // Navigation buttons handle their own logic with event.stopPropagation
-        return;
-    }
+function openLightbox(src, galleryImages) {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
     
-    // Everything else (image, backdrop, X button) should close the lightbox
+    if (!lb || !lbImg) return;
+    
+    _lastScrollY = window.scrollY;
+    
+    if (src) {
+        if (galleryImages && galleryImages.length > 0) {
+            currentImages = galleryImages;
+            currentImageIndex = currentImages.indexOf(src);
+            if (currentImageIndex === -1) {
+                currentImages = [src];
+                currentImageIndex = 0;
+            }
+        } else {
+            currentImages = [src];
+            currentImageIndex = 0;
+        }
+        
+        // Update UI
+        updateLightboxImage();
+        
+        // Show and Lock
+        lb.style.display = 'flex';
+        document.body.style.top = `-${_lastScrollY}px`;
+        document.body.classList.add('lightbox-open');
+        _lightboxClosing = false;
+    }
+}
+
+function handleLightboxInteraction(e) {
+    const isNav = e.target.closest('.lightbox-nav');
+    if (isNav) return; // Nav handles its own
     closeLightbox(e);
 }
 
@@ -2687,14 +2721,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const lb = document.getElementById('lightbox');
     if (lb) {
-        // Use pointer events for better mobile support if available
-        if (window.PointerEvent) {
-            lb.addEventListener('pointerdown', handleLightboxInteraction);
-        } else {
-            lb.addEventListener('touchstart', handleLightboxInteraction);
-            lb.addEventListener('click', handleLightboxInteraction);
-        }
+        lb.addEventListener('click', handleLightboxInteraction);
     }
+    
+    // Wire up navigation buttons
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
+    const closeBtn = document.getElementById('lb-close');
+    
+    if (prevBtn) prevBtn.addEventListener('click', (e) => prevLightboxImage(e));
+    if (nextBtn) nextBtn.addEventListener('click', (e) => nextLightboxImage(e));
+    if (closeBtn) closeBtn.addEventListener('click', (e) => closeLightbox(e));
     let touchEndX = 0;
     if (lb) {
         lb.addEventListener('touchstart', function(e) {
