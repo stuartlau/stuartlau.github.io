@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
                 <span class="tab-text">Games</span>
             </a>
-            <a href="#history" class="tab-item" data-tab="history">
+            <a href="#history" class="tab-item" data-tab="history" style="display:none;">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
                 <span class="tab-text" id="otd-tab-label">04/23</span>
             </a>
@@ -170,6 +170,15 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="content-panels">
             <!-- Posts Tab (Broadcast) -->
             <div class="content-panel active" id="posts-panel">
+                <!-- Highlighted OTD Section -->
+                <div id="posts-otd-container" style="display:none; border-bottom: 8px solid #eff3f4;">
+                    <div style="padding: 12px 16px; display: flex; align-items: center; gap: 8px; color: #1d9bf0; font-weight: 700; font-size: 14px;">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                        <span id="otd-header-title">Memories from Today</span>
+                    </div>
+                    <div id="posts-otd-list"></div>
+                </div>
+                
                 <div class="feed-list" id="posts-list">
                     {% assign years = "2026,2025,2024,2023,2022,2021" | split: "," %}
                     {% assign all_posts = "" | split: "," %}
@@ -2146,11 +2155,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Random Cover Image
+    // Hourly Persisted Cover Image
     const coverImgEl = document.getElementById('cover-img');
     if (coverImgEl) {
-        const randomSeed = Math.floor(Math.random() * 1000);
-        // Store the final URL after loading for reliable lightbox access
+        const now = new Date();
+        const hourlySeed = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + '-' + now.getHours();
+        coverImgEl.src = `https://picsum.photos/seed/social-${hourlySeed}/1200/400`;
         coverImgEl.style.cursor = 'pointer';
         coverImgEl.addEventListener('load', function() {
             this.dataset.finalSrc = this.src;
@@ -2164,8 +2174,6 @@ document.addEventListener('DOMContentLoaded', function() {
         coverImgEl.onerror = function() {
             this.style.display = 'none';
         };
-        // Set src last after event handlers are attached
-        coverImgEl.src = 'https://loremflickr.com/1200/400/landscape?random=' + randomSeed;
     }
 
     if (window.location.hash) {
@@ -2503,6 +2511,32 @@ function loadHistoryToday() {
         }
     }
     
+    // --- Populate Posts Tab Highlight Section ---
+    const postsOtdContainer = document.getElementById('posts-otd-container');
+    const postsOtdList = document.getElementById('posts-otd-list');
+    const otdHeaderTitle = document.getElementById('otd-header-title');
+    
+    if (otdHeaderTitle) otdHeaderTitle.textContent = `Memories from ${todayStr}`;
+    
+    if (postsOtdContainer && postsOtdList) {
+        if (todayPosts.length > 0) {
+            postsOtdContainer.style.display = 'block';
+            postsOtdList.innerHTML = todayPosts.map(post => {
+                const clone = post.cloneNode(true);
+                clone.style.display = 'flex';
+                clone.style.background = '#f7f9f9'; // Slightly different background
+                // Add a "memory" ribbon or indicator
+                const authorLine = clone.querySelector('.post-author-line');
+                if (authorLine) {
+                    authorLine.innerHTML += ' <span style="background:#1d9bf0; color:#fff; font-size:10px; padding:2px 6px; border-radius:10px; margin-left:8px;">Memory</span>';
+                }
+                return clone.outerHTML;
+            }).join('');
+        } else {
+            postsOtdContainer.style.display = 'none';
+        }
+    }
+
     // --- Populate history tab panel (mobile, show all, feed-item format) ---
     const historyFeedList = document.getElementById('history-feed-list');
     if (historyFeedList) {
