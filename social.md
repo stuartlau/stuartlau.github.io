@@ -1527,6 +1527,7 @@ input:focus {
     align-items: center;
     z-index: 10000;
     -webkit-tap-highlight-color: transparent;
+    touch-action: none;
 }
 
 .lightbox-backdrop {
@@ -1536,7 +1537,7 @@ input:focus {
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.8);
-    cursor: pointer;
+    cursor: zoom-out;
 }
 
 #lightbox.loading::after {
@@ -2627,23 +2628,23 @@ function prevLightboxImage(e) {
 var _lightboxClosing = false;
 
 function closeLightbox(e) {
-    if (e && e.stopPropagation) {
-        e.stopPropagation();
-        e.preventDefault();
+    // If it's an event, prevent default behavior immediately
+    if (e) {
+        if (typeof e.preventDefault === 'function') e.preventDefault();
+        if (typeof e.stopPropagation === 'function') e.stopPropagation();
     }
     
     if (_lightboxClosing) return;
-    _lightboxClosing = true;
     
     const lb = document.getElementById('lightbox');
+    if (!lb || lb.style.display === 'none') return;
+
+    _lightboxClosing = true;
     const lbImg = document.getElementById('lightbox-img');
     
-    if (lb) {
-        lb.style.display = 'none';
-        lb.classList.remove('loading');
-        // Reset pointer events just in case
-        lb.style.pointerEvents = '';
-    }
+    // Hide immediately
+    lb.style.display = 'none';
+    lb.classList.remove('loading');
     
     if (lbImg) {
         lbImg.onload = null;
@@ -2654,22 +2655,24 @@ function closeLightbox(e) {
     
     currentImages = [];
     
-    // Restore scroll with a slight delay to ensure UI state consistency
+    // Use a small delay for scroll restoration to avoid "tap-through" issues on mobile
     setTimeout(function() {
         document.body.style.overflow = '';
         _lightboxClosing = false;
-    }, 50);
+    }, 150);
 }
 
-// Handle click on lightbox
-function handleLightboxClick(e) {
+// Handle interaction on lightbox
+function handleLightboxInteraction(e) {
+    // Check if we hit navigation buttons
     const isNav = e.target.closest('.lightbox-nav');
-    const isImg = e.target.id === 'lightbox-img';
-    
-    // If clicking on image or backdrop, close
-    if (!isNav) {
-        closeLightbox(e);
+    if (isNav) {
+        // Navigation buttons handle their own logic with event.stopPropagation
+        return;
     }
+    
+    // Everything else (image, backdrop, X button) should close the lightbox
+    closeLightbox(e);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -2683,12 +2686,14 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch(e) {}
 
     const lb = document.getElementById('lightbox');
-    const lbBackdrop = document.querySelector('.lightbox-backdrop');
     if (lb) {
-        lb.addEventListener('click', handleLightboxClick);
-    }
-    if (lbBackdrop) {
-        lbBackdrop.addEventListener('click', closeLightbox);
+        // Use pointer events for better mobile support if available
+        if (window.PointerEvent) {
+            lb.addEventListener('pointerdown', handleLightboxInteraction);
+        } else {
+            lb.addEventListener('touchstart', handleLightboxInteraction);
+            lb.addEventListener('click', handleLightboxInteraction);
+        }
     }
     let touchEndX = 0;
     if (lb) {
