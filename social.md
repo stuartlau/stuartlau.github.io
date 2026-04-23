@@ -245,11 +245,17 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span class="feed-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
                         </div>
                         <div class="feed-content">
-                            <a href="{{ post.url }}" style="text-decoration:none; color:inherit; display:block;">
-                                <div class="blog-card-title" style="margin-bottom:6px; font-weight:700; font-size:16px; color:#0f1419;">{{ post.title }}</div>
-                                <div class="blog-card-excerpt" style="font-size:15px; color:#536471; line-height:1.5;">
-                                    {% assign plain_content = post.content | strip_html | strip_newlines %}
-                                    {{ post.subtitle | default: post.description | default: plain_content | truncate: 200 }}
+                            <a href="{{ post.url }}" class="blog-preview-card">
+                                <div class="blog-preview-body">
+                                    <div class="blog-preview-title">{{ post.title }}</div>
+                                    <div class="blog-preview-excerpt">
+                                        {% assign plain_content = post.content | strip_html | strip_newlines %}
+                                        {{ post.subtitle | default: post.description | default: plain_content | truncate: 160 }}
+                                    </div>
+                                    <div class="blog-preview-footer">
+                                        <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style="margin-right:4px; vertical-align:middle;"><path d="M11.96 14.945c-.067 0-.136-.01-.203-.027-1.13-.318-2.097-.986-2.795-1.932-.832-1.125-1.176-2.508-.968-3.893s.933-2.605 2.04-3.438c.114-.083.27-.06.353.055.082.115.06.27-.055.353-1.007.756-1.635 1.83-1.808 3.033-.19 1.258.122 2.515.877 3.535.634.86 1.513 1.468 2.474 1.74a.25.25 0 0 1-.063.494z"/><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/></svg>
+                                        stuartlau.github.io
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -273,10 +279,15 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span class="feed-meta">{{ patent.date | date: "%Y-%m-%d" }}</span>
                         </div>
                         <div class="feed-content">
-                            <a href="{{ patent.url }}" style="text-decoration:none; color:inherit; display:block;">
-                                <div class="blog-card-title" style="margin-bottom:6px; font-weight:700; font-size:16px; color:#0f1419;">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</div>
-                                <div class="blog-card-excerpt" style="font-size:15px; color:#536471; line-height:1.5;">
-                                    {{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}
+                            <a href="{{ patent.url }}" class="blog-preview-card">
+                                <div class="blog-preview-body">
+                                    <div class="blog-preview-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</div>
+                                    <div class="blog-preview-excerpt">
+                                        {{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}
+                                    </div>
+                                    <div class="blog-preview-footer">
+                                        Google Patents / WIPO Reference
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -289,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <!-- Books Tab -->
             <div class="content-panel" id="books-panel">
                 <div class="feed-list" id="books-list">
-                    {% assign books = site.data.books.all | sort: "date_read" | reverse %}
+                    {% assign books = site.data.books.all | sort: "read_date" | reverse %}
                     {% for book in books %}
                     <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
@@ -997,6 +1008,52 @@ document.addEventListener('DOMContentLoaded', function() {
     font-weight: 700;
     color: #0f1419;
     margin: 0 0 4px 0;
+}
+
+/* X-Style Blog Preview Card */
+.blog-preview-card {
+    display: block;
+    text-decoration: none;
+    margin-top: 4px;
+    border: 1px solid #eff3f4;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: background 0.2s;
+    background: #fff;
+}
+
+.blog-preview-card:hover {
+    background: #f7f9f9;
+}
+
+.blog-preview-body {
+    padding: 12px;
+}
+
+.blog-preview-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f1419;
+    margin-bottom: 2px;
+    line-height: 1.3;
+}
+
+.blog-preview-excerpt {
+    font-size: 14px;
+    color: #536471;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.blog-preview-footer {
+    font-size: 13px;
+    color: #536471;
+    display: flex;
+    align-items: center;
 }
 
 .feed-excerpt {

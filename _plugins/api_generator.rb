@@ -88,14 +88,19 @@ Jekyll::Hooks.register :site, :post_write do |site|
   if site.data['books']
     books_data = site.data['books'].is_a?(Array) ? site.data['books'] : site.data['books']['all']
     if books_data
-      # Sort by publish_date descending, using read_date as fallback
-      books_data = books_data.sort_by { |b| 
-        date = b['publish_date'] || b['read_date'] || '0000-00-00'
-        parts = date.to_s.split('-')
+      # Helper to format date for comparison
+      def self.fmt_dt(d)
+        return '0000-00-00' if d.nil? || d.empty?
+        parts = d.to_s.split('-')
         parts[0] = parts[0].to_s.rjust(4, '0')
         parts[1] = parts[1].to_s.rjust(2, '0') if parts[1]
         parts[2] = parts[2].to_s.rjust(2, '0') if parts[2]
         parts.join('-')
+      end
+
+      # Sort by the most recent available date
+      books_data = books_data.sort_by { |b| 
+        [fmt_dt(b['publish_date']), fmt_dt(b['read_date'])].max
       }.reverse
       generate_api_json(site, 'books', books_data, 24)
     end
