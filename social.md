@@ -288,8 +288,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <!-- Patents Tab -->
             <div class="content-panel" id="patents-panel">
+                <div class="tag-cloud-wrap" style="margin: 16px; background: #fff; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
+                    <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Patent Topics</div>
+                    </div>
+                    <div id="patent-tag-cloud" class="tag-cloud" style="width: 100%; height: 200px; overflow: hidden;"></div>
+                </div>
+
                 <div class="feed-list" id="patents-list">
                     {% assign patents = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | sort: "date" | reverse %}
+                    <script>
+                    window.__PATENT_POST_TAGS__ = [{% for p in patents %}{{ p.tags | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}];
+                    </script>
                     {% for patent in patents %}
                     <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
@@ -2180,13 +2190,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (activePanel) activePanel.classList.add('active');
             history.pushState(null, null, '#' + targetTab);
             
-            // Handle Travel Tab specific logic
+            // Handle Travel & Patent Tab specific logic
             if (targetTab === 'travel') {
                 if (window._travelMap && window._travelMap.invalidateSize) {
                     setTimeout(() => window._travelMap.invalidateSize(), 150);
                 } else if (typeof initTravelComponent === 'function') {
                     initTravelComponent();
                 }
+            } else if (targetTab === 'patents') {
+                setTimeout(initPatentCloud, 100);
             }
             
             // Check text overflow for the newly active tab
@@ -3257,5 +3269,53 @@ function initTravelComponent() {
         }, 500);
     };
     document.head.appendChild(script);
+}
+
+function initPatentCloud() {
+    if (window._patentCloudInitialized) return;
+    const cloudEl = document.getElementById('patent-tag-cloud');
+    if (!cloudEl || !window.d3) return;
+    window._patentCloudInitialized = true;
+
+    const counts = {};
+    (window.__PATENT_POST_TAGS__ || []).forEach(tags => {
+        (tags || []).forEach(t => {
+            if (t === 'Patent') return;
+            counts[t] = (counts[t] || 0) + 1;
+        });
+    });
+
+    const data = Object.keys(counts).map(t => ({ text: t, size: counts[t] }));
+    const width = cloudEl.clientWidth || 600;
+    const height = 200;
+
+    const sizeScale = d3.scale.linear()
+        .domain([d3.min(data, d => d.size), d3.max(data, d => d.size)])
+        .range([12, 36]);
+
+    d3.layout.cloud()
+        .size([width, height])
+        .words(data.map(d => ({ text: d.text, size: sizeScale(d.size) })))
+        .padding(5)
+        .rotate(0)
+        .font("Inter, system-ui, sans-serif")
+        .fontSize(d => d.size)
+        .on("end", words => {
+            d3.select("#patent-tag-cloud").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(${width/2},${height/2})`)
+                .selectAll("text")
+                .data(words)
+                .enter().append("text")
+                .style("font-size", d => d.size + "px")
+                .style("font-family", "Inter")
+                .style("fill", (d, i) => d3.scale.category10()(i))
+                .attr("text-anchor", "middle")
+                .attr("transform", d => `translate(${d.x},${d.y})rotate(${d.rotate})`)
+                .text(d => d.text);
+        })
+        .start();
 }
 </script>
