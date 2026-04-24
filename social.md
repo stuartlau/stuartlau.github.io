@@ -2033,8 +2033,11 @@ body.lightbox-open {
         display: inline !important; 
     }
 
+    /* Show icons on mobile too */
     .tab-icon-mobile {
-        display: none !important;
+        display: inline-block !important;
+        margin-bottom: 2px;
+        vertical-align: middle;
     }
     
     #search-toggle {
@@ -2713,9 +2716,10 @@ function loadDoubanContent() {
         const tagCounts = {};
         items.forEach(item => {
             const d = item.data;
+            // Use genres for movies/games, and author/publisher as fallback for books if no tags
             const tags = (item.type === 'Book' ? (d.tags && d.tags.length > 0 ? d.tags : [d.author, d.publisher].filter(Boolean)) : (d.genres || [])) || [];
             tags.forEach(t => {
-                if (t && t.trim()) {
+                if (t && typeof t === 'string' && t.trim()) {
                     tagCounts[t] = (tagCounts[t] || 0) + 1;
                 }
             });
@@ -2947,22 +2951,27 @@ function closeLightbox(e) {
     if (_lightboxClosing) return;
     _lightboxClosing = true;
     
+    // Explicitly reset body to prevent scroll lock board
+    document.body.classList.remove('lightbox-open');
+    document.body.style.overflow = '';
+    
     // Instant hide for background feel
     lb.style.display = 'none';
     lb.classList.remove('loading', 'lightbox-switching');
     
     const lbImg = document.getElementById('lightbox-img');
     if (lbImg) {
+        lbImg.style.transition = 'none'; // DISABLE transition for instant hide
+        lbImg.style.opacity = '0';
         lbImg.onload = lbImg.onerror = null;
         lbImg.classList.remove('loaded');
         lbImg.src = '';
+        // Restore transition for next open AFTER a delay
+        setTimeout(() => { if(lbImg) lbImg.style.transition = ''; }, 200);
     }
     
     currentImages = [];
-    document.body.classList.remove('lightbox-open');
-    document.body.style.overflow = '';
-    
-    setTimeout(() => { _lightboxClosing = false; }, 200);
+    setTimeout(() => { _lightboxClosing = false; }, 300);
 }
 
 function openLightbox(src, galleryImages) {
@@ -3578,8 +3587,10 @@ function applyFeedFilter(panelType, tag) {
         if (cloudClear) cloudClear.hidden = true;
         
         // Reset infinite scroll state for this list
-        if (window._loadMoreState) {
-            window._loadMoreState[listId] = 10;
+        // Reset infinite scroll state for this list
+        if (loadMoreState && loadMoreState[listId]) {
+            loadMoreState[listId].loaded = 10;
+            loadMoreState[listId].ended = false;
         }
     } else {
         // Apply filter
@@ -3612,7 +3623,6 @@ function applyFeedFilter(panelType, tag) {
     } else if (panelType === 'blogs') {
         initBlogCloud();
     } else if (panelType === 'collections') {
-        window._activeCollectionTag = tag === window._activeCollectionTag ? null : tag;
         initCollectionCloud();
     }
     
