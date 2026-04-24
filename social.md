@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
 
                 <div class="blogs-column" id="blogs-list">
-                    {% assign posts = site.posts | concat: site.pages | where_exp: "p", "p.url contains '/blogs/tech/'" | sort: "date" | reverse %}
+                    {% assign posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/tech/'" | sort: "date" | reverse %}
                     <script>
                     window.__BLOG_POST_TAGS__ = [{% for p in posts %}{{ p.tags | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}];
                     </script>
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
 
                 <div class="feed-list" id="patents-list">
-                    {% assign patents = site.posts | concat: site.pages | where_exp: "p", "p.url contains '/blogs/patent/'" | sort: "date" | reverse %}
+                    {% assign patents = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/patent/'" | sort: "date" | reverse %}
                     <script>
                     window.__PATENT_POST_TAGS__ = [{% for p in patents %}{{ p.tags | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}];
                     </script>
@@ -3472,7 +3472,7 @@ function applyFeedFilter(panelType, tag) {
     if (!tag) {
         // Reset everything
         items.forEach((item, idx) => {
-            if (idx < 10) item.style.display = 'flex';
+            if (idx < 10) item.style.display = ''; // Revert to CSS default (grid)
             else item.style.display = 'none';
         });
         if (sentinel) sentinel.style.display = 'block';
@@ -3491,7 +3491,7 @@ function applyFeedFilter(panelType, tag) {
                 const tagsStr = item.dataset.tags || '[]';
                 const tags = JSON.parse(tagsStr.replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
                 if (tags.includes(tag)) {
-                    item.style.display = 'flex';
+                    item.style.display = ''; // Revert to CSS default (grid)
                     count++;
                 } else {
                     item.style.display = 'none';
