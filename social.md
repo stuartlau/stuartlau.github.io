@@ -149,31 +149,31 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="content-tabs">
             <a href="#posts" class="tab-item active" data-tab="posts">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/></svg>
-                <span class="tab-text">Posts <span style="font-size:12px; font-weight:400; opacity:0.7;">{{ posts_count }}</span></span>
+                <span class="tab-text">Posts</span>
             </a>
             <a href="#blogs" class="tab-item" data-tab="blogs">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
-                <span class="tab-text">Articles <span style="font-size:12px; font-weight:400; opacity:0.7;">{{ blogs_count }}</span></span>
+                <span class="tab-text">Articles</span>
             </a>
             <a href="#travel" class="tab-item" data-tab="travel">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.08 16.19 7 11.88 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
-                <span class="tab-text">Travel <span style="font-size:12px; font-weight:400; opacity:0.7;">{{ travel_count }}</span></span>
+                <span class="tab-text">Travel</span>
             </a>
             <a href="#patents" class="tab-item" data-tab="patents">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span class="tab-text">Patents <span style="font-size:12px; font-weight:400; opacity:0.7;">{{ patents_count }}</span></span>
+                <span class="tab-text">Patents</span>
             </a>
             <a href="#books" class="tab-item" data-tab="books">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-                <span class="tab-text">Books <span style="font-size:12px; font-weight:400; opacity:0.7;">{{ books_count }}</span></span>
+                <span class="tab-text">Books</span>
             </a>
             <a href="#movies" class="tab-item" data-tab="movies">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
-                <span class="tab-text">Movies <span style="font-size:12px; font-weight:400; opacity:0.7;">{{ movies_count }}</span></span>
+                <span class="tab-text">Movies</span>
             </a>
             <a href="#games" class="tab-item" data-tab="games">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
-                <span class="tab-text">Games <span style="font-size:12px; font-weight:400; opacity:0.7;">{{ games_count }}</span></span>
+                <span class="tab-text">Games</span>
             </a>
             <a href="#history" class="tab-item" data-tab="history" style="display:none;">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
 
                 <div class="blogs-column" id="blogs-list">
-                    {% assign posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/tech/'" | sort: "date" | reverse %}
+                    {% assign posts = site.posts | concat: site.pages | where_exp: "p", "p.url contains '/blogs/tech/'" | sort: "date" | reverse %}
                     <script>
                     window.__BLOG_POST_TAGS__ = [{% for p in posts %}{{ p.tags | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}];
                     </script>
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
 
                 <div class="feed-list" id="patents-list">
-                    {% assign patents = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | sort: "date" | reverse %}
+                    {% assign patents = site.posts | concat: site.pages | where_exp: "p", "p.url contains '/blogs/patent/'" | sort: "date" | reverse %}
                     <script>
                     window.__PATENT_POST_TAGS__ = [{% for p in patents %}{{ p.tags | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}];
                     </script>
@@ -1450,13 +1450,6 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor: zoom-in;
     position: relative;
     flex-shrink: 0; /* Prevent shrinking in flex container */
-}
-    height: 100px;
-    flex-shrink: 0;
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
 }
 
 .social-img {
@@ -2678,8 +2671,10 @@ function loadHistoryToday() {
                     <div class="post-avatar">
                         <img src="/images/douban_avatar.jpg" alt="Stuart Lau" loading="lazy">
                     </div>
+                    <div class="post-author-line">
+                        <div style="font-weight:600; color:#536471; font-size:13px;">${dateStr}</div>
+                    </div>
                     <div class="feed-content">
-                        <div style="font-weight:600; color:#536471; font-size:13px; margin-bottom:2px;">${dateStr}</div>
                         <p class="feed-text">${text}</p>
                         ${extraHtml}
                     </div>
@@ -3463,6 +3458,10 @@ function applyFeedFilter(panelType, tag) {
     const cloudActive = document.getElementById(panelType + '-tag-cloud-active');
     const cloudClear = document.getElementById(panelType + '-tag-cloud-clear');
     
+    // Toggle logic: if clicking the active tag, treat it as null (clear)
+    const currentActive = panelType === 'patents' ? window._activePatentTag : window._activeBlogTag;
+    if (tag === currentActive) tag = null;
+
     if (panelType === 'patents') window._activePatentTag = tag;
     else window._activeBlogTag = tag;
 
@@ -3471,6 +3470,7 @@ function applyFeedFilter(panelType, tag) {
     const items = list.querySelectorAll('.feed-item');
     
     if (!tag) {
+        // Reset everything
         items.forEach((item, idx) => {
             if (idx < 10) item.style.display = 'flex';
             else item.style.display = 'none';
@@ -3478,8 +3478,13 @@ function applyFeedFilter(panelType, tag) {
         if (sentinel) sentinel.style.display = 'block';
         if (cloudActive) cloudActive.hidden = true;
         if (cloudClear) cloudClear.hidden = true;
-        if (window._loadMoreState) window._loadMoreState[listId] = 10;
+        
+        // Reset infinite scroll state for this list
+        if (window._loadMoreState) {
+            window._loadMoreState[listId] = 10;
+        }
     } else {
+        // Apply filter
         let count = 0;
         items.forEach(item => {
             try {
@@ -3503,9 +3508,14 @@ function applyFeedFilter(panelType, tag) {
         if (cloudClear) cloudClear.hidden = false;
     }
     
-    if (panelType === 'patents') initPatentCloud();
-    else initBlogCloud();
+    // Refresh the cloud to show active state
+    if (panelType === 'patents') {
+        initPatentCloud();
+    } else {
+        initBlogCloud();
+    }
     
+    // Re-check text overflow for filtered items
     setTimeout(checkTextOverflow, 100);
 }
 </script>
