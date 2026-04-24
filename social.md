@@ -347,8 +347,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                 </div>
             </div>
-            <!-- Douban Tab (Merged Books, Movies, Games) -->
             <div class="content-panel" id="douban-panel">
+                <div class="tag-cloud-wrap" style="margin-bottom: 24px; background: #f8f9fa; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
+                    <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Collection Themes</div>
+                        <button id="collection-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
+                    </div>
+                    <div id="collection-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
+                    <div id="collection-tag-cloud" class="tag-cloud-container" style="min-height: 120px; position: relative;">
+                        <!-- Word cloud will be rendered here via JS -->
+                    </div>
+                </div>
+
                 <div class="feed-list" id="douban-list">
                     <div style="padding: 24px; text-align: center; color: #536471;">Loading media journey...</div>
                 </div>
@@ -2666,8 +2676,9 @@ function loadDoubanContent() {
                     </a>`;
             }
 
+            const itemTags = (item.type === 'Book' ? (d.tags||[]) : (d.genres||[])) || [];
             return `
-                <div class="feed-item expandable-item" style="${idx >= 10 ? 'display:none' : ''}">
+                <div class="feed-item expandable-item" style="${idx >= 10 ? 'display:none' : ''}" data-tags='${JSON.stringify(itemTags).replace(/'/g, "&#39;")}'>
                     <div class="post-avatar">
                         <img src="/images/douban_avatar.jpg" alt="Stuart Lau" loading="lazy">
                     </div>
@@ -2685,6 +2696,29 @@ function loadDoubanContent() {
         list.querySelectorAll('.rating-stars').forEach(el => {
             el.innerHTML = renderStars(el.dataset.score);
         });
+        
+        // Generate Word Cloud Data
+        const tagCounts = {};
+        items.forEach(item => {
+            const d = item.data;
+            const tags = (item.type === 'Book' ? d.tags : d.genres) || [];
+            tags.forEach(t => {
+                if (t && t.trim()) {
+                    tagCounts[t] = (tagCounts[t] || 0) + 1;
+                }
+            });
+        });
+        
+        const cloudData = Object.keys(tagCounts).map(name => ({
+            name: name,
+            value: tagCounts[name]
+        })).sort((a, b) => b.value - a.value).slice(0, 30);
+        
+        window.__COLLECTION_POST_TAGS__ = items.map(item => {
+            return (item.type === 'Book' ? (item.data.tags || []) : (item.data.genres || []));
+        });
+        
+        initCollectionCloud(cloudData);
         reobserveLazyImages();
     } catch (e) {
         console.error('Error loading Douban data', e);
@@ -2874,18 +2908,19 @@ var _lastScrollY = 0;
 function closeLightbox(e) {
     if (e) {
         e.stopPropagation();
+        e.preventDefault();
     }
-    
-    if (_lightboxClosing) return;
     
     const lb = document.getElementById('lightbox');
     if (!lb || lb.style.display === 'none') return;
     
+    if (_lightboxClosing) return;
     _lightboxClosing = true;
     
     // Hide UI immediately
     lb.style.display = 'none';
     lb.classList.remove('loading');
+    lb.classList.remove('lightbox-switching');
     
     const lbImg = document.getElementById('lightbox-img');
     if (lbImg) {
@@ -2897,14 +2932,18 @@ function closeLightbox(e) {
     
     currentImages = [];
     
-    // Restore scroll for iOS/Mobile
+    // Restore scroll
     document.body.classList.remove('lightbox-open');
     document.body.style.top = '';
-    window.scrollTo(0, _lastScrollY);
+    document.body.style.overflow = '';
+    
+    if (typeof _lastScrollY !== 'undefined') {
+        window.scrollTo(0, _lastScrollY);
+    }
     
     setTimeout(function() {
         _lightboxClosing = false;
-    }, 100);
+    }, 200);
 }
 
 function openLightbox(src, galleryImages) {
@@ -3418,19 +3457,97 @@ function initBlogCloud() {
         .start();
 }
 
+function initCollectionCloud(externalData) {
+    const cloudEl = document.getElementById('collection-tag-cloud');
+    if (!cloudEl || !window.d3) return;
+    
+    const clearBtn = document.getElementById('collection-tag-cloud-clear');
+    if (clearBtn) {
+        clearBtn.onclick = () => applyFeedFilter('collections', null);
+    }
+
+    let data = [];
+    if (externalData) {
+        data = externalData;
+    } else {
+        const counts = {};
+        (window.__COLLECTION_POST_TAGS__ || []).forEach(tags => {
+            (tags || []).forEach(t => {
+                if (!t) return;
+                counts[t] = (counts[t] || 0) + 1;
+            });
+        });
+        data = Object.keys(counts).map(t => ({ text: t, size: counts[t] }));
+    }
+
+    if (data.length === 0) return;
+
+    const width = cloudEl.clientWidth || 600;
+    const height = 160;
+
+    const sizeScale = d3.scale.linear()
+        .domain([d3.min(data, d => d.size) || 1, d3.max(data, d => d.size) || 1])
+        .range([14, 34]);
+
+    const activeTag = window._activeCollectionTag;
+
+    d3.layout.cloud()
+        .size([width, height])
+        .words(data.map(d => ({ text: d.text, size: sizeScale(d.size) })))
+        .padding(5)
+        .rotate(0)
+        .font("Inter, system-ui, sans-serif")
+        .fontSize(d => d.size)
+        .on("end", words => {
+            const container = d3.select("#collection-tag-cloud");
+            container.selectAll("svg").remove();
+
+            container.append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(${width/2},${height/2})`)
+                .selectAll("text")
+                .data(words)
+                .enter().append("text")
+                .style("font-size", d => d.size + "px")
+                .style("font-family", "Inter")
+                .style("font-weight", d => d.text === activeTag ? "700" : "400")
+                .style("fill", (d, i) => {
+                    if (d.text === activeTag) return "#1d9bf0";
+                    const colors = ['#1d9bf0', '#16a34a', '#dc2626', '#ca8a04', '#9333ea', '#ea580c', '#0891b2', '#be185d', '#059669', '#7c3aed'];
+                    return colors[i % colors.length];
+                })
+                .style("cursor", "pointer")
+                .attr("text-anchor", "middle")
+                .attr("transform", d => `translate(${d.x},${d.y})rotate(${d.rotate})`)
+                .text(d => d.text)
+                .on("click", (d) => {
+                    applyFeedFilter('collections', d.text);
+                });
+        })
+        .start();
+}
+
 function applyFeedFilter(panelType, tag) {
-    const listId = panelType === 'patents' ? 'patents-list' : 'blogs-list';
+    let listId = '';
+    if (panelType === 'patents') listId = 'patents-list';
+    else if (panelType === 'blogs') listId = 'blogs-list';
+    else if (panelType === 'collections') listId = 'douban-list';
+
     const list = document.getElementById(listId);
+    const prefix = panelType === 'patents' ? 'patent' : (panelType === 'blogs' ? 'blog' : 'collection');
     const sentinel = document.getElementById(panelType + '-sentinel');
-    const cloudActive = document.getElementById(panelType + '-tag-cloud-active');
-    const cloudClear = document.getElementById(panelType + '-tag-cloud-clear');
+    const cloudActive = document.getElementById(prefix + '-tag-cloud-active');
+    const cloudClear = document.getElementById(prefix + '-tag-cloud-clear');
     
     // Toggle logic: if clicking the active tag, treat it as null (clear)
-    const currentActive = panelType === 'patents' ? window._activePatentTag : window._activeBlogTag;
+    const currentActive = panelType === 'patents' ? window._activePatentTag : (panelType === 'blogs' ? window._activeBlogTag : window._activeCollectionTag);
     if (tag === currentActive) tag = null;
 
     if (panelType === 'patents') window._activePatentTag = tag;
-    else window._activeBlogTag = tag;
+    else if (panelType === 'blogs') window._activeBlogTag = tag;
+    else if (panelType === 'collections') window._activeCollectionTag = tag;
 
     if (!list) return;
 
@@ -3478,8 +3595,11 @@ function applyFeedFilter(panelType, tag) {
     // Refresh the cloud to show active state
     if (panelType === 'patents') {
         initPatentCloud();
-    } else {
+    } else if (panelType === 'blogs') {
         initBlogCloud();
+    } else if (panelType === 'collections') {
+        window._activeCollectionTag = tag === window._activeCollectionTag ? null : tag;
+        initCollectionCloud();
     }
     
     // Re-check text overflow for filtered items
