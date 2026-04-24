@@ -326,9 +326,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
-                        <div class="post-owner-column" style="display: flex; flex-direction: column; gap: 2px;">
-                            <span class="post-author">@stuartlau</span>
-                            <span class="feed-meta" style="margin-left: 0;">{% if patent.tags contains '已授权' %}Granted: {% endif %}{{ patent.date | date: "%Y-%m-%d" | default: patent.date }}</span>
+                        <div class="post-owner-column" style="display: flex; flex-direction: column; gap: 4px;">
+                            <span class="post-author" style="font-weight: 700; color: #0f1419;">@stuartlau</span>
+                            <span class="feed-meta" style="margin-left: 0; font-size: 13px; color: #536471;">
+                                {% if patent.tags contains '已授权' %}
+                                    Application granted on {{ patent.date | date: "%Y-%m-%d" | default: patent.date }}
+                                {% else %}
+                                    Application filed on {{ patent.date | date: "%Y-%m-%d" | default: patent.date }}
+                                {% endif %}
+                            </span>
                         </div>
                         <div class="feed-content">
                             <a href="{{ patent.url }}" class="blog-preview-card">
