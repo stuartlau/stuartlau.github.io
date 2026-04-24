@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="post-owner-column" style="display: flex; flex-direction: column; gap: 4px;">
                             <span class="post-author" style="font-weight: 700; color: #0f1419;">@stuartlau</span>
-                            <span class="feed-meta" style="margin-left: 0; font-size: 13px; color: #536471; display: block; line-height: 1.4;">
+                            <span class="feed-meta js-no-relative" style="margin-left: 0; font-size: 13px; color: #536471; display: block; line-height: 1.4;">
                                 {% assign p_date = patent.date | date: '%Y-%m-%d' %}
                                 {% if p_date == blank %}
                                     {% assign p_path_parts = patent.path | split: '/' %}
@@ -336,9 +336,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                     {% assign p_date = p_filename | slice: 0, 10 %}
                                 {% endif %}
                                 {% if patent.tags contains '已授权' %}
-                                    Granted on {{ p_date }}
+                                    Application granted on {{ p_date }}
                                 {% else %}
-                                    Filed on {{ p_date }}
+                                    Application filed on {{ p_date }}
                                 {% endif %}
                             </span>
                         </div>
@@ -2256,7 +2256,7 @@ function getRelativeTime(timeStr) {
 // Apply relative time to all feed meta elements after page load
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
-        document.querySelectorAll('.feed-meta').forEach(el => {
+        document.querySelectorAll('.feed-meta:not(.js-no-relative)').forEach(el => {
             const originalTime = el.textContent.trim();
             if (originalTime.match(/\d{4}-\d{2}-\d{2}/)) {
                 const relativeTime = getRelativeTime(originalTime);
