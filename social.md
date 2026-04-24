@@ -163,17 +163,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 <span class="tab-text">Patents</span>
             </a>
-            <a href="#books" class="tab-item" data-tab="books">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-                <span class="tab-text">Books</span>
-            </a>
-            <a href="#movies" class="tab-item" data-tab="movies">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
-                <span class="tab-text">Movies</span>
-            </a>
-            <a href="#games" class="tab-item" data-tab="games">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
-                <span class="tab-text">Games</span>
+            <a href="#douban" class="tab-item" data-tab="douban">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/></svg>
+                <span class="tab-text">Douban</span>
             </a>
             <a href="#history" class="tab-item" data-tab="history" style="display:none;">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
@@ -303,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div id="life-travel-wrap" class="life-travel-wrap" style="padding: 16px;">
                     <div class="tag-cloud-wrap" style="margin-bottom: 24px; background: #f8f9fa; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
                         <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Foot Print</div>
+                            <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Footprints</div>
                             <button id="life-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                         </div>
                         <div id="life-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
@@ -354,147 +346,87 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     {% endfor %}
                 </div>
-                <div class="scroll-sentinel" id="patents-sentinel"></div>
-            </div>
-
-            <!-- Books Tab -->
-            <div class="content-panel" id="books-panel">
-                <div class="feed-list" id="books-list">
-                    {% assign books = site.data.books.all | sort: "read_date" | reverse %}
-                    {% for book in books %}
-                    <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
-                        <div class="post-avatar">
-                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
-                        </div>
-                        <div class="post-author-line">
-                            <span class="post-author">@stuartlau</span>
-                            <span class="feed-meta">{{ book.read_date }}</span>
-                        </div>
-                        <div class="feed-content">
-                            {% if book.my_comment %}
-                            <p class="feed-text" style="margin-bottom: 12px;">{{ book.my_comment }}</p>
-                            {% else %}
-                            <!-- Empty spacer if no comment -->
-                            <div style="height: 4px;"></div>
-                            {% endif %}
-
-                            <!-- Quote Card Style -->
-                            <a href="https://book.douban.com/subject/{{ book.book_id }}/" target="_blank" class="quote-card">
-                                {% if book.cover %}
-                                <div class="quote-media">
-                                    <div class="img-placeholder">
-                                        <div class="img-loading-spinner"></div>
-                                    </div>
-                                    <img data-src="{{ book.cover }}" alt="{{ book.title }}" class="quote-img lazy-img no-zoom">
-                                </div>
-                                {% endif %}
-                                <div class="quote-details">
-                                    <div class="quote-title">{{ book.title }}</div>
-                                    <div class="quote-subtitle">{{ book.author }} · {{ book.publisher }}</div>
-                                    <div class="quote-rating-row">
-                                        <span class="rating-stars" data-score="{% if book.my_rating %}{{ book.my_rating | times: 2 }}{% else %}{{ book.douban_rating }}{% endif %}"></span>
-                                        <span class="quote-score">{{ book.my_rating | default: book.douban_rating }}</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+                <div c            <!-- Douban Tab (Merged Books, Movies, Games) -->
+            <div class="content-panel" id="douban-panel">
+                <div class="feed-list" id="douban-list">
+                    {% assign douban_items = "" | split: "" %}
+                    
+                    {% for item in site.data.books.all %}
+                        {% assign wrapped = "" | hash %}
+                        {% assign wrapped = wrapped | add_hash: "date", item.read_date %}
+                        {% assign wrapped = wrapped | add_hash: "type", "Book" %}
+                        {% assign wrapped = wrapped | add_hash: "data", item %}
+                        {% assign douban_items = douban_items | push: wrapped %}
                     {% endfor %}
-                </div>
-                <div class="scroll-sentinel" id="books-sentinel"></div>
-            </div>
-
-            <!-- Movies Tab -->
-            <div class="content-panel" id="movies-panel">
-                <div class="feed-list" id="movies-list">
-                    {% assign movies = site.data.movies.all | sort: "watched_date" | reverse %}
-                    {% for movie in movies %}
-                    <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
-                        <div class="post-avatar">
-                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
-                        </div>
-                        <div class="post-author-line">
-                            <span class="post-author">@stuartlau</span>
-                            <span class="feed-meta">{{ movie.watched_date }}</span>
-                        </div>
-                        <div class="feed-content">
-                            {% if movie.my_comment %}
-                            <p class="feed-text" style="margin-bottom: 12px;">{{ movie.my_comment }}</p>
-                            {% else %}
-                            <div style="height: 4px;"></div>
-                            {% endif %}
-
-                            <a href="https://movie.douban.com/subject/{{ movie.movie_id }}/" target="_blank" class="quote-card">
-                                {% if movie.poster %}
-                                <div class="quote-media">
-                                    <div class="img-placeholder">
-                                        <div class="img-loading-spinner"></div>
-                                    </div>
-                                    <img data-src="{{ movie.poster }}" alt="{{ movie.title }}" class="quote-img lazy-img no-zoom">
-                                </div>
-                                {% endif %}
-                                <div class="quote-details">
-                                    <div class="quote-title">{{ movie.title }}</div>
-                                    <div class="quote-subtitle">{{ movie.directors | join: ", " }} · {{ movie.genres | join: "/" }}</div>
-                                    <div class="quote-rating-row">
-                                        <span class="rating-stars" data-score="{% if movie.my_rating %}{{ movie.my_rating | times: 2 }}{% else %}{{ movie.douban_rating }}{% endif %}"></span>
-                                        <span class="quote-score">{{ movie.my_rating | default: movie.douban_rating }}</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+                    
+                    {% for item in site.data.movies.all %}
+                        {% assign wrapped = "" | hash %}
+                        {% assign wrapped = wrapped | add_hash: "date", item.watched_date %}
+                        {% assign wrapped = wrapped | add_hash: "type", "Movie" %}
+                        {% assign wrapped = wrapped | add_hash: "data", item %}
+                        {% assign douban_items = douban_items | push: wrapped %}
                     {% endfor %}
-                </div>
-                <div class="scroll-sentinel" id="movies-sentinel"></div>
-            </div>
-
-            <!-- Games Tab -->
-            <div class="content-panel" id="games-panel">
-                <div class="feed-list" id="games-list">
-                    {% assign games = site.data.games.all | sort: "played_date" | reverse %}
-                    {% for game in games %}
+                    
+                    {% for item in site.data.games.all %}
+                        {% assign wrapped = "" | hash %}
+                        {% assign wrapped = wrapped | add_hash: "date", item.played_date %}
+                        {% assign wrapped = wrapped | add_hash: "type", "Game" %}
+                        {% assign wrapped = wrapped | add_hash: "data", item %}
+                        {% assign douban_items = douban_items | push: wrapped %}
+                    {% endfor %}
+                    
+                    {% assign sorted_items = douban_items | sort: "date" | reverse %}
+                    
+                    {% for wrapped in sorted_items %}
+                    {% assign item = wrapped.data %}
                     <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="post-author-line">
                             <span class="post-author">@stuartlau</span>
-                            <span class="feed-meta">{{ game.played_date }}</span>
+                            <span class="feed-meta">{{ wrapped.date }} · {{ wrapped.type }}</span>
                         </div>
                         <div class="feed-content">
-                            {% if game.my_comment %}
-                            <p class="feed-text" style="margin-bottom: 12px;">{{ game.my_comment }}</p>
+                            {% if item.my_comment %}
+                            <p class="feed-text" style="margin-bottom: 12px;">{{ item.my_comment }}</p>
                             {% else %}
                             <div style="height: 4px;"></div>
                             {% endif %}
                             
-                            <a href="{{ game.douban_url }}" target="_blank" class="quote-card">
-                                {% if game.cover %}
-                                <div class="quote-media">
-                                    <div class="img-placeholder">
-                                        <div class="img-loading-spinner"></div>
+                            {% if wrapped.type == "Book" %}
+                                <a href="https://book.douban.com/subject/{{ item.book_id }}/" target="_blank" class="quote-card">
+                                    {% if item.cover %}<div class="quote-media"><img data-src="{{ item.cover }}" class="quote-img lazy-img no-zoom"></div>{% endif %}
+                                    <div class="quote-details">
+                                        <div class="quote-title">{{ item.title }}</div>
+                                        <div class="quote-subtitle">{{ item.author }}</div>
+                                        <div class="quote-rating-row"><span class="rating-stars" data-score="{{ item.my_rating | default: item.douban_rating | times: 2 }}"></span></div>
                                     </div>
-                                    <img data-src="{{ game.cover }}" alt="{{ game.title }}" class="quote-img lazy-img no-zoom">
-                                </div>
-                                {% endif %}
-                                <div class="quote-details">
-                                    <div class="quote-title">{{ game.title }}</div>
-                                    <div class="quote-subtitle">{{ game.platforms | join: "/" }} · {{ game.genres | join: "/" }}</div>
-                                    {% if game.developer %}
-                                    <div class="quote-subtitle" style="margin-top: 4px;">🎮 {{ game.developer }}</div>
-                                    {% endif %}
-                                    <div class="quote-rating-row">
-                                        <span class="rating-stars" data-score="{% if game.my_rating %}{{ game.my_rating | times: 2 }}{% else %}{{ game.douban_rating }}{% endif %}"></span>
-                                        <span class="quote-score">{{ game.my_rating | default: game.douban_rating }}</span>
+                                </a>
+                            {% elsif wrapped.type == "Movie" %}
+                                <a href="https://movie.douban.com/subject/{{ item.movie_id }}/" target="_blank" class="quote-card">
+                                    {% if item.poster %}<div class="quote-media"><img data-src="{{ item.poster }}" class="quote-img lazy-img no-zoom"></div>{% endif %}
+                                    <div class="quote-details">
+                                        <div class="quote-title">{{ item.title }}</div>
+                                        <div class="quote-subtitle">{{ item.directors | join: ", " }}</div>
+                                        <div class="quote-rating-row"><span class="rating-stars" data-score="{{ item.my_rating | default: item.douban_rating | times: 2 }}"></span></div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
+                            {% elsif wrapped.type == "Game" %}
+                                <a href="{{ item.douban_url }}" target="_blank" class="quote-card">
+                                    {% if item.cover %}<div class="quote-media"><img data-src="{{ item.cover }}" class="quote-img lazy-img no-zoom"></div>{% endif %}
+                                    <div class="quote-details">
+                                        <div class="quote-title">{{ item.title }}</div>
+                                        <div class="quote-subtitle">{{ item.platforms | join: "/" }}</div>
+                                        <div class="quote-rating-row"><span class="rating-stars" data-score="{{ item.my_rating | default: item.douban_rating | times: 2 }}"></span></div>
+                                    </div>
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-                <div class="scroll-sentinel" id="games-sentinel"></div>
+                <div class="scroll-sentinel" id="douban-sentinel"></div>
             </div>
 
             <!-- On This Day Tab -->
@@ -2789,7 +2721,7 @@ function initInfiniteScroll() {
         return;
     }
 
-    const panels = ['posts', 'blogs', 'patents', 'books', 'movies', 'games'];
+    const panels = ['posts', 'blogs', 'patents', 'douban'];
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
