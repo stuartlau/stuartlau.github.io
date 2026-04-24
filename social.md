@@ -326,9 +326,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
-                        <div class="post-author-line">
+                        <div class="post-owner-column" style="display: flex; flex-direction: column; gap: 2px;">
                             <span class="post-author">@stuartlau</span>
-                            <span class="feed-meta">{% if patent.tags contains '已授权' %}Granted: {% endif %}{{ patent.date | date: "%Y-%m-%d" }}</span>
+                            <span class="feed-meta" style="margin-left: 0;">{% if patent.tags contains '已授权' %}Granted: {% endif %}{{ patent.date | date: "%Y-%m-%d" | default: patent.date }}</span>
                         </div>
                         <div class="feed-content">
                             <a href="{{ patent.url }}" class="blog-preview-card">
@@ -2712,7 +2712,7 @@ function loadDoubanContent() {
         const cloudData = Object.keys(tagCounts).map(name => ({
             name: name,
             value: tagCounts[name]
-        })).sort((a, b) => b.value - a.value).slice(0, 30);
+        })).sort((a, b) => b.value - a.value);
         
         window.__COLLECTION_POST_TAGS__ = items.map(item => {
             return (item.type === 'Book' ? (item.data.tags || []) : (item.data.genres || []));
@@ -3396,7 +3396,7 @@ function initBlogCloud() {
 
     const sizeScale = d3.scale.linear()
         .domain([d3.min(data, d => d.size) || 1, d3.max(data, d => d.size) || 1])
-        .range([14, 40]);
+        .range([10, 32]);
 
     const activeTag = window._activeBlogTag;
 
@@ -3468,7 +3468,7 @@ function initCollectionCloud(externalData) {
 
     const sizeScale = d3.scale.linear()
         .domain([d3.min(data, d => d.size) || 1, d3.max(data, d => d.size) || 1])
-        .range([14, 34]);
+        .range([10, 28]);
 
     const activeTag = window._activeCollectionTag;
 
