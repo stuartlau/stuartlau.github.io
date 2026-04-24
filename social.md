@@ -155,17 +155,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
                 <span class="tab-text">Articles</span>
             </a>
-            <a href="#travel" class="tab-item" data-tab="travel">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.08 16.19 7 11.88 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
-                <span class="tab-text">Travel</span>
-            </a>
             <a href="#patents" class="tab-item" data-tab="patents">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 <span class="tab-text">Patents</span>
             </a>
             <a href="#douban" class="tab-item" data-tab="douban">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/></svg>
-                <span class="tab-text">Douban</span>
+                <span class="tab-text">Collections</span>
+            </a>
+            <a href="#travel" class="tab-item" data-tab="travel">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.08 16.19 7 11.88 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                <span class="tab-text">Travel</span>
             </a>
             <a href="#history" class="tab-item" data-tab="history" style="display:none;">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="post-author-line">
                             <span class="post-author">@stuartlau</span>
-                            <span class="feed-meta">{{ patent.date | date: "%Y-%m-%d" }}</span>
+                            <span class="feed-meta">{% if patent.tags contains '已授权' %}Granted: {% endif %}{{ patent.date | date: "%Y-%m-%d" }}</span>
                         </div>
                         <div class="feed-content">
                             <a href="{{ patent.url }}" class="blog-preview-card">
@@ -1584,11 +1584,18 @@ body.lightbox-open {
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     cursor: default;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transform: scale(0.98);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #lightbox-img.loaded {
     opacity: 1;
+    transform: scale(1);
+}
+
+.lightbox-switching #lightbox-img {
+    opacity: 0;
+    transform: scale(0.96);
 }
 
 .lightbox-close {
@@ -2804,26 +2811,25 @@ function updateLightboxImage() {
     // Show loading state
     lbImg.classList.remove('loaded');
     lb.classList.add('loading');
+    lb.classList.add('lightbox-switching');
     
     // Set up load handlers
     lbImg.onload = function() {
         lbImg.classList.add('loaded');
         lb.classList.remove('loading');
+        lb.classList.remove('lightbox-switching');
     };
     
     lbImg.onerror = function() {
         lb.classList.remove('loading');
-        closeLightbox(); // Close on error
+        lb.classList.remove('lightbox-switching');
+        closeLightbox(); 
     };
     
-    // Set timeout for slow loading
+    // Set src after a tiny delay to ensure opacity transition starts
     setTimeout(() => {
-        if (!lbImg.classList.contains('loaded') && lb.style.display === 'flex') {
-            lb.classList.remove('loading'); // Remove spinner after 5s anyway
-        }
-    }, 5000);
-    
-    lbImg.src = currentImages[currentImageIndex];
+        lbImg.src = currentImages[currentImageIndex];
+    }, 50);
     
     const prevBtn = document.getElementById('lightbox-prev');
     const nextBtn = document.getElementById('lightbox-next');
