@@ -328,11 +328,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="post-owner-column" style="display: flex; flex-direction: column; gap: 4px;">
                             <span class="post-author" style="font-weight: 700; color: #0f1419;">@stuartlau</span>
-                            <span class="feed-meta" style="margin-left: 0; font-size: 13px; color: #536471;">
+                            <span class="feed-meta" style="margin-left: 0; font-size: 13px; color: #536471; display: block; line-height: 1.4;">
+                                {% assign p_date = patent.date | date: '%Y-%m-%d' %}
+                                {% if p_date == blank %}
+                                    {% assign p_path_parts = patent.path | split: '/' %}
+                                    {% assign p_filename = p_path_parts | last %}
+                                    {% assign p_date = p_filename | slice: 0, 10 %}
+                                {% endif %}
                                 {% if patent.tags contains '已授权' %}
-                                    Application granted on {{ patent.date | date: "%Y-%m-%d" | default: patent.date }}
+                                    Granted on {{ p_date }}
                                 {% else %}
-                                    Application filed on {{ patent.date | date: "%Y-%m-%d" | default: patent.date }}
+                                    Filed on {{ p_date }}
                                 {% endif %}
                             </span>
                         </div>
@@ -2965,8 +2971,9 @@ function openLightbox(src, galleryImages) {
 }
 
 function handleLightboxInteraction(e) {
-    const isNav = e.target.closest('.lightbox-nav');
-    if (isNav) return; // Nav handles its own
+    if (e.target.id === 'lightbox-img' || e.target.closest('.lightbox-nav') || e.target.id === 'lightbox-counter') {
+        return;
+    }
     closeLightbox(e);
 }
 
