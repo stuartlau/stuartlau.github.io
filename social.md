@@ -242,7 +242,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="tag-cloud-wrap" style="margin: 16px; background: #fff; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
                     <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Article Topics</div>
+                        <button id="blog-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                     </div>
+                    <div id="blog-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
                     <div id="blog-tag-cloud" class="tag-cloud" style="width: 100%; height: 200px; overflow: hidden;"></div>
                 </div>
 
@@ -252,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.__BLOG_POST_TAGS__ = [{% for p in posts %}{{ p.tags | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}];
                     </script>
                     {% for post in posts %}
-                    <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                    <div class="feed-item expandable-item" data-tags="{{ post.tags | jsonify | escape }}" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
@@ -301,7 +303,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="tag-cloud-wrap" style="margin: 16px; background: #fff; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
                     <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Patent Topics</div>
+                        <button id="patent-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                     </div>
+                    <div id="patent-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
                     <div id="patent-tag-cloud" class="tag-cloud" style="width: 100%; height: 200px; overflow: hidden;"></div>
                 </div>
 
@@ -311,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.__PATENT_POST_TAGS__ = [{% for p in patents %}{{ p.tags | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}];
                     </script>
                     {% for patent in patents %}
-                    <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
+                    <div class="feed-item expandable-item" data-tags="{{ patent.tags | jsonify | escape }}" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
@@ -3310,10 +3314,13 @@ function initTravelComponent() {
 }
 
 function initPatentCloud() {
-    if (window._patentCloudInitialized) return;
     const cloudEl = document.getElementById('patent-tag-cloud');
     if (!cloudEl || !window.d3) return;
-    window._patentCloudInitialized = true;
+    
+    const clearBtn = document.getElementById('patent-tag-cloud-clear');
+    if (clearBtn) {
+        clearBtn.onclick = () => applyFeedFilter('patents', null);
+    }
 
     const counts = {};
     (window.__PATENT_POST_TAGS__ || []).forEach(tags => {
@@ -3328,8 +3335,10 @@ function initPatentCloud() {
     const height = 200;
 
     const sizeScale = d3.scale.linear()
-        .domain([d3.min(data, d => d.size), d3.max(data, d => d.size)])
+        .domain([d3.min(data, d => d.size) || 1, d3.max(data, d => d.size) || 1])
         .range([12, 36]);
+
+    const activeTag = window._activePatentTag;
 
     d3.layout.cloud()
         .size([width, height])
@@ -3339,7 +3348,10 @@ function initPatentCloud() {
         .font("Inter, system-ui, sans-serif")
         .fontSize(d => d.size)
         .on("end", words => {
-            d3.select("#patent-tag-cloud").append("svg")
+            const container = d3.select("#patent-tag-cloud");
+            container.selectAll("svg").remove();
+            
+            container.append("svg")
                 .attr("width", width)
                 .attr("height", height)
                 .append("g")
@@ -3349,22 +3361,31 @@ function initPatentCloud() {
                 .enter().append("text")
                 .style("font-size", d => d.size + "px")
                 .style("font-family", "Inter")
+                .style("font-weight", d => d.text === activeTag ? "700" : "400")
                 .style("fill", (d, i) => {
+                    if (d.text === activeTag) return "#1d9bf0";
                     const colors = ['#1d9bf0', '#16a34a', '#dc2626', '#ca8a04', '#9333ea', '#ea580c', '#0891b2', '#be185d', '#059669', '#7c3aed'];
                     return colors[i % colors.length];
                 })
+                .style("cursor", "pointer")
                 .attr("text-anchor", "middle")
                 .attr("transform", d => `translate(${d.x},${d.y})rotate(${d.rotate})`)
-                .text(d => d.text);
+                .text(d => d.text)
+                .on("click", (d) => {
+                    applyFeedFilter('patents', d.text);
+                });
         })
         .start();
 }
 
 function initBlogCloud() {
-    if (window._blogCloudInitialized) return;
     const cloudEl = document.getElementById('blog-tag-cloud');
     if (!cloudEl || !window.d3) return;
-    window._blogCloudInitialized = true;
+    
+    const clearBtn = document.getElementById('blog-tag-cloud-clear');
+    if (clearBtn) {
+        clearBtn.onclick = () => applyFeedFilter('blogs', null);
+    }
 
     const counts = {};
     (window.__BLOG_POST_TAGS__ || []).forEach(tags => {
@@ -3382,6 +3403,8 @@ function initBlogCloud() {
         .domain([d3.min(data, d => d.size) || 1, d3.max(data, d => d.size) || 1])
         .range([14, 40]);
 
+    const activeTag = window._activeBlogTag;
+
     d3.layout.cloud()
         .size([width, height])
         .words(data.map(d => ({ text: d.text, size: sizeScale(d.size) })))
@@ -3390,7 +3413,10 @@ function initBlogCloud() {
         .font("Inter, system-ui, sans-serif")
         .fontSize(d => d.size)
         .on("end", words => {
-            d3.select("#blog-tag-cloud").append("svg")
+            const container = d3.select("#blog-tag-cloud");
+            container.selectAll("svg").remove();
+
+            container.append("svg")
                 .attr("width", width)
                 .attr("height", height)
                 .append("g")
@@ -3400,14 +3426,73 @@ function initBlogCloud() {
                 .enter().append("text")
                 .style("font-size", d => d.size + "px")
                 .style("font-family", "Inter")
+                .style("font-weight", d => d.text === activeTag ? "700" : "400")
                 .style("fill", (d, i) => {
+                    if (d.text === activeTag) return "#1d9bf0";
                     const colors = ['#1d9bf0', '#16a34a', '#dc2626', '#ca8a04', '#9333ea', '#ea580c', '#0891b2', '#be185d', '#059669', '#7c3aed'];
                     return colors[i % colors.length];
                 })
+                .style("cursor", "pointer")
                 .attr("text-anchor", "middle")
                 .attr("transform", d => `translate(${d.x},${d.y})rotate(${d.rotate})`)
-                .text(d => d.text);
+                .text(d => d.text)
+                .on("click", (d) => {
+                    applyFeedFilter('blogs', d.text);
+                });
         })
         .start();
+}
+
+function applyFeedFilter(panelType, tag) {
+    const listId = panelType === 'patents' ? 'patents-list' : 'blogs-list';
+    const list = document.getElementById(listId);
+    const sentinel = document.getElementById(panelType + '-sentinel');
+    const cloudActive = document.getElementById(panelType + '-tag-cloud-active');
+    const cloudClear = document.getElementById(panelType + '-tag-cloud-clear');
+    
+    if (panelType === 'patents') window._activePatentTag = tag;
+    else window._activeBlogTag = tag;
+
+    if (!list) return;
+
+    const items = list.querySelectorAll('.feed-item');
+    
+    if (!tag) {
+        items.forEach((item, idx) => {
+            if (idx < 10) item.style.display = 'flex';
+            else item.style.display = 'none';
+        });
+        if (sentinel) sentinel.style.display = 'block';
+        if (cloudActive) cloudActive.hidden = true;
+        if (cloudClear) cloudClear.hidden = true;
+        if (window._loadMoreState) window._loadMoreState[listId] = 10;
+    } else {
+        let count = 0;
+        items.forEach(item => {
+            try {
+                const tagsStr = item.dataset.tags || '[]';
+                const tags = JSON.parse(tagsStr.replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+                if (tags.includes(tag)) {
+                    item.style.display = 'flex';
+                    count++;
+                } else {
+                    item.style.display = 'none';
+                }
+            } catch (e) {
+                console.error('Error parsing tags', e);
+            }
+        });
+        if (sentinel) sentinel.style.display = 'none';
+        if (cloudActive) {
+            cloudActive.hidden = false;
+            cloudActive.textContent = `Showing: ${tag} (${count})`;
+        }
+        if (cloudClear) cloudClear.hidden = false;
+    }
+    
+    if (panelType === 'patents') initPatentCloud();
+    else initBlogCloud();
+    
+    setTimeout(checkTextOverflow, 100);
 }
 </script>
