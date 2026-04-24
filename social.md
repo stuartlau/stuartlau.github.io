@@ -346,87 +346,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     {% endfor %}
                 </div>
-                <div c            <!-- Douban Tab (Merged Books, Movies, Games) -->
+            </div>
+            <!-- Douban Tab (Merged Books, Movies, Games) -->
             <div class="content-panel" id="douban-panel">
                 <div class="feed-list" id="douban-list">
-                    {% assign douban_items = "" | split: "" %}
-                    
-                    {% for item in site.data.books.all %}
-                        {% assign wrapped = "" | hash %}
-                        {% assign wrapped = wrapped | add_hash: "date", item.read_date %}
-                        {% assign wrapped = wrapped | add_hash: "type", "Book" %}
-                        {% assign wrapped = wrapped | add_hash: "data", item %}
-                        {% assign douban_items = douban_items | push: wrapped %}
-                    {% endfor %}
-                    
-                    {% for item in site.data.movies.all %}
-                        {% assign wrapped = "" | hash %}
-                        {% assign wrapped = wrapped | add_hash: "date", item.watched_date %}
-                        {% assign wrapped = wrapped | add_hash: "type", "Movie" %}
-                        {% assign wrapped = wrapped | add_hash: "data", item %}
-                        {% assign douban_items = douban_items | push: wrapped %}
-                    {% endfor %}
-                    
-                    {% for item in site.data.games.all %}
-                        {% assign wrapped = "" | hash %}
-                        {% assign wrapped = wrapped | add_hash: "date", item.played_date %}
-                        {% assign wrapped = wrapped | add_hash: "type", "Game" %}
-                        {% assign wrapped = wrapped | add_hash: "data", item %}
-                        {% assign douban_items = douban_items | push: wrapped %}
-                    {% endfor %}
-                    
-                    {% assign sorted_items = douban_items | sort: "date" | reverse %}
-                    
-                    {% for wrapped in sorted_items %}
-                    {% assign item = wrapped.data %}
-                    <div class="feed-item expandable-item" {% if forloop.index > 10 %}style="display:none"{% endif %}>
-                        <div class="post-avatar">
-                            <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
-                        </div>
-                        <div class="post-author-line">
-                            <span class="post-author">@stuartlau</span>
-                            <span class="feed-meta">{{ wrapped.date }} · {{ wrapped.type }}</span>
-                        </div>
-                        <div class="feed-content">
-                            {% if item.my_comment %}
-                            <p class="feed-text" style="margin-bottom: 12px;">{{ item.my_comment }}</p>
-                            {% else %}
-                            <div style="height: 4px;"></div>
-                            {% endif %}
-                            
-                            {% if wrapped.type == "Book" %}
-                                <a href="https://book.douban.com/subject/{{ item.book_id }}/" target="_blank" class="quote-card">
-                                    {% if item.cover %}<div class="quote-media"><img data-src="{{ item.cover }}" class="quote-img lazy-img no-zoom"></div>{% endif %}
-                                    <div class="quote-details">
-                                        <div class="quote-title">{{ item.title }}</div>
-                                        <div class="quote-subtitle">{{ item.author }}</div>
-                                        <div class="quote-rating-row"><span class="rating-stars" data-score="{{ item.my_rating | default: item.douban_rating | times: 2 }}"></span></div>
-                                    </div>
-                                </a>
-                            {% elsif wrapped.type == "Movie" %}
-                                <a href="https://movie.douban.com/subject/{{ item.movie_id }}/" target="_blank" class="quote-card">
-                                    {% if item.poster %}<div class="quote-media"><img data-src="{{ item.poster }}" class="quote-img lazy-img no-zoom"></div>{% endif %}
-                                    <div class="quote-details">
-                                        <div class="quote-title">{{ item.title }}</div>
-                                        <div class="quote-subtitle">{{ item.directors | join: ", " }}</div>
-                                        <div class="quote-rating-row"><span class="rating-stars" data-score="{{ item.my_rating | default: item.douban_rating | times: 2 }}"></span></div>
-                                    </div>
-                                </a>
-                            {% elsif wrapped.type == "Game" %}
-                                <a href="{{ item.douban_url }}" target="_blank" class="quote-card">
-                                    {% if item.cover %}<div class="quote-media"><img data-src="{{ item.cover }}" class="quote-img lazy-img no-zoom"></div>{% endif %}
-                                    <div class="quote-details">
-                                        <div class="quote-title">{{ item.title }}</div>
-                                        <div class="quote-subtitle">{{ item.platforms | join: "/" }}</div>
-                                        <div class="quote-rating-row"><span class="rating-stars" data-score="{{ item.my_rating | default: item.douban_rating | times: 2 }}"></span></div>
-                                    </div>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endfor %}
+                    <div style="padding: 24px; text-align: center; color: #536471;">Loading media journey...</div>
                 </div>
                 <div class="scroll-sentinel" id="douban-sentinel"></div>
+                
+                {% assign douban_books = site.data.books.all | jsonify %}
+                {% assign douban_movies = site.data.movies.all | jsonify %}
+                {% assign douban_games = site.data.games.all | jsonify %}
+                <script id="douban-data-books" type="application/json">{{ douban_books }}</script>
+                <script id="douban-data-movies" type="application/json">{{ douban_movies }}</script>
+                <script id="douban-data-games" type="application/json">{{ douban_games }}</script>
             </div>
 
             <!-- On This Day Tab -->
@@ -2315,6 +2248,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize infinite scroll
     initInfiniteScroll();
 
+    // Load Douban content
+    loadDoubanContent();
+
     // Check text overflow on initial load
     setTimeout(checkTextOverflow, 800);
 });
@@ -2484,9 +2420,12 @@ document.addEventListener('DOMContentLoaded', function() {
 // Check for text overflow and add Expand/Collapse button
 function checkTextOverflow() {
     document.querySelectorAll('.feed-text:not([data-expand-init])').forEach(el => {
-        // Only process visible items (roughly)
-        const panel = el.closest('.content-panel');
-        if (panel && !panel.classList.contains('active')) return;
+        // Check character length first (threshold: 150)
+        const charCount = el.textContent.trim().length;
+        if (charCount < 150) {
+             el.dataset.expandInit = 'true';
+             return;
+        }
 
         // Clone to calculate actual height
         const clone = el.cloneNode(true);
@@ -2500,7 +2439,7 @@ function checkTextOverflow() {
         
         const fullHeight = clone.offsetHeight;
         const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
-        const maxHeight = lineHeight * 6.1; // Allow a tiny bit of buffer
+        const maxHeight = lineHeight * 6.5; 
         
         document.body.removeChild(clone);
 
@@ -2656,6 +2595,96 @@ function loadHistoryToday() {
         }
     }
 }
+
+function loadDoubanContent() {
+    const list = document.getElementById('douban-list');
+    if (!list) return;
+
+    try {
+        const booksData = document.getElementById('douban-data-books');
+        const moviesData = document.getElementById('douban-data-movies');
+        const gamesData = document.getElementById('douban-data-games');
+
+        if (!booksData || !moviesData || !gamesData) return;
+
+        const books = JSON.parse(booksData.textContent || '[]');
+        const movies = JSON.parse(moviesData.textContent || '[]');
+        const games = JSON.parse(gamesData.textContent || '[]');
+
+        let items = [];
+        books.forEach(b => items.push({ date: b.read_date, type: 'Book', data: b }));
+        movies.forEach(m => items.push({ date: m.watched_date, type: 'Movie', data: m }));
+        games.forEach(g => items.push({ date: g.played_date, type: 'Game', data: g }));
+
+        items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+        if (items.length === 0) {
+            list.innerHTML = '<div style="padding:40px; text-align:center; color:#536471;">No media records found.</div>';
+            return;
+        }
+
+        list.innerHTML = items.map((item, idx) => {
+            const d = item.data;
+            let quoteHtml = '';
+            
+            if (item.type === 'Book') {
+                quoteHtml = `
+                    <a href="https://book.douban.com/subject/${d.book_id}/" target="_blank" class="quote-card">
+                        ${d.cover ? `<div class="quote-media"><img data-src="${d.cover}" class="quote-img lazy-img no-zoom"></div>` : ''}
+                        <div class="quote-details">
+                            <div class="quote-title">${d.title}</div>
+                            <div class="quote-subtitle">${d.author || ''}</div>
+                            <div class="quote-rating-row"><span class="rating-stars" data-score="${(d.my_rating || d.douban_rating || 0) * 2}"></span></div>
+                        </div>
+                    </a>`;
+            } else if (item.type === 'Movie') {
+                quoteHtml = `
+                    <a href="https://movie.douban.com/subject/${d.movie_id}/" target="_blank" class="quote-card">
+                        ${d.poster ? `<div class="quote-media"><img data-src="${d.poster}" class="quote-img lazy-img no-zoom"></div>` : ''}
+                        <div class="quote-details">
+                            <div class="quote-title">${d.title}</div>
+                            <div class="quote-subtitle">${(d.directors || []).join(', ')}</div>
+                            <div class="quote-rating-row"><span class="rating-stars" data-score="${(d.my_rating || d.douban_rating || 0) * 2}"></span></div>
+                        </div>
+                    </a>`;
+            } else {
+                quoteHtml = `
+                    <a href="${d.douban_url}" target="_blank" class="quote-card">
+                        ${d.cover ? `<div class="quote-media"><img data-src="${d.cover}" class="quote-img lazy-img no-zoom"></div>` : ''}
+                        <div class="quote-details">
+                            <div class="quote-title">${d.title}</div>
+                            <div class="quote-subtitle">${(d.platforms || []).join('/')}</div>
+                            <div class="quote-rating-row"><span class="rating-stars" data-score="${(d.my_rating || d.douban_rating || 0) * 2}"></span></div>
+                        </div>
+                    </a>`;
+            }
+
+            return `
+                <div class="feed-item expandable-item" style="${idx >= 10 ? 'display:none' : ''}">
+                    <div class="post-avatar">
+                        <img src="/images/douban_avatar.jpg" alt="Stuart Lau" loading="lazy">
+                    </div>
+                    <div class="post-author-line">
+                        <span class="post-author">@stuartlau</span>
+                        <span class="feed-meta">${item.date || ''} · ${item.type}</span>
+                    </div>
+                    <div class="feed-content">
+                        ${d.my_comment ? `<p class="feed-text" style="margin-bottom:12px;">${d.my_comment}</p>` : '<div style="height:4px;"></div>'}
+                        ${quoteHtml}
+                    </div>
+                </div>`;
+        }).join('');
+
+        list.querySelectorAll('.rating-stars').forEach(el => {
+            el.innerHTML = renderStars(el.dataset.score);
+        });
+        reobserveLazyImages();
+    } catch (e) {
+        console.error('Error loading Douban data', e);
+        list.innerHTML = '<div style="padding:40px; text-align:center; color:red;">Failed to load media journey.</div>';
+    }
+}
+
 
 let loadMoreState = {};
 
