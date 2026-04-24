@@ -148,23 +148,23 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- Tab Navigation -->
         <div class="content-tabs">
             <a href="#posts" class="tab-item active" data-tab="posts">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/></svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/></svg>
                 <span class="tab-text">Posts</span>
             </a>
             <a href="#blogs" class="tab-item" data-tab="blogs">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
                 <span class="tab-text">Articles</span>
             </a>
             <a href="#patents" class="tab-item" data-tab="patents">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 <span class="tab-text">Patents</span>
             </a>
             <a href="#douban" class="tab-item" data-tab="douban">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/></svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/></svg>
                 <span class="tab-text">Collections</span>
             </a>
             <a href="#travel" class="tab-item" data-tab="travel">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.08 16.19 7 11.88 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.08 16.19 7 11.88 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
                 <span class="tab-text">Travel</span>
             </a>
             <a href="#history" class="tab-item" data-tab="history" style="display:none;">
@@ -2688,7 +2688,7 @@ function loadDoubanContent() {
                     </a>`;
             }
 
-            const itemTags = (item.type === 'Book' ? (d.tags||[]) : (d.genres||[])) || [];
+            const itemTags = (item.type === 'Book' ? (d.tags && d.tags.length > 0 ? d.tags : [d.author, d.publisher].filter(Boolean)) : (d.genres || [])) || [];
             return `
                 <div class="feed-item expandable-item" style="${idx >= 10 ? 'display:none' : ''}" data-tags='${JSON.stringify(itemTags).replace(/'/g, "&#39;")}'>
                     <div class="post-avatar">
@@ -2713,7 +2713,7 @@ function loadDoubanContent() {
         const tagCounts = {};
         items.forEach(item => {
             const d = item.data;
-            const tags = (item.type === 'Book' ? d.tags : d.genres) || [];
+            const tags = (item.type === 'Book' ? (d.tags && d.tags.length > 0 ? d.tags : [d.author, d.publisher].filter(Boolean)) : (d.genres || [])) || [];
             tags.forEach(t => {
                 if (t && t.trim()) {
                     tagCounts[t] = (tagCounts[t] || 0) + 1;
@@ -2721,16 +2721,17 @@ function loadDoubanContent() {
             });
         });
         
-        const cloudData = Object.keys(tagCounts).map(name => ({
-            name: name,
-            value: tagCounts[name]
-        })).sort((a, b) => b.value - a.value);
+        const cloudDataArr = Object.keys(tagCounts).map(name => ({
+            text: name,
+            size: tagCounts[name]
+        })).sort((a, b) => b.size - a.size);
         
         window.__COLLECTION_POST_TAGS__ = items.map(item => {
-            return (item.type === 'Book' ? (item.data.tags || []) : (item.data.genres || []));
+            const d = item.data;
+            return (item.type === 'Book' ? (d.tags && d.tags.length > 0 ? d.tags : [d.author, d.publisher].filter(Boolean)) : (d.genres || []));
         });
         
-        initCollectionCloud(cloudData);
+        initCollectionCloud(cloudDataArr);
         reobserveLazyImages();
     } catch (e) {
         console.error('Error loading Douban data', e);
@@ -2758,34 +2759,51 @@ function loadMore(listId) {
 
     setTimeout(() => {
         const hiddenItems = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none');
-        const toLoad = Math.min(hiddenItems.length, 10);
+        
+        // Find active tags for filtering
+        const panelType = listId === 'patents-list' ? 'patents' : (listId === 'blogs-list' ? 'blogs' : 'collections');
+        const activeTag = panelType === 'patents' ? window._activePatentTag : (panelType === 'blogs' ? window._activeBlogTag : window._activeCollectionTag);
 
-        if (toLoad === 0) {
-            state.ended = true;
-            if (sentinel) {
-                sentinel.classList.remove('loading');
-                sentinel.classList.add('end');
+        let shownCount = 0;
+        let processedCount = 0;
+        const batchSize = 10;
+        
+        // Always process at least N items, only showing those that match the tag
+        for (let i = 0; i < hiddenItems.length && shownCount < batchSize; i++) {
+            const item = hiddenItems[i];
+            processedCount++;
+            
+            if (activeTag) {
+                try {
+                    const tagsStr = item.dataset.tags || '[]';
+                    const tags = JSON.parse(tagsStr.replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+                    if (tags.includes(activeTag)) {
+                        item.style.display = '';
+                        shownCount++;
+                    }
+                } catch(e) {
+                    // Fallback for parsing errors
+                }
+            } else {
+                item.style.display = '';
+                shownCount++;
             }
-            return;
         }
 
-        for (let i = 0; i < toLoad; i++) {
-            hiddenItems[i].style.display = '';
-        }
-
-        state.loaded += toLoad;
+        state.loaded += processedCount;
         state.loading = false;
-        state.ended = hiddenItems.length <= 10;
-
+        state.ended = (processedCount >= hiddenItems.length);
+        
         if (sentinel) {
             sentinel.classList.remove('loading');
-            if (state.ended) {
-                sentinel.classList.add('end');
-            }
+            if (state.ended) sentinel.classList.add('end');
         }
 
-        // Trigger lazy loading for newly visible images
-        reobserveLazyImages();
+        // Re-check text overflow and lazy images for newly shown items
+        setTimeout(() => {
+            checkTextOverflow();
+            reobserveLazyImages();
+        }, 100);
         
         // Trigger text overflow check
         setTimeout(checkTextOverflow, 100);
@@ -2929,6 +2947,7 @@ function closeLightbox(e) {
     if (_lightboxClosing) return;
     _lightboxClosing = true;
     
+    // Instant hide for background feel
     lb.style.display = 'none';
     lb.classList.remove('loading', 'lightbox-switching');
     
@@ -2941,6 +2960,7 @@ function closeLightbox(e) {
     
     currentImages = [];
     document.body.classList.remove('lightbox-open');
+    document.body.style.overflow = '';
     
     setTimeout(() => { _lightboxClosing = false; }, 200);
 }
