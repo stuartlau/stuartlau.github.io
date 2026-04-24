@@ -1534,9 +1534,7 @@ input:focus {
 
 /* Prevent scroll when lightbox open on mobile/iOS */
 body.lightbox-open {
-    position: fixed;
-    width: 100%;
-    overflow: hidden;
+    overflow: hidden !important;
 }
 
 /* Lightbox - Non-fullscreen popup style */
@@ -2114,6 +2112,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(initPatentCloud, 100);
             } else if (targetTab === 'blogs') {
                 setTimeout(initBlogCloud, 100);
+            } else if (targetTab === 'douban') {
+                setTimeout(initCollectionCloud, 100);
             }
             
             // Check text overflow for the newly active tab
@@ -2917,42 +2917,26 @@ function closeLightbox(e) {
     if (_lightboxClosing) return;
     _lightboxClosing = true;
     
-    // Hide UI immediately
     lb.style.display = 'none';
-    lb.classList.remove('loading');
-    lb.classList.remove('lightbox-switching');
+    lb.classList.remove('loading', 'lightbox-switching');
     
     const lbImg = document.getElementById('lightbox-img');
     if (lbImg) {
-        lbImg.onload = null;
-        lbImg.onerror = null;
+        lbImg.onload = lbImg.onerror = null;
         lbImg.classList.remove('loaded');
         lbImg.src = '';
     }
     
     currentImages = [];
-    
-    // Restore scroll
     document.body.classList.remove('lightbox-open');
-    document.body.style.top = '';
-    document.body.style.overflow = '';
     
-    if (typeof _lastScrollY !== 'undefined') {
-        window.scrollTo(0, _lastScrollY);
-    }
-    
-    setTimeout(function() {
-        _lightboxClosing = false;
-    }, 200);
+    setTimeout(() => { _lightboxClosing = false; }, 200);
 }
 
 function openLightbox(src, galleryImages) {
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
-    
     if (!lb || !lbImg) return;
-    
-    _lastScrollY = window.scrollY;
     
     if (src) {
         if (galleryImages && galleryImages.length > 0) {
@@ -2967,12 +2951,8 @@ function openLightbox(src, galleryImages) {
             currentImageIndex = 0;
         }
         
-        // Update UI
         updateLightboxImage();
-        
-        // Show and Lock
         lb.style.display = 'flex';
-        document.body.style.top = `-${_lastScrollY}px`;
         document.body.classList.add('lightbox-open');
         _lightboxClosing = false;
     }
@@ -3007,6 +2987,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (prevBtn) prevBtn.addEventListener('click', (e) => prevLightboxImage(e));
     if (nextBtn) nextBtn.addEventListener('click', (e) => nextLightboxImage(e));
     if (closeBtn) closeBtn.addEventListener('click', (e) => closeLightbox(e));
+    let touchStartX = 0;
     let touchEndX = 0;
     if (lb) {
         lb.addEventListener('touchstart', function(e) {
