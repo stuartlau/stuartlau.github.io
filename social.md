@@ -1686,20 +1686,16 @@ body.lightbox-open {
 
 @media (max-width: 768px) {
     .lightbox-content {
-        max-width: 100%;
-        max-height: 100%;
-        width: 100vw;
-        height: 100vh;
+        max-width: 95%;
+        max-height: 90%;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #000;
-        border-radius: 0;
     }
     
     #lightbox-img {
         max-width: 100%;
-        max-height: 100%;
+        max-height: 85vh;
         width: auto;
         height: auto;
         border-radius: 0;
@@ -3001,29 +2997,41 @@ document.addEventListener('DOMContentLoaded', function() {
         if (label) label.textContent = mm + '/' + dd;
     } catch(e) {}
 
+    // --- Lightbox: Direct event handlers (no bubbling) ---
     const lb = document.getElementById('lightbox');
-    if (lb) {
-        lb.addEventListener('click', handleLightboxInteraction);
-    }
-    
-    // Wire up navigation buttons
+    const backdrop = document.getElementById('lb-backdrop');
+    const lbImg = document.getElementById('lightbox-img');
     const prevBtn = document.getElementById('lightbox-prev');
     const nextBtn = document.getElementById('lightbox-next');
     const closeBtn = document.getElementById('lb-close');
     
-    if (prevBtn) prevBtn.addEventListener('click', (e) => prevLightboxImage(e));
-    if (nextBtn) nextBtn.addEventListener('click', (e) => nextLightboxImage(e));
-    if (closeBtn) closeBtn.addEventListener('click', (e) => closeLightbox(e));
+    // Click backdrop → close
+    if (backdrop) backdrop.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
+    
+    // Click image → close
+    if (lbImg) lbImg.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
+    
+    // Click close button → close
+    if (closeBtn) closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
+    
+    // Click prev/next → navigate (stopPropagation to prevent close)
+    if (prevBtn) prevBtn.addEventListener('click', function(e) { e.stopPropagation(); prevLightboxImage(); });
+    if (nextBtn) nextBtn.addEventListener('click', function(e) { e.stopPropagation(); nextLightboxImage(); });
+    
+    // Click anywhere else on lightbox container → close
+    if (lb) lb.addEventListener('click', function() { closeLightbox(); });
+    
+    // Touch swipe support for mobile
     let touchStartX = 0;
-    let touchEndX = 0;
     if (lb) {
         lb.addEventListener('touchstart', function(e) {
             touchStartX = e.changedTouches[0].screenX;
         }, {passive: true});
         lb.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchEndX < touchStartX - 50) nextLightboxImage();
-            if (touchEndX > touchStartX + 50) prevLightboxImage();
+            const touchEndX = e.changedTouches[0].screenX;
+            const diff = touchEndX - touchStartX;
+            if (diff < -50) nextLightboxImage();
+            else if (diff > 50) prevLightboxImage();
         }, {passive: true});
     }
 });
