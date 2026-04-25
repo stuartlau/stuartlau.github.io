@@ -288,7 +288,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </a>
                         </div>
-                        </div>
                     </div>
                     {% endfor %}
                 </div>
@@ -372,7 +371,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </a>
                         </div>
-                        </div>
                     </div>
                     {% endfor %}
                 </div>
@@ -388,10 +386,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
 
                     <div class="journey-timeline">
-                        {% assign milestone_years = "" | split: "," %}
                         {% assign patent_milestones = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | where_exp: "p", "p.tags != nil" | where_exp: "p", "p.tags contains '已授权'" %}
-                        {% assign tech_milestones = site.posts | where_exp: "p", "p.tags != nil" | where_exp: "p", "p.tags contains 'Featured' or p.tags contains 'Architecture'" %}
-                        {% assign all_milestones = patent_milestones | concat: tech_milestones | sort: "date" | reverse %}
+                        
+                        {% assign tech_all = site.posts | where_exp: "p", "p.tags != nil" %}
+                        {% assign tech_f = tech_all | where_exp: "p", "p.tags contains 'Featured'" %}
+                        {% assign tech_a = tech_all | where_exp: "p", "p.tags contains 'Architecture'" %}
+                        {% assign tech_milestones = tech_f | concat: tech_a | uniq %}
+                        
+                        {% assign all_milestones = patent_milestones | concat: tech_milestones %}
+                        {% if all_milestones.size > 0 %}
+                            {% assign all_milestones = all_milestones | sort: "date" | reverse %}
+                        {% else %}
+                            {% assign all_milestones = "" | split: "," %}
+                        {% endif %}
 
                         {% assign current_year = "" %}
                         {% for item in all_milestones limit: 40 %}

@@ -102,12 +102,13 @@ graph TD
 
 ### 基本访问语法
 
+{% raw %}
 ```liquid
 {# 访问全部电影 #}
 {% assign movies = site.data.movies.all %}
 
 {# 按年份访问豆瓣广播 #}
-{% assign posts = site.data.douban.2026 %}
+{% assign posts = site.data.douban["2026"] %}
 
 {# 访问数组元素 #}
 {{ site.data.books.all[0].title }}
@@ -115,9 +116,11 @@ graph TD
 {# 条件过滤 #}
 {% assign rated_books = site.data.books.all | where: "my_rating", "5" %}
 ```
+{% endraw %}
 
 ### 复杂查询示例
 
+{% raw %}
 ```liquid
 {# 筛选评分大于4的图书 #}
 {% assign high_rated = site.data.books.all | 
@@ -142,6 +145,7 @@ graph TD
 {% endfor %}
 {% assign avg_rating = avg_rating | divided_by: total_count %}
 ```
+{% endraw %}
 
 ### 自定义数据访问
 
@@ -354,9 +358,11 @@ module DataLoader
   end
 end
 
+{% raw %}
 # 使用
 # {% assign movies = DataLoader.load_data("_data/movies/all.json") %}
 ```
+{% endraw %}
 
 ### 索引文件优化
 
