@@ -277,8 +277,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="blog-preview-excerpt">
                                         {{ post.subtitle | default: post.description | default: plain_content | truncate: 160 }}
                                     </div>
+                                    {% assign words = post.content | strip_html | size %}
+                                    {% assign read_time = words | divided_by: 300 | plus: 1 %}
                                     <div class="blog-preview-footer">
-                                        <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style="margin-right:4px; vertical-align:middle;"><path d="M11.96 14.945c-.067 0-.136-.01-.203-.027-1.13-.318-2.097-.986-2.795-1.932-.832-1.125-1.176-2.508-.968-3.893s.933-2.605 2.04-3.438c.114-.083.27-.06.353.055.082.115.06.27-.055.353-1.007.756-1.635 1.83-1.808 3.033-.19 1.258.122 2.515.877 3.535.634.86 1.513 1.468 2.474 1.74a.25.25 0 0 1-.063.494z"/><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/></svg>
+                                        {{ post.date | date: "%B %d, %Y" }} · {{ read_time }} min read
                                     </div>
                                 </div>
                             </a>
@@ -354,8 +356,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="blog-preview-excerpt">
                                         {{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | first }}
                                     </div>
+                                    {% assign p_words = patent.content | strip_html | size %}
+                                    {% assign p_read_time = p_words | divided_by: 300 | plus: 1 %}
                                     <div class="blog-preview-footer">
-                                        Google Patents / WIPO Reference
+                                        {{ patent.date | date: "%B %d, %Y" }} · {{ p_read_time }} min read
                                     </div>
                                 </div>
                             </a>
@@ -2916,14 +2920,7 @@ function loadDoubanContent() {
                         ${d.my_comment ? `<p class="feed-text" style="margin-bottom:12px;">${d.my_comment}</p>` : '<div style="height:4px;"></div>'}
                         ${quoteHtml}
                     </div>
-                    <div class="post-actions" style="padding-left:50px;">
-                        <button class="action-btn share-btn" onclick="openShareModal(this.closest('.feed-item'))">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>
-                            </svg>
-                            <span class="action-count">生成海报</span>
-                        </button>
-                    </div>
+                    <div style="height:8px;"></div>
                 </div>`;
         }).join('');
 
