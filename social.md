@@ -2862,6 +2862,8 @@ function updateLightboxImage() {
     
     // Set up load handlers
     lbImg.onload = function() {
+        // Clear any leftover inline styles so CSS classes work properly
+        lbImg.style.cssText = '';
         lbImg.classList.add('loaded');
         lb.classList.remove('loading');
         lb.classList.remove('lightbox-switching');
@@ -2926,23 +2928,22 @@ function closeLightbox(e) {
     const lb = document.getElementById('lightbox');
     if (!lb) return;
     
-    // Force-hide immediately, no transition
+    // Force-hide immediately
     lb.style.display = 'none';
     lb.classList.remove('loading', 'lightbox-switching');
     
     const lbImg = document.getElementById('lightbox-img');
     if (lbImg) {
-        lbImg.style.transition = 'none';
-        lbImg.style.opacity = '0';
         lbImg.onload = lbImg.onerror = null;
         lbImg.classList.remove('loaded');
+        // Clear inline styles — let CSS base state (opacity:0) take over naturally
+        lbImg.style.cssText = '';
         lbImg.src = '';
-        requestAnimationFrame(() => { lbImg.style.transition = ''; });
     }
     
     currentImages = [];
     
-    // Force-restore body scroll with every possible cleanup
+    // Force-restore body scroll
     document.body.classList.remove('lightbox-open');
     document.body.style.overflow = '';
     document.body.style.position = '';
@@ -2986,10 +2987,13 @@ function openLightbox(src, galleryImages) {
 }
 
 function handleLightboxInteraction(e) {
-    // Only close if clicking backdrop or the lightbox container itself
-    if (e.target.id === 'lightbox-img' || 
-        e.target.closest('.lightbox-content') || 
-        e.target.closest('.lightbox-nav')) {
+    // Block clicks only on specific interactive elements; everything else closes
+    const t = e.target;
+    if (t.id === 'lightbox-img' ||
+        t.id === 'lb-close' ||
+        t.id === 'lightbox-prev' ||
+        t.id === 'lightbox-next' ||
+        t.id === 'lightbox-counter') {
         return;
     }
     closeLightbox(e);
