@@ -167,6 +167,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.08 16.19 7 11.88 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
                 <span class="tab-text">Travel</span>
             </a>
+            <a href="#achievements" class="tab-item" data-tab="achievements">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18 2H6a2 2 0 0 0-2 2v2c0 3.11 2.33 5.67 5.31 6.13a6.002 6.002 0 0 0 5.38 0c2.98-.46 5.31-3.02 5.31-6.13V4a2 2 0 0 0-2-2zm-1 4c0 2.21-1.79 4-4 4s-4-1.79-4-4V4h8v2z"/><path d="M12 14a7 7 0 0 0-7 7 1 1 0 0 0 1 1h12a1 1 0 0 0 1-1 7 7 0 0 0-7-7z"/></svg>
+                <span class="tab-text">Achievements</span>
+            </a>
             <a href="#history" class="tab-item" data-tab="history" style="display:none;">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
                 <span class="tab-text" id="otd-tab-label">04/23</span>
@@ -273,6 +277,15 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span class="feed-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
                         </div>
                         <div class="feed-content">
+                            <div class="ai-summary-box">
+                                <div class="ai-summary-head">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="url(#ai-gradient)"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>
+                                    <span>AI Insights</span>
+                                </div>
+                                <div class="ai-summary-content">
+                                    {{ post.subtitle | default: post.description | default: plain_content | truncate: 120 }}
+                                </div>
+                            </div>
                             <a href="{{ post.url }}" class="blog-preview-card">
                                 <div class="blog-preview-body">
                                     <div class="blog-preview-title">{{ post.title }}</div>
@@ -354,6 +367,19 @@ document.addEventListener('DOMContentLoaded', function() {
                             </span>
                         </div>
                         <div class="feed-content">
+                            <div class="ai-summary-box">
+                                <div class="ai-summary-head">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="url(#ai-gradient)"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>
+                                    <span>AI Innovation Insight</span>
+                                </div>
+                                <div class="ai-summary-content">
+                                    {% if patent.tags contains '已授权' %}
+                                    这项专利已成功获得授权。其核心创新点在于：{{ patent.title | split: "-" | last | truncate: 80 }}。这标志着在该技术领域的关键研究突破。
+                                    {% else %}
+                                    该专利申请正处于实质审查阶段。其提出的核心方案旨在解决：{{ patent.title | split: "-" | last | truncate: 80 }} 相关工业挑战。
+                                    {% endif %}
+                                </div>
+                            </div>
                             <a href="{{ patent.url }}" class="blog-preview-card">
                                 <div class="blog-preview-body">
                                     <div class="blog-preview-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</div>
@@ -379,6 +405,44 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endfor %}
                 </div>
             </div>
+
+            <!-- Achievements Tab -->
+            <div class="content-panel" id="achievements-panel">
+                <div class="timeline-container">
+                    <div class="timeline-header">
+                        <h2>Personal Milestones</h2>
+                        <p>A collection of patent grants, technical breakthroughs, and global footprints.</p>
+                    </div>
+                    <div class="timeline-line">
+                        {% assign milestones = "" | split: "," %}
+                        
+                        {% comment %} Mix Patents and Blog posts for timeline {% endcomment %}
+                        {% assign patent_milestones = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | where: "tags", "已授权" %}
+                        {% assign tech_milestones = site.posts | where_exp: "p", "p.tags contains 'Featured' or p.tags contains 'Architecture'" %}
+                        
+                        {% assign all_milestones = patent_milestones | concat: tech_milestones | sort: "date" | reverse %}
+                        
+                        {% for item in all_milestones limit: 30 %}
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">{{ item.date | date: "%Y %b" }}</div>
+                            <div class="timeline-content">
+                                <div class="timeline-type">
+                                    {% if item.path contains 'patent' %}
+                                    <span class="badge patent-badge">Patent Granted</span>
+                                    {% else %}
+                                    <span class="badge tech-badge">Technical Post</span>
+                                    {% endif %}
+                                </div>
+                                <h3 class="timeline-title">{{ item.title | remove: "授权专利-" | remove: "待授权专利-" }}</h3>
+                                <p class="timeline-desc">{{ item.description | default: item.subtitle | truncate: 100 }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
             <div class="content-panel" id="douban-panel">
                 <div class="tag-cloud-wrap" style="margin-bottom: 24px; background: #f8f9fa; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
                     <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -2169,6 +2233,147 @@ body.lightbox-open {
         white-space: nowrap;
     }
 }
+
+/* AI Summary Box */
+.ai-summary-box {
+    background: linear-gradient(135deg, rgba(29, 155, 240, 0.03) 0%, rgba(147, 51, 234, 0.03) 100%);
+    border: 1px solid rgba(29, 155, 240, 0.1);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-summary-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 2px; height: 100%;
+    background: linear-gradient(to bottom, #1d9bf0, #9333ea);
+}
+
+.ai-summary-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    color: #1d9bf0;
+}
+
+.ai-summary-content {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #333;
+    font-style: italic;
+}
+
+[data-theme="dark"] .ai-summary-content { color: #ccc; }
+
+/* SVG Gradient Definition (Invisible) */
+.svg-defs { width: 0; height: 0; position: absolute; }
+
+/* Timeline Styles */
+.timeline-container {
+    padding: 24px 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.timeline-header h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+.timeline-header p { color: #536471; font-size: 14px; }
+
+.timeline-line {
+    position: relative;
+    padding-left: 30px;
+    border-left: 2px solid #eff3f4;
+}
+
+[data-theme="dark"] .timeline-line { border-left-color: #2f3336; }
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+    animation: fadeIn 0.5s ease backwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -37px;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #1d9bf0;
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(29,155,240,0.3);
+}
+
+[data-theme="dark"] .timeline-dot { border-color: #000; }
+
+.timeline-date {
+    font-size: 13px;
+    font-weight: 700;
+    color: #536471;
+    margin-bottom: 8px;
+}
+
+.timeline-content {
+    background: #f7f9f9;
+    border-radius: 16px;
+    padding: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+[data-theme="dark"] .timeline-content { background: #15181c; }
+
+.timeline-content:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.patent-badge { background: #e1f5fe; color: #0288d1; }
+.tech-badge { background: #e8f5e9; color: #2e7d32; }
+
+.timeline-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #0f1419;
+}
+
+[data-theme="dark"] .timeline-title { color: #fff; }
+
+.timeline-desc {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #536471;
+    margin: 0;
+}
+
 
 /* Share Card Modal Styles */
 .share-modal {
