@@ -196,7 +196,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="post-author-line">
-                            <span class="post-author">@stuartlau</span>
                             <span class="feed-meta">{{ item.time }}</span>
                         </div>
                         <div class="feed-content">
@@ -228,6 +227,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </svg>
                                     <span class="action-count" id="like-count-{{ post_id }}">点赞</span>
                                 </button>
+                                <button class="action-btn share-btn" onclick="openShareModal('douban-{{ post_id }}')">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>
+                                    </svg>
+                                    <span class="action-count">分享</span>
+                                </button>
                             </div>
                             
                             <!-- Giscus Comments Container (hidden by default) -->
@@ -251,8 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Article Topics</div>
                         <button id="blog-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                     </div>
-                    <div id="blog-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
-                    <div id="blog-tag-cloud" class="tag-cloud" style="width: 100%; height: 200px; overflow: hidden;"></div>
+                    <div id="blog-tag-cloud" class="tag-cloud" style="width: 100%; height: 260px; overflow: hidden;"></div>
                 </div>
 
                 <div class="blogs-column" id="blogs-list">
@@ -266,7 +270,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="post-author-line">
-                            <span class="post-author">@stuartlau</span>
                             <span class="feed-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
                         </div>
                         <div class="feed-content">
@@ -283,6 +286,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                 </div>
                             </a>
+                            </a>
+                            <div class="post-actions" style="border-top:none; margin-top:0; padding-top:4px;">
+                                <button class="action-btn share-btn" onclick="openShareModal(this.closest('.feed-item'))">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>
+                                    </svg>
+                                    <span class="action-count">生成海报</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
@@ -313,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <button id="patent-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                     </div>
                     <div id="patent-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
-                    <div id="patent-tag-cloud" class="tag-cloud" style="width: 100%; height: 200px; overflow: hidden;"></div>
+                    <div id="patent-tag-cloud" class="tag-cloud" style="width: 100%; height: 260px; overflow: hidden;"></div>
                 </div>
 
                 <div class="feed-list" id="patents-list">
@@ -327,7 +339,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="post-owner-column" style="display: flex; flex-direction: column; gap: 4px;">
-                            <span class="post-author" style="font-weight: 700; color: #0f1419;">@stuartlau</span>
                             <span class="feed-meta js-no-relative" style="margin-left: 0; font-size: 13px; color: #536471; display: block; line-height: 1.4;">
                                 {% assign p_date = patent.date | date: '%Y-%m-%d' %}
                                 {% if p_date == blank %}
@@ -354,6 +365,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                 </div>
                             </a>
+                            </a>
+                            <div class="post-actions" style="border-top:none; margin-top:0; padding-top:4px;">
+                                <button class="action-btn share-btn" onclick="openShareModal(this.closest('.feed-item'))">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>
+                                    </svg>
+                                    <span class="action-count">生成海报</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
@@ -441,7 +461,49 @@ document.addEventListener('DOMContentLoaded', function() {
     <button id="lightbox-next" class="lightbox-nav">›</button>
 </div>
 
-<!-- Mobile Back to Top Button -->
+</div>
+
+<!-- Share Card Modal -->
+<div id="share-modal" class="share-modal">
+    <div class="share-modal-container">
+        <img id="share-image-preview" src="" alt="Share Preview">
+        <div class="share-modal-btns">
+            <button class="share-action-btn close-share-btn" onclick="closeShareModal()">取消</button>
+            <button class="share-action-btn save-btn" onclick="saveShareImage()">保存海报</button>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden Card Template for Generation -->
+<div id="share-card-template">
+    <div class="card-header">
+        <img src="/images/douban_avatar.jpg" class="card-avatar">
+        <div class="card-user-info">
+            <span class="card-name">Stuart Lau</span>
+            <span class="card-handle">@stuartlau</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <p class="card-text"></p>
+        <div class="card-media"></div>
+        <div class="card-quote-wrap">
+            <img src="" class="card-quote-img">
+            <div class="card-quote-details">
+                <div class="card-quote-title"></div>
+                <div class="card-quote-subtitle"></div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="card-meta">
+            <span class="card-date"></span>
+            <span class="card-brand">stuartlau.github.io</span>
+        </div>
+        <div class="card-qr-wrap">
+            <div id="card-qr-canvas"></div>
+        </div>
+    </div>
+</div>
 <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="18 15 12 9 6 15"></polyline>
@@ -1592,7 +1654,7 @@ body.lightbox-open {
     position: relative;
     max-width: 85%;
     max-height: 85%;
-    cursor: default; /* Prevent close when clicking content */
+    cursor: zoom-out; /* iOS click fix */
 }
 
 #lightbox-img {
@@ -1637,8 +1699,9 @@ body.lightbox-open {
     z-index: 10002;
 }
 
-.lightbox-close:hover {
+.lightbox-close:hover, .lightbox-close:active {
     background: #fff;
+    color: #333;
 }
 
 .lightbox-nav {
@@ -1661,8 +1724,9 @@ body.lightbox-open {
     z-index: 10002;
 }
 
-.lightbox-nav:hover {
+.lightbox-nav:hover, .lightbox-nav:active {
     background: #fff;
+    color: #333;
 }
 
 #lightbox-prev {
@@ -1711,6 +1775,17 @@ body.lightbox-open {
         background: rgba(0,0,0,0.4);
         color: #fff;
         border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    @media (hover: none) {
+        .lightbox-nav:hover {
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+        }
+    }
+    .lightbox-nav:active, .lightbox-close:active {
+        background: rgba(255,255,255,0.8);
+        color: #333;
     }
     
     #lightbox-prev {
@@ -2094,8 +2169,130 @@ body.lightbox-open {
         white-space: nowrap;
     }
 }
+
+/* Share Card Modal Styles */
+.share-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 11000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px);
+}
+
+.share-modal.active { display: flex; }
+
+.share-modal-container {
+    width: 90%;
+    max-width: 480px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: modalSlideUp 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@keyframes modalSlideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+#share-image-preview {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    background: #fff;
+    margin-bottom: 24px;
+}
+
+.share-modal-btns {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+}
+
+.share-action-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 50px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.save-btn { background: #1d9bf0; color: #fff; }
+.save-btn:hover { background: #1a8cd8; }
+.close-share-btn { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+.close-share-btn:hover { background: rgba(255,255,255,0.2); }
+
+/* Hidden Card Template */
+#share-card-template {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    width: 600px;
+    background: #fff;
+    padding: 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    color: #1a1a1a;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.card-avatar { width: 64px; height: 64px; border-radius: 50%; border: 2px solid #eff3f4; }
+.card-user-info { display: flex; flex-direction: column; }
+.card-name { font-size: 20px; font-weight: 800; }
+.card-handle { font-size: 15px; color: #536471; }
+
+.card-body { flex: 1; margin-bottom: 40px; }
+.card-text { font-size: 24px; line-height: 1.5; font-weight: 400; margin-bottom: 24px; word-break: break-word; }
+.card-media { margin-bottom: 24px; border-radius: 16px; overflow: hidden; max-height: 400px; border: 1px solid #eff3f4; }
+.card-media img { width: 100%; height: auto; display: block; }
+
+.card-quote-wrap {
+    border: 1px solid #eff3f4;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    background: #f7f9f9;
+}
+.card-quote-img { width: 80px; height: 110px; border-radius: 8px; object-fit: cover; }
+.card-quote-details { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.card-quote-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.card-quote-subtitle { font-size: 14px; color: #536471; }
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    border-top: 1px solid #eff3f4;
+}
+.card-meta { display: flex; flex-direction: column; gap: 4px; }
+.card-date { font-size: 14px; color: #536471; }
+.card-brand { font-size: 16px; font-weight: 700; color: #1d9bf0; }
+.card-qr-wrap { text-align: center; }
+#card-qr-canvas { width: 80px; height: 80px; }
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const tabItems = document.querySelectorAll('.tab-item');
@@ -2490,6 +2687,127 @@ function checkTextOverflow() {
     });
 }
 
+// --- Share Card Logic ---
+function openShareModal(target) {
+    const modal = document.getElementById('share-modal');
+    const preview = document.getElementById('share-image-preview');
+    const container = document.getElementById('share-card-template');
+    
+    // Clear previous
+    preview.src = '';
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Extract content
+    let feedItem = (typeof target === 'string') 
+        ? document.querySelector(`[data-post-id="${target}"]`)
+        : target;
+    
+    if (!feedItem) return;
+
+    const name = "Stuart Lau";
+    const handle = "@stuartlau";
+    const date = feedItem.querySelector('.feed-meta').getAttribute('title') || feedItem.querySelector('.feed-meta').textContent;
+    const text = feedItem.querySelector('.feed-text') ? feedItem.querySelector('.feed-text').textContent : '';
+    
+    // Handle Images
+    const imgGrid = feedItem.querySelector('.social-image-grid');
+    let firstImg = '';
+    if (imgGrid) {
+        const firstImgEl = imgGrid.querySelector('img');
+        if (firstImgEl) firstImg = firstImgEl.dataset.src || firstImgEl.src;
+    }
+
+    // Handle Quote (Book/Movie)
+    const quoteCard = feedItem.querySelector('.quote-card');
+    let quoteData = null;
+    if (quoteCard) {
+        quoteData = {
+            title: quoteCard.querySelector('.quote-title') ? quoteCard.querySelector('.quote-title').textContent : '',
+            subtitle: quoteCard.querySelector('.quote-subtitle') ? quoteCard.querySelector('.quote-subtitle').textContent : '',
+            img: quoteCard.querySelector('.quote-img') ? (quoteCard.querySelector('.quote-img').dataset.src || quoteCard.querySelector('.quote-img').src) : ''
+        };
+    } else {
+        // Blog/Patent Preview Card
+        const blogCard = feedItem.querySelector('.blog-preview-card');
+        if (blogCard) {
+            quoteData = {
+                title: blogCard.querySelector('.blog-preview-title').textContent,
+                subtitle: blogCard.querySelector('.blog-preview-excerpt').textContent,
+                img: ''
+            };
+        }
+    }
+
+    // Populate Template
+    container.querySelector('.card-date').textContent = date;
+    container.querySelector('.card-text').textContent = text;
+    
+    const mediaContainer = container.querySelector('.card-media');
+    if (firstImg) {
+        mediaContainer.style.display = 'block';
+        mediaContainer.innerHTML = `<img src="${firstImg}" crossorigin="anonymous">`;
+    } else {
+        mediaContainer.style.display = 'none';
+    }
+
+    const quoteWrap = container.querySelector('.card-quote-wrap');
+    if (quoteData) {
+        quoteWrap.style.display = 'flex';
+        quoteWrap.querySelector('.card-quote-title').textContent = quoteData.title;
+        quoteWrap.querySelector('.card-quote-subtitle').textContent = quoteData.subtitle;
+        if (quoteData.img) {
+            quoteWrap.querySelector('.card-quote-img').style.display = 'block';
+            quoteWrap.querySelector('.card-quote-img').src = quoteData.img;
+        } else {
+            quoteWrap.querySelector('.card-quote-img').style.display = 'none';
+        }
+    } else {
+        quoteWrap.style.display = 'none';
+    }
+
+    // Generate QR Code
+    const qrWrap = document.getElementById('card-qr-canvas');
+    qrWrap.innerHTML = '';
+    new QRCode(qrWrap, {
+        text: window.location.origin + window.location.pathname + "#" + (feedItem.dataset.postId || ""),
+        width: 80,
+        height: 80,
+        colorDark: "#1a1a1a",
+        colorLight: "#ffffff"
+    });
+
+    // Capture (wait for layout & image load)
+    setTimeout(() => {
+        html2canvas(container, {
+            useCORS: true,
+            scale: 2, // Retina quality
+            backgroundColor: '#ffffff'
+        }).then(canvas => {
+            preview.src = canvas.toDataURL('image/png');
+        });
+    }, 500);
+}
+
+function closeShareModal() {
+    const modal = document.getElementById('share-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function saveShareImage() {
+    const preview = document.getElementById('share-image-preview');
+    if (!preview.src) return;
+    
+    const link = document.createElement('a');
+    link.download = `stuartlau-share-${Date.now()}.png`;
+    link.href = preview.src;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+
 // Load history on this day from Douban posts
 function loadHistoryToday() {
     const today = new Date();
@@ -2702,6 +3020,14 @@ function loadDoubanContent() {
                     <div class="feed-content">
                         ${d.my_comment ? `<p class="feed-text" style="margin-bottom:12px;">${d.my_comment}</p>` : '<div style="height:4px;"></div>'}
                         ${quoteHtml}
+                    </div>
+                    <div class="post-actions" style="padding-left:50px;">
+                        <button class="action-btn share-btn" onclick="openShareModal(this.closest('.feed-item'))">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>
+                            </svg>
+                            <span class="action-count">生成海报</span>
+                        </button>
                     </div>
                 </div>`;
         }).join('');
@@ -3372,11 +3698,11 @@ function initPatentCloud() {
 
     const data = Object.keys(counts).map(t => ({ text: t, size: counts[t] }));
     const width = cloudEl.clientWidth || 600;
-    const height = 200;
+    const height = 260;
 
     const sizeScale = d3.scale.linear()
         .domain([d3.min(data, d => d.size) || 1, d3.max(data, d => d.size) || 1])
-        .range([12, 36]);
+        .range([12, 52]);
 
     const activeTag = window._activePatentTag;
 
@@ -3437,11 +3763,11 @@ function initBlogCloud() {
 
     const data = Object.keys(counts).map(t => ({ text: t, size: counts[t] }));
     const width = cloudEl.clientWidth || 600;
-    const height = 200;
+    const height = 260;
 
     const sizeScale = d3.scale.linear()
         .domain([d3.min(data, d => d.size) || 1, d3.max(data, d => d.size) || 1])
-        .range([10, 32]);
+        .range([12, 52]);
 
     const activeTag = window._activeBlogTag;
 
