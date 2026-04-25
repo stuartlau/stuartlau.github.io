@@ -144,15 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
 
-        <svg class="svg-defs">
-            <defs>
-                <linearGradient id="ai-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#1d9bf0;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#9333ea;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-        </svg>
-
         <!-- Tab Navigation -->
         <div class="content-tabs">
             <a href="#posts" class="tab-item active" data-tab="posts">
@@ -266,15 +257,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span class="feed-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
                         </div>
                         <div class="feed-content">
-                            <div class="ai-summary-box">
-                                <div class="ai-summary-head">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="url(#ai-gradient)"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>
-                                    <span>AI Insights</span>
-                                </div>
-                                <div class="ai-summary-content">
-                                    {{ post.subtitle | default: post.description | default: plain_content | truncate: 120 }}
-                                </div>
-                            </div>
                             <a href="{{ post.url }}" class="blog-preview-card">
                                 <div class="blog-preview-body">
                                     <div class="blog-preview-title">{{ post.title }}</div>
@@ -346,19 +328,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             </span>
                         </div>
                         <div class="feed-content">
-                            <div class="ai-summary-box">
-                                <div class="ai-summary-head">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="url(#ai-gradient)"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>
-                                    <span>AI Innovation Insight</span>
-                                </div>
-                                <div class="ai-summary-content">
-                                    {% if patent.tags contains '已授权' %}
-                                    这项专利已成功获得授权。其核心创新点在于：{{ patent.title | split: "-" | last | truncate: 80 }}。这标志着在该技术领域的关键研究突破。
-                                    {% else %}
-                                    该专利申请正处于实质审查阶段。其提出的核心方案旨在解决：{{ patent.title | split: "-" | last | truncate: 80 }} 相关工业挑战。
-                                    {% endif %}
-                                </div>
-                            </div>
                             <a href="{{ patent.url }}" class="blog-preview-card">
                                 <div class="blog-preview-body">
                                     <div class="blog-preview-title">{{ patent.title | remove: "授权专利-" | remove: "待授权专利-" | remove: "Granted Patent-" | remove: "Patent Application-" | split: "-" | last }}</div>
@@ -2190,138 +2159,6 @@ body.lightbox-open {
     margin-bottom: 12px;
     position: relative;
     overflow: hidden;
-}
-
-.ai-summary-box::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 2px; height: 100%;
-    background: linear-gradient(to bottom, #1d9bf0, #9333ea);
-}
-
-.ai-summary-head {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
-    color: #1d9bf0;
-}
-
-.ai-summary-content {
-    font-size: 13.5px;
-    line-height: 1.5;
-    color: #333;
-    font-style: italic;
-}
-
-[data-theme="dark"] .ai-summary-content { color: #ccc; }
-
-/* SVG Gradient Definition (Invisible) */
-.svg-defs { width: 0; height: 0; position: absolute; }
-
-/* Timeline Styles */
-.timeline-container {
-    padding: 24px 16px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.timeline-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.timeline-header h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
-.timeline-header p { color: #536471; font-size: 14px; }
-
-.timeline-line {
-    position: relative;
-    padding-left: 30px;
-    border-left: 2px solid #eff3f4;
-}
-
-[data-theme="dark"] .timeline-line { border-left-color: #2f3336; }
-
-.timeline-item {
-    position: relative;
-    margin-bottom: 40px;
-    animation: fadeIn 0.5s ease backwards;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateX(-10px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-.timeline-dot {
-    position: absolute;
-    left: -37px;
-    top: 0;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #1d9bf0;
-    border: 3px solid #fff;
-    box-shadow: 0 0 10px rgba(29,155,240,0.3);
-}
-
-[data-theme="dark"] .timeline-dot { border-color: #000; }
-
-.timeline-date {
-    font-size: 13px;
-    font-weight: 700;
-    color: #536471;
-    margin-bottom: 8px;
-}
-
-.timeline-content {
-    background: #f7f9f9;
-    border-radius: 16px;
-    padding: 16px;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-[data-theme="dark"] .timeline-content { background: #15181c; }
-
-.timeline-content:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-
-.patent-badge { background: #e1f5fe; color: #0288d1; }
-.tech-badge { background: #e8f5e9; color: #2e7d32; }
-
-.timeline-title {
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: #0f1419;
-}
-
-[data-theme="dark"] .timeline-title { color: #fff; }
-
-.timeline-desc {
-    font-size: 14px;
-    line-height: 1.5;
-    color: #536471;
-    margin: 0;
-}
-
-
 /* Timeline Journey Styles */
 .premium-achievements {
     padding: 60px 40px;
