@@ -245,8 +245,12 @@ document.addEventListener('DOMContentLoaded', function() {
             <!-- Blogs Tab -->
             <div class="content-panel" id="blogs-panel">
                 <div class="tag-cloud-wrap" style="margin: 16px; background: #fff; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
+                    {% assign blog_posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/tech/'" %}
                     <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Article Topics</div>
+                        <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+                            Article Topics 
+                            <span style="font-size: 12px; font-weight: 500; background: #eff3f4; color: #536471; padding: 2px 8px; border-radius: 99px; vertical-align: middle;">{{ blog_posts.size }} Posts</span>
+                        </div>
                         <button id="blog-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                     </div>
                     <div id="blog-tag-cloud" class="tag-cloud" style="width: 100%; height: 260px; overflow: hidden;"></div>
@@ -290,7 +294,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div id="life-travel-wrap" class="life-travel-wrap" style="padding: 16px;">
                     <div class="tag-cloud-wrap" style="margin-bottom: 24px; background: #f8f9fa; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
                         <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Footprints</div>
+                            <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+                                Footprints
+                                <span style="font-size: 11px; font-weight: 500; background: #eff3f4; color: #536471; padding: 2px 8px; border-radius: 99px;">14 Countries · 46 Cities</span>
+                            </div>
                             <button id="life-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                         </div>
                         <div id="life-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
@@ -303,8 +310,12 @@ document.addEventListener('DOMContentLoaded', function() {
             <!-- Patents Tab -->
             <div class="content-panel" id="patents-panel">
                 <div class="tag-cloud-wrap" style="margin: 16px; background: #fff; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
+                    {% assign patent_posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/patent/'" %}
                     <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Patent Topics</div>
+                        <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+                            Patent Topics 
+                            <span style="font-size: 12px; font-weight: 500; background: #eff3f4; color: #536471; padding: 2px 8px; border-radius: 99px;">{{ patent_posts.size }} Inventions</span>
+                        </div>
                         <button id="patent-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                     </div>
                     <div id="patent-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
@@ -359,7 +370,12 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="content-panel" id="douban-panel">
                 <div class="tag-cloud-wrap" style="margin-bottom: 24px; background: #f8f9fa; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
                     <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px;">Collection Themes</div>
+                        <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;">
+                            Collection Themes
+                            <span style="font-size: 11px; font-weight: 500; background: #f0fff4; color: #1a7f37; border: 1px solid rgba(26,127,55,0.1); padding: 1px 8px; border-radius: 99px;">{{ site.data.movies.all.size }} Movies</span>
+                            <span style="font-size: 11px; font-weight: 500; background: #f0f7ff; color: #0969da; border: 1px solid rgba(9,105,218,0.1); padding: 1px 8px; border-radius: 99px;">{{ site.data.books.all.size }} Books</span>
+                            <span style="font-size: 11px; font-weight: 500; background: #fff8eb; color: #9a6700; border: 1px solid rgba(154,103,0,0.1); padding: 1px 8px; border-radius: 99px;">{{ site.data.games.all.size }} Games</span>
+                        </div>
                         <button id="collection-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                     </div>
                     <div id="collection-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
