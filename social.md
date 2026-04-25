@@ -299,7 +299,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                 </div>
                             </a>
-                            </a>
                             <div class="post-actions" style="border-top:none; margin-top:0; padding-top:4px;">
                                 <button class="action-btn share-btn" onclick="openShareModal(this.closest('.feed-item'))">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
@@ -391,7 +390,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                 </div>
                             </a>
-                            </a>
                             <div class="post-actions" style="border-top:none; margin-top:0; padding-top:4px;">
                                 <button class="action-btn share-btn" onclick="openShareModal(this.closest('.feed-item'))">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
@@ -417,10 +415,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         {% assign milestones = "" | split: "," %}
                         
                         {% comment %} Mix Patents and Blog posts for timeline {% endcomment %}
-                        {% assign patent_milestones = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | where: "tags", "已授权" %}
-                        {% assign tech_milestones = site.posts | where_exp: "p", "p.tags contains 'Featured' or p.tags contains 'Architecture'" %}
+                        {% assign patent_milestones = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | where_exp: "p", "p.tags" | where_exp: "p", "p.tags contains '已授权'" %}
+                        {% assign tech_milestones = site.posts | where_exp: "p", "p.tags" | where_exp: "p", "p.tags contains 'Featured' or p.tags contains 'Architecture'" %}
                         
-                        {% assign all_milestones = patent_milestones | concat: tech_milestones | sort: "date" | reverse %}
+                        {% assign all_milestones = patent_milestones | concat: tech_milestones %}
+                        {% if all_milestones.size > 0 %}
+                            {% assign all_milestones = all_milestones | sort: "date" | reverse %}
+                        {% endif %}
                         
                         {% for item in all_milestones limit: 30 %}
                         <div class="timeline-item">
