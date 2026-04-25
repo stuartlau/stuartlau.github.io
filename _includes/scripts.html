@@ -11,6 +11,8 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     if (typeof window.mediumZoom !== 'function') return;
+    // Skip medium-zoom on /social page — it has its own lightbox
+    if (window.location.pathname.indexOf('social') !== -1) return;
 
     var selector = 'article img:not(.no-zoom), .post-content img:not(.no-zoom), .article-wrap img:not(.no-zoom)';
     var nodes = Array.prototype.slice.call(document.querySelectorAll(selector));

@@ -2849,27 +2849,6 @@ function initInfiniteScroll() {
 }
 let currentImageIndex = 0;
 
-function openLightbox(src, imagesArr) {
-    // Lightbox is enabled for all devices
-    
-    const lb = document.getElementById('lightbox');
-    
-    // If the image is already open, close it (toggle effect)
-    if (lb.style.display === 'flex' && currentImages.length === 1 && currentImages[0] === src) {
-        closeLightbox();
-        return;
-    }
-
-    currentImages = imagesArr || [src];
-    currentImageIndex = currentImages.indexOf(src);
-    if (currentImageIndex === -1) currentImageIndex = 0;
-
-    updateLightboxImage();
-    lb.style.display = 'flex';
-    // Prevent body scroll
-    document.body.style.overflow = 'hidden';
-}
-
 function updateLightboxImage() {
     const lbImg = document.getElementById('lightbox-img');
     const lb = document.getElementById('lightbox');
@@ -2937,7 +2916,6 @@ function prevLightboxImage(e) {
 }
 
 var _lightboxClosing = false;
-var _lastScrollY = 0;
 
 function closeLightbox(e) {
     if (e) {
@@ -2946,38 +2924,47 @@ function closeLightbox(e) {
     }
     
     const lb = document.getElementById('lightbox');
-    if (!lb || lb.style.display === 'none') return;
+    if (!lb) return;
     
-    if (_lightboxClosing) return;
-    _lightboxClosing = true;
-    
-    // Explicitly reset body to prevent scroll lock board
-    document.body.classList.remove('lightbox-open');
-    document.body.style.overflow = '';
-    
-    // Instant hide for background feel
+    // Force-hide immediately, no transition
     lb.style.display = 'none';
     lb.classList.remove('loading', 'lightbox-switching');
     
     const lbImg = document.getElementById('lightbox-img');
     if (lbImg) {
-        lbImg.style.transition = 'none'; // DISABLE transition for instant hide
+        lbImg.style.transition = 'none';
         lbImg.style.opacity = '0';
         lbImg.onload = lbImg.onerror = null;
         lbImg.classList.remove('loaded');
         lbImg.src = '';
-        // Restore transition for next open AFTER a delay
-        setTimeout(() => { if(lbImg) lbImg.style.transition = ''; }, 200);
+        requestAnimationFrame(() => { lbImg.style.transition = ''; });
     }
     
     currentImages = [];
-    setTimeout(() => { _lightboxClosing = false; }, 300);
+    
+    // Force-restore body scroll with every possible cleanup
+    document.body.classList.remove('lightbox-open');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.documentElement.style.overflow = '';
+    
+    _lightboxClosing = false;
 }
 
 function openLightbox(src, galleryImages) {
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
     if (!lb || !lbImg) return;
+    
+    // If already open with same image, close (toggle)
+    if (lb.style.display === 'flex' && currentImages.length === 1 && currentImages[0] === src) {
+        closeLightbox();
+        return;
+    }
+    
+    _lightboxClosing = false;
     
     if (src) {
         if (galleryImages && galleryImages.length > 0) {
@@ -2995,12 +2982,14 @@ function openLightbox(src, galleryImages) {
         updateLightboxImage();
         lb.style.display = 'flex';
         document.body.classList.add('lightbox-open');
-        _lightboxClosing = false;
     }
 }
 
 function handleLightboxInteraction(e) {
-    if (e.target.id === 'lightbox-img' || e.target.closest('.lightbox-nav') || e.target.id === 'lightbox-counter') {
+    // Only close if clicking backdrop or the lightbox container itself
+    if (e.target.id === 'lightbox-img' || 
+        e.target.closest('.lightbox-content') || 
+        e.target.closest('.lightbox-nav')) {
         return;
     }
     closeLightbox(e);
