@@ -141,9 +141,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         <a href="/travel/"><span class="stat-value">14</span> Countries</a>
                         <a href="/blogs/"><span class="stat-value">180+</span> Articles</a>
                     </div>
-                </div>
             </div>
         </div>
+
+        <svg class="svg-defs">
+            <defs>
+                <linearGradient id="ai-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#1d9bf0;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#9333ea;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+        </svg>
 
         <!-- Tab Navigation -->
         <div class="content-tabs">
@@ -269,6 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.__BLOG_POST_TAGS__ = [{% for p in posts %}{{ p.tags | jsonify }}{% unless forloop.last %},{% endunless %}{% endfor %}];
                     </script>
                     {% for post in posts %}
+                    {% assign plain_content = post.content | strip_html | strip_newlines %}
                     <div class="feed-item expandable-item" data-tags="{{ post.tags | jsonify | escape }}" {% if forloop.index > 10 %}style="display:none"{% endif %}>
                         <div class="post-avatar">
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
@@ -290,7 +299,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <div class="blog-preview-body">
                                     <div class="blog-preview-title">{{ post.title }}</div>
                                     <div class="blog-preview-excerpt">
-                                        {% assign plain_content = post.content | strip_html | strip_newlines %}
                                         {{ post.subtitle | default: post.description | default: plain_content | truncate: 160 }}
                                     </div>
                                     <div class="blog-preview-footer">
@@ -415,12 +423,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         {% assign milestones = "" | split: "," %}
                         
                         {% comment %} Mix Patents and Blog posts for timeline {% endcomment %}
-                        {% assign patent_milestones = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | where_exp: "p", "p.tags" | where_exp: "p", "p.tags contains '已授权'" %}
-                        {% assign tech_milestones = site.posts | where_exp: "p", "p.tags" | where_exp: "p", "p.tags contains 'Featured' or p.tags contains 'Architecture'" %}
+                        {% assign patent_milestones = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | where_exp: "p", "p.tags != nil" | where_exp: "p", "p.tags contains '已授权'" %}
+                        {% assign tech_milestones = site.posts | where_exp: "p", "p.tags != nil" | where_exp: "p", "p.tags contains 'Featured' or p.tags contains 'Architecture'" %}
                         
                         {% assign all_milestones = patent_milestones | concat: tech_milestones %}
-                        {% if all_milestones.size > 0 %}
+                        {% if all_milestones and all_milestones.size > 0 %}
                             {% assign all_milestones = all_milestones | sort: "date" | reverse %}
+                        {% else %}
+                            {% assign all_milestones = "" | split: "," %}
                         {% endif %}
                         
                         {% for item in all_milestones limit: 30 %}
