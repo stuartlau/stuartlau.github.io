@@ -133,41 +133,33 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p class="profile-handle">@stuartlau</p>
                     <!-- Profile Bio - Category labels removed as requested -->
                     <div class="profile-meta">
-                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Shanghai, China</span>
-                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg> <a href="{{ site.url }}" target="_blank">stuartlau.github.io</a></span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Shanghai</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg> <a href="mailto:stuart8@126.com">Email</a></span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> <a href="https://github.com/stuartlau" target="_blank">GitHub</a></span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg> <a href="https://linkedin.com/in/stuartlau" target="_blank">LinkedIn</a></span>
                     </div>
-                    <div class="profile-stats">
-                        <a href="/publications/"><span class="stat-value">120+</span> Patents</a>
-                        <a href="/travel/"><span class="stat-value">14</span> Countries</a>
-                        <a href="/blogs/"><span class="stat-value">180+</span> Articles</a>
-                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Tab Navigation -->
         <div class="content-tabs">
             <a href="#posts" class="tab-item active" data-tab="posts">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/></svg>
                 <span class="tab-text">Posts</span>
             </a>
             <a href="#blogs" class="tab-item" data-tab="blogs">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
                 <span class="tab-text">Articles</span>
             </a>
             <a href="#patents" class="tab-item" data-tab="patents">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 <span class="tab-text">Patents</span>
             </a>
             <a href="#douban" class="tab-item" data-tab="douban">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/></svg>
                 <span class="tab-text">Collection</span>
             </a>
             <a href="#travel" class="tab-item" data-tab="travel">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.08 16.19 7 11.88 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
                 <span class="tab-text">Travel</span>
             </a>
             <a href="#history" class="tab-item" data-tab="history" style="display:none;">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
                 <span class="tab-text" id="otd-tab-label">04/23</span>
             </a>
         </div>
@@ -2494,6 +2486,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load Douban content
     loadDoubanContent();
 
+    // Initialize Lightbox Event Listeners
+    const lbClose = document.getElementById('lb-close');
+    const lbBackdrop = document.getElementById('lb-backdrop');
+    const lbPrev = document.getElementById('lightbox-prev');
+    const lbNext = document.getElementById('lightbox-next');
+    
+    if (lbClose) lbClose.addEventListener('click', closeLightbox);
+    if (lbBackdrop) lbBackdrop.addEventListener('click', closeLightbox);
+    if (lbPrev) lbPrev.addEventListener('click', prevLightboxImage);
+    if (lbNext) lbNext.addEventListener('click', nextLightboxImage);
+    
+    // Keyboard navigation for Lightbox
+    document.addEventListener('keydown', function(e) {
+        const lb = document.getElementById('lightbox');
+        if (!lb || lb.style.display !== 'flex') return;
+        
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowRight') nextLightboxImage();
+        else if (e.key === 'ArrowLeft') prevLightboxImage();
+    });
+
     // Check text overflow on initial load
     setTimeout(checkTextOverflow, 800);
 });
@@ -2913,7 +2926,6 @@ function loadDoubanContent() {
                         <img src="/images/douban_avatar.jpg" alt="Stuart Lau" loading="lazy">
                     </div>
                     <div class="post-author-line">
-                        <span class="post-author">@stuartlau</span>
                         <span class="feed-meta">${item.date || ''} · ${item.type}</span>
                     </div>
                     <div class="feed-content">
