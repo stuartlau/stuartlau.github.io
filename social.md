@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </aside>
 
     <!-- Main Content - Scrollable -->
-    <main class="social-main">
+    <div class="social-main">
         {% assign posts_count = 0 %}
         {% assign years = "2026,2025,2024,2023,2022,2021" | split: "," %}
         {% for yr in years %}
@@ -166,10 +166,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.08 16.19 7 11.88 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
                 <span class="tab-text">Travel</span>
             </a>
-            <a href="#achievements" class="tab-item" data-tab="achievements">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18 2H6a2 2 0 0 0-2 2v2c0 3.11 2.33 5.67 5.31 6.13a6.002 6.002 0 0 0 5.38 0c2.98-.46 5.31-3.02 5.31-6.13V4a2 2 0 0 0-2-2zm-1 4c0 2.21-1.79 4-4 4s-4-1.79-4-4V4h8v2z"/><path d="M12 14a7 7 0 0 0-7 7 1 1 0 0 0 1 1h12a1 1 0 0 0 1-1 7 7 0 0 0-7-7z"/></svg>
-                <span class="tab-text">Achievements</span>
-            </a>
             <a href="#history" class="tab-item" data-tab="history" style="display:none;">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="tab-icon-mobile"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
                 <span class="tab-text" id="otd-tab-label">04/23</span>
@@ -216,7 +212,21 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                             {% endif %}
                             
-                            <!-- Giscus Comments Container (hidden by default) -->
+                            <!-- Interaction Buttons -->
+                            <div class="post-actions">
+                                <button class="action-btn comment-btn" onclick="togglePostComments(this)" data-post-id="douban-{{ post_id }}">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                    </svg>
+                                    <span class="action-count" id="comment-count-{{ post_id }}">评论</span>
+                                </button>
+                                <button class="action-btn like-btn" onclick="togglePostComments(this)" data-post-id="douban-{{ post_id }}">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                    <span class="action-count" id="like-count-{{ post_id }}">点赞</span>
+                                </button>
+                            </div>
                             
                             <!-- Giscus Comments Container (hidden by default) -->
                             <div class="post-giscus-wrapper" id="giscus-{{ post_id }}" data-term="douban-{{ post_id }}" style="display:none;">
@@ -265,7 +275,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                     <div class="blog-preview-footer">
                                         <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style="margin-right:4px; vertical-align:middle;"><path d="M11.96 14.945c-.067 0-.136-.01-.203-.027-1.13-.318-2.097-.986-2.795-1.932-.832-1.125-1.176-2.508-.968-3.893s.933-2.605 2.04-3.438c.114-.083.27-.06.353.055.082.115.06.27-.055.353-1.007.756-1.635 1.83-1.808 3.033-.19 1.258.122 2.515.877 3.535.634.86 1.513 1.468 2.474 1.74a.25.25 0 0 1-.063.494z"/><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/></svg>
-                                        stuartlau.github.io
                                     </div>
                                 </div>
                             </a>
@@ -345,60 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
 
-            <!-- Achievements Tab -->
-            <div class="content-panel" id="achievements-panel">
-                <div class="premium-achievements">
-                    <div class="achievements-intro">
-                        <span class="journey-label">THE JOURNEY</span>
-                        <h1>Milestones & Breakthroughs</h1>
-                        <p>A narrative of academic patents, technical architecture, and intellectual property.</p>
-                    </div>
 
-                    <div class="journey-timeline">
-                        {% assign patent_milestones = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | where_exp: "p", "p.tags != nil" | where_exp: "p", "p.tags contains '已授权'" %}
-                        
-                        {% assign tech_all = site.posts | where_exp: "p", "p.tags != nil" %}
-                        {% assign tech_f = tech_all | where_exp: "p", "p.tags contains 'Featured'" %}
-                        {% assign tech_a = tech_all | where_exp: "p", "p.tags contains 'Architecture'" %}
-                        {% assign tech_milestones = tech_f | concat: tech_a | uniq %}
-                        
-                        {% assign all_milestones = patent_milestones | concat: tech_milestones %}
-                        {% if all_milestones.size > 0 %}
-                            {% assign all_milestones = all_milestones | sort: "date" | reverse %}
-                        {% else %}
-                            {% assign all_milestones = "" | split: "," %}
-                        {% endif %}
-
-                        {% assign current_year = "" %}
-                        {% for item in all_milestones limit: 40 %}
-                            {% assign item_year = item.date | date: "%Y" %}
-                            
-                            {% if item_year != current_year %}
-                                {% if current_year != "" %}</div></div>{% endif %}
-                                <div class="timeline-year-block">
-                                    <div class="year-marker">
-                                        <span class="year-number">{{ item_year }}</span>
-                                    </div>
-                                    <div class="year-milestones">
-                                {% assign current_year = item_year %}
-                            {% endif %}
-
-                            <div class="milestone-card">
-                                <div class="milestone-header">
-                                    <span class="m-date">{{ item.date | date: "%b %d" }}</span>
-                                    <span class="m-badge {% if item.path contains 'patent' %}p-patent{% else %}p-tech{% endif %}">
-                                        {% if item.path contains 'patent' %}Patent Granted{% else %}Featured Post{% endif %}
-                                    </span>
-                                </div>
-                                <h3 class="m-title">{{ item.title | remove: "授权专利-" | remove: "待授权专利-" }}</h3>
-                                <p class="m-summary">{{ item.description | default: item.subtitle | truncate: 120 }}</p>
-                                <a href="{{ item.url }}" class="m-link">View Details ↗</a>
-                            </div>
-                        {% endfor %}
-                        {% if current_year != "" %}</div></div>{% endif %}
-                    </div>
-                </div>
-            </div>
 
             <div class="content-panel" id="douban-panel">
                 <div class="tag-cloud-wrap" style="margin-bottom: 24px; background: #f8f9fa; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
@@ -429,10 +385,9 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="content-panel" id="history-panel">
                 <div class="feed-list" id="history-feed-list">
                     <div class="feed-item" style="justify-content:center; color:#536471; font-size:14px; padding:24px;">Loading...</div>
-                </div>
-            </div>
         </div>
-    </main>
+    </div>
+</div>
 
     <!-- Right Sidebar - Fixed -->
     <aside class="social-right-sidebar">
