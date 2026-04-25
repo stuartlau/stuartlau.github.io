@@ -1561,7 +1561,6 @@ body.lightbox-open {
     align-items: center;
     z-index: 10000;
     -webkit-tap-highlight-color: transparent;
-    touch-action: none;
 }
 
 .lightbox-backdrop {
@@ -1602,7 +1601,7 @@ body.lightbox-open {
     border-radius: 8px;
     object-fit: contain;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    cursor: default;
+    cursor: zoom-out;
     opacity: 0;
     transform: scale(0.98);
     transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2987,15 +2986,8 @@ function openLightbox(src, galleryImages) {
 }
 
 function handleLightboxInteraction(e) {
-    // Block clicks only on specific interactive elements; everything else closes
-    const t = e.target;
-    if (t.id === 'lightbox-img' ||
-        t.id === 'lb-close' ||
-        t.id === 'lightbox-prev' ||
-        t.id === 'lightbox-next' ||
-        t.id === 'lightbox-counter') {
-        return;
-    }
+    // Nav buttons and close button have stopPropagation in their own handlers,
+    // so clicks on them never reach here. Everything else closes the lightbox.
     closeLightbox(e);
 }
 
