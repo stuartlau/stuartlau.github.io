@@ -158,10 +158,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 <span class="tab-text">Patents</span>
             </a>
-            <a href="#xiaohongshu" class="tab-item" data-tab="xiaohongshu">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="#ff2442"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                <span class="tab-text">XiaoHongShu</span>
-            </a>
             <a href="#douban" class="tab-item" data-tab="douban">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/></svg>
                 <span class="tab-text">Collection</span>
@@ -355,38 +351,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </div>
                     {% endfor %}
-                </div>
-            </div>
-
-            <!-- Xiaohongshu Tab -->
-            <div class="content-panel" id="xiaohongshu-panel">
-                <div class="xhs-container">
-                    <div class="xhs-grid" id="xhs-notes-list">
-                        {% if site.data.xiaohongshu.notes %}
-                            {% for note in site.data.xiaohongshu.notes %}
-                            <div class="xhs-note-card" onclick="openVideoPlayer('{{ note.video_url | default: '' }}', '{{ note.title | escape }}', '{{ note.url }}')">
-                                <div class="xhs-cover-wrap">
-                                    <img data-src="{{ note.cover }}" alt="{{ note.title }}" class="xhs-cover lazy-img">
-                                    {% if note.type == 'video' %}
-                                    <div class="xhs-play-icon">
-                                        <svg viewBox="0 0 24 24" width="32" height="32" fill="white"><path d="M8 5v14l11-7z"/></svg>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                                <div class="xhs-note-info">
-                                    <div class="xhs-note-title">{{ note.title }}</div>
-                                    <div class="xhs-note-meta">
-                                        <span class="xhs-likes">❤️ {{ note.likes }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        {% else %}
-                            <div style="padding: 40px; text-align: center; color: #536471; grid-column: 1/-1;">
-                                No Xiaohongshu notes found. Please run the sync script.
-                            </div>
-                        {% endif %}
-                    </div>
                 </div>
             </div>
 
@@ -3870,142 +3834,7 @@ function applyFeedFilter(panelType, tag) {
         initCollectionCloud();
     }
     
-/* Xiaohongshu Styles */
-.xhs-container { padding: 16px; }
-.xhs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 12px;
-}
-
-.xhs-note-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #eff3f4;
-    transition: transform 0.2s;
-    cursor: pointer;
-}
-
-.xhs-note-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-.xhs-cover-wrap {
-    position: relative;
-    padding-top: 133%; /* 3:4 aspect ratio */
-    background: #f7f9f9;
-}
-
-.xhs-cover {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: cover;
-}
-
-.xhs-play-icon {
-    position: absolute;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.4);
-    border-radius: 50%;
-    padding: 8px;
-    backdrop-filter: blur(4px);
-}
-
-.xhs-note-info { padding: 8px 10px; }
-.xhs-note-title {
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.4;
-    color: #0f1419;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    margin-bottom: 4px;
-}
-
-.xhs-note-meta { font-size: 11px; color: #536471; display: flex; justify-content: space-between; }
-
-[data-theme="dark"] .xhs-note-card { background: #15181c; border-color: #2f3336; }
-[data-theme="dark"] .xhs-note-title { color: #fff; }
-
-/* Video Player Modal */
-.video-modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    z-index: 10000;
-    justify-content: center;
-    align-items: center;
-}
-
-.video-player-container {
-    background: #000;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-}
-
-.video-player-header {
-    padding: 12px 16px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
-    position: absolute;
-    top: 0; left: 0; width: 100%;
-    z-index: 2;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.video-close-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
-
-#xhs-video-player { width: 100%; display: block; }
-</style>
-
-<!-- Video Player Modal HTML -->
-<div id="video-modal" class="video-modal" onclick="closeVideoPlayer(event)">
-    <div class="video-player-container" onclick="event.stopPropagation()">
-        <div class="video-player-header">
-            <span id="video-title">Video</span>
-            <button class="video-close-btn" onclick="closeVideoPlayer(event)">&times;</button>
-        </div>
-        <video id="xhs-video-player" controls preload="auto" referrerpolicy="no-referrer">
-            Your browser does not support the video tag.
-        </video>
-    </div>
-</div>
-
-<script>
-function openVideoPlayer(videoUrl, title, noteUrl) {
-    if (!videoUrl) {
-        window.open(noteUrl, '_blank');
-        return;
-    }
-    const modal = document.getElementById('video-modal');
-    const player = document.getElementById('xhs-video-player');
-    const titleEl = document.getElementById('video-title');
-    
-    titleEl.textContent = title;
-    player.src = videoUrl;
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    player.play().catch(e => {
-        console.log("Auto-play blocked or failed:", e);
-    });
-}
-
-function closeVideoPlayer(e) {
-    const modal = document.getElementById('video-modal');
-    const player = document.getElementById('xhs-video-player');
-    player.pause();
-    player.src = '';
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
+    // Re-check text overflow for filtered items
+    setTimeout(checkTextOverflow, 100);
 }
 </script>
