@@ -433,12 +433,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div id="lightbox">
     <div class="lightbox-backdrop" id="lb-backdrop"></div>
+    <button class="lightbox-close" id="lb-close">×</button>
+    <button id="lightbox-prev" class="lightbox-nav">‹</button>
     <div class="lightbox-content">
-        <button class="lightbox-close" id="lb-close">×</button>
-        <button id="lightbox-prev" class="lightbox-nav">‹</button>
         <img id="lightbox-img" src="" alt="Zoomed view">
-        <button id="lightbox-next" class="lightbox-nav">›</button>
     </div>
+    <button id="lightbox-next" class="lightbox-nav">›</button>
 </div>
 
 <!-- Mobile Back to Top Button -->
@@ -1618,9 +1618,9 @@ body.lightbox-open {
 }
 
 .lightbox-close {
-    position: absolute;
-    top: -40px;
-    right: 0;
+    position: fixed;
+    top: 20px;
+    right: 20px;
     background: rgba(255,255,255,0.9);
     color: #333;
     border: none;
@@ -1634,6 +1634,7 @@ body.lightbox-open {
     justify-content: center;
     align-items: center;
     transition: background 0.2s;
+    z-index: 10002;
 }
 
 .lightbox-close:hover {
@@ -1641,7 +1642,7 @@ body.lightbox-open {
 }
 
 .lightbox-nav {
-    position: absolute;
+    position: fixed;
     top: 50%;
     transform: translateY(-50%);
     background: rgba(255,255,255,0.9);
@@ -1657,6 +1658,7 @@ body.lightbox-open {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 10002;
 }
 
 .lightbox-nav:hover {
@@ -1664,16 +1666,16 @@ body.lightbox-open {
 }
 
 #lightbox-prev {
-    left: -60px;
+    left: 16px;
 }
 
 #lightbox-next {
-    right: -60px;
+    right: 16px;
 }
 
 .lightbox-counter {
-    position: absolute;
-    bottom: -30px;
+    position: fixed;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     color: #fff;
@@ -1682,6 +1684,7 @@ body.lightbox-open {
     border-radius: 12px;
     font-size: 13px;
     font-weight: 500;
+    z-index: 10002;
 }
 
 @media (max-width: 768px) {
@@ -1703,24 +1706,24 @@ body.lightbox-open {
     }
     
     .lightbox-nav {
-        width: 44px;
-        height: 44px;
-        background: rgba(0,0,0,0.3);
+        width: 40px;
+        height: 40px;
+        background: rgba(0,0,0,0.4);
         color: #fff;
-        border: 1px solid rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.3);
     }
     
     #lightbox-prev {
-        left: 10px;
+        left: 8px;
     }
     
     #lightbox-next {
-        right: 10px;
+        right: 8px;
     }
     
     .lightbox-close {
-        top: 20px;
-        right: 20px;
+        top: 16px;
+        right: 16px;
         background: rgba(0,0,0,0.5);
         color: #fff;
         border: 1px solid rgba(255,255,255,0.3);
@@ -3013,6 +3016,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Click close button → close
     if (closeBtn) closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
+    
+    // Click content area (black strips around image) → close
+    const lbContent = document.querySelector('.lightbox-content');
+    if (lbContent) lbContent.addEventListener('click', function(e) {
+        // Only close if not clicking a button inside
+        if (e.target === lbContent) closeLightbox();
+    });
     
     // Click prev/next → navigate (stopPropagation to prevent close)
     if (prevBtn) prevBtn.addEventListener('click', function(e) { e.stopPropagation(); prevLightboxImage(); });
