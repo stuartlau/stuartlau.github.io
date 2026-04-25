@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </a>
             <a href="#douban" class="tab-item" data-tab="douban">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/></svg>
-                <span class="tab-text">Collections</span>
+                <span class="tab-text">Collection</span>
             </a>
             <a href="#travel" class="tab-item" data-tab="travel">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.08 16.19 7 11.88 7 9z"/><circle cx="12" cy="9" r="2.5"/></svg>
@@ -225,27 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                             {% endif %}
                             
-                            <!-- Interaction Buttons -->
-                            <div class="post-actions">
-                                <button class="action-btn comment-btn" onclick="togglePostComments(this)" data-post-id="douban-{{ post_id }}">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-                                    </svg>
-                                    <span class="action-count" id="comment-count-{{ post_id }}">评论</span>
-                                </button>
-                                <button class="action-btn like-btn" onclick="togglePostComments(this)" data-post-id="douban-{{ post_id }}">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                                    </svg>
-                                    <span class="action-count" id="like-count-{{ post_id }}">点赞</span>
-                                </button>
-                                <button class="action-btn share-btn" onclick="openShareModal('douban-{{ post_id }}')">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>
-                                    </svg>
-                                    <span class="action-count">分享</span>
-                                </button>
-                            </div>
+                            <!-- Giscus Comments Container (hidden by default) -->
                             
                             <!-- Giscus Comments Container (hidden by default) -->
                             <div class="post-giscus-wrapper" id="giscus-{{ post_id }}" data-term="douban-{{ post_id }}" style="display:none;">
@@ -307,14 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                 </div>
                             </a>
-                            <div class="post-actions" style="border-top:none; margin-top:0; padding-top:4px;">
-                                <button class="action-btn share-btn" onclick="openShareModal(this.closest('.feed-item'))">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>
-                                    </svg>
-                                    <span class="action-count">生成海报</span>
-                                </button>
-                            </div>
+                        </div>
                         </div>
                     </div>
                     {% endfor %}
@@ -398,14 +371,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                 </div>
                             </a>
-                            <div class="post-actions" style="border-top:none; margin-top:0; padding-top:4px;">
-                                <button class="action-btn share-btn" onclick="openShareModal(this.closest('.feed-item'))">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>
-                                    </svg>
-                                    <span class="action-count">生成海报</span>
-                                </button>
-                            </div>
+                        </div>
                         </div>
                     </div>
                     {% endfor %}
@@ -414,45 +380,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <!-- Achievements Tab -->
             <div class="content-panel" id="achievements-panel">
-                <div class="timeline-container">
-                    <div class="timeline-header">
-                        <h2>Personal Milestones</h2>
-                        <p>A collection of patent grants, technical breakthroughs, and global footprints.</p>
+                <div class="premium-achievements">
+                    <div class="achievements-intro">
+                        <span class="journey-label">THE JOURNEY</span>
+                        <h1>Milestones & Breakthroughs</h1>
+                        <p>A narrative of academic patents, technical architecture, and intellectual property.</p>
                     </div>
-                    <div class="timeline-line">
-                        {% assign milestones = "" | split: "," %}
-                        
+
+                    <div class="journey-timeline">
+                        {% assign milestone_years = "" | split: "," %}
                         {% assign patent_milestones = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | where_exp: "p", "p.tags != nil" | where_exp: "p", "p.tags contains '已授权'" %}
-                        
-                        {% assign tech_all = site.posts | where_exp: "p", "p.tags != nil" %}
-                        {% assign tech_f = tech_all | where_exp: "p", "p.tags contains 'Featured'" %}
-                        {% assign tech_a = tech_all | where_exp: "p", "p.tags contains 'Architecture'" %}
-                        {% assign tech_milestones = tech_f | concat: tech_a | uniq %}
-                        
-                        {% assign all_milestones = patent_milestones | concat: tech_milestones %}
-                        {% if all_milestones.size > 0 %}
-                            {% assign all_milestones = all_milestones | sort: "date" | reverse %}
-                        {% else %}
-                            {% assign all_milestones = "" | split: "," %}
-                        {% endif %}
-                        
-                        {% for item in all_milestones limit: 30 %}
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-date">{{ item.date | date: "%Y %b" }}</div>
-                            <div class="timeline-content">
-                                <div class="timeline-type">
-                                    {% if item.path contains 'patent' %}
-                                    <span class="badge patent-badge">Patent Granted</span>
-                                    {% else %}
-                                    <span class="badge tech-badge">Technical Post</span>
-                                    {% endif %}
+                        {% assign tech_milestones = site.posts | where_exp: "p", "p.tags != nil" | where_exp: "p", "p.tags contains 'Featured' or p.tags contains 'Architecture'" %}
+                        {% assign all_milestones = patent_milestones | concat: tech_milestones | sort: "date" | reverse %}
+
+                        {% assign current_year = "" %}
+                        {% for item in all_milestones limit: 40 %}
+                            {% assign item_year = item.date | date: "%Y" %}
+                            
+                            {% if item_year != current_year %}
+                                {% if current_year != "" %}</div></div>{% endif %}
+                                <div class="timeline-year-block">
+                                    <div class="year-marker">
+                                        <span class="year-number">{{ item_year }}</span>
+                                    </div>
+                                    <div class="year-milestones">
+                                {% assign current_year = item_year %}
+                            {% endif %}
+
+                            <div class="milestone-card">
+                                <div class="milestone-header">
+                                    <span class="m-date">{{ item.date | date: "%b %d" }}</span>
+                                    <span class="m-badge {% if item.path contains 'patent' %}p-patent{% else %}p-tech{% endif %}">
+                                        {% if item.path contains 'patent' %}Patent Granted{% else %}Featured Post{% endif %}
+                                    </span>
                                 </div>
-                                <h3 class="timeline-title">{{ item.title | remove: "授权专利-" | remove: "待授权专利-" }}</h3>
-                                <p class="timeline-desc">{{ item.description | default: item.subtitle | truncate: 100 }}</p>
+                                <h3 class="m-title">{{ item.title | remove: "授权专利-" | remove: "待授权专利-" }}</h3>
+                                <p class="m-summary">{{ item.description | default: item.subtitle | truncate: 120 }}</p>
+                                <a href="{{ item.url }}" class="m-link">View Details ↗</a>
                             </div>
-                        </div>
                         {% endfor %}
+                        {% if current_year != "" %}</div></div>{% endif %}
                     </div>
                 </div>
             </div>
@@ -541,47 +508,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </div>
 
-<!-- Share Card Modal -->
-<div id="share-modal" class="share-modal">
-    <div class="share-modal-container">
-        <img id="share-image-preview" src="" alt="Share Preview">
-        <div class="share-modal-btns">
-            <button class="share-action-btn close-share-btn" onclick="closeShareModal()">取消</button>
-            <button class="share-action-btn save-btn" onclick="saveShareImage()">保存海报</button>
-        </div>
-    </div>
-</div>
-
-<!-- Hidden Card Template for Generation -->
-<div id="share-card-template">
-    <div class="card-header">
-        <img src="/images/douban_avatar.jpg" class="card-avatar">
-        <div class="card-user-info">
-            <span class="card-name">Stuart Lau</span>
-            <span class="card-handle">@stuartlau</span>
-        </div>
-    </div>
-    <div class="card-body">
-        <p class="card-text"></p>
-        <div class="card-media"></div>
-        <div class="card-quote-wrap">
-            <img src="" class="card-quote-img">
-            <div class="card-quote-details">
-                <div class="card-quote-title"></div>
-                <div class="card-quote-subtitle"></div>
-            </div>
-        </div>
-    </div>
-    <div class="card-footer">
-        <div class="card-meta">
-            <span class="card-date"></span>
-            <span class="card-brand">stuartlau.github.io</span>
-        </div>
-        <div class="card-qr-wrap">
-            <div id="card-qr-canvas"></div>
-        </div>
-    </div>
-</div>
 <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="18 15 12 9 6 15"></polyline>
@@ -2389,129 +2315,181 @@ body.lightbox-open {
 }
 
 
-/* Share Card Modal Styles */
-.share-modal {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85);
-    z-index: 11000;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(8px);
+/* Timeline Journey Styles */
+.premium-achievements {
+    padding: 60px 40px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-.share-modal.active { display: flex; }
+.achievements-intro {
+    text-align: center;
+    margin-bottom: 80px;
+}
 
-.share-modal-container {
-    width: 90%;
-    max-width: 480px;
-    background: transparent;
+.journey-label {
+    display: inline-block;
+    color: #1d9bf0;
+    font-weight: 800;
+    letter-spacing: 4px;
+    font-size: 12px;
+    margin-bottom: 16px;
+    opacity: 0.8;
+}
+
+.achievements-intro h1 {
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.achievements-intro p {
+    color: #536471;
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.journey-timeline {
+    position: relative;
+}
+
+.timeline-year-block {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: modalSlideUp 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    gap: 40px;
+    margin-bottom: 60px;
 }
 
-@keyframes modalSlideUp {
-    from { transform: translateY(40px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+.year-marker {
+    width: 100px;
+    text-align: right;
+    position: relative;
+    padding-top: 10px;
 }
 
-#share-image-preview {
-    width: 100%;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    background: #fff;
-    margin-bottom: 24px;
+.year-number {
+    font-size: 32px;
+    font-weight: 900;
+    color: #0f1419;
+    font-family: 'Inter', sans-serif;
+    position: sticky;
+    top: 100px;
 }
 
-.share-modal-btns {
-    display: flex;
-    gap: 16px;
-    width: 100%;
-}
+[data-theme="dark"] .year-number { color: #fff; }
 
-.share-action-btn {
+.year-milestones {
     flex: 1;
-    padding: 14px;
-    border-radius: 50px;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.save-btn { background: #1d9bf0; color: #fff; }
-.save-btn:hover { background: #1a8cd8; }
-.close-share-btn { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
-.close-share-btn:hover { background: rgba(255,255,255,0.2); }
-
-/* Hidden Card Template */
-#share-card-template {
-    position: fixed;
-    left: -9999px;
-    top: 0;
-    width: 600px;
-    background: #fff;
-    padding: 40px;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    color: #1a1a1a;
-    font-family: 'Inter', system-ui, sans-serif;
+    gap: 24px;
+    border-left: 2px solid #eff3f4;
+    padding-left: 40px;
+    padding-bottom: 20px;
 }
 
-.card-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 30px;
-}
+[data-theme="dark"] .year-milestones { border-left-color: #2f3336; }
 
-.card-avatar { width: 64px; height: 64px; border-radius: 50%; border: 2px solid #eff3f4; }
-.card-user-info { display: flex; flex-direction: column; }
-.card-name { font-size: 20px; font-weight: 800; }
-.card-handle { font-size: 15px; color: #536471; }
-
-.card-body { flex: 1; margin-bottom: 40px; }
-.card-text { font-size: 24px; line-height: 1.5; font-weight: 400; margin-bottom: 24px; word-break: break-word; }
-.card-media { margin-bottom: 24px; border-radius: 16px; overflow: hidden; max-height: 400px; border: 1px solid #eff3f4; }
-.card-media img { width: 100%; height: auto; display: block; }
-
-.card-quote-wrap {
+.milestone-card {
+    background: #fff;
     border: 1px solid #eff3f4;
-    border-radius: 16px;
-    padding: 16px;
-    display: flex;
-    gap: 16px;
-    background: #f7f9f9;
+    border-radius: 20px;
+    padding: 24px;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    position: relative;
 }
-.card-quote-img { width: 80px; height: 110px; border-radius: 8px; object-fit: cover; }
-.card-quote-details { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-.card-quote-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-.card-quote-subtitle { font-size: 14px; color: #536471; }
 
-.card-footer {
+.milestone-card::before {
+    content: '';
+    position: absolute;
+    left: -48px;
+    top: 24px;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border: 3px solid #1d9bf0;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+[data-theme="dark"] .milestone-card {
+    background: #15181c;
+    border-color: #2f3336;
+}
+
+[data-theme="dark"] .milestone-card::before { background: #000; }
+
+.milestone-card:hover {
+    transform: translateX(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border-color: #1d9bf0;
+}
+
+.milestone-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 30px;
-    border-top: 1px solid #eff3f4;
+    margin-bottom: 12px;
 }
-.card-meta { display: flex; flex-direction: column; gap: 4px; }
-.card-date { font-size: 14px; color: #536471; }
-.card-brand { font-size: 16px; font-weight: 700; color: #1d9bf0; }
-.card-qr-wrap { text-align: center; }
-#card-qr-canvas { width: 80px; height: 80px; }
+
+.m-date {
+    font-size: 13px;
+    color: #536471;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.m-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.p-patent { background: rgba(29, 155, 240, 0.1); color: #1d9bf0; }
+.p-tech { background: rgba(0, 186, 124, 0.1); color: #00ba7c; }
+
+.m-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.m-summary {
+    font-size: 15px;
+    color: #536471;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.m-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1d9bf0;
+    text-decoration: none;
+}
+
+.m-link:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+    .premium-achievements { padding: 40px 16px; }
+    .achievements-intro h1 { font-size: 32px; }
+    .timeline-year-block { flex-direction: column; gap: 20px; }
+    .year-marker { width: 100%; text-align: left; }
+    .year-number { font-size: 40px; position: static; }
+    .year-milestones { padding-left: 24px; }
+    .milestone-card::before { left: -32px; }
+    .milestone-card:hover { transform: translateY(-5px); }
+}
+
+/* Remove Share Card Modal Styles and other redundant CSS */
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const tabItems = document.querySelectorAll('.tab-item');
@@ -2906,125 +2884,8 @@ function checkTextOverflow() {
     });
 }
 
-// --- Share Card Logic ---
-function openShareModal(target) {
-    const modal = document.getElementById('share-modal');
-    const preview = document.getElementById('share-image-preview');
-    const container = document.getElementById('share-card-template');
-    
-    // Clear previous
-    preview.src = '';
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Extract content
-    let feedItem = (typeof target === 'string') 
-        ? document.querySelector(`[data-post-id="${target}"]`)
-        : target;
-    
-    if (!feedItem) return;
-
-    const name = "Stuart Lau";
-    const handle = "@stuartlau";
-    const date = feedItem.querySelector('.feed-meta').getAttribute('title') || feedItem.querySelector('.feed-meta').textContent;
-    const text = feedItem.querySelector('.feed-text') ? feedItem.querySelector('.feed-text').textContent : '';
-    
-    // Handle Images
-    const imgGrid = feedItem.querySelector('.social-image-grid');
-    let firstImg = '';
-    if (imgGrid) {
-        const firstImgEl = imgGrid.querySelector('img');
-        if (firstImgEl) firstImg = firstImgEl.dataset.src || firstImgEl.src;
-    }
-
-    // Handle Quote (Book/Movie)
-    const quoteCard = feedItem.querySelector('.quote-card');
-    let quoteData = null;
-    if (quoteCard) {
-        quoteData = {
-            title: quoteCard.querySelector('.quote-title') ? quoteCard.querySelector('.quote-title').textContent : '',
-            subtitle: quoteCard.querySelector('.quote-subtitle') ? quoteCard.querySelector('.quote-subtitle').textContent : '',
-            img: quoteCard.querySelector('.quote-img') ? (quoteCard.querySelector('.quote-img').dataset.src || quoteCard.querySelector('.quote-img').src) : ''
-        };
-    } else {
-        // Blog/Patent Preview Card
-        const blogCard = feedItem.querySelector('.blog-preview-card');
-        if (blogCard) {
-            quoteData = {
-                title: blogCard.querySelector('.blog-preview-title').textContent,
-                subtitle: blogCard.querySelector('.blog-preview-excerpt').textContent,
-                img: ''
-            };
-        }
-    }
-
-    // Populate Template
-    container.querySelector('.card-date').textContent = date;
-    container.querySelector('.card-text').textContent = text;
-    
-    const mediaContainer = container.querySelector('.card-media');
-    if (firstImg) {
-        mediaContainer.style.display = 'block';
-        mediaContainer.innerHTML = `<img src="${firstImg}" crossorigin="anonymous">`;
-    } else {
-        mediaContainer.style.display = 'none';
-    }
-
-    const quoteWrap = container.querySelector('.card-quote-wrap');
-    if (quoteData) {
-        quoteWrap.style.display = 'flex';
-        quoteWrap.querySelector('.card-quote-title').textContent = quoteData.title;
-        quoteWrap.querySelector('.card-quote-subtitle').textContent = quoteData.subtitle;
-        if (quoteData.img) {
-            quoteWrap.querySelector('.card-quote-img').style.display = 'block';
-            quoteWrap.querySelector('.card-quote-img').src = quoteData.img;
-        } else {
-            quoteWrap.querySelector('.card-quote-img').style.display = 'none';
-        }
-    } else {
-        quoteWrap.style.display = 'none';
-    }
-
-    // Generate QR Code
-    const qrWrap = document.getElementById('card-qr-canvas');
-    qrWrap.innerHTML = '';
-    new QRCode(qrWrap, {
-        text: window.location.origin + window.location.pathname + "#" + (feedItem.dataset.postId || ""),
-        width: 80,
-        height: 80,
-        colorDark: "#1a1a1a",
-        colorLight: "#ffffff"
-    });
-
-    // Capture (wait for layout & image load)
-    setTimeout(() => {
-        html2canvas(container, {
-            useCORS: true,
-            scale: 2, // Retina quality
-            backgroundColor: '#ffffff'
-        }).then(canvas => {
-            preview.src = canvas.toDataURL('image/png');
-        });
-    }, 500);
-}
-
-function closeShareModal() {
-    const modal = document.getElementById('share-modal');
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-function saveShareImage() {
-    const preview = document.getElementById('share-image-preview');
-    if (!preview.src) return;
-    
-    const link = document.createElement('a');
-    link.download = `stuartlau-share-${Date.now()}.png`;
-    link.href = preview.src;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
+function closeShareModal() {}
+function saveShareImage() {}
 
 
 // Load history on this day from Douban posts
