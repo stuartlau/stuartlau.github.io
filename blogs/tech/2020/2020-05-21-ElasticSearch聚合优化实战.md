@@ -25,8 +25,8 @@ tags:
             "field": "sold",
             "interval": "month",
             "format": "yyyy-MM-dd",
-            "min_doc_count" : 0, 
-            "extended_bounds" : { 
+            "min_doc_count" : 0,
+            "extended_bounds" : {
                 "min" : "2014-01-01",
                 "max" : "2014-12-31"
             }
@@ -48,7 +48,7 @@ tags:
       "sales": {
          "date_histogram": {
             "field": "sold",
-            "interval": "quarter", 
+            "interval": "quarter",
             "format": "yyyy-MM-dd",
             "min_doc_count" : 0,
             "extended_bounds" : {
@@ -63,12 +63,12 @@ tags:
                },
                "aggs": {
                   "sum_price": {
-                     "sum": { "field": "price" } 
+                     "sum": { "field": "price" }
                   }
                }
             },
             "total_sum": {
-               "sum": { "field": "price" } 
+               "sum": { "field": "price" }
             }
          }
       }
@@ -102,7 +102,7 @@ tags:
     }
 }
 ```
-这里使用了constant_score 查询和 filter 约束：从根本上讲，使用 non-scoring 查询和使用 match 
+这里使用了constant_score 查询和 filter 约束：从根本上讲，使用 non-scoring 查询和使用 match
 查询没有任何区别。查询（包括了一个过滤器）返回一组文档的子集，聚合正是操作这些文档。使用 filtering query 会忽略评分，并有可能会缓存结果数据等等。
 
 ### Filter Bucket
@@ -117,7 +117,7 @@ tags:
    },
    "aggs":{
       "recent_sales": {
-         "filter": { 
+         "filter": {
             "range": {
                "sold": {
                   "from": "now-1M"
@@ -127,7 +127,7 @@ tags:
          "aggs": {
             "average_price":{
                "avg": {
-                  "field": "price" 
+                  "field": "price"
                }
             }
          }
@@ -149,13 +149,13 @@ tags:
     },
     "aggs" : {
         "single_avg_price": {
-            "avg" : { "field" : "price" } 
+            "avg" : { "field" : "price" }
         },
         "all": {
-            "global" : {}, 
+            "global" : {},
             "aggs" : {
                 "avg_price": {
-                    "avg" : { "field" : "price" } 
+                    "avg" : { "field" : "price" }
                 }
 
             }
@@ -267,7 +267,7 @@ single_avg_price 度量计算是基于查询范围内所有文档，即所有 �
     "total": 3659354,
     "max_score": 0.0,
     "hits": [
-      
+
     ]
   },
   "aggregations": {
@@ -382,7 +382,7 @@ single_avg_price 度量计算是基于查询范围内所有文档，即所有 �
             "format": "epoch_millis"
           },
           "aggs": {
-            
+
           }
         }
       }
@@ -405,7 +405,7 @@ single_avg_price 度量计算是基于查询范围内所有文档，即所有 �
     "total": 8669,
     "max_score": 0,
     "hits": [
-      
+
     ]
   },
   "aggregations": {
@@ -528,7 +528,7 @@ ES中经常使用到的聚合结果集可以被缓存起来，以便更快速的
 此时，客户端向ES发送聚合请求，主节点接收到请求后，会向每个独立的分片发送该请求。
 分片独立的计算自己分片上的前5个name，然后返回。当所有的分片结果都返回后，在主节点进行结果的合并，再求出频率最高的前5个，返回给客户端。
 
-这样就会造成一定的误差，比如最后返回的前5个中，有一个叫A的，有50个文档；B有49。 
+这样就会造成一定的误差，比如最后返回的前5个中，有一个叫A的，有50个文档；B有49。
 但是由于每个分片独立的保存信息，信息的分布也是不确定的。 有可能第一个分片中B的信息有2个，但是没有排到前5，
 所以没有在最后合并的结果中出现。 这就导致B的总数少计算了2，本来可能排到第一位，却排到了A的后面。
 
@@ -548,5 +548,5 @@ ES中经常使用到的聚合结果集可以被缓存起来，以便更快速的
 - [ES之五：ElasticSearch聚合](https://www.cnblogs.com/duanxz/p/6528161.html)
 
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

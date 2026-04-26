@@ -17,7 +17,7 @@ tags:
 
 上面这行代码是如何实现的呢？通过 `javap -c` 我们可以看到对应的字节码，通过分析可知，其实内部调用了 `Integer.valueOf()` 方法。
 
-我们平时应该都用过或者见过 `parseInt` 和 `valueOf` 这两个方法。一般我们是想把 `String` 
+我们平时应该都用过或者见过 `parseInt` 和 `valueOf` 这两个方法。一般我们是想把 `String`
 类型的字符串数字转成 `int` 类型。从这个功能层面来说，这两个方法都一样，都可以胜任这个功能。
 
 但是在性能和实现细节上二者有非常大的区别，想写出更高效的代码还需要对此有深刻的认识。
@@ -91,7 +91,7 @@ ublic static int parseInt(String s, int radix) throws NumberFormatException{
 ```java
 public static Integer valueOf(String s) throws NumberFormatException {
     return Integer.valueOf(parseInt(s, 10));
-} 
+}
 ```
 可以看到，它的内部调用了 `parseInt` 方法完成字符串和 `int` 的转化，并通过重载方法 `valueOf(int) ` 完成最终到 `Integer` 的转换。
 
@@ -118,7 +118,7 @@ public static Integer valueOf(int i) {
 为什么需要缓存？因为数字在程序里出现的频率实在是太高了，并且也太容易被我们忽视它们对内存的影响了。
 
 试想一下，一个数字敏感的业务，如电商中的商品，其中包括价格属性，如果使用 `JVM` 内存来做缓存，如果商品数量超过一定程度，那么重复的价格的商品个数比例应该会很高。
-此时如果每次都用 `new Integer(price)` 来存储，那么无疑对内存是一种巨大的浪费。 
+此时如果每次都用 `new Integer(price)` 来存储，那么无疑对内存是一种巨大的浪费。
 
 #### 实现代码
 ```java
@@ -159,5 +159,5 @@ private static class IntegerCache {
 
 
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

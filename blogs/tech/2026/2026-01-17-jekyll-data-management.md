@@ -77,20 +77,20 @@ graph TD
         B[手动录入] --> D
         C[API抓取] --> D
     end
-    
+
     subgraph 存储层
         D --> E[_data/目录]
         E --> F[按类型分组]
         E --> G[按年份分组]
     end
-    
+
     subgraph 访问层
         F --> H[site.data.movies]
         G --> I[site.data.douban.2026]
         H --> J[页面渲染]
         I --> J
     end
-    
+
     subgraph 展示层
         J --> K[列表展示]
         J --> L[统计图表]
@@ -123,15 +123,15 @@ graph TD
 {% raw %}
 ```liquid
 {# 筛选评分大于4的图书 #}
-{% assign high_rated = site.data.books.all | 
+{% assign high_rated = site.data.books.all |
     where_exp: "book", "book.my_rating >= 4" %}
 
 {# 按分类筛选 #}
-{% assign tech_books = site.data.books.all | 
+{% assign tech_books = site.data.books.all |
     where_exp: "book", "book.tags contains '技术'" %}
 
 {# 排序 #}
-{% assign sorted_movies = site.data.movies.all | 
+{% assign sorted_movies = site.data.movies.all |
     sort: "my_rating" | reverse %}
 
 {# 限制数量 #}
@@ -154,29 +154,29 @@ graph TD
 
 module Jekyll
   module DataFilters
-    
+
     def group_by(array, key)
       array.group_by { |item| item[key] }
     end
-    
+
     def count_by(array, key)
       array.group_by { |item| item[key] }.transform_values(&:length)
     end
-    
+
     def this_year(array, date_key = "date")
       current_year = Time.now.year.to_s
-      array.select { |item| 
+      array.select { |item|
         item[date_key].to_s.start_with?(current_year)
       }
     end
-    
+
     def this_month(array, date_key = "date")
       current_month = Time.now.strftime("%Y-%m")
-      array.select { |item| 
+      array.select { |item|
         item[date_key].to_s.start_with?(current_month)
       }
     end
-    
+
   end
 end
 
@@ -194,20 +194,20 @@ module DataValidator
   def self.validate_movies(data)
     required_keys = ['id', 'title', 'poster', 'my_rating']
     errors = []
-    
+
     data.each_with_index do |movie, index|
       required_keys.each do |key|
         if movie[key].nil? || movie[key].empty?
           errors << "Row #{index}: missing #{key}"
         end
       end
-      
+
       # 验证评分范围
       if movie['my_rating'] && (movie['my_rating'] < 0 || movie['my_rating'] > 5)
         errors << "Row #{index}: invalid rating #{movie['my_rating']}"
       end
     end
-    
+
     errors
   end
 end
@@ -277,10 +277,10 @@ def sync_movies():
     """同步电影数据"""
     source_file = "data/movies_export.json"
     dest_file = "_data/movies/all.json"
-    
+
     with open(source_file, 'r') as f:
         movies = json.load(f)
-    
+
     # 数据清洗和转换
     cleaned = []
     for movie in movies:
@@ -294,11 +294,11 @@ def sync_movies():
             'watched_date': movie.get('watched_date', ''),
             'comment': movie.get('comment', '')
         })
-    
+
     # 保存
     with open(dest_file, 'w', encoding='utf-8') as f:
         json.dump(cleaned, f, ensure_ascii=False, indent=2)
-    
+
     print(f"✅ Synced {len(cleaned)} movies to {dest_file}")
 
 def sync_douban():
@@ -306,7 +306,7 @@ def sync_douban():
     for year in ['2021', '2022', '2023', '2024', '2025', '2026']:
         source = f"data/douban_{year}.json"
         dest = f"_data/douban/{year}.json"
-        
+
         if os.path.exists(source):
             with open(source, 'r') as f:
                 data = json.load(f)
@@ -341,10 +341,10 @@ git commit -m "data: update movies and douban posts - $(date +%Y-%m-%d)"
 
 module DataLoader
   @@data_cache = {}
-  
+
   def self.load_data(file_path)
     return @@data_cache[file_path] if @@data_cache[file_path]
-    
+
     full_path = Jekyll.sanitized_path(Dir.pwd, file_path)
     if File.exist?(full_path)
       @@data_cache[file_path] = YAML.load_file(full_path)
@@ -352,7 +352,7 @@ module DataLoader
       @@data_cache[file_path] = []
     end
   end
-  
+
   def self.clear_cache
     @@data_cache = {}
   end
@@ -402,7 +402,7 @@ end
 ### 页面展示截图
 
 > 📸 **截图位置**：请在此处插入图书页面截图
-> 
+>
 > ![Books Page](/images/screenshots/books-page.png)
 
 图书页面展示效果，包含：
@@ -412,7 +412,7 @@ end
 - 筛选和排序功能
 
 > 📸 **截图位置**：请在此处插入电影页面截图
-> 
+>
 > ![Movies Page](/images/screenshots/movies-page.png)
 
 电影页面展示效果，包含：

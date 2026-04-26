@@ -31,26 +31,26 @@ graph TB
         B -->|写入| D[本地JSON文件]
         C -->|存储| E[/images/douban/]
     end
-    
+
     subgraph "构建层 Build Layer"
         D -->|Jekyll读取| F[Liquid模板引擎]
         E -->|静态资源| F
         F -->|渲染| G[静态HTML页面]
     end
-    
+
     subgraph "展示层 Presentation Layer"
         G -->|加载| H[浏览器]
         H -->|渲染| I[Feed UI组件]
         I -->|懒加载| J[Giscus评论系统]
         I -->|IntersectionObserver| K[统计数据API]
     end
-    
+
     subgraph "第三方服务 External Services"
         L[GitHub Discussions] -->|提供评论存储| J
         K -->|查询| M[Giscus API]
         M -->|返回count| I
     end
-    
+
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style D fill:#bfb,stroke:#333,stroke-width:2px
     style G fill:#bbf,stroke:#333,stroke-width:2px
@@ -76,12 +76,12 @@ sequenceDiagram
     Python->>Douban: 下载图片
     Douban-->>Python: 返回图片二进制
     Python->>Python: 保存JSON + 图片到本地
-    
+
     Note over Jekyll,Browser: 页面构建阶段
     Jekyll->>Jekyll: 读取JSON数据
     Jekyll->>Jekyll: Liquid模板渲染
     Jekyll-->>Browser: 返回静态HTML
-    
+
     Note over Browser,Giscus: 用户交互阶段
     User->>Browser: 滚动页面
     Browser->>Browser: IntersectionObserver触发
@@ -90,7 +90,7 @@ sequenceDiagram
     GitHub-->>Giscus: 返回comments/reactions
     Giscus-->>Browser: 返回统计数据
     Browser->>Browser: 更新UI显示
-    
+
     User->>Browser: 点击评论图标
     Browser->>Browser: 移动全局Giscus容器
     Browser->>Giscus: 重载iframe(新term)
@@ -116,25 +116,25 @@ flowchart TD
     Start([开始同步]) --> Auth{检查认证}
     Auth -->|Cookie有效| FetchList[获取广播列表]
     Auth -->|Cookie失效| Error1[抛出认证错误]
-    
+
     FetchList --> ParseHTML[解析HTML/JSON]
     ParseHTML --> ExtractData[提取文本/时间/图片]
-    
+
     ExtractData --> HasImages{包含图片?}
     HasImages -->|是| DownloadImg[并发下载图片]
     HasImages -->|否| SaveJSON
-    
+
     DownloadImg --> CheckExist{图片已存在?}
     CheckExist -->|是| Skip[跳过下载]
     CheckExist -->|否| Download[下载并保存]
-    
+
     Download --> SaveJSON[保存JSON数据]
     Skip --> SaveJSON
-    
+
     SaveJSON --> CheckNext{还有更多?}
     CheckNext -->|是| FetchList
     CheckNext -->|否| End([同束])
-    
+
     Error1 --> End
 ```
 
@@ -144,7 +144,7 @@ class DoubanSyncClient:
     def __init__(self, cookie, user_id):
         self.session = requests.Session()
         self.session.headers.update({'Cookie': cookie})
-    
+
     def fetch_statuses(self, year):
         """获取指定年份的所有广播"""
         statuses = []
@@ -156,7 +156,7 @@ class DoubanSyncClient:
             statuses.extend(self._parse_statuses(data))
             page += 1
         return statuses
-    
+
     def download_images(self, statuses):
         """并发下载图片"""
         with ThreadPoolExecutor(max_workers=5) as executor:
@@ -190,14 +190,14 @@ graph LR
     A --> E[响应式]
     A --> F[暗黑模式]
     A --> G[Giscus集成]
-    
+
     C --> C1[气泡背景]
     C --> C2[箭头]
     C --> C3[阴影]
-    
+
     E --> E1[PC端]
     E --> E2[移动端弹窗]
-    
+
     F --> F1[颜色变量]
     F --> F2[主题切换]
 ```
@@ -255,20 +255,20 @@ graph TB
         C1 --> D1[创建iframe]
         D1 --> E1[问题: 只有第一个有效]
     end
-    
+
     subgraph "V2: postMessage方案 ❌"
         A2[单个Giscus实例] --> B2[监听点击事件]
         B2 --> C2[postMessage更新配置]
         C2 --> D2[问题: Giscus不响应]
     end
-    
+
     subgraph "V3: iframe重载方案 ✅"
         A3[全局Giscus容器] --> B3[DOM移动到目标Feed]
         B3 --> C3[修改iframe.src参数]
         C3 --> D3[iframe重新加载]
         D3 --> E3[成功: 显示正确评论]
     end
-    
+
     style E1 fill:#fbb
     style D2 fill:#fbb
     style E3 fill:#bfb
@@ -286,13 +286,13 @@ function toggleGiscus(el) {
     var wrapper = el.closest('.status-bubble')
                     .querySelector('.giscus-wrapper');
     var term = wrapper.getAttribute('data-term');
-    
+
     // 初次加载
     if (!globalGiscusContainer) {
         initGlobalGiscus(wrapper, term);
         return;
     }
-    
+
     // 复用实例
     moveGiscusToWrapper(wrapper);
     updateGiscusTerm(term);
@@ -300,14 +300,14 @@ function toggleGiscus(el) {
 
 function updateGiscusTerm(newTerm) {
     if (currentTerm === newTerm) return;
-    
+
     // 关键: 修改iframe src强制重载
     var currentSrc = giscusIframe.src;
     var newSrc = currentSrc.replace(
         /term=[^&]*/,
         'term=' + encodeURIComponent(newTerm)
     );
-    
+
     giscusIframe.src = newSrc;
     currentTerm = newTerm;
 }
@@ -340,7 +340,7 @@ sequenceDiagram
 
     Page->>Observer: 注册.giscus-stats元素
     Note over Observer: 监听元素进入视口
-    
+
     Observer->>Observer: 元素进入rootMargin
     Observer->>API: fetchGiscusStats(term)
     API->>API: GET /api/discussions?term=xxx
@@ -384,11 +384,11 @@ graph TD
     A[检测设备] --> B{屏幕宽度}
     B -->|> 768px| C[PC端布局]
     B -->|<= 768px| D[移动端布局]
-    
+
     C --> C1[直接显示图片网格]
     C --> C2[hover效果]
     C --> C3[inline评论展开]
-    
+
     D --> D1[点击打开弹窗]
     D --> D2[全屏查看内容]
     D --> D3[滑动查看图片]
@@ -441,7 +441,7 @@ function showFullImage(imgSrc) {
 **解决方案**:
 ```liquid
 <!-- 错误方式 -->
-{% raw %}{{ status.content | slugify }}{% endraw %} 
+{% raw %}{{ status.content | slugify }}{% endraw %}
 <!-- 结果: "" (空字符串) -->
 
 <!-- 正确方式 -->
@@ -475,7 +475,7 @@ function showFullImage(imgSrc) {
 ```javascript
 // 初始化时检测当前主题
 var theme = document.documentElement
-                    .getAttribute('data-theme') === 'dark' 
+                    .getAttribute('data-theme') === 'dark'
                     ? 'dark' : 'light';
 
 script.setAttribute("data-theme", theme);
@@ -548,7 +548,7 @@ script.setAttribute("data-theme", theme);
 
 ---
 
-**项目地址**: [GitHub](https://github.com/stuartlau/stuartlau.github.io)  
-**在线演示**: [豆瓣广播](/douban/)  
-**作者**: Stuart Lau  
+**项目地址**: [GitHub](https://github.com/stuartlau/stuartlau.github.io)
+**在线演示**: [豆瓣广播](/douban/)
+**作者**: Stuart Lau
 **完成日期**: 2026-01-10

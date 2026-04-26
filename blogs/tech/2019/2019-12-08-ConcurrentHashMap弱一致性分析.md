@@ -11,7 +11,7 @@ tags:
     - Java
     - ConcurrentHashMap
 ---
-    
+
 > ConcurrentHashMap是Java中的一个经典的「读不加锁写加锁」的数据结构，但它并不是强一致性的，本文基于JDK1.6对其特性进行一定的分析。
 
 #### ConcurrentHashMap#get
@@ -171,5 +171,5 @@ ConcurrentHashMap的弱一致性主要是为了提升效率，是一致性与效
 - http://ifeve.com/concurrenthashmap-weakly-consistent/
 - https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

@@ -12,7 +12,7 @@ tags:
     - SpringMVC
     - SpringBoot
 ---
-    
+
 > 本文主要梳理在将SpringMVC项目迁到SpringBoot框架下时遇到的各种编译、部署和上线等问题的梳理和解决方案。
 
 ### 迁移
@@ -37,7 +37,7 @@ SpringMVC的实现中需要在web.xml中声明引入Spring自带的请求上下�
 ```
 而在SpringBoot中已经完全不需要再声明这个监听器了，简化了配置。
 
-而对于自定义的监听器，之前是使用配置文件的方式声明，这次改造为使用 *@WebListener* 注解来实现，但是需要注意在启动类的声明出使用 *@ServletComponentScan* 
+而对于自定义的监听器，之前是使用配置文件的方式声明，这次改造为使用 *@WebListener* 注解来实现，但是需要注意在启动类的声明出使用 *@ServletComponentScan*
 来扫描类所在的包路径，否则会识别不出来。
 
 > SpringMVC时期需要在servlet.xml文件中通过<context:component-scan base-package="com.xx"/> 标签来声明扫描包。
@@ -120,9 +120,9 @@ class SpringMvcSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // disable csrf Protection because it is enabled by default in spring security
         http.cors().and().csrf().disable();
-        // disable default http headers spring security sets 
+        // disable default http headers spring security sets
         http.headers().defaultsDisabled().cacheControl();
-    
+
         http.addFilterAfter(encodingFilter(), BasicAuthenticationFilter.class);
         http.addFilterAfter(requestContextFilter(), CharacterEncodingFilter.class);
         http.addFilterAfter(uploadScopeFilter(), RequestContextFilter.class);
@@ -131,7 +131,7 @@ class SpringMvcSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
-注意代码里面显式禁止掉了 *CORS* 、 *CSRF* 因为默认Spring Security已经支持了，如果不去掉则Reponse中可能会出现多个 
+注意代码里面显式禁止掉了 *CORS* 、 *CSRF* 因为默认Spring Security已经支持了，如果不去掉则Reponse中可能会出现多个
 *Access-Control-Allow-Origin* 头的问题导致浏览器报错。
 
 > The 'Access-Control-Allow-Origin' header contains multiple values '*, *', but only one is allowed.
@@ -209,7 +209,7 @@ java.lang.IllegalArgumentException: The character [_] is never valid in a domain
 
 就像Tomcat9中声明的一样：
  ```
-This system property is deprecated. Use the relaxedPathChars and relaxedQueryChars attributes of the Connector instead. 
+This system property is deprecated. Use the relaxedPathChars and relaxedQueryChars attributes of the Connector instead.
 These attributes permit a wider range of characters to be configured as valid.
 
 ```
@@ -223,7 +223,7 @@ public WebServerFactoryCustomizer<TomcatServletWebServerFactory> containerCustom
 
 public static class EmbeddedTomcatCustomizer implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
 
-    
+
     public void customize(TomcatServletWebServerFactory factory) {
         factory.addConnectorCustomizers((TomcatConnectorCustomizer) connector -> {
             connector.setAttribute("relaxedPathChars", "\"<>[\]^`{|}");
@@ -234,7 +234,7 @@ public static class EmbeddedTomcatCustomizer implements WebServerFactoryCustomiz
 ```
 
 ```
-Enable strict validation of the provided host name and port for all connectors. 
+Enable strict validation of the provided host name and port for all connectors.
 Requests with invalid host names and/or ports will be rejected with a 400 response. (markt)
 
 ```
@@ -281,5 +281,5 @@ location ^~ /rest/api/applyToken {
 - [springboot系列文章之实现跨域请求(CORS)](https://juejin.im/post/5b99dcca6fb9a05d3154f8b7)
 - [Spring Security – Cache Control Headers](https://www.baeldung.com/spring-security-cache-control-headers)
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

@@ -56,11 +56,11 @@ subtitle: 技术博客，记录学习与成长
 }
 .blog-title { margin: 0 0 4px 0; font-size: 1.1rem; font-weight: 600; color: #1f2937; }
 .blog-subtitle { margin: 0; font-size: 0.9rem; color: #6b7280; }
-.tag-cloud { 
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 6px; 
-    padding: 12px 0; 
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px 0;
     align-content: flex-start;
 }
 .tag-cloud-clear {
@@ -123,15 +123,15 @@ document.addEventListener('DOMContentLoaded', async function() {
     try {
         const response = await fetch('/api/blogs.json');
         if (!response.ok) throw new Error('Failed to load data');
-        
+
         allPosts = await response.json();
         // Initial setup
         initTagCloud();
-        applyFilter(); 
-        
+        applyFilter();
+
     } catch (e) {
         console.error(e);
-        document.getElementById('blog-list').innerHTML = 
+        document.getElementById('blog-list').innerHTML =
             '<div class="loading-state">Failed to load posts. Please try again later.</div>';
     }
 });
@@ -171,7 +171,7 @@ function initTagCloud() {
         '#c2410c', '#1e40af', '#166534', '#991b1b', '#581c87'
     ];
     let colorIndex = 0;
-    
+
     tags.forEach(({ tag, count }) => {
         const a = document.createElement('a');
         a.className = 'tag';
@@ -184,7 +184,7 @@ function initTagCloud() {
         cloudEl.appendChild(a);
         colorIndex++;
     });
-    
+
     // Setup clear button
     const clearBtn = document.getElementById('tag-cloud-clear');
     if (clearBtn) {
@@ -196,7 +196,7 @@ function toggleTag(tag) {
     const cloudEl = document.getElementById('tag-cloud');
     const clearBtn = document.getElementById('tag-cloud-clear');
     const activeEl = document.getElementById('tag-cloud-active');
-    
+
     if (activeTag === tag) {
         // Deactivate
         activeTag = '';
@@ -209,12 +209,12 @@ function toggleTag(tag) {
         cloudEl.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
         const tagEl = cloudEl.querySelector(`[data-tag="${tag}"]`);
         if (tagEl) tagEl.classList.add('active');
-        
+
         clearBtn.hidden = false;
         activeEl.textContent = 'Filter: ' + tag;
         activeEl.hidden = false;
     }
-    
+
     applyFilter();
 }
 
@@ -224,12 +224,12 @@ function applyFilter() {
     } else {
         filteredPosts = [...allPosts];
     }
-    
+
     // Reset list
     const list = document.getElementById('blog-list');
     list.innerHTML = '';
     visibleCount = 0;
-    
+
     if (filteredPosts.length === 0) {
         list.innerHTML = '<div class="loading-state">No posts found for this tag.</div>';
         document.getElementById('load-more-blogs').classList.add('hidden');
@@ -242,24 +242,24 @@ function loadMoreBlogs() {
     const list = document.getElementById('blog-list');
     const start = visibleCount;
     const end = Math.min(start + PAGE_SIZE, filteredPosts.length);
-    
+
     if (start >= end) return;
-    
+
     const fragment = document.createDocumentFragment();
-    
+
     for (let i = start; i < end; i++) {
         const post = filteredPosts[i];
         const a = document.createElement('a');
         a.href = post.url;
         a.className = 'blog-item';
-        
+
         // Tags to display
         const displayTags = (post.tags || [])
             .filter(t => t !== 'Post' && t !== 'Jekyll' && t !== 'featured')
             .slice(0, 2)
             .map(t => `<span class="blog-tag">${t}</span>`)
             .join('');
-            
+
         a.innerHTML = `
             <div class="blog-item-author" style="display:flex; align-items:flex-start; margin-bottom:8px;">
                 <div class="post-avatar" style="width:40px; height:40px; margin-right:12px; flex-shrink:0;">
@@ -280,10 +280,10 @@ function loadMoreBlogs() {
         `;
         fragment.appendChild(a);
     }
-    
+
     list.appendChild(fragment);
     visibleCount = end;
-    
+
     // Button visibility
     const loadMoreBtn = document.getElementById('load-more-blogs');
     if (visibleCount >= filteredPosts.length) {

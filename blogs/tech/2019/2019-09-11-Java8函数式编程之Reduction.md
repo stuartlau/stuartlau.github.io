@@ -12,7 +12,7 @@ tags:
     - Java
     - Reduction
 ---
-    
+
 
 > Java8中引入了函数式计算以及Lambda和Stream等特性，其中的流式计算引入了收集器、组合器等规约操作用到概念，非常值得我们好好学习。
 >
@@ -23,12 +23,12 @@ tags:
 > Reduction operations
 >
 >  A reduction operation (also called a fold) takes a sequence of input elements and combines
-> 
+>
 > them into a single summary result by repeated application of a combining operation, such as
-> 
+>
 > finding the sum or maximum of a set of numbers, or accumulating elements into a list. The
-> 
-> streams classes have multiple forms of general reduction operations, called reduce() and 
+>
+> streams classes have multiple forms of general reduction operations, called reduce() and
 >
 > collect(), as well as multiple specialized reduction forms such as sum(), max(), or count().
 >
@@ -44,36 +44,36 @@ tags:
 可知，规约操作又称为 `fold` 折叠，它将一个序列的输入元素进行聚合后生成一个结果，操作过程是不断的重复「聚合操作」，比如比较数字大小或者加和操作。
 虽然可以通过串行循环的方式执行上述计算，但是性能确实不高。
 > However, there are good reasons to prefer a reduce operation over a mutative accumulation
-> 
+>
 > such as the above. Not only is a reduction "more abstract" -- it operates on the stream as a
-> 
+>
 > whole rather than individual elements -- but a properly constructed reduce operation is
-> 
-> inherently parallelizable, so long as the function(s) used to process the elements are 
+>
+> inherently parallelizable, so long as the function(s) used to process the elements are
 >
 > associative and stateless.
 
 因为规约操作是一种抽象的操作，它将数据流看成一个整体而不是独立的一个一个元素，所以并行计算在规约操作中十分常见，前提是代操作的元素和函数是无状态的和可组合的。
 
 > Reduction parallellizes well because the implementation can operate on subsets of the data in
-> 
+>
 > parallel, and then combine the intermediate results to get the final correct answer. (Even if
-> 
+>
 > the language had a "parallel for-each" construct, the mutative accumulation approach would still
 >
 > required the developer to provide thread-safe updates to the shared accumulating variable sum,
-> 
+>
 > and the required synchronization would then likely eliminate any performance gain from
-> 
+>
 > parallelism.) Using reduce() instead removes all of the burden of parallelizing the reduction
-> 
+>
 > operation, and the library can provide an efficient parallel implementation with no additional
-> 
+>
 > synchronization required.
 
 而规约操作在并行执行时一般都需要考虑线程安全问题，如并发更新操作可能因为不同的调度导致结果不同，导致开发者还需要考虑各种同步的问题，这样会降低并行计算带来的好处。
 但 `Java` 提供的`reduce()` 函数可以免去开发者对数据和操作进行额外的同步控制，一切都由底层自动帮我们完成，非常的方便。
- 
+
 ### Stream#reduce()
 
 `Stream` 带有一个 `reduce` 方法，通过该方法我们可以实现 `count` 、 `max` 、`min` 、 `sum` 等功能，非常强大。
@@ -87,14 +87,14 @@ tags:
 使用 `Java` 代码来表述如下：
 
 ```java
-T result = null; 
+T result = null;
 if (a == null) return result;
 T identity = a[0];
 result = identity;
 for (int i = 1; i < n; i++) {
-   result = accumulator.apply(result, a[i]);  
+   result = accumulator.apply(result, a[i]);
 }
-return result;  
+return result;
 ```
 
 这里的 `identity` 其实就是第一个元素，整体计算次数为 `n - 1` 。计算的顺序为，a[0]与a[1]进行二合运算，结果与a[2]做二合运算，一直到最后与a[n-1]做二合运算。
@@ -109,11 +109,11 @@ return result;
 使用`Java`代码来表述如下：
 
 ```java
-T result = identity; 
+T result = identity;
 for (int i = 0; i < n; i++) {
-   result = accumulator.apply(result, a[i]);  
+   result = accumulator.apply(result, a[i]);
 }
-return result; 
+return result;
 ```
 
 注意区分与一个参数的 `reduce` 方法的不同：它多了一个初始化的值，因此计算的顺序是`identity` 与a[0]进行二合运算，结果与a[1]再进行二合运算...，最终与a[n-1]进行二合运算，一共计算 `n` 次。
@@ -131,9 +131,9 @@ value = Stream.of(1, 2, 3, 4).reduce(100, Integer::sum);
 > \<U\> U reduce(U identity, BiFunction<U,? super T,U> accumulator, BinaryOperator<U> combiner)
 
 - `identity` - the identity value for the combiner function
-- `accumulator` - an associative, non-interfering, stateless function for incorporating an 
+- `accumulator` - an associative, non-interfering, stateless function for incorporating an
 additional element into a result
-- `combiner` - an associative, non-interfering, stateless function for combining two values, which 
+- `combiner` - an associative, non-interfering, stateless function for combining two values, which
 must be compatible with the accumulator function
 
 乍一看与两个参数的 `reduce` 方法几乎一致，但是 `accumulator` 的类型变成了 `BiFunction` 而不是 `BinaryOperator` ，并且还多了一个 `combiner` 参数，而它的类型是第二个方法里 `accumulator` 参数的类型—— `BinaryOperator` 。
@@ -176,13 +176,13 @@ Integer ageSum = persons
 > An operator or function op is associative if the following holds:
 >
 >      (a op b) op c == a op (b op c)
->  
->  
+>
+>
 >The importance of this to parallel evaluation can be seen if we expand this to four terms:
 >
 >      a op b op c op d == (a op b) op (c op d)
->  
->  
+>
+>
 > So we can evaluate (a op b) in parallel with (c op d), and then invoke op on the results.
 >
 > Examples of associative operations include numeric addition, min, and max, and string concatenation.
@@ -192,16 +192,16 @@ Integer ageSum = persons
 2. `Non-interference`，无干扰，`JavaDoc` 中的描述如下：
 
 >Streams enable you to execute possibly-parallel aggregate operations over a variety of data sources,
-> 
+>
 >including even non-thread-safe collections such as ArrayList. This is possible only if we can prevent
-> 
->interference with the data source during the execution of a stream pipeline. 
+>
+>interference with the data source during the execution of a stream pipeline.
 
 举一个 `interference` 的例子：
 > For well-behaved stream sources, the source can be modified before the terminal operation commences
-> 
+>
 > and those modifications will be reflected in the covered elements. For example, consider the
-> 
+>
 > following code:
 >
 >      List<String> l = new ArrayList(Arrays.asList("one", "two"));
@@ -211,32 +211,32 @@ Integer ageSum = persons
 >      l.add("three");
 >
 >      String s = sl.collect(joining(" "));
-  
+
 > First a list is created consisting of two strings: "one"; and "two". Then a stream is created from
-> 
+>
 > that list. Next the list is modified by adding a third string: "three". Finally the elements of
  the
-> 
+>
 > stream are collected and joined together. Since the list was modified before the terminal collect
-> 
+>
 > operation commenced the result will be a string of "one two three".
- 
+
 由于在未调用`terminal` 操作之前，是可以对`stream source` 进行操作的，如添加或删除元素，该行为会在 `terminal`操作的时候反映在结果中。
 
 3.`Stateless`，无状态，`JavaDoc` 中的描述如下：
 >  Stream pipeline results may be nondeterministic or incorrect if the behavioral parameters to the
-> 
+>
 >  stream operations are stateful. A stateful lambda (or other object implementing the appropriate
-> 
+>
 >  functional interface) is one whose result depends on any state which might change during the
-> 
+>
 >  execution of the stream pipeline. An example of a stateful lambda is the parameter to map() in:
 >
 >        Set<Integer> seen = Collections.synchronizedSet(new HashSet<>());
 >
 >        stream.parallel().map(e -> { if (seen.add(e)) return 0; else return e; })...
 >
->    
+>
 >  Here, if the mapping operation is performed in parallel, the results for the same input could vary
 >
 >   from run to run, due to thread scheduling differences, whereas, with a stateless lambda expression
@@ -244,15 +244,15 @@ Integer ageSum = persons
 >   the results would always be the same.
 >
 >  Note also that attempting to access mutable state from behavioral parameters presents you with a
-> 
+>
 >  bad choice with respect to safety and performance; if you do not synchronize access to that state,
-> 
+>
 >  you have a data race and therefore your code is broken, but if you do synchronize access to that
-> 
+>
 >  state, you risk having contention undermine the parallelism you are seeking to benefit from.
-> 
+>
 >  The best approach is to avoid stateful behavioral parameters to stream operations entirely;
-> 
+>
 >  there is usually a way to restructure the stream pipeline to avoid statefulness.
 
 无状态，保证了在并行执行的时候可以得到相同的结果，如果依赖中间的状态，则由于并发调度的顺序不同，每次得到的结果是不同的。
@@ -260,7 +260,7 @@ Integer ageSum = persons
 
 #### 特点
 > `reduce()` performs an immutable reduction (i.e reduction produces a new value/object).
-  
+
 `reduce` 方法每次总是返回一个新的值，`accumulator` 也是每次处理元素的时候返回一个新值。所以如果你想将流中的元素规约成一个更复杂的对象，如集合，这样的效率就非常低了。
 比如每次你都要将元素加到集合中，那么每次`accumulator` 都会生成一个新的集合对象，仅包含这次处理的元素，堆内存也造成了一定的浪费。
 
@@ -313,19 +313,19 @@ String concat = stringStream.collect(StringBuilder::new, StringBuilder::append,
 ```
 #### 特点
 `collect` 方法执行的是「可变规约」：
-> Performs a mutable reduction (i.e. mutates the resulting object). Needed to apply a reduction 
+> Performs a mutable reduction (i.e. mutates the resulting object). Needed to apply a reduction
 performed by a mutating method of a mutable type.
 
 #### 1. 三个参数版本
-它的三参数方法声明如下：   
+它的三参数方法声明如下：
 
 > \<R\> R collect(Supplier<R> supplier, BiConsumer<R,? super T> accumulator, BiConsumer<R,R> combiner)
 
-- `supplier` - a function that creates a new result container. For a parallel execution, this 
+- `supplier` - a function that creates a new result container. For a parallel execution, this
 function may be called multiple times and must return a fresh value each time.
-- `accumulator` - an associative, non-interfering, stateless function for incorporating an 
+- `accumulator` - an associative, non-interfering, stateless function for incorporating an
 additional element into a result
-- `combiner` - an associative, non-interfering, stateless function for combining two values, which 
+- `combiner` - an associative, non-interfering, stateless function for combining two values, which
 must be compatible with the accumulator function
 
 上述三个参数和之前的`Stream#reduce` 方法的三参数版本的说明除了 `supplier` 要求是一个新容器之外的描述是一致的，只不过类型不一样而已。
@@ -343,14 +343,14 @@ result = stream.collect(ArrayList::new, List::add, List::addAll);
 - 第一个参数即`supplier`，要求每次都生成一个新的 `ArrayList` ，这里直接 `new` 了一个对象
 - 第二个参数即`accumulator`，类型为 `BiConsumer<R,? super T>` ，它的第一个参数是前面生成的 `ArrayList` 对象，第二个参数是stream中包含的元素，方法体就是把stream中的元素加入ArrayList
 对象中。第二个方法被反复调用直到原stream的元素被消费完毕；
-- 第三个参数即`combiner`，类型为 `BiConsumer<R, 
+- 第三个参数即`combiner`，类型为 `BiConsumer<R,
 R>`，它的两个参数都是 `ArrayList` 类型的，方法体就是把第二个 `ArrayList` 全部加入到第一个中；
 
 可见`reduce`和`collect`方法中后两个变量的区别：
 - `accumulator`：收集器，对于规约来说，它需要对两个参数进行操作，如加和、比较等，并有一个返回结果；对于收集来说，它需要将一个参数加入到另外一个 `container` 里，没有返回值
 - `combiner`：组合器，同上，对于规约来说，它需要对部分中间结果进行合并并返回最终的结果；对于收集来说，它需要对部分中间结果进行合并，没有返回值
 
-> 也就是说 `collect` 需要自己提供返回结果的 `container` 对象的创建过程，而 `reduce` 
+> 也就是说 `collect` 需要自己提供返回结果的 `container` 对象的创建过程，而 `reduce`
 不需要，它是一步一步将中间结果计算后返回的，不计算到最后不知道这个结果是如何构造出来的。
 
 
@@ -386,7 +386,7 @@ R>`，它的两个参数都是 `ArrayList` 类型的，方法体就是把第二�
      * result
      */
     BinaryOperator<A> combiner();
-    
+
     /**
      * Perform the final transformation from the intermediate accumulation type
      * {@code A} to the final result type {@code R}.
@@ -401,8 +401,8 @@ R>`，它的两个参数都是 `ArrayList` 类型的，方法体就是把第二�
     Function<A, R> finisher();
 ```
 
-可以看到其实它的内部三个方法跟`collect`三个参数版本的中的三个参数： `supplier` 、 `accumulator` 、 `combiner` 
-是一一对应的，只不过 `combiner` 是`BinaryOperator` 类型，而不是 `BiConsumer` 类型，这个参数类型和 `reduce` 
+可以看到其实它的内部三个方法跟`collect`三个参数版本的中的三个参数： `supplier` 、 `accumulator` 、 `combiner`
+是一一对应的，只不过 `combiner` 是`BinaryOperator` 类型，而不是 `BiConsumer` 类型，这个参数类型和 `reduce`
 方法的三参数版本中的 `combiner` 是一样的。
 
 那么上面复杂的三参数实现的收集集合信息的代码就可以变成下面这种简洁的写法：
@@ -432,14 +432,14 @@ public static <T>
     Stream<Integer> stream = Stream.of(1, 2, 3);
     List<Integer> result = stream.collect(() -> new ArrayList<>(), (list, item) -> list.add(item), (one, two) -> one.addAll(two));
     System.out.println(result);
-    
+
      // combiner方法随意写
     stream = Stream.of(1, 2, 3);
     result = stream.collect(() -> new ArrayList<>(), (list, item) -> list.add(item), (one, two) -> one.size());
     System.out.println(result);
-    
+
     // supplier使用共享的变量
-    List aa = new ArrayList<>(); 
+    List aa = new ArrayList<>();
     stream = Stream.of(1, 2, 3);
     result = stream.collect(() -> aa, (list, item) -> list.add(item), (one, two) -> one.addAll(two));
     System.out.println(result);
@@ -452,13 +452,13 @@ public static <T>
     List<Integer> result = stream.parallel().collect(() -> new ArrayList<>(), (list, item) ->
             list.add(item), (one, two) -> one.addAll(two));
     System.out.println(result);
-    
+
     // combiner会被调用，需要对子结果集进行聚合
     stream = Stream.of(1, 2, 3);
     result = stream.parallel().collect(() -> new ArrayList<>(), (list, item) -> list.add(item), (one, two) -> one.size());
-    System.out.println(result); 
+    System.out.println(result);
     // output: 1
-    
+
     // 使用了共享变量，所以多线程情况下都是使用的一个集合，所以返回结果会非常多
     List aa = new ArrayList<>();
     stream = Stream.of(1, 2, 3);
@@ -497,9 +497,9 @@ Map<Integer, List<String>> peopleByAge = people.stream().collect(groupingBy(p ->
 ```java
 Map<String, Map<String, List<Person>>> peopleByStateAndCity
               = personStream.collect(groupingBy(Person::getState, groupingBy(Person::getCity)));
-            
+
 ```
-在这里，第二个收集器我们称之为「下游收集器」，它是生成部分结果的配方，主收集器中会用到下游收集器。`groupingBy(classifier)` 内部使用了 `toList` 作为了 
+在这里，第二个收集器我们称之为「下游收集器」，它是生成部分结果的配方，主收集器中会用到下游收集器。`groupingBy(classifier)` 内部使用了 `toList` 作为了
 `downstream` 的 `Collector` 。
 
 再来看一个内置 `Collector` 的例子 —— `averagingInt` 方法，它内部直接实例化了 `Collector` 接口：
@@ -537,7 +537,7 @@ sumAgeByName = people.stream().collect(groupingBy(p -> p.name, summingInt((Perso
 `mapper`：类型转换器，将参数T转换为U类型，这个地方不太一样，主要是用于做类型转换，`reduce` 方法没这个概念，因为数据流在创建开始就是固定了类型的，无需转换
 `op`：用于做 `reduce` 操作的 `BinaryOperator` 变量，这个 `op` 其实对应 `reduce` 方法中的二参数版本中的 `accumulator` 即对数据流中的数据进行聚合
 
-来看一下它的实现，其实也是底层实例化了 `Collector` 接口，并将 `identity` 变成 `supplier` 每次返回的结果，并将 `mapper` 在 `accumulator` 
+来看一下它的实现，其实也是底层实例化了 `Collector` 接口，并将 `identity` 变成 `supplier` 每次返回的结果，并将 `mapper` 在 `accumulator`
 中对 `T` 类型元素 `t` 和 `U` 类型 `container` 进行运算：
 ```java
 public static <T, U>
@@ -552,7 +552,7 @@ public static <T, U>
     }
 ```
 
-代码示例中给出的另外一个实现方法，即使用 `summingInt` 方法，它返回的是一个 `Collector` 实现，完成了规约的功能： 
+代码示例中给出的另外一个实现方法，即使用 `summingInt` 方法，它返回的是一个 `Collector` 实现，完成了规约的功能：
 ```java
 public static <T> Collector<T, ?, Integer>
     summingInt(ToIntFunction<? super T> mapper) {
@@ -609,38 +609,38 @@ public static <T> Collector<T, ?, Double>
 >
 > ```
 >     Comparator<Person> byHeight = Comparator.comparing(Person::getHeight);
-> 
+>
 >     Map<City, Person> tallestByCity
-> 
+>
 >         = people.stream().collect(groupingBy(Person::getCity, reducing(BinaryOperator.maxBy(byHeight))));
 > ```
 
 
 `Collectors` 类提供很多类似的收集器：
 > averagingDouble:求平均值，Stream的元素类型为double
-> 
+>
 > averagingInt:求平均值，Stream的元素类型为int
-> 
+>
 > averagingLong:求平均值，Stream的元素类型为long
-> 
+>
 > counting:Stream的元素个数
-> 
+>
 > maxBy:在指定条件下的，Stream的最大元素
-> 
+>
 > minBy:在指定条件下的，Stream的最小元素
-> 
+>
 > reducing: reduce操作
-> 
+>
 > summarizingDouble:统计Stream的数据(double)状态，其中包括count，min，max，sum和平均。
-> 
+>
 > summarizingInt:统计Stream的数据(int)状态，其中包括count，min，max，sum和平均。
-> 
+>
 > summarizingLong:统计Stream的数据(long)状态，其中包括count，min，max，sum和平均。
-> 
+>
 > summingDouble:求和，Stream的元素类型为double
-> 
+>
 > summingInt:求和，Stream的元素类型为int
-> 
+>
 > summingLong:求和，Stream的元素类型为long
 
 
@@ -649,5 +649,5 @@ public static <T> Collector<T, ?, Double>
 - https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#Reduction
 - https://mohammadrasoolshaik.wordpress.com/2017/03/21/java-8-streams-collect-vs-reduce/
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 > 转载请保留原文链接.

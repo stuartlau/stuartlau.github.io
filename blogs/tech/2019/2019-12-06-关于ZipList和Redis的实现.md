@@ -11,23 +11,23 @@ tags:
     - Redis
     - ZipList
 ---
-    
-> ziplist是一个经过特殊编码的List，但它`并不是链表或双向链表`，而是一块`连续的内存空间`来存储，它的设计目标就是为了提高存储效率，Redis中的hash和sorted 
+
+> ziplist是一个经过特殊编码的List，但它`并不是链表或双向链表`，而是一块`连续的内存空间`来存储，它的设计目标就是为了提高存储效率，Redis中的hash和sorted
 set两种数据结构底层都有它的存在，它是如何保存hash的field和value的以及它是如何保存zset的member和score的？本文对其进行一定的分析。
 
 
 ### 什么是ziplist
 Redis官方对于ziplist的定义是（出自ziplist.c的文件头部注释）：
 
-> The ziplist is a specially encoded dually linked list that is designed to be very memory 
+> The ziplist is a specially encoded dually linked list that is designed to be very memory
 efficient. It stores both strings and integer values, where integers are encoded as actual integers instead of a series of characters. It allows push and pop operations on either side of the list in O(1) time.
 
-即，ziplist是一个经过特殊编码的 `双向链表` 
+即，ziplist是一个经过特殊编码的 `双向链表`
 ，它的设计目标就是为了提高存储效率。ziplist可以用于存储字符串或整数，其中整数是按真正的二进制表示进行编码的，而不是编码成字符串序列。
 它能以 `O(1)` 的时间复杂度在表的两端提供 `push` 和`pop` 操作。
 
 实际上，ziplist充分体现了Redis
-对于「存储效率」的追求。一个普通的双向链表，链表中每一项都占用独立的一块内存，各项之间用地址指针（或引用）连接起来。这种方式会带来大量的 `内存碎片` 
+对于「存储效率」的追求。一个普通的双向链表，链表中每一项都占用独立的一块内存，各项之间用地址指针（或引用）连接起来。这种方式会带来大量的 `内存碎片`
 ，而且地址指针也会占用额外的内存。而ziplist
 却是将表中每一项存放在前后 `连续的地址空间` 内，一个ziplist整体占用一大块内存。 `它是一个表（list），但其实不是一个链表（linked list）` 。
 ### ziplist的数据结构定义
@@ -41,7 +41,7 @@ efficient. It stores both strings and integer values, where integers are encoded
 - entry: 表示真正存放数据的数据项，长度不定。一个数据项（entry）也有它自己的内部结构，这个稍后再解释。
 - zlend: ziplist最后1个字节，是一个结束标记，值固定等于255。
 
-> 上面的定义中还值得注意的一点是：zlbytes, zltail, zllen既然占据多个字节，那么在存储的时候就有大端（big endian）和小端（little 
+> 上面的定义中还值得注意的一点是：zlbytes, zltail, zllen既然占据多个字节，那么在存储的时候就有大端（big endian）和小端（little
 endian）的区别。ziplist采取的是小端模式来存储，这一点和ProtoBuffer是一样的。在解析多个字节序列时需要特别注意调换顺序。
 
 为什么最后一个值固定为255呢？
@@ -147,10 +147,10 @@ Redis中的sorted set，是在skiplist、dict和ziplist基础上构建起来的:
 
 说回用ziplist保存sorted set数据的case：
 
-ziplist就是由很多数据项组成的一大块 *连续内存* 。由于sorted set的每一项元素都由数据和score组成，因此，当使用zadd命令插入一个 *(数据, score)* 
+ziplist就是由很多数据项组成的一大块 *连续内存* 。由于sorted set的每一项元素都由数据和score组成，因此，当使用zadd命令插入一个 *(数据, score)*
 对的时候，底层在相应的ziplist上就插入两个数据项：数据在前，score紧跟在后，如上面的例子中的图例。
 
-ziplist的主要优点是节省内存，但它上面的查找操作只能按顺序查找（可以正序也可以倒序）。因此，sorted 
+ziplist的主要优点是节省内存，但它上面的查找操作只能按顺序查找（可以正序也可以倒序）。因此，sorted
 set的各个查询操作，就是在ziplist上从前向后（或从后向前）一步步查找，每一步前进两个数据项，跨越一个 *(数据, score)* 对。
 
 随着数据的插入，sorted set底层的这个ziplist就可能会转成zset的实现（转换过程详见t_zset.c的zsetConvert）。那么到底插入多少才会转呢？
@@ -169,7 +169,7 @@ set的各个查询操作，就是在ziplist上从前向后（或从后向前）�
  9) "zset-max-ziplist-value"
 10) "64"
 ```
-我们主要关注后两个关于zset结构的配置，最大entry个数为128个，以及最大的entry中的value长度为64，一旦超过了这两个限制中的一个，那么Redis将使用 skiplist 
+我们主要关注后两个关于zset结构的配置，最大entry个数为128个，以及最大的entry中的value长度为64，一旦超过了这两个限制中的一个，那么Redis将使用 skiplist
 来实现zset结构。
 
 zset结构的代码定义如下：
@@ -211,5 +211,5 @@ typedef struct zset {
 - http://zhangtielei.com/posts/blog-redis-ziplist.html
 - https://redisbook.readthedocs.io/en/latest/compress-datastruct/ziplist.html
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

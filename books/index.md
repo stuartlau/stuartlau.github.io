@@ -1,6 +1,6 @@
 ---
 layout: books
-title: 
+title:
 dataset: all
 permalink: /books/index.html
 ---

@@ -120,7 +120,7 @@ Haha, how fun. Truth is, burying that coin felt more like a gift to myself. I lo
 Either way, I love this relay. The game is on.
 
 <img src="/images/in-post/AliMountain-2.jpg" width="250" height="300">
- 
+
 ### Stories in Hostels and CouchSurfing
 
 ### Chinese mainland travellers met in Kenting

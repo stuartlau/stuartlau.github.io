@@ -19,7 +19,7 @@ sequenceDiagram
     participant U as 用户浏览器
     participant S as 服务器
     participant D as 数据库
-    
+
     U->>S: 发送请求 (HTTP/HTTPS)
     S->>D: 查询数据
     D-->>S: 返回结果
@@ -125,7 +125,7 @@ graph TD
     D --> E4[cover: 封面图]
     D --> E5[interact_info: 互动数据]
     D --> E6[user: 作者信息]
-    
+
     E5 --> F1[liked_count: 点赞数]
     E5 --> F2[comment_count: 评论数]
 ```
@@ -228,11 +228,11 @@ for note in notes:
     type_counts[t] = type_counts.get(t, 0) + 1
 
 # 互动数据汇总
-total_likes = sum(int(note['interact_info']['liked_count']) 
+total_likes = sum(int(note['interact_info']['liked_count'])
                   for note in notes)
 
 # 排序输出
-sorted_notes = sorted(notes, 
+sorted_notes = sorted(notes,
                       key=lambda x: int(x['interact_info']['liked_count']),
                       reverse=True)
 ```
@@ -247,25 +247,25 @@ graph TB
         A[Web浏览器]
         B[App]
     end
-    
+
     subgraph 接入层
         C[CDN]
         D[负载均衡]
     end
-    
+
     subgraph 服务层
         E[用户服务]
         F[内容服务]
         G[推荐服务]
         H[互动服务]
     end
-    
+
     subgraph 数据层
         I[MySQL]
         J[Redis]
         K[ElasticSearch]
     end
-    
+
     A --> C
     B --> C
     C --> D

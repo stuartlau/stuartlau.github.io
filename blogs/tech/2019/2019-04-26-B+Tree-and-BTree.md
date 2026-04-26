@@ -141,7 +141,7 @@ InnoDB的所有数据文件（后缀为 *.ibd* 的文件），它的大小始终
 #### ORDER BY 如何使用索引?
 要说 `ORDER BY` 如何利用索引进行排序，得先弄清楚 `ORDER BY` 本身是如何进行排序的。
 在 MySQL 中，会给「每个线程」分配一块内存空间 buffer 用于排序，还有一个参数叫做 `max_length_for_sort_data` ，
-这个参数作用是 `用来规定排序返回行的字段长度` ，默认值是 1024，最小值为 
+这个参数作用是 `用来规定排序返回行的字段长度` ，默认值是 1024，最小值为
 4，如果排序返回行的字段长度没有超过这个参数的值，就会使用一次访问+排序，否则使用访问+排序+访问。
 
 > SELECT name, age, employee_id FROM employees WHERE name='elsef' ORDER BY employee_id;
@@ -155,7 +155,7 @@ InnoDB的所有数据文件（后缀为 *.ibd* 的文件），它的大小始终
 - 对 buffer 中的数据根据 employee_id 进行排序；
 - 将排序结果返回；
 
-那么假设我现在的 `max_length_for_sort_data` 
+那么假设我现在的 `max_length_for_sort_data`
 的值很小，要查询的返回子段长度超过了这个值，那就会变成这样的流程：精简取出字段范围（buffer不够嘛）-》按字段排序buffer内容-》回表获取其他字段，
 即二次访问流程变长，流程如下：
 
@@ -267,5 +267,5 @@ CPU成本=1*0.2+1*0.2=0.4(读取二级索引的成本+回表聚簇索引的成�
 - https://tech.meituan.com/2014/06/30/mysql-index.html
 - https://juejin.im/post/5dfc846051882512327a63b6
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

@@ -104,7 +104,7 @@ DisJunction Max Query查询
 
 
 ![](https://img-blog.csdnimg.cn/20191013194434799.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE0MjIxNg==,size_16,color_FFFFFF,t_70)
-文档1和文档2虽然最佳匹配字段都是title且得分相同，但是文档1拥有更高的得分，因为文档1的body字段含有quick而文档2不包含，这个字段上的得分会乘以 
+文档1和文档2虽然最佳匹配字段都是title且得分相同，但是文档1拥有更高的得分，因为文档1的body字段含有quick而文档2不包含，这个字段上的得分会乘以
 tie_breaker并累计到最终得分上去。
 
 
@@ -120,14 +120,14 @@ tie_breaker并累计到最终得分上去。
                     "queries": [{
                          "multi_match": {}
                      },
-                     { 
+                     {
                          "multi_match": {}
                      }]
                 }
             }
             "filter": {
                 //Term filter
-            }           
+            }
         }
     }
 }
@@ -163,7 +163,7 @@ nested嵌套类型是object中的一个特例，可以让array类型的Object独
 PUT my_index/my_type/1
 {
   "group" : "fans",
-  "user" : [ 
+  "user" : [
     {
       "first" : "John",
       "last" :  "Smith"
@@ -174,7 +174,7 @@ PUT my_index/my_type/1
     }
   ]
 ```
-user字段会被动态添加为Object类型。 
+user字段会被动态添加为Object类型。
 最后会被转换为以下平整的形式：
 
 #### keyword和text
@@ -252,5 +252,5 @@ text默认结合standard analyzer(标准解析器)对文本进行分词、倒排
 - [DisMaxQuery](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-dis-max-query.html)
 - [Elasticsearch Compound Query 复合查询详解](https://my.oschina.net/UpBoy/blog/700787)
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

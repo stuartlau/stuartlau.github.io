@@ -45,13 +45,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nav) nav.style.display = 'none';
         if (authorTop) authorTop.style.display = 'none';
         if (headline) headline.style.display = 'none';
-        
+
         // CRITICAL: Remove width constraints from parent containers
         // This fixes the middle column being squeezed issue
         var main = document.querySelector('#main');
         var articleWrap = document.querySelector('.article-wrap');
         var article = document.querySelector('article');
-        
+
         if (main) {
             main.style.marginTop = '0';
             main.style.maxWidth = 'none';
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 {% assign posts_count = posts_count | plus: site.data.douban[yr].size %}
             {% endif %}
         {% endfor %}
-        
+
         {% assign blogs_count = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/tech/'" | size %}
         {% assign patents_count = site.pages | where: "layout", "post" | where_exp: "p", "p.path contains 'blogs/patent'" | size %}
         {% assign books_count = site.data.books.all | size %}
@@ -119,14 +119,14 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="profile-cover">
                 <img src="" alt="Cover" id="cover-img">
             </div>
-            
+
             <!-- Profile Info Container -->
             <div class="profile-info-container">
                 <!-- Avatar overlapping cover -->
                 <div class="profile-avatar">
                     <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau">
                 </div>
-                
+
                 <!-- Profile Details -->
                 <div class="profile-details">
                     <h1 class="profile-name">Stuart Lau</h1>
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="content-panel active" id="posts-panel">
                 <!-- Integrated OTD Section -->
                 <div id="posts-otd-list" style="display:none;"></div>
-                
+
                 <div class="feed-list" id="posts-list">
                     {% assign years = "2026,2025,2024,2023,2022,2021" | split: "," %}
                     {% assign all_posts = "" | split: "," %}
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 {% endfor %}
                             </div>
                             {% endif %}
-                            
+
                             <!-- Interaction Buttons -->
                             <div class="post-actions">
                                 <button class="action-btn comment-btn" onclick="togglePostComments(this)" data-post-id="douban-{{ post_id }}">
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <span class="action-count" id="like-count-{{ post_id }}">点赞</span>
                                 </button>
                             </div>
-                            
+
                             <!-- Giscus Comments Container (hidden by default) -->
                             <div class="post-giscus-wrapper" id="giscus-{{ post_id }}" data-term="douban-{{ post_id }}" style="display:none;">
                                 <div class="giscus-loading">
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% assign blog_posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/tech/'" %}
                     <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px; display: flex; align-items: center; gap: 8px;">
-                            Article Topics 
+                            Article Topics
                             <span style="font-size: 12px; font-weight: 500; background: #eff3f4; color: #536471; padding: 2px 8px; border-radius: 99px; vertical-align: middle;">{{ blog_posts.size }} Posts</span>
                         </div>
                         <button id="blog-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% assign patent_posts = site.posts | concat: site.pages | where_exp: "p", "p.path contains 'blogs/patent/'" %}
                     <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px; display: flex; align-items: center; gap: 8px;">
-                            Patent Topics 
+                            Patent Topics
                             <span style="font-size: 12px; font-weight: 500; background: #eff3f4; color: #536471; padding: 2px 8px; border-radius: 99px;">{{ patent_posts.size }} Inventions</span>
                         </div>
                         <button id="patent-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div style="padding: 24px; text-align: center; color: #536471;">Loading media journey...</div>
                 </div>
                 <div class="scroll-sentinel" id="douban-sentinel"></div>
-                
+
                 {% assign douban_books = site.data.books.all | jsonify %}
                 {% assign douban_movies = site.data.movies.all | jsonify %}
                 {% assign douban_games = site.data.games.all | jsonify %}
@@ -411,7 +411,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <input type="text" id="sidebar-search" placeholder="Search posts...">
                 </div>
             </div>
-            
+
             <!-- On This Day -->
             <div class="history-widget">
                 <div class="widget-title">On This Day</div>
@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="history-item">Loading...</div>
                 </div>
             </div>
-            
+
             <!-- Social Links -->
             <div class="social-links-widget">
                 <a href="https://github.com/stuartlau" target="_blank" class="social-link-item">
@@ -634,18 +634,18 @@ document.addEventListener('DOMContentLoaded', function() {
         min-width: 0;
         border: none;
     }
-    
+
     .profile-header {
         margin: 0 -8px;
         width: calc(100% + 16px);
     }
-    
+
     /* Ensure content tabs and feed items respect the padding */
     .content-tabs {
         margin-left: 0;
         margin-right: 0;
     }
-    
+
     .feed-item {
         padding-left: 0;
         padding-right: 0;
@@ -1706,7 +1706,7 @@ body.lightbox-open {
         align-items: center;
         justify-content: center;
     }
-    
+
     #lightbox-img {
         max-width: 100%;
         max-height: 85vh;
@@ -1715,7 +1715,7 @@ body.lightbox-open {
         border-radius: 0;
         object-fit: contain;
     }
-    
+
     .lightbox-nav {
         width: 40px;
         height: 40px;
@@ -1723,7 +1723,7 @@ body.lightbox-open {
         color: #fff;
         border: 1px solid rgba(255,255,255,0.3);
     }
-    
+
     @media (hover: none) {
         .lightbox-nav:hover {
             background: rgba(0,0,0,0.4);
@@ -1734,15 +1734,15 @@ body.lightbox-open {
         background: rgba(255,255,255,0.8);
         color: #333;
     }
-    
+
     #lightbox-prev {
         left: 8px;
     }
-    
+
     #lightbox-next {
         right: 8px;
     }
-    
+
     .lightbox-close {
         top: 16px;
         right: 16px;
@@ -1750,7 +1750,7 @@ body.lightbox-open {
         color: #fff;
         border: 1px solid rgba(255,255,255,0.3);
     }
-    
+
     .lightbox-counter {
         bottom: 20px;
         background: rgba(0,0,0,0.5);
@@ -1878,36 +1878,36 @@ body.lightbox-open {
         border-radius: 6px;
         overflow: hidden;
     }
-    
+
     .quote-info {
         padding: 0 0 0 10px;
         flex: 1;
         min-width: 0;
     }
-    
+
     .quote-title {
         font-size: 14px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    
+
     .quote-author {
         font-size: 12px;
     }
-    
+
     .quote-rating {
         margin-top: 4px;
     }
-    
+
     .quote-score {
         font-size: 12px;
     }
-    
+
     [data-theme="dark"] .quote-media {
         border-color: #2f3336;
     }
-    
+
     .quote-img {
         object-fit: cover;
         object-position: center;
@@ -1962,7 +1962,7 @@ body.lightbox-open {
     .social-right-sidebar {
         display: none;
     }
-    
+
     .social-main {
         margin-right: 0;
     }
@@ -1973,20 +1973,20 @@ body.lightbox-open {
         width: 80px;
         padding: 12px 8px;
     }
-    
+
     .sidebar-logo-text {
         display: none;
     }
-    
+
     .sidebar-nav .nav-item {
         justify-content: center;
         padding: 12px;
     }
-    
+
     .sidebar-nav .nav-item span {
         display: none;
     }
-    
+
     .social-main {
         margin-left: 80px;
         margin-right: 0;
@@ -2013,7 +2013,7 @@ body.lightbox-open {
     .social-left-sidebar, .social-right-sidebar {
         display: none !important;
     }
-    
+
     .social-layout {
         display: block;
         width: 100%;
@@ -2050,7 +2050,7 @@ body.lightbox-open {
     }
 
     .tab-text {
-        display: inline !important; 
+        display: inline !important;
     }
 
     /* Show icons on mobile too */
@@ -2059,7 +2059,7 @@ body.lightbox-open {
         margin-bottom: 2px;
         vertical-align: middle;
     }
-    
+
     #search-toggle {
         display: none !important;
     }
@@ -2067,7 +2067,7 @@ body.lightbox-open {
     .tab-item {
         padding: 12px 0;
     }
-    
+
     .profile-header {
         /* Remove flex column center logic to keep left alignment like Twitter */
         padding: 0 !important;
@@ -2075,11 +2075,11 @@ body.lightbox-open {
 
     .profile-info-container {
         padding: 0 8px 16px;
-        display: block; 
+        display: block;
         text-align: left;
         min-height: 70px;
     }
-    
+
     .feed-item {
         padding: 12px 8px !important; /* Half padding for mobile */
         gap: 0 10px;
@@ -2099,7 +2099,7 @@ body.lightbox-open {
         text-align: left;
         padding-left: 0;
     }
-    
+
     .content-tabs {
         position: -webkit-sticky;
         position: sticky;
@@ -2110,7 +2110,7 @@ body.lightbox-open {
         -webkit-overflow-scrolling: touch;
         border-bottom: 1px solid #eff3f4;
     }
-    
+
     .tab-item {
         padding: 12px 20px;
         white-space: nowrap;
@@ -2318,7 +2318,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const activePanel = document.getElementById(targetTab + '-panel');
             if (activePanel) activePanel.classList.add('active');
             history.pushState(null, null, '#' + targetTab);
-            
+
             // Handle Travel & Patent Tab specific logic
             if (targetTab === 'travel') {
                 if (window._travelMap && window._travelMap.invalidateSize) {
@@ -2333,10 +2333,10 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (targetTab === 'douban') {
                 setTimeout(initCollectionCloud, 100);
             }
-            
+
             // Check text overflow for the newly active tab
             setTimeout(checkTextOverflow, 50);
-            
+
             // Trigger lazy loading for images in the newly active panel
             setTimeout(function() {
                 if (typeof reobserveLazyImages === 'function') {
@@ -2372,10 +2372,10 @@ document.addEventListener('DOMContentLoaded', function() {
         var activeTab = document.querySelector('.tab-item[data-tab="' + hash + '"]');
         if (activeTab) activeTab.click();
     }
-    
+
     // Load "On This Day" content
     loadHistoryToday();
-    
+
     // Back to Top Button - show/hide on scroll
     const backToTopBtn = document.getElementById('back-to-top');
     if (backToTopBtn) {
@@ -2409,7 +2409,7 @@ function performSearch() {
         if (searchModal.hasAttribute('hidden')) {
             searchToggle.click();
         }
-        
+
         const query = document.getElementById('sidebar-search').value.trim();
         if (query) {
             setTimeout(() => {
@@ -2439,14 +2439,14 @@ document.addEventListener('DOMContentLoaded', function() {
 // Convert absolute time to relative time (e.g., "2026-01-16 14:30" -> "1 day" or "23h")
 function getRelativeTime(timeStr) {
     if (!timeStr) return timeStr;
-    
+
     const postTime = new Date(timeStr);
     const now = new Date();
     const diffMs = now - postTime;
     const diffMinutes = Math.floor(diffMs / (1000 * 60));
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    
+
     if (diffMinutes < 60) {
         return diffMinutes + 'm';
     } else if (diffHours < 24) {
@@ -2491,17 +2491,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const lbBackdrop = document.getElementById('lb-backdrop');
     const lbPrev = document.getElementById('lightbox-prev');
     const lbNext = document.getElementById('lightbox-next');
-    
+
     if (lbClose) lbClose.addEventListener('click', closeLightbox);
     if (lbBackdrop) lbBackdrop.addEventListener('click', closeLightbox);
     if (lbPrev) lbPrev.addEventListener('click', prevLightboxImage);
     if (lbNext) lbNext.addEventListener('click', nextLightboxImage);
-    
+
     // Keyboard navigation for Lightbox
     document.addEventListener('keydown', function(e) {
         const lb = document.getElementById('lightbox');
         if (!lb || lb.style.display !== 'flex') return;
-        
+
         if (e.key === 'Escape') closeLightbox();
         else if (e.key === 'ArrowRight') nextLightboxImage();
         else if (e.key === 'ArrowLeft') prevLightboxImage();
@@ -2526,7 +2526,7 @@ function initImageLazyLoading() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const target = entry.target;
-                
+
                 // Check if we're observing a wrapper (.grid-img-wrap or .quote-media) or an image directly
                 if (target.classList.contains('grid-img-wrap') || target.classList.contains('quote-media')) {
                     // It's a wrapper, load the image stored in _lazyImg
@@ -2538,13 +2538,13 @@ function initImageLazyLoading() {
                     // It's a direct image (feed-cover)
                     loadLazyImage(target);
                 }
-                
+
                 imageLazyObserver.unobserve(target);
             }
         });
-    }, { 
+    }, {
         rootMargin: '200px 0px', // Start loading 200px before visible
-        threshold: 0 
+        threshold: 0
     });
 
     // Only observe images that are currently visible (not display:none)
@@ -2555,20 +2555,20 @@ function initImageLazyLoading() {
 function loadLazyImage(img) {
     const src = img.dataset.src;
     if (!src) return;
-    
+
     // Set loading state
     img.onload = function() {
         this.classList.add('loaded');
         // Hide the placeholder (check for various placeholder types)
         const placeholder = this.previousElementSibling;
         if (placeholder && (
-            placeholder.classList.contains('img-placeholder') || 
+            placeholder.classList.contains('img-placeholder') ||
             placeholder.classList.contains('feed-cover-placeholder')
         )) {
             placeholder.style.display = 'none';
         }
     };
-    
+
     img.onerror = function() {
         // Hide placeholder on error too
         const placeholder = this.previousElementSibling;
@@ -2576,7 +2576,7 @@ function loadLazyImage(img) {
         // Hide the broken image
         this.style.display = 'none';
     };
-    
+
     // Start loading
     img.src = src;
     img.removeAttribute('data-src');
@@ -2592,26 +2592,26 @@ function loadAllImages() {
 // Observe only visible lazy images (not display:none items, and in active panel)
 function observeVisibleLazyImages() {
     if (!imageLazyObserver) return;
-    
+
     // For images inside .grid-img-wrap (Posts), observe the wrapper instead
     // because the img itself has tiny dimensions before loading
     document.querySelectorAll('.grid-img-wrap').forEach(wrap => {
         const img = wrap.querySelector('.lazy-img[data-src]');
         if (!img) return;
-        
+
         // Check if in active panel
         const panel = wrap.closest('.content-panel');
         if (panel && !panel.classList.contains('active')) return;
-        
+
         // Check if parent item is visible
         const feedItem = wrap.closest('.expandable-item') || wrap.closest('.feed-item');
         if (feedItem && feedItem.style.display === 'none') return;
-        
+
         // Store reference to the image on the wrapper
         wrap._lazyImg = img;
         imageLazyObserver.observe(wrap);
     });
-    
+
     // For Quote Cards (Books, Movies, Games), observe the media wrapper
     document.querySelectorAll('.quote-media').forEach(wrap => {
         const img = wrap.querySelector('.lazy-img[data-src]');
@@ -2624,7 +2624,7 @@ function observeVisibleLazyImages() {
         // Check if parent item is visible
         const feedItem = wrap.closest('.expandable-item') || wrap.closest('.feed-item');
         if (feedItem && feedItem.style.display === 'none') return;
-        
+
         // Ensure no-zoom is added
         if (!img.classList.contains('no-zoom')) {
             img.classList.add('no-zoom');
@@ -2692,11 +2692,11 @@ function checkTextOverflow() {
         clone.style.webkitLineClamp = 'none';
         clone.style.display = 'block';
         document.body.appendChild(clone);
-        
+
         const fullHeight = clone.offsetHeight;
         const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
-        const maxHeight = lineHeight * 6.5; 
-        
+        const maxHeight = lineHeight * 6.5;
+
         document.body.removeChild(clone);
 
         if (fullHeight > maxHeight) {
@@ -2726,7 +2726,7 @@ function loadHistoryToday() {
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     const todayStr = `${month}-${day}`;
-    
+
     // Get all posts from the page (including hidden ones)
     const allPosts = Array.from(document.querySelectorAll('.douban-item'));
     const todayPosts = allPosts.filter(item => {
@@ -2737,7 +2737,7 @@ function loadHistoryToday() {
         }
         return false;
     });
-    
+
     // --- Populate sidebar widget (desktop, limit to 3) ---
     const historyList = document.getElementById('history-today');
     if (historyList) {
@@ -2751,7 +2751,7 @@ function loadHistoryToday() {
                 if (gridImgs) {
                      const imgs = Array.from(gridImgs.querySelectorAll('img')).slice(0, 3);
                      if (imgs.length) {
-                         imgHtml = `<div style="display:flex; gap:4px; margin-top:8px;">` + 
+                         imgHtml = `<div style="display:flex; gap:4px; margin-top:8px;">` +
                              imgs.map(img => `<div style="width:60px; height:60px; border-radius:4px; overflow:hidden;"><img src="${img.dataset.src||img.src}" style="width:100%; height:100%; object-fit:cover;"></div>`).join('') +
                              `</div>`;
                      }
@@ -2775,10 +2775,10 @@ function loadHistoryToday() {
             historyList.innerHTML = '<div class="history-item" style="color:#536471; font-size:14px;">No memories found for today in history.</div>';
         }
     }
-    
+
     // --- Populate Posts Tab Integrated Section ---
     const postsOtdList = document.getElementById('posts-otd-list');
-    
+
     if (postsOtdList) {
         if (todayPosts.length > 0) {
             postsOtdList.style.display = 'block';
@@ -2788,7 +2788,7 @@ function loadHistoryToday() {
                 const meta = post.querySelector('.feed-meta').textContent.trim();
                 const yearMatch = meta.match(/\d{4}-\d{2}-\d{2}/) || meta.match(/\d{4}/);
                 const dateStr = yearMatch ? yearMatch[0] : meta;
-                
+
                 // Reconstruct images/quotes
                 let extraHtml = '';
                 const imgGrid = post.querySelector('.social-image-grid');
@@ -2797,7 +2797,7 @@ function loadHistoryToday() {
                 if (quoteCard) extraHtml += quoteCard.outerHTML;
                 const blogCard = post.querySelector('.blog-preview-card');
                 if (blogCard) extraHtml += blogCard.outerHTML;
-                
+
                 return `<div class="feed-item">
                     <div class="post-avatar">
                         <img src="/images/douban_avatar.jpg" alt="Stuart Lau" loading="lazy">
@@ -2824,7 +2824,7 @@ function loadHistoryToday() {
                 const textEl = post.querySelector('.feed-text');
                 const text = textEl ? textEl.textContent : '';
                 const meta = post.querySelector('.feed-meta').textContent.trim();
-                
+
                 // Reconstruct images
                 let imagesHtml = '';
                 const imgGrid = post.querySelector('.social-image-grid');
@@ -2834,7 +2834,7 @@ function loadHistoryToday() {
                 // Quote card (books/movies/games)
                 const quoteCard = post.querySelector('.quote-card');
                 let quoteHtml = quoteCard ? quoteCard.outerHTML : '';
-                
+
                 return `<div class="feed-item">
                     <div class="post-avatar">
                         <img src="/images/douban_avatar.jpg" alt="Stuart Lau" loading="lazy">
@@ -2886,7 +2886,7 @@ function loadDoubanContent() {
         list.innerHTML = items.map((item, idx) => {
             const d = item.data;
             let quoteHtml = '';
-            
+
             if (item.type === 'Book') {
                 quoteHtml = `
                     <a href="https://book.douban.com/subject/${d.book_id}/" target="_blank" class="quote-card">
@@ -2939,7 +2939,7 @@ function loadDoubanContent() {
         list.querySelectorAll('.rating-stars').forEach(el => {
             el.innerHTML = renderStars(el.dataset.score);
         });
-        
+
         // Generate Word Cloud Data
         const tagCounts = {};
         items.forEach(item => {
@@ -2952,17 +2952,17 @@ function loadDoubanContent() {
                 }
             });
         });
-        
+
         const cloudDataArr = Object.keys(tagCounts).map(name => ({
             text: name,
             size: tagCounts[name]
         })).sort((a, b) => b.size - a.size);
-        
+
         window.__COLLECTION_POST_TAGS__ = items.map(item => {
             const d = item.data;
             return (item.type === 'Book' ? (d.tags && d.tags.length > 0 ? d.tags : [d.author, d.publisher].filter(Boolean)) : (d.genres || []));
         });
-        
+
         initCollectionCloud(cloudDataArr);
         reobserveLazyImages();
     } catch (e) {
@@ -2991,7 +2991,7 @@ function loadMore(listId) {
 
     setTimeout(() => {
         const hiddenItems = Array.from(list.querySelectorAll('.expandable-item')).filter(el => el.style.display === 'none');
-        
+
         // Find active tags for filtering
         const panelType = listId === 'patents-list' ? 'patents' : (listId === 'blogs-list' ? 'blogs' : 'collections');
         const activeTag = panelType === 'patents' ? window._activePatentTag : (panelType === 'blogs' ? window._activeBlogTag : window._activeCollectionTag);
@@ -2999,12 +2999,12 @@ function loadMore(listId) {
         let shownCount = 0;
         let processedCount = 0;
         const batchSize = 10;
-        
+
         // Always process at least N items, only showing those that match the tag
         for (let i = 0; i < hiddenItems.length && shownCount < batchSize; i++) {
             const item = hiddenItems[i];
             processedCount++;
-            
+
             if (activeTag) {
                 try {
                     const tagsStr = item.dataset.tags || '[]';
@@ -3025,7 +3025,7 @@ function loadMore(listId) {
         state.loaded += processedCount;
         state.loading = false;
         state.ended = (processedCount >= hiddenItems.length);
-        
+
         if (sentinel) {
             sentinel.classList.remove('loading');
             if (state.ended) sentinel.classList.add('end');
@@ -3036,10 +3036,10 @@ function loadMore(listId) {
             checkTextOverflow();
             reobserveLazyImages();
         }, 100);
-        
+
         // Trigger text overflow check
         setTimeout(checkTextOverflow, 100);
-        
+
         // Preload stats for newly visible posts (if it's the posts list)
         if (listId === 'posts-list' && typeof preloadPostStats === 'function') {
             setTimeout(preloadPostStats, 500);
@@ -3080,14 +3080,14 @@ let currentImageIndex = 0;
 function updateLightboxImage() {
     const lbImg = document.getElementById('lightbox-img');
     const lb = document.getElementById('lightbox');
-    
+
     if (!lbImg) return;
-    
+
     // Show loading state
     lbImg.classList.remove('loaded');
     lb.classList.add('loading');
     lb.classList.add('lightbox-switching');
-    
+
     // Set up load handlers
     lbImg.onload = function() {
         // Clear any leftover inline styles so CSS classes work properly
@@ -3096,18 +3096,18 @@ function updateLightboxImage() {
         lb.classList.remove('loading');
         lb.classList.remove('lightbox-switching');
     };
-    
+
     lbImg.onerror = function() {
         lb.classList.remove('loading');
         lb.classList.remove('lightbox-switching');
-        closeLightbox(); 
+        closeLightbox();
     };
-    
+
     // Set src after a tiny delay to ensure opacity transition starts
     setTimeout(() => {
         lbImg.src = currentImages[currentImageIndex];
     }, 50);
-    
+
     const prevBtn = document.getElementById('lightbox-prev');
     const nextBtn = document.getElementById('lightbox-next');
     if (prevBtn) prevBtn.style.display = currentImages.length > 1 ? 'flex' : 'none';
@@ -3122,7 +3122,7 @@ function updateLightboxImage() {
         counter.className = 'lightbox-counter';
         contentWrapper.appendChild(counter);
     }
-    
+
     if (counter) {
         if (currentImages.length > 1) {
             counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
@@ -3152,14 +3152,14 @@ function closeLightbox(e) {
         e.stopPropagation();
         e.preventDefault();
     }
-    
+
     const lb = document.getElementById('lightbox');
     if (!lb) return;
-    
+
     // Force-hide immediately
     lb.style.display = 'none';
     lb.classList.remove('loading', 'lightbox-switching');
-    
+
     const lbImg = document.getElementById('lightbox-img');
     if (lbImg) {
         lbImg.onload = lbImg.onerror = null;
@@ -3168,9 +3168,9 @@ function closeLightbox(e) {
         lbImg.style.cssText = '';
         lbImg.src = '';
     }
-    
+
     currentImages = [];
-    
+
     // Force-restore body scroll
     document.body.classList.remove('lightbox-open');
     document.body.style.overflow = '';
@@ -3178,7 +3178,7 @@ function closeLightbox(e) {
     document.body.style.top = '';
     document.body.style.width = '';
     document.documentElement.style.overflow = '';
-    
+
     _lightboxClosing = false;
 }
 
@@ -3186,15 +3186,15 @@ function openLightbox(src, galleryImages) {
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
     if (!lb || !lbImg) return;
-    
+
     // If already open with same image, close (toggle)
     if (lb.style.display === 'flex' && currentImages.length === 1 && currentImages[0] === src) {
         closeLightbox();
         return;
     }
-    
+
     _lightboxClosing = false;
-    
+
     if (src) {
         if (galleryImages && galleryImages.length > 0) {
             currentImages = galleryImages;
@@ -3207,7 +3207,7 @@ function openLightbox(src, galleryImages) {
             currentImages = [src];
             currentImageIndex = 0;
         }
-        
+
         updateLightboxImage();
         lb.style.display = 'flex';
         document.body.classList.add('lightbox-open');
@@ -3237,30 +3237,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevBtn = document.getElementById('lightbox-prev');
     const nextBtn = document.getElementById('lightbox-next');
     const closeBtn = document.getElementById('lb-close');
-    
+
     // Click backdrop → close
     if (backdrop) backdrop.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
-    
+
     // Click image → close
     if (lbImg) lbImg.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
-    
+
     // Click close button → close
     if (closeBtn) closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
-    
+
     // Click content area (black strips around image) → close
     const lbContent = document.querySelector('.lightbox-content');
     if (lbContent) lbContent.addEventListener('click', function(e) {
         // Only close if not clicking a button inside
         if (e.target === lbContent) closeLightbox();
     });
-    
+
     // Click prev/next → navigate (stopPropagation to prevent close)
     if (prevBtn) prevBtn.addEventListener('click', function(e) { e.stopPropagation(); prevLightboxImage(); });
     if (nextBtn) nextBtn.addEventListener('click', function(e) { e.stopPropagation(); nextLightboxImage(); });
-    
+
     // Click anywhere else on lightbox container → close
     if (lb) lb.addEventListener('click', function() { closeLightbox(); });
-    
+
     // Touch swipe support for mobile
     let touchStartX = 0;
     if (lb) {
@@ -3293,18 +3293,18 @@ function renderStars(score) {
     const full = Math.floor(stars);
     const half = stars % 1 !== 0;
     const empty = 5 - Math.ceil(stars);
-    
+
     // SVG Styling: Align middle to match text and other stars properly
     const svgAttr = 'viewBox="0 0 24 24" width="14" height="14" style="display:inline-block; vertical-align:middle; margin-top:-2px;"';
     const starPath = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z";
-    
+
     let html = '';
-    
+
     // Full Stars
     for(let i=0; i<full; i++) {
         html += `<svg ${svgAttr} fill="#ffa500"><path d="${starPath}"/></svg>`;
     }
-    
+
     // Half Star
     if(half) {
         // Use inline-flex and middle alignment for the container
@@ -3313,12 +3313,12 @@ function renderStars(score) {
             <svg viewBox="0 0 24 24" width="14" height="14" fill="#ffa500" style="position:absolute; left:0; top:0; clip-path: inset(0 50% 0 0);"><path d="${starPath}"/></svg>
         </span>`;
     }
-    
+
     // Empty Stars
     for(let i=0; i<empty; i++) {
         html += `<svg ${svgAttr} fill="#e0e0e0"><path d="${starPath}"/></svg>`;
     }
-    
+
     return html;
 }
 
@@ -3347,17 +3347,17 @@ document.addEventListener('DOMContentLoaded', function() {
 // Preload stats for visible posts using GitHub GraphQL API via proxy
 async function preloadPostStats() {
     const visiblePosts = document.querySelectorAll('.douban-item:not([style*="display:none"])');
-    
+
     for (const post of visiblePosts) {
         const postId = post.getAttribute('data-post-id');
         if (!postId) continue;
-        
+
         try {
             await fetchPostStats(postId);
         } catch (e) {
             console.warn('Failed to fetch stats for:', postId, e);
         }
-        
+
         // Small delay between requests to avoid rate limiting
         await new Promise(r => setTimeout(r, 200));
     }
@@ -3369,7 +3369,7 @@ async function fetchPostStats(term) {
     const repoId = 'R_kgDOOf5c7g';
     const category = 'Announcements';
     const categoryId = 'DIC_kwDOOf5c7s4Cz_Oz';
-    
+
     // Use giscus's internal API to search for discussions
     // Note: We specificly use a CORS proxy to bypass browser restrictions
     // because giscus.app does not allow direct cross-origin requests from client-side
@@ -3381,23 +3381,23 @@ async function fetchPostStats(term) {
         reactionsEnabled: 'true',
         emitMetadata: 'false'
     });
-    
+
     // Use allorigins.win as a more lenient CORS proxy
     const searchUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(apiUrl);
-    
+
     try {
         const response = await fetch(searchUrl, {
             method: 'GET'
             // No headers needed for this proxy
         });
-        
+
         if (!response.ok) {
             throw new Error('Proxy request failed: ' + response.status);
         }
-        
+
         const proxyData = await response.json();
         const data = JSON.parse(proxyData.contents); // allorigins wraps the response in 'contents'
-        
+
         if (data && data.discussion) {
             updatePostStatsUI(term, {
                 commentCount: data.discussion.totalCommentCount || 0,
@@ -3414,14 +3414,14 @@ async function fetchPostStats(term) {
 // Update the UI with fetched stats
 function updatePostStatsUI(term, stats) {
     const postId = term.replace('douban-', '');
-    
+
     // Update comment count
     const commentEl = document.getElementById('comment-count-' + postId);
     if (commentEl && stats.commentCount > 0) {
         commentEl.textContent = stats.commentCount;
         commentEl.closest('.action-btn').classList.add('has-data');
     }
-    
+
     // Update like count (reactions)
     const likeEl = document.getElementById('like-count-' + postId);
     if (likeEl && stats.reactionCount > 0) {
@@ -3434,37 +3434,37 @@ function updatePostStatsUI(term, stats) {
 function togglePostComments(btn) {
     var postId = btn.getAttribute('data-post-id');
     var wrapper = document.getElementById('giscus-' + postId.replace('douban-', ''));
-    
+
     if (!wrapper) {
         console.error('Giscus wrapper not found for:', postId);
         return;
     }
-    
+
     var term = wrapper.getAttribute('data-term');
-    
+
     // If clicking the same one that's already open, just hide it
     if (wrapper.style.display !== 'none' && wrapper.querySelector('.giscus-container')) {
         wrapper.style.display = 'none';
         btn.classList.remove('active');
         return;
     }
-    
+
     // Hide all other giscus wrappers
     document.querySelectorAll('.post-giscus-wrapper').forEach(function(w) {
         if (w !== wrapper) {
             w.style.display = 'none';
         }
     });
-    
+
     // Remove active state from all buttons
     document.querySelectorAll('.action-btn.active').forEach(function(b) {
         b.classList.remove('active');
     });
-    
+
     // Show this wrapper and set button active
     wrapper.style.display = 'block';
     btn.classList.add('active');
-    
+
     // Initialize or reuse giscus
     if (!activePostGiscus) {
         initPostGiscus(wrapper, term);
@@ -3477,14 +3477,14 @@ function initPostGiscus(wrapper, term) {
     // Remove loading indicator
     var loading = wrapper.querySelector('.giscus-loading');
     if (loading) loading.style.display = 'none';
-    
+
     // Create container
     activePostGiscus = document.createElement('div');
     activePostGiscus.className = 'giscus-container';
     wrapper.appendChild(activePostGiscus);
-    
+
     currentPostTerm = term;
-    
+
     // Create giscus script
     var script = document.createElement('script');
     script.src = "https://giscus.app/client.js";
@@ -3502,7 +3502,7 @@ function initPostGiscus(wrapper, term) {
     script.setAttribute("data-lang", "zh-CN");
     script.setAttribute("crossorigin", "anonymous");
     script.setAttribute("async", "");
-    
+
     script.onload = function() {
         console.log('✓ Post Giscus loaded for:', term);
         setTimeout(function() {
@@ -3512,20 +3512,20 @@ function initPostGiscus(wrapper, term) {
             }
         }, 1000);
     };
-    
+
     activePostGiscus.appendChild(script);
 }
 
 function movePostGiscus(wrapper, term) {
     if (!activePostGiscus) return;
-    
+
     // Remove loading indicator from new wrapper
     var loading = wrapper.querySelector('.giscus-loading');
     if (loading) loading.style.display = 'none';
-    
+
     // Move container to new wrapper
     wrapper.appendChild(activePostGiscus);
-    
+
     // Update term if different
     if (currentPostTerm !== term) {
         updatePostGiscusTerm(term);
@@ -3537,13 +3537,13 @@ function updatePostGiscusTerm(newTerm) {
         console.error('No post giscus iframe to update');
         return;
     }
-    
+
     var currentSrc = postGiscusIframe.src;
     var newSrc = currentSrc.replace(
         /term=[^&]*/,
         'term=' + encodeURIComponent(newTerm)
     );
-    
+
     console.log('Updating post giscus term to:', newTerm);
     postGiscusIframe.src = newSrc;
     currentPostTerm = newTerm;
@@ -3563,18 +3563,18 @@ function initTravelComponent() {
         if (window._travelMap) window._travelMap.invalidateSize();
         return;
     }
-    
+
     const wrap = document.getElementById('life-travel-wrap');
     if (!wrap) return;
 
     window._travelInitialized = true;
-    
+
     // Lazy load the travel logic
     const script = document.createElement('script');
     script.src = '/assets/js/life-travel.js';
     script.onload = () => {
         console.log('✓ Travel logic loaded');
-        // The script initialized itself, but we might need to invalidateSize 
+        // The script initialized itself, but we might need to invalidateSize
         // after a delay to ensure it catches the visible container
         setTimeout(() => {
             if (window._travelMap) window._travelMap.invalidateSize();
@@ -3586,7 +3586,7 @@ function initTravelComponent() {
 function initPatentCloud() {
     const cloudEl = document.getElementById('patent-tag-cloud');
     if (!cloudEl || !window.d3) return;
-    
+
     const clearBtn = document.getElementById('patent-tag-cloud-clear');
     if (clearBtn) {
         clearBtn.onclick = () => applyFeedFilter('patents', null);
@@ -3620,7 +3620,7 @@ function initPatentCloud() {
         .on("end", words => {
             const container = d3.select("#patent-tag-cloud");
             container.selectAll("svg").remove();
-            
+
             container.append("svg")
                 .attr("width", width)
                 .attr("height", height)
@@ -3651,7 +3651,7 @@ function initPatentCloud() {
 function initBlogCloud() {
     const cloudEl = document.getElementById('blog-tag-cloud');
     if (!cloudEl || !window.d3) return;
-    
+
     const clearBtn = document.getElementById('blog-tag-cloud-clear');
     if (clearBtn) {
         clearBtn.onclick = () => applyFeedFilter('blogs', null);
@@ -3716,7 +3716,7 @@ function initBlogCloud() {
 function initCollectionCloud(externalData) {
     const cloudEl = document.getElementById('collection-tag-cloud');
     if (!cloudEl || !window.d3) return;
-    
+
     const clearBtn = document.getElementById('collection-tag-cloud-clear');
     if (clearBtn) {
         clearBtn.onclick = () => applyFeedFilter('collections', null);
@@ -3796,7 +3796,7 @@ function applyFeedFilter(panelType, tag) {
     const sentinel = document.getElementById(panelType + '-sentinel');
     const cloudActive = document.getElementById(prefix + '-tag-cloud-active');
     const cloudClear = document.getElementById(prefix + '-tag-cloud-clear');
-    
+
     // Toggle logic: if clicking the active tag, treat it as null (clear)
     const currentActive = panelType === 'patents' ? window._activePatentTag : (panelType === 'blogs' ? window._activeBlogTag : window._activeCollectionTag);
     if (tag === currentActive) tag = null;
@@ -3808,7 +3808,7 @@ function applyFeedFilter(panelType, tag) {
     if (!list) return;
 
     const items = list.querySelectorAll('.feed-item');
-    
+
     if (!tag) {
         // Reset everything
         items.forEach((item, idx) => {
@@ -3818,7 +3818,7 @@ function applyFeedFilter(panelType, tag) {
         if (sentinel) sentinel.style.display = 'block';
         if (cloudActive) cloudActive.hidden = true;
         if (cloudClear) cloudClear.hidden = true;
-        
+
         // Reset infinite scroll state for this list
         // Reset infinite scroll state for this list
         if (loadMoreState && loadMoreState[listId]) {
@@ -3849,7 +3849,7 @@ function applyFeedFilter(panelType, tag) {
         }
         if (cloudClear) cloudClear.hidden = false;
     }
-    
+
     // Refresh the cloud to show active state
     if (panelType === 'patents') {
         initPatentCloud();
@@ -3858,7 +3858,7 @@ function applyFeedFilter(panelType, tag) {
     } else if (panelType === 'collections') {
         initCollectionCloud();
     }
-    
+
     // Re-check text overflow for filtered items
     setTimeout(checkTextOverflow, 100);
 }

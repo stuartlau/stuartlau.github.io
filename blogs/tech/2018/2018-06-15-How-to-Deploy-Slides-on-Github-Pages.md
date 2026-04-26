@@ -2,7 +2,7 @@
 layout:     post
 permalink:  /blogs/2018-06-15-How-to-Deploy-Slides-on-Github-Pages/index.html
 title:      How to Deploy Slides on Github Pages
-subtitle:   Use reveal.js to make magic happen 
+subtitle:   Use reveal.js to make magic happen
 date:       2018-06-15
 author:     StuartLau
 header-img: img/post-bg-desk.jpg
@@ -11,7 +11,7 @@ tags:
     - Site
     - How-to
 ---
-It's cool to have your keynote display in your blog, Github Pages has the ability to make this 
+It's cool to have your keynote display in your blog, Github Pages has the ability to make this
 happen integrated with reveal.js.
 Follow steps bellow and you can enjoy your slides on your blog too, just like [me]().
 
@@ -30,7 +30,7 @@ Follow steps bellow and you can enjoy your slides on your blog too, just like [m
 	$ git branch gh-pages
 	$ git push origin gh-pages
 
-All the updated files must be merged from master to gh-pages(the name can not be changed)	
+All the updated files must be merged from master to gh-pages(the name can not be changed)
 
 The url is built from the following pattern: <br>
 [github_username].github.io/[repo_name]

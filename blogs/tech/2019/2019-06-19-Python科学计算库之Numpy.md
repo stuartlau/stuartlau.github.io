@@ -11,7 +11,7 @@ tags:
     - Python
     - Numpy
 ---
-    
+
 > 本文对Numpy相关的基本概念和常用方法做了一个总结，希望可以帮到需要的人。
 
 ### Python科学计算工具之——Numpy
@@ -62,13 +62,13 @@ NumPy 是一个运行速度非常快的数学库，主要用于数组计算，�
         c = []
         for i in range(len(a)):
             c.append(a[i]**2 + b[i]**2)
-    
+
         return c
     %timeit pySum()
-    10 loops, best of 3: 49.4 ms per loop 
+    10 loops, best of 3: 49.4 ms per loop
     ```
 
-    
+
 
     ​		b) 使用numpy进行`向量化`运算：
 
@@ -86,7 +86,7 @@ NumPy 是一个运行速度非常快的数学库，主要用于数组计算，�
 
     从上面的运行结果可以看出，**numpy的`向量化`运算的效率要远远高于python的循环遍历运算（效率相差好几百倍）**。 （1ms=1000µs）
 
-  
+
 
 - 资源消耗少
 
@@ -96,7 +96,7 @@ NumPy 是一个运行速度非常快的数学库，主要用于数组计算，�
 
   Numpy 快速的矩阵相乘运算， 能将乘法运算分配到计算机中的多个核， 让运算并行。
 
-  
+
 
   ![array_memory](https://ipython-books.github.io/pages/chapter04_optimization/images/layout.png)
 
@@ -196,7 +196,7 @@ print('dtype:',array.dtype)   # 元素类型
   # float32
   ```
 
-  
+
 
 - zeros：创建数据全为0
 
@@ -209,7 +209,7 @@ print('dtype:',array.dtype)   # 元素类型
   """
   ```
 
-  
+
 
 - ones：创建数据全为1
 
@@ -222,7 +222,7 @@ print('dtype:',array.dtype)   # 元素类型
   """
   ```
 
-  
+
 
 - empty：创建数据接近0
 
@@ -238,7 +238,7 @@ print('dtype:',array.dtype)   # 元素类型
   """
   ```
 
-  
+
 
 - arrange：按指定范围创建数据
 
@@ -247,7 +247,7 @@ print('dtype:',array.dtype)   # 元素类型
   """
   array([10, 12, 14, 16, 18])
   """
-  
+
   # 使用 reshape 改变数据的形状
   a = np.arange(12).reshape((3,4))    # 3行4列，0到11
   """
@@ -257,7 +257,7 @@ print('dtype:',array.dtype)   # 元素类型
   """
   ```
 
-  
+
 
 - linespace：创建线段
 
@@ -272,7 +272,7 @@ print('dtype:',array.dtype)   # 元素类型
   """
   ```
 
-  
+
 
 ### Numpy 基础运算1
 
@@ -296,15 +296,15 @@ c=a*b   # array([  0,  20,  60, 120])
 ## 求幂次方
 c=b**2  # array([0, 1, 4, 9])
 ## sin函数
-c=10*np.sin(a)  
+c=10*np.sin(a)
 ## array([-5.44021111,  9.12945251, -9.88031624,  7.4511316 ])
 ## 逻辑判断
-print(b<3)  
+print(b<3)
 ## array([ True,  True,  True, False], dtype=bool)
 
 ## shape mismatch
 >>> a = np.arange(4)
->>> a + np.array([1, 2])  
+>>> a + np.array([1, 2])
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 ValueError: operands could not be broadcast together with shapes (4) (2)
@@ -351,9 +351,9 @@ array([[[0.7361712 , 0.66032237],
 
        [[0.96581673, 0.81417324],
         [0.99740315, 0.6730559 ]]])
->>> x.sum(axis=2)[0, 1]     
+>>> x.sum(axis=2)[0, 1]
 0.13245857180806897
->>> x[0, 1, :].sum()     
+>>> x[0, 1, :].sum()
 0.13245857180806897
 
 ```
@@ -464,12 +464,12 @@ array([[ 0,  1,  2],
 
 ```python
 import numpy as np
-A = np.arange(2,14).reshape((3,4)) 
+A = np.arange(2,14).reshape((3,4))
 
 ## array([[ 2, 3, 4, 5]
 ##        [ 6, 7, 8, 9]
 ##        [10,11,12,13]])
-         
+
 print(np.argmin(A))    # 0
 print(np.argmax(A))    # 11
 ```
@@ -483,10 +483,10 @@ print(np.average(A))     # 7.5
 print(A.mean())          # 7.5
 print(A.median())       # 7.5
 
-print(np.cumsum(A)) 
+print(np.cumsum(A))
 ## [2 5 9 14 20 27 35 44 54 65 77 90]
 
-print(np.diff(A))    
+print(np.diff(A))
 ## [[1 1 1]
 ##  [1 1 1]
 ##  [1 1 1]]
@@ -496,9 +496,9 @@ print(np.diff(A))
 
 ```python
 import numpy as np
-A = np.arange(14,2, -1).reshape((3,4)) 
+A = np.arange(14,2, -1).reshape((3,4))
 
-print(np.transpose(A))    
+print(np.transpose(A))
 print(A.T)
 
 ## array([[14,10, 6]
@@ -522,7 +522,7 @@ import numpy as np
 A = np.arange(3,15)
 
 ## array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
-         
+
 print(A[3])    # 6
 ```
 
@@ -535,8 +535,8 @@ array([[ 3,  4,  5,  6]
        [ 7,  8,  9, 10]
        [11, 12, 13, 14]])
 """
-         
-print(A[2])         
+
+print(A[2])
 ## [11 12 13 14]
 
 ```
@@ -564,7 +564,7 @@ print(A[1, 1:3])    # [8 9]
 ```python
 for row in A:
     print(row)
-"""    
+"""
 [ 3,  4,  5, 6]
 [ 7,  8,  9, 10]
 [11, 12, 13, 14]
@@ -572,7 +572,7 @@ for row in A:
 
 for column in A.T:
     print(column)
-"""  
+"""
 [ 3,  7,  11]
 [ 4,  8,  12]
 [ 5,  9,  13]
@@ -588,13 +588,13 @@ for column in A.T:
 ```python
 import numpy as np
 A = np.arange(3,15).reshape((3,4))
-         
-print(A.flatten())   
+
+print(A.flatten())
 ## array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
 
 for item in A.flat:
     print(item)
-    
+
 ## 3
 ## 4
 ……
@@ -630,14 +630,14 @@ dtype: float64
 import numpy as np
 A = np.array([1,1,1])
 B = np.array([2,2,2])
-         
+
 print(np.vstack((A,B)))    # vertical stack
 """
 [[1,1,1]
  [2,2,2]]
 """
 
-C = np.vstack((A,B))      
+C = np.vstack((A,B))
 print(A.shape,C.shape)
 
 ## (3,) (2,3)
@@ -943,5 +943,5 @@ print('%f' % ((t2-t1)/N))     # f2: 0.001346
 - [http://gouthamanbalaraman.com/blog/numpy-vs-pandas-comparison.html](http://gouthamanbalaraman.com/blog/numpy-vs-pandas-comparison.html)
 
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

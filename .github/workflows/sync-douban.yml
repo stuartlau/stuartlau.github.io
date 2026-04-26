@@ -17,25 +17,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          
+
       - name: Install dependencies
         run: |
           pip install requests beautifulsoup4 pyyaml
-          
+
       - name: Create data directory
         run: mkdir -p _data/douban
-        
+
       - name: Run Douban sync script
         run: |
           python scripts/sync_douban.py --year ${{ github.event.inputs.year || 'all' }}
         env:
           DOUBAN_COOKIE: ${{ secrets.DOUBAN_COOKIE }}
-          
+
       - name: Check for changes
         id: changes
         run: |
@@ -46,7 +46,7 @@ jobs:
             echo "Changes detected"
             echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
-          
+
       - name: Create Pull Request
         if: steps.changes.outputs.has_changes == 'true'
         uses: peter-evans/create-pull-request@v7
@@ -54,7 +54,7 @@ jobs:
           title: 'data: sync douban data - $(date +%Y-%m-%d)'
           body: |
             Automated sync of Douban broadcast data.
-            
+
             - Updated: ${{ github.event.inputs.year || 'all years' }}
             - Triggered by: ${{ github.actor }}
           branch: douban-sync-$(date +%Y%m%d)

@@ -16,4 +16,3 @@ title: 我的旅行记录
 
   <div id="life-travel-map" class="life-travel-map"></div>
 </div>
-

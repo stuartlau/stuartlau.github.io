@@ -11,7 +11,7 @@ tags:
     - Redis
     - SkipList
 ---
-    
+
 > SkipList最早是在1990年由William Pugh提出的，目的是提供一种替换平衡树的可能性，本文对其进行一定的分析。
 
 
@@ -29,8 +29,8 @@ tags:
 > Redis 使用跳跃表作为有序集合键的底层实现之一： 如果一个有序集合包含的元素数量比较多， 又或者有序集合中元素的成员（member）是比较长的字符串时， Redis 就会使用跳跃表来作为有序集合键的底层实现。
 >
 > 和链表、字典等数据结构被广泛地应用在 Redis 内部不同， Redis 只在两个地方用到了跳跃表， 一个是实现有序集合键， 另一个是在集群节点中用作内部数据结构， 除此之外， 跳跃表在 Redis 里面没有其他用途。
-  
-  
+
+
 ### 原理
 其实跳表就是在普通单向链表的基础上增加了一些索引，而且这些索引是分层的，从而可以快速地查的到数据。下图来源自论文：
 
@@ -48,7 +48,7 @@ tags:
 #### 查找
 ![](https://img-blog.csdn.net/20131218151419953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaWN0MjAxNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 比如我们要查找key为19的结点，那么我们不需要逐个遍历，而是按照如下步骤:
-- 从header出发，从高到低的level进行查找，先索引到9这个结点，发现9 < 19,继续查找(然后在level==2这层)，查找到21这个节点，由于21 > 19, 
+- 从header出发，从高到低的level进行查找，先索引到9这个结点，发现9 < 19,继续查找(然后在level==2这层)，查找到21这个节点，由于21 > 19,
 所以结点不往前走，而是level由2降低到1
 - 然后索引到17这个节点，由于17 < 19, 所以继续往后，索引到21这个结点，发现21>19, 所以level由1降低到0
 - 在结点17上，level==0索引到19,查找完毕。
@@ -122,7 +122,7 @@ tags:
 前述的查询过程，也暗示了各个操作的时间复杂度：
 
 - zscore 只用查询一个dict，所以时间复杂度为O(1)。
-- zrevrank 要先查询dict获取对应的score，然后再根据score去skiplist中查找，时间复杂度是O(logn)；而zrevrange, 
+- zrevrank 要先查询dict获取对应的score，然后再根据score去skiplist中查找，时间复杂度是O(logn)；而zrevrange,
 zrevrangebyscore的时间复杂度为O(log(n)+M)，其中M是当前查询返回的元素个数。
 - zrevrange 的时间复杂度为O(log(n)+M)
 ，其中M是当前查询返回的元素个数。注意其实zrevrange和zrange的性能没有差别，都会从header开始查询，时间复杂度为log
@@ -164,7 +164,7 @@ typedef struct zskiplist {
 
 - 开头定义了两个常量，ZSKIPLIST_MAXLEVEL和ZSKIPLIST_P，分别对应我们前面讲到的skiplist的两个参数：一个是MaxLevel，一个是p。
 - zskiplistNode定义了skiplist的节点结构。
-    - obj字段存放的是节点数据，它的类型是一个string robj。本来一个string 
+    - obj字段存放的是节点数据，它的类型是一个string robj。本来一个string
     robj可能存放的不是sds，而是long型，但zadd命令在将数据插入到skiplist里面之前先进行了解码，所以这里的obj字段里存储的一定是一个sds。这样做的目的应该是为了方便在查找的时候对数据进行字典序的比较，而且，skiplist里的数据部分是数字的可能性也比较小。
     - score字段是数据对应的分数。
     - backward字段是指向链表前一个节点的指针（前向指针）。节点只有1个前向指针，所以只有第1层链表是一个双向链表。
@@ -194,13 +194,13 @@ Redis为什么用skiplist而不用平衡树？Redis的作者 @antirez 从内存�
 
 > There are a few reasons:
 >
-> 1) They are not very memory intensive. It’s up to you basically. Changing parameters about the 
+> 1) They are not very memory intensive. It’s up to you basically. Changing parameters about the
 probability of a node to have a given number of levels will make then less memory intensive than btrees.
 >
-> 2) A sorted set is often target of many ZRANGE or ZREVRANGE operations, that is, traversing the 
+> 2) A sorted set is often target of many ZRANGE or ZREVRANGE operations, that is, traversing the
 skip list as a linked list. With this operation the cache locality of skip lists is at least as good as with other kind of balanced trees.
 >
-> 3) They are simpler to implement, debug, and so forth. For instance thanks to the skip list 
+> 3) They are simpler to implement, debug, and so forth. For instance thanks to the skip list
 simplicity I received a patch (already in Redis master) with augmented skip lists implementing ZRANK in O(log(N)). It required little changes to the code.
 ```
 
@@ -210,5 +210,5 @@ simplicity I received a patch (already in Redis master) with augmented skip list
 - https://blog.csdn.net/ict2014/article/details/17394259
 - http://zhangtielei.com/posts/blog-redis-skiplist.html
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

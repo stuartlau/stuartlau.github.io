@@ -2,7 +2,7 @@
 layout:     post
 permalink:  /blogs/2018-12-26-MySQL的log-slave-updates参数/index.html
 title:      MySQL的log-slave-updates参数
-subtitle:   MySQL with log-slave-updates 
+subtitle:   MySQL with log-slave-updates
 date:       2018-12-26
 author:     StuartLau
 header-img: img/post-bg-desk.jpg
@@ -33,13 +33,13 @@ tags:
 
 ### 参数定义
 官方的解释如下：
-> Normally, a slave does not log to its own binary log any updates that are received from a 
-master server. This option tells the slave to log the updates performed by its SQL thread to its 
+> Normally, a slave does not log to its own binary log any updates that are received from a
+master server. This option tells the slave to log the updates performed by its SQL thread to its
 own binary log. For this option to have any effect, the slave must also be started with the --log-bin option to enable binary logging. Prior to MySQL 5.5, the server would not start when using the --log-slave-updates option without also starting the server with the --log-bin option, and would fail with an error; in MySQL 5.5, only a warning is generated. (Bug #44663) --log-slave-updates is used when you want to chain replication servers. For example, you might want to set up replication servers using this arrangement:
->  
+>
 >  A -> B -> C
->  
->  Here, A serves as the master for the slave B, and B serves as the master for the slave C. For 
+>
+>  Here, A serves as the master for the slave B, and B serves as the master for the slave C. For
 this to work, B must be both a master and a slave. You must start both A and B with --log-bin to enable binary logging, and B with the --log-slave-updates option so that updates received from A are logged by B to its binary log.
 
 可知，如果一台服务器同时作为slave和master则需要开启这个参数，否则Slave只会更新自己是Relay Log并不会写Bin Log。
@@ -48,7 +48,7 @@ this to work, B must be both a master and a slave. You must start both A and B w
 一般情况下MySQL的replica可以有以下几种架构：
 - Master-Slaves Mode
     - 一个M和可以有N个S，彼此S之间不通讯
-    - 适合读多写少的情况，N太大对M的负载和网络带宽有较大压力   
+    - 适合读多写少的情况，N太大对M的负载和网络带宽有较大压力
     - 不同的slave扮演不同的作用(例如使用不同的索引，或者不同的存储引擎)
     - 用一个slave作为备用master，只进行复制（不提供读取）
     - 用一个远程的slave，用于灾难恢复（即多机房）

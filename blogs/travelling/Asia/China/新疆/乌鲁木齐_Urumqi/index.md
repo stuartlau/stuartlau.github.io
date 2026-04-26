@@ -5,7 +5,7 @@ title:      "乌鲁木齐"
 subtitle:   "乌鲁木齐"
 date:       2025-01-14
 author:     StuartLau
-header-img: 
+header-img:
 catalog: true
 tags:
     - Xinjiang

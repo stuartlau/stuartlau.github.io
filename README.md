@@ -84,7 +84,7 @@ stuartlau.github.io/
 ### Automatic Sync
 The site integrates with Douban APIs to automatically sync:
 - Movie watchlist and ratings
-- Book reading history  
+- Book reading history
 - Game play records
 
 This automation ensures the site stays current without manual maintenance.

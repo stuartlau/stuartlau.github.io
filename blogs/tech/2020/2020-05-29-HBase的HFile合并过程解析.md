@@ -13,7 +13,7 @@ tags:
 
 > Compaction是指一个region 的一个 store 中的多个 HFile 合为一个 HFile 的操作，HBase在执行合并时会对上层业务产生比较大的影响。
 本文对其中的执行原理和过程进行一定的研究。
-  
+
 compaction在以LSM-Tree为架构的系统中是非常关键的模块，log append的方式带来了高吞吐的写，内存中的数据到达上限后不断刷盘，
 数据范围互相交叠的层越来越多，相同key的数据不断积累，引起读性能下降和空间膨胀。因此，compaction机制被引入，
 通过周期性的后台任务不断的回收旧版本数据和将多层合并方式来优化读性能和空间问题。
@@ -108,5 +108,5 @@ Compaction对写请求也会有比较大的影响。主要体现在HFile比较�
 - [深入探讨LSM Compaction机制](https://zhuanlan.zhihu.com/p/141186118)
 - [深入理解 HBase Compaction 机制](https://uzshare.com/view/788152)
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

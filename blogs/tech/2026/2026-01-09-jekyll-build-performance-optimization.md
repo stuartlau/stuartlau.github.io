@@ -61,10 +61,10 @@ graph TD
     F --> G[Render HTML]
     G --> H[Next Post]
     end
-    
+
     style C fill:#f96,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
     style D fill:#f96,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
-    
+
     subgraph "Bottleneck Analysis"
     I[Complexity O N*N]
     J[Build Time: ~10 mins]
@@ -112,13 +112,13 @@ sequenceDiagram
     B->>B: Generate search.json (O(N))
     B->>S: Deploy Static Files
     Note right of B: Build Time: ~1 min
-    
+
     Note over C: Runtime Phase
     C->>S: Request Page HTML
     S-->>C: Return HTML (Clean)
     C->>S: Async Fetch search.json
     S-->>C: Return JSON Data
-    
+
     rect rgb(240, 248, 255)
     Note right of C: JavaScript Logic
     C->>C: Filter Related Posts

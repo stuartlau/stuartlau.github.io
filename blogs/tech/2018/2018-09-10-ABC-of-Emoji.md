@@ -17,8 +17,8 @@ tags:
 - Which language can use US-ASCII to encode all its characters?
 - How many characters can *char* represent in Java?
 - Can we use *char* to represent ‘😀’ in Java?
-- What will return if you call “😀”.length() and “😀”.getBytes() in Java? 
-- Can we get the emoji calling “😀c”.substring(0,1)? 
+- What will return if you call “😀”.length() and “😀”.getBytes() in Java?
+- Can we get the emoji calling “😀c”.substring(0,1)?
 - Can we execute *insert into tb(‘name’) values(‘😀’)* in MySQL?
 
 ### How to Define Character
@@ -34,7 +34,7 @@ tags:
 - 17 Planes
 - 136755 characters defined
 - U+0000~U+10FFFF, 21 bit
-- Support over 1.1M possible characters 
+- Support over 1.1M possible characters
 
 ### BMP
 - Basic Multilingual Plane, *U+0000~U+FFFF*, 65535 in total
@@ -44,9 +44,9 @@ tags:
 - Can not be described as a single 16-bit entity
 
 ### Character Encoding
-- A *mapping* from the numbers of one ore more coded character sets to sequences of one or more 
+- A *mapping* from the numbers of one ore more coded character sets to sequences of one or more
 fixed-width code units
-- The most commonly used code units are *bytes*, but 16-bit, 32-bit integers can also be used for 
+- The most commonly used code units are *bytes*, but 16-bit, 32-bit integers can also be used for
 *internal processing*
 - UTF-32, UTF-16 and UTF-8 are character encoding schemas for the Unicode standard
 
@@ -97,8 +97,8 @@ fixed-width code units
     - starts with 1110
         - e.g. 1110xxxx 10yyyyyy 10zzzzzz ==> xxxxyyyy yyzzzzzz
 - e.g. “中”
-    - Unicode U+4E2D: 01001110 00101101 
-    - UTF-8 4E B8 AD : *1110*0100 *10*111000 *10*101101  
+    - Unicode U+4E2D: 01001110 00101101
+    - UTF-8 4E B8 AD : *1110*0100 *10*111000 *10*101101 
 
 ### UTF-16 to UTF-8
 - For those bytes：
@@ -109,8 +109,8 @@ fixed-width code units
     - Others
         - e.g. aaaaaaaa bbbbbbbb ==> 1110aaaa 10aaaabb 10bbcccccc 
 - e.g. “中”
-    - Unicode U+4E2D: 01001110 00101101 
-    - UTF-8 4E B8 AD : *1110*0100 *10*111000 *10*101101  
+    - Unicode U+4E2D: 01001110 00101101
+    - UTF-8 4E B8 AD : *1110*0100 *10*111000 *10*101101 
 
 ### Supplementary Encoding in UTF-16
 - UTF-16 covers *U+0000~U+FFFF* using 2 bytes
@@ -124,7 +124,7 @@ fixed-width code units
 
  
 ### Emoji History
-- In 1999, *Shigetaka Kurita* created the first 180 emoji collection for a Japanese mobile web 
+- In 1999, *Shigetaka Kurita* created the first 180 emoji collection for a Japanese mobile web
 platform
 - Sounds /ɪˈmoʊdʒi/ from Japanese
 - "e"(picture), "moji"(character)
@@ -152,7 +152,7 @@ Emoji character can have two main kinds of presentation:
 An *invisible code point* which specifies that the preceding character should be *rendered* in a textual fashion
 
 #### VS-16
-- An *invisible code point* which specifies that the preceding character should be *displayed* with 
+- An *invisible code point* which specifies that the preceding character should be *displayed* with
 emoji presentation
 - Only required if the preceding character defaults to text presentation
 - Often used in Emoji `ZWJ Sequences`, where one or more characters in the sequence have text and Emoji presentation
@@ -163,11 +163,11 @@ emoji presentation
 - Behave like single emoji character, even though *internally* they are sequences
 
 ### Surrogate Pair
-- It is possible to *combine* two code points defined in the `BMP` to express another code point that 
+- It is possible to *combine* two code points defined in the `BMP` to express another code point that
  lies outside of the first 65635 code points. This combination is called surrogate pair.
 - `Leading Surrogate`: *U+D800~U+DB7F*
 - `Trailing Surrogate`: *U+DC00~U+DFFF*
-- The values from *U+D800* to *U+DFFF* are *reserved* for used in UTF-16, no characters are assigned to 
+- The values from *U+D800* to *U+DFFF* are *reserved* for used in UTF-16, no characters are assigned to
 them as code points
 
 ### Java API

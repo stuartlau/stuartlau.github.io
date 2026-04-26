@@ -11,11 +11,11 @@ tags:
     - Java
     - Streaming
 ---
-   
+
 > Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。
->  
+>
 > Stream 使用一种类似用 SQL 语句从数据库查询数据的直观方式来提供一种对 Java 集合运算和表达的高阶抽象。
->  
+>
 > Stream API可以极大提高Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。
 >
 > 本文会对Stream的实现原理进行剖析。
@@ -39,20 +39,20 @@ tags:
 
 `Stream` 的并行操作依赖于 `Java7` 中引入的 `Fork/Join` 框架（`JSR166y`）来拆分任务和加速处理过程。`Java` 的并行 API 演变历程基本如下：
 > 1.0-1.4 中的 java.lang.Thread
->  
+>
 > 5.0 中的 java.util.concurrent
->  
+>
 > 6.0 中的 Phasers 等
->  
+>
 > 7.0 中的 Fork/Join 框架
->  
-> 8.0 中的 Lambda  
+>
+> 8.0 中的 Lambda
 
 `Stream`具有平行处理能力，处理的过程会分而治之，也就是将一个大任务切分成多个小任务，这表示每个任务都是一个操作：
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 numbers.parallelStream()
-       .forEach(out::println); 
+       .forEach(out::println);
 ```
 可以看到一行简单的代码就帮我们实现了并行输出集合中元素的功能，但是由于并行执行的顺序是不可控的所以每次执行的结果不一定相同。
 
@@ -60,7 +60,7 @@ numbers.parallelStream()
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 numbers.parallelStream()
-       .forEachOrdered(out::println);  
+       .forEachOrdered(out::println);
 ```
 这里有一个疑问，如果结果需要有序，是否和我们的并行执行的初衷相悖？是的，这个场景下明显无需使用并行流，直接用串行流执行即可，
 否则性能可能更差，因为最后又强行将所有并行结果进行了排序。
@@ -105,7 +105,7 @@ public interface BaseStream<T, S extends BaseStream<T, S>>
 ### Stream接口
 再来看一下`Stream`的接口声明：
 ```java
-public interface Stream<T> extends BaseStream<T, Stream<T>> 
+public interface Stream<T> extends BaseStream<T, Stream<T>>
 ```
 参考上面的解释这里不难理解：即`Stream<T>`可以继续拆分为`Stream<T>`，我们可以通过它的一些方法来证实：
 ```java
@@ -230,7 +230,7 @@ public static String query(String question) {
   engines.add("http://www.google.com/?q=");
   engines.add("http://duckduckgo.com/?q=");
   engines.add("http://www.bing.com/search?q=");
-   
+
   // get element as soon as it is available
   Optional<String> result = engines.stream().parallel().map((base) - {
     String url = base + question;
@@ -247,7 +247,7 @@ public static String query(String question) {
 - 目前的`ForkJoinPool`的实现并未考虑补偿等待那些阻塞在等待新生成的线程的工作worker线程，所以最终`ForkJoinPool.commonPool()`中的线程将备用光并且阻塞等待。
 
 > 正如我们上面那个列子的情况分析得知，lambda的执行并不是瞬间完成的,所有使用parallel streams的程序都有可能成为阻塞程序的源头，
-并且在执行过程中程序中的其他部分将无法访问这些workers，这意味着任何依赖parallel streams的程序在什么别的东西占用着common 
+并且在执行过程中程序中的其他部分将无法访问这些workers，这意味着任何依赖parallel streams的程序在什么别的东西占用着common
 ForkJoinPool时将会变得不可预知并且暗藏危机。
 
 
@@ -288,10 +288,10 @@ ForkJoinPool时将会变得不可预知并且暗藏危机。
  拆分的分段就越多，而不会与 “太小” 阈值发生冲突。
 
 一个简单但有用的并行性能模型是 `NQ` 模型，其中 `N` 是数据元素数量，`Q` 是为每个元素执行的工作量。
-乘积 `N*Q` 越大，就越有可能获得并行提速。对于具有很小的 `Q` 
+乘积 `N*Q` 越大，就越有可能获得并行提速。对于具有很小的 `Q`
 的问题，比如对数字求和，您通常可能希望看到 `N > 10,000` 以获得提速；随着 `Q` 增加，获得提速所需的数据大小将会减小。
 
-并行化的许多阻碍（比如拆分成本、组合成本或遇到顺序敏感性）都可以通过 `Q` 更高的操作来缓解。尽管拆分某个 `LinkedList` 
+并行化的许多阻碍（比如拆分成本、组合成本或遇到顺序敏感性）都可以通过 `Q` 更高的操作来缓解。尽管拆分某个 `LinkedList`
 特征的结果可能很糟糕，但只要拥有足够大的 `Q`，仍然可能获得并行提速。
 ### 遇到顺序
 遇到顺序指的是来源分发元素的顺序是否对计算至关重要。一些来源（比如基于哈希的集合和映射）没有有意义的遇到顺序。
@@ -338,5 +338,5 @@ ForkJoinPool时将会变得不可预知并且暗藏危机。
 - https://juejin.im/post/5dc5a148f265da4d4f65c191
 - https://stackoverrun.com/cn/q/10341100
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

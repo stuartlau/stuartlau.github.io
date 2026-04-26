@@ -104,12 +104,12 @@ const searchUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(api
 try {
     const response = await fetch(searchUrl);
     if (!response.ok) throw new Error('Proxy error');
-    
+
     // 3. 关键步骤：解析包装好的数据
     const proxyData = await response.json();
     // 目标数据在 contents 字段里，且是字符串格式，需要二次解析
-    const data = JSON.parse(proxyData.contents); 
-    
+    const data = JSON.parse(proxyData.contents);
+
     // 4. 更新 UI
     if (data && data.discussion) {
         renderStats(data.discussion.totalCommentCount, data.discussion.reactionCount);

@@ -11,7 +11,7 @@ tags:
     - Java
     - Streaming
 ---
-   
+
 > Spliterator是一个可分割迭代器(Splittable Iterator)，JDK8发布后，对于并行处理的能力大大增强，Spliterator就是为了并行遍历&分割序列而设计的一个迭代器。本文对其进行分析。
 
 
@@ -32,8 +32,8 @@ default Spliterator<E> spliterator() {
 }
 ```
 对于子类集合来说应尽量覆盖这个方法以更高效的方式来分割迭代本集合中的数据序列：
-> The default implementation should be overridden by subclasses that can return a more efficient 
-spliterator. 
+> The default implementation should be overridden by subclasses that can return a more efficient
+spliterator.
 
 比如对于`ArrayList`来说，它实现了自己的分割迭代器`ArrayListSpliterator`：
 ```java
@@ -45,10 +45,10 @@ public Spliterator<E> spliterator() {
 它有两个特点：
 - `Late-Binding`
 A late-binding Spliterator binds to the source of elements at the point of first traversal, first split, or first query for estimated size, rather than at the time the Spliterator is created. A Spliterator that is not late-binding binds to the source of elements at the point of construction or first invocation of any method.
-Modifications made to the source prior to binding are reflected when the Spliterator is traversed. 
+Modifications made to the source prior to binding are reflected when the Spliterator is traversed.
 - `Fail-Fast`
-After binding a Spliterator should, on a best-effort basis, throw ConcurrentModificationException if structural interference is detected. Spliterators that do this are called fail-fast. 
- 
+After binding a Spliterator should, on a best-effort basis, throw ConcurrentModificationException if structural interference is detected. Spliterators that do this are called fail-fast.
+
 求最大值
 ```java
 int max = numbers.parallelStream().reduce(0, Integer::max, Integer::max);
@@ -88,15 +88,15 @@ default void forEachRemaining(Consumer<T> action) {
 }
 ```
 If you see the forEachRemaining method default implementation, it repeatedly calls the tryAdvance method to process the spliterator elements sequentially. While splitting task when a spliterator finds itself to be small enough that can be executed sequentially then it calls forEachRemaining method on its elements.
-- *trySplit* is used to partition off some of its elements to second spliterator allowing both of 
+- *trySplit* is used to partition off some of its elements to second spliterator allowing both of
 them to process parallelly. The idea behind this splitting is to allow balanced parallel computation on a data structure. These spliterators repeatedly calls trySplit method unless spliterator returns null indiacating end of splitting process.
-  
-- *estimateSize* returns an estimate of the number of elements available in spliterator. Usually 
+
+- *estimateSize* returns an estimate of the number of elements available in spliterator. Usually
 this method is called by some forkjoin tasks like AbstractTask to check size before calling trySplit.
 
 - *characteristics* method reports a set of characteristics of its structure, source, and elements
  from among ORDERED, DISTINCT, SORTED, SIZED, NONNULL, IMMUTABLE, CONCURRENT, and SUBSIZED. These helps the Spliterator clients to control, specialize or simplify computation. For example, a Spliterator for a Collection would report SIZED, a Spliterator for a Set would report DISTINCT, and a Spliterator for a SortedSet would also report SORTED.
-  
+
 ### ArrayListSpliterator
 #### 源码
 下面我们来看一下`ArrayList`对`Spliterator`的实现：
@@ -287,7 +287,7 @@ s2.consume :
 e
 f
 ```
-#### 用Spliterator求最大值 
+#### 用Spliterator求最大值
 这里的例子同样摘自上述博客，通过`Spliterator`实现并行计算整数元素序列的最大值。
 ```java
 public class SpliteratorTest {
@@ -342,7 +342,7 @@ public class SpliteratorTest {
       public int characteristics() { // 注意这里的IMMUTABLE
           return ORDERED | SIZED | IMMUTABLE | SUBSIZED;
       }
-      
+
       // 注意没有覆盖forEachRemaining()方法，使用默认的实现，即串行消费所有剩余元素
    }
 }
@@ -355,7 +355,7 @@ public class SpliteratorTest {
 `的特性实现了并行计算，但是需要注意使用它的场景：只适用集合数据量大的场景，比如只有几千个元素的场景使用并行流的方式计算将小高更多的资源，因为分割和合并会消耗很大的资源，而串行计算则不需要。
 
 ### Spliterator.OfPrimitive
-`OfPrimitive` 接口定义了原始数据的分割迭代器，注意接口参数的声明 `T_SPLITR` 本质上还是 `OfPrimitive` ， 通过 `trySplit` 
+`OfPrimitive` 接口定义了原始数据的分割迭代器，注意接口参数的声明 `T_SPLITR` 本质上还是 `OfPrimitive` ， 通过 `trySplit`
 方法的返回值可知，分割后的可分割迭代器必须和之前的类型相同：
 ```java
 public interface OfPrimitive<T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
@@ -454,10 +454,10 @@ default boolean tryAdvance(Consumer<? super Integer> action) {
     }
 }
 ```
-它的参数是 `Consumer<? super Integer>` ，如果它是 `IntConsumer` 实例的则直接转换为 `IntConsumer` 进行调用第一个 
+它的参数是 `Consumer<? super Integer>` ，如果它是 `IntConsumer` 实例的则直接转换为 `IntConsumer` 进行调用第一个
 `tryAdvance` 方法；否则将其适配成 `IntConsumer` 通过将其参数进行封箱操作 `boxing` 后传递给第一个 `tryAdvance` 方法。
 > otherwise the action is adapted to an instance of {@code IntConsumer}, by boxing the argument of
-> 
+>
 > {@code IntConsumer}, and then passed to{@link #tryAdvance(java.util.function.IntConsumer)}
 
 ### Spliterator.OfInt的实现
@@ -467,23 +467,23 @@ default boolean tryAdvance(Consumer<? super Integer> action) {
 //与ArrayList不同的是，array是实现声明的，因此不必担心遍历过程中发生结构变更。
 static final class IntArraySpliterator implements Spliterator.OfInt {
     private final int[] array;
-    private int index;       
+    private int index;
     private final int fence;
     //用于记录特征值
     private final int characteristics;
-    
+
     // 初始构造器
     public IntArraySpliterator(int[] array, int additionalCharacteristics) {
       this(array, 0, array.length, additionalCharacteristics);
     }
-    
+
     public IntArraySpliterator(int[] array, int origin, int fence, int additionalCharacteristics) {
       this.array = array;
       this.index = origin;
       this.fence = fence;
       this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
     }
-    
+
     @Override
     public OfInt trySplit() {
       //分割，上面做个介绍，不在赘述
@@ -492,18 +492,18 @@ static final class IntArraySpliterator implements Spliterator.OfInt {
              ? null
              : new IntArraySpliterator(array, lo, index = mid, characteristics);
     }
-    
+
     @Override
     public void forEachRemaining(IntConsumer action) {
       int[] a; int i, hi; // hoist accesses and checks from loop
       if (action == null)
-          throw new NullPointerException();  
+          throw new NullPointerException();
       if ((a = array).length >= (hi = fence) &&
           (i = index) >= 0 && i < (index = hi)) {
           do { action.accept(a[i]); } while (++i < hi);
       }
     }
-    
+
     @Override
     public boolean tryAdvance(IntConsumer action) {
       if (action == null)
@@ -514,15 +514,15 @@ static final class IntArraySpliterator implements Spliterator.OfInt {
       }
       return false;
     }
-    
+
     @Override
     public long estimateSize() { return (long)(fence - index); }
-    
+
     @Override
     public int characteristics() {
       return characteristics;
     }
-    
+
     @Override
     public Comparator<? super Integer> getComparator() {
       if (hasCharacteristics(Spliterator.SORTED))
@@ -532,7 +532,7 @@ static final class IntArraySpliterator implements Spliterator.OfInt {
 }
 ```
 ### 一个有趣的地方
-注意到两个 `tryAdvance` 的参数不一样，一个是 `IntConsumer` ， 这个方法来自 `OfPrimitive` 接口，另外一个 `tryAdvance` 的参数是 
+注意到两个 `tryAdvance` 的参数不一样，一个是 `IntConsumer` ， 这个方法来自 `OfPrimitive` 接口，另外一个 `tryAdvance` 的参数是
 `Consumer<? super Integer>` 它是 `Spliterator` 接口中的定义。
 
 但后者却可以直接转换为前者方法的参数进行调用，但 `Consumer` 接口和 `IntConsumer` 接口是两个没有继承关系的独立接口，只是接口的声明很像。
@@ -550,7 +550,7 @@ public interface IntConsumer {
     }
 }
 
-``` 
+```
 `Consumer` 接口的定义：
 ```java
 @FunctionalInterface
@@ -596,7 +596,7 @@ lass MyConsumer<Integer> implements IntConsumer, Consumer<Integer> {
 ```
 所以该实例传递为参数后，既满足 `Consumer` 类型的入参，又满足内部对 `IntConsumer` 类型的判断。
 
-### References 
+### References
 - https://java8tips.readthedocs.io/en/stable/parallelization.html
 - https://java8tips.readthedocs.io/en/stable/forkjoin.html
 - https://blog.csdn.net/jiangmingzhi23/article/details/78927552
@@ -606,5 +606,5 @@ lass MyConsumer<Integer> implements IntConsumer, Consumer<Integer> {
 - https://blog.csdn.net/lh513828570/article/details/56673804
 - http://movingon.cn/2017/05/03/jdk8-%E4%B8%80%E4%B8%AA%E9%A2%A0%E8%A6%86%E4%BA%86%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%A4%E7%9F%A5%E7%9A%84%E4%BE%8B%E5%AD%90/
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

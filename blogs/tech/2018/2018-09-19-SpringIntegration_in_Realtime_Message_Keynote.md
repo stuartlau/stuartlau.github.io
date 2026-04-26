@@ -35,11 +35,10 @@ tags:
 * Spring Integration Introduction
 * New Design with Spring Integration
 
-                                               
+
 ### Thanks
 
 [Reveal.js](http://lab.hakim.se/reveal-js)
 [free_formatter](https://www.freeformatter.com/xml-escape.html)
 
 > 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
-

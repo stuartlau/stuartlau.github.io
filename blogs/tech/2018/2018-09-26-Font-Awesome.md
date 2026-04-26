@@ -17,7 +17,7 @@ tags:
 ![font-awesome-collection](/images/in-post/font-awesome-collection.jpg)
 
 The latest version is 5.3 and it has 1,341 Free Icons and 2,637 Pro Icons for business usage.
- 
+
 ### How To Add Icons
 To insert an icon, add the name of the icon class to any inline HTML element.
 
@@ -31,17 +31,17 @@ To use the Font Awesome icons, add the following line inside the `<head>` sectio
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 ### Add Wexin Icon
-I want to add Wechat Icon to my blog and share my account QR code with public, just add the 
+I want to add Wechat Icon to my blog and share my account QR code with public, just add the
 following to my footer:
 
     <span class="fa-stack fa-lg">
         <i class="fa fa-circle fa-stack-2x"></i>
         <i class="fa fa-wechat fa-stack-1x fa-inverse" style="color:#1fb922"></i>
     </span>
-    
+
 Now let's see how it looks in my site
 ![footer-icons](/images/in-post/footer-icons.jpg)
-        
+
 ### Reference
 - https://fontawesome.com
 - https://www.w3schools.com/icons/default.asp

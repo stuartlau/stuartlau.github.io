@@ -10,7 +10,7 @@ catalog: true
 tags:
     - Python
 ---
-    
+
 > gRPC是一种比较流行的RPC通信框架，由谷歌公司开源，它提供了对Java、C++以及Python等常用语言的支持。本文主要梳理在Python环境下如何使用gRPC进行通信。
 
 ### 相关工具安装
@@ -57,7 +57,7 @@ pip show <pkgName>
 ```
 另外关于pip源多说一句，由于国外官方pypi经常被墙，导致不可用，所以我们最好是将自己使用的pip源更换一下，这样就能解决被墙导致的装不上库的烦恼。
 > 例如：pip install -i https://pypi.tuna.tsinghua.edu.cn/simple gevent，这样就会从清华这边的镜像去安装gevent库。
-  
+
 另外还可以直接使用pip.conf永久配置pip源：
 ```
 linux下，修改 ~/.pip/pip.conf (没有就创建一个)， 修改 index-url，内容如下：
@@ -84,13 +84,13 @@ linux下，修改 ~/.pip/pip.conf (没有就创建一个)， 修改 index-url，
 常用命令
 ```
 > 创建一个虚拟环境，并放到本地venv文件夹内
-> virtualenv venv venv 
+> virtualenv venv venv
 >
 > 激活venv环境，此时所有命令如python、pip等都使用venv环境内的命令而不是系统命令
-> source venv/bin/activate 
+> source venv/bin/activate
 >
 > 禁用venv环境，此时python的命令将使用系统默认
-> deactivate 
+> deactivate
 ```
 另外可以使用python命令调用venv来完成同样的功能
 > python3 -m venv myvenv
@@ -105,8 +105,8 @@ linux下，修改 ~/.pip/pip.conf (没有就创建一个)， 修改 index-url，
 结果将保存到当前目录下，包括grpchello_pb2.py和grpchello_pb2_grpc.py两个文件。
 #### 中文乱码
 即默认情况下，打印protobuf对象时，对于非asc码，会以转义符方式打印，[issue](https://github.com/google/protobuf/issues/2277)
-> I'm pretty sure that's working as intended: by default we print all non-ascii characters in escaped sequence. 
-  
+> I'm pretty sure that's working as intended: by default we print all non-ascii characters in escaped sequence.
+
 只需要添加两行：
 > from google.protobuf import text_format
 >
@@ -120,7 +120,7 @@ linux下，修改 ~/.pip/pip.conf (没有就创建一个)， 修改 index-url，
 ```python
 # 初始化一个PB结构TestMessage，内部属性只有string类型的属性，即text字段
 # 这里将原来的PB对象的字符串属性desc赋值给TextMessage的text字段，然后实例化TextMessage对象
-text_msg = im_ks_message_notice_pb2.TestMessage(text=somePbObj.desc) 
+text_msg = im_ks_message_notice_pb2.TestMessage(text=somePbObj.desc)
 # 转化pb为文本，用utf8编码
 text = text_format.MessageToString(text_msg, as_utf8=True)
 print(text)
@@ -136,5 +136,5 @@ print(text)
 - 代码风格：https://www.python.org/dev/peps/pep-0008/
 - 代码检查：https://www.pylint.org/
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

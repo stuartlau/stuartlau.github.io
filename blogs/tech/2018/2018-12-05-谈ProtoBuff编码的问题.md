@@ -10,7 +10,7 @@ catalog: true
 tags:
     - Encoding
 ---
-    
+
 > ProtoBuf作为服务器端RPC实现中编解码的常用选型以其编码后字节少、向后兼容性好和传输性能高著称，本文讨论一下它的编码方面的实现问题。
 
 ### 编码方法的介绍
@@ -104,7 +104,7 @@ message old_message{
 ```
 那么接收端在未升级的情况下是如何正确解析新版本的数据包的呢？肯定不回按顺序解析，否则就会将c值赋值到了d上。答案是它会「跳过」不认识的tag number。
 
-ProtoBuf把tag number和其类型wire_type一起写进字节流里去，解码程序只要解析出不认识的tag number，就能知道该字段是新协议定义的，再通过其类型可以推断出该字段内容的长度，就能正确的跳过这部分 
+ProtoBuf把tag number和其类型wire_type一起写进字节流里去，解码程序只要解析出不认识的tag number，就能知道该字段是新协议定义的，再通过其类型可以推断出该字段内容的长度，就能正确的跳过这部分
 buffer，继续解析下一个字段。
 上面的例子中：当旧的解码程序解析到tag number为3时，发现在旧协议里找不到该tag number，又从其类型int64知道该tag number的值占了8个字节，于是跳过这8个字节，继续解析剩下的字节流。
 
@@ -116,8 +116,8 @@ message StringMessage{
     string name = 2;
 }
 ```
-如果name的值设为*testing*，PB编码后的十六进制字节流为**12 07 74 65 73 74 69 6e 
-67**，其中key为0x12，可以算出tag number值为2（0x12>>3，0001 0010带符号右移3位是00000010，即十进制的2)，type为2 
+如果name的值设为*testing*，PB编码后的十六进制字节流为**12 07 74 65 73 74 69 6e
+67**，其中key为0x12，可以算出tag number值为2（0x12>>3，0001 0010带符号右移3位是00000010，即十进制的2)，type为2
 (**0x12**取最低三位，用最低三位存储类型)。紧跟着的字节Varint表示长度，通过分析，应该是**0x07**，即7个字节，为什么呢？因为它的二进制是
 *0000 0111*，即msb为0表示后面的字节已经不属于当前属性的范畴，因此后续的7个字节都为该tag number表示的value。
 
@@ -134,9 +134,9 @@ message StringMessage{
 > [
 >
 >  10, 7, 116, 101, 115, 116, 105, 110, 103,
-> 
+>
 >  24, 3,
-> 
+>
 >  32, -2, -1, -1, -1, -1, -1, -1, -1, -1, 1
 >
 > ]
@@ -210,7 +210,7 @@ public static void main(String[] args) throws InvalidProtocolBufferException {
 从上面的输出中我们可以得到如下结论：
 - 1. 如果仅改变了数值相关的属性，那么前后两个PB是可以互相兼容的（反序列化成功）
 - 2. 如果sint32存储的是负数，改为int32后则会解析成正数，即数据真值会丢失
-- 3. 对于i2和i3，存储的都是「大数字」，一个是负数，一个是int最大值，所以用10个字节进行表示（`32, -2, -1, -1, -1, -1, -1, -1, -1, -1, 
+- 3. 对于i2和i3，存储的都是「大数字」，一个是负数，一个是int最大值，所以用10个字节进行表示（`32, -2, -1, -1, -1, -1, -1, -1, -1, -1,
 1`），这很显然超过了Java中int只占4个字节的大小，效率变差了，所以如果存储「大数字」不要用int32，那用啥？sint32。
 - 4. i4使用int64存储了一个超过int32能保存的最大值，所以用int32解析后变成了负数（长度也变为用10
 个字节存储），也就是说从高纬度降维到低纬度，只能在低纬度能承受的范围之内，否则会丢失真值
@@ -288,7 +288,7 @@ message RepeatedMessage2 {
 
 所以对其进行了压缩处理，这样效率更高，也就变成了我上面说的对于「数字类型的repeated」序列化的实现。这个说法并无从考证，只能证明目前使用的序列化方式确实是性能比较好的。
 至于之前版本的实现方案，有兴趣的可以亲测一下，看看是不是那篇[帖子](http://www.blogjava.net/DLevin/archive/2015/04/01/424011.html)里说的那样。
-  
+
 拿官网中的例子，有一个结构定义如下，声明了是压缩的（[packed=true]）：
 ```java
 message Test4 {
@@ -314,7 +314,7 @@ message Test4 {
 #### 为什么repeated字段的tag number最好不要超过15？
 因为tag number从16开始往后的所有数值在使用Varint时都将使用2个字节来表示，所以repeated的数据类型在序列化时每个元素都将多使用1个字节。如果repeated
 内数据量很多，那么对空间的浪费也是很严重的。
-如一个类型为string的字段的tag number为16，那么它的key（Varint编码，注意是little-endian的编码）用的二进制表示为：**1000 0010 0000 
+如一个类型为string的字段的tag number为16，那么它的key（Varint编码，注意是little-endian的编码）用的二进制表示为：**1000 0010 0000
 0001**。
 
 计算方法：首先string的wire_type为十进制2，tag number的二进制为00010000（指16），套用公式(tag number << 3)
@@ -371,7 +371,7 @@ google 原生提供了any 类型数据结构，但是该数据结构在序列化
 - objective-c 中设置生成的 class 前缀，例如 objc_class_prefix = "Elsef"
 - 设置 java_outer_classname = "类名Proto"，例如 fruit_grpc_context.proto 的类名FruitGrpcContextProto
 
-#### 语法规范 
+#### 语法规范
 - message 名称使用 首字母大写驼峰 格式
 - message 字段名称使用 全小写下划线 格式
 - oneof 是一种异构类型，oneof 修饰的字段与 message 字段执行相同规范，使用 全小写下划线 格式
@@ -391,5 +391,5 @@ google 原生提供了any 类型数据结构，但是该数据结构在序列化
 - [proto 编码原理](https://developers.google.com/protocol-buffers/docs/encoding)
 - [proto java 教程](https://developers.google.com/protocol-buffers/docs/javatutorial)
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

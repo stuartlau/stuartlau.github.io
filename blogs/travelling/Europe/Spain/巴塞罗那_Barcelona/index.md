@@ -12,7 +12,7 @@ tags:
     - Barcelona
     - Spain
 location: [2.1734, 41.3851]
----    
+---
 
 <div class="album-grid">
   <a href="https://www.douban.com/photos/album/1886312773" class="album-card" target="_blank">

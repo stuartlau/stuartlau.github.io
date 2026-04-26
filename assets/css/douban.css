@@ -661,7 +661,7 @@
     .history-mobile-image {
         transition: all 0.3s ease;
     }
-    
+
     .history-mobile-image:hover {
         opacity: 0.9;
     }
@@ -672,7 +672,7 @@
     .history-desktop-image {
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    
+
     .history-desktop-image:hover {
         transform: scale(1.05);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);

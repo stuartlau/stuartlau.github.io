@@ -8,7 +8,7 @@ author:     StuartLau
 header-style: text
 catalog: true
 tags:
-    - 
+    -
 ---
 
 <div class="photo-grid">

@@ -105,7 +105,7 @@ function injectReactionFilter() {
             button[value="eyes"] {
                 display: none !important;
             }
-            
+
             /* Keep visible: thumbs up (+1), heart, hooray, rocket, laugh */
         `;
         iframeDoc.head.appendChild(style);
@@ -153,4 +153,3 @@ function updateGiscusTerm(newTerm) {
     giscusIframe.src = newSrc;
     currentTerm = newTerm;
 }
-

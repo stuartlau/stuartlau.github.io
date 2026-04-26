@@ -14,7 +14,7 @@ tags:
 这个方法该怎么理解呢？其实可以理解为「加塞」，让t1加塞先执行，当前线程阻塞等待，一直到t1执行完毕再继续执行。但是join()
 底层是如何让当前线程阻塞并在执行完毕后让当前线程继续运行的呢？猜测一定是依赖于t1对象的对象锁，否则无法在不增加额外锁对象同步控制的前提下使得所有调用t1.join()
 方法的线程都老老实实的听从指挥。本文将通过两个例子把join机制和锁同步的关系进行说明。
-    
+
 ### 阻塞与等待的区别
 - 阻塞：当一个线程试图获取对象锁（非java.util
 .concurrent库中的锁，即使用synchronized关键字），而该锁被其他线程持有时，则该线程进入「阻塞状态」。
@@ -213,7 +213,7 @@ main线程和t2线程，所以这两个线程会处于`WAITING`状态，进入�
 ```java
 class A extends Thread {
    static A a;
-  
+
    public void run() {
       try {
          synchronized(a) {
@@ -223,7 +223,7 @@ class A extends Thread {
       } catch (InterruptedException e){
       }
    }
-  
+
    public static void main(String[] ar) throws Exception {
       a=new A();
       a.start();
@@ -234,9 +234,9 @@ class A extends Thread {
       }
    }
 }
-  
+
 Output:
-  
+
 main acquired a lock on a
 Thread-1 acquired a lock on a
 true
@@ -246,5 +246,5 @@ true
 - https://coderanch.com/t/242419/certification/invocation-join-release-locks-objects
 - https://segmentfault.com/q/1010000007260477
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

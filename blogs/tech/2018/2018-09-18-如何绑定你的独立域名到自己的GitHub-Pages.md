@@ -34,7 +34,7 @@ tags:
 想要查看记录是否生效在linux环境下可以直接使用`dig`命令：
 
     $ dig your-domain
-    
+
 修改前
 
 ```

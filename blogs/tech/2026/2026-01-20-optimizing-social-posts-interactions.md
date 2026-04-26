@@ -40,13 +40,13 @@ Posts 页面的图片被包裹在 `.social-image-grid` 容器中，而这个容�
 document.querySelectorAll('.grid-img-wrap').forEach(wrap => {
     const img = wrap.querySelector('.lazy-img[data-src]');
     if (!img) return;
-    
+
     // 只在当前激活的 Tab 中观察
     const panel = wrap.closest('.content-panel');
     if (panel && !panel.classList.contains('active')) return;
-    
+
     // 省略部分代码...
-    
+
     // 将图片引用挂在 wrapper 上方便回调时调用
     wrap._lazyImg = img;
     imageLazyObserver.observe(wrap);

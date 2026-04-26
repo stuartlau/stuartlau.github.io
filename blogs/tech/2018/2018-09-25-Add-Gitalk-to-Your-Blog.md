@@ -16,7 +16,7 @@ tags:
 
 ### Introduction
 
-Except **Disqus**, there is also an amazing comment plugin. 
+Except **Disqus**, there is also an amazing comment plugin.
 [Gitalk](https://github.com/gitalk/gitalk) is a modern comment component based on GitHub Issue and Preact.
 Gitalk uses your GitHub account to log in and it supports `MarkDown`.
 
@@ -41,15 +41,15 @@ Two ways.
   <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
   <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 ```
-  
+
 #### npm install
 
     npm i --save gitalk
-    
-    
+
+
     import 'gitalk/dist/gitalk.css'
     import Gitalk from 'gitalk'
-    
+
 
 #### Integration with Gitalk
 
@@ -72,7 +72,7 @@ Two ways.
 		owner: 'Github username',
 		admin: ['Github username'],
 		id: 'identifier for a page，gitalk will create issues with this id',
-    
+
     });
     gitalk.render('gitalk-container');
 </script>
@@ -109,11 +109,11 @@ Get `Client ID` and `Client Secret` to fill in _config.xml related to Gitalk
   repo: your-repo.github.io    #repository name
   owner: your-github-account    #github username
   admin: your-github-account
-  distractionFreeMode: true 
+  distractionFreeMode: true
 
 ```
 
-When all settings are done and push to your GitHub repo, wait for 
+When all settings are done and push to your GitHub repo, wait for
 a while and try to refresh your pages and boom! Gitalk is in effect.
 
 But there is still something we need to do or you may get the following

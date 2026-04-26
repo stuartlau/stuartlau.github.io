@@ -9,7 +9,7 @@ name: Patent Automation
 
 ## 核心功能
 
-1. **自动同步与抓取**: 
+1. **自动同步与抓取**:
    - 优先使用脚本 `scripts/patent-md-create/sync_patents.py`。
    - 逻辑：自动从 Google Patents 下载最新 CSV，识别新专利或状态变更（如“申请”变“授权”），自动生成/替换 Markdown 文件。
    - 文件命名规范：`yyyy-mm-dd-{授权/待授权专利}-{ID}.md`。

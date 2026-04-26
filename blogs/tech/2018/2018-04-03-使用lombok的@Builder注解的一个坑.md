@@ -9,10 +9,10 @@ header-img: img/post-bg-rwd.jpg
 catalog: true
 tags:
     - TroubleShooting
----    
+---
 ### Background
 在增加某feature的时候需要给某类添加一个小方法，该方法使用了内部成员变量，并且该成员变量在定义的时候就已经实例化：<br>
-    
+
     Map<String, Object> map = Maps.newHashMap()
 
 
@@ -29,14 +29,14 @@ tags:
 @Retention(value=SOURCE)
 public @interface Builder
 The builder annotation creates a so-called 'builder' aspect to the class that is annotated or the class that contains a member which is annotated with @Builder.
-If a member is annotated, it must be either a constructor or a method. 
-If a class is annotated, then a private constructor is generated with all fields as arguments (as if @AllArgsConstructor(AccessLevel.PRIVATE) is present on the class), 
+If a member is annotated, it must be either a constructor or a method.
+If a class is annotated, then a private constructor is generated with all fields as arguments (as if @AllArgsConstructor(AccessLevel.PRIVATE) is present on the class),
 and it is as if this constructor has been annotated with @Builder instead.
-The effect of @Builder is that an inner class is generated named TBuilder, with a private constructor. 
+The effect of @Builder is that an inner class is generated named TBuilder, with a private constructor.
 Instances of TBuilder are made with the method named builder() which is also generated for you in the class itself (not in the builder class).
-The TBuilder class contains 1 method for each parameter of the annotated constructor / method (each field, when annotating a class), which returns the builder itself. 
-The builder also has a build() method which returns a completed instance of the original type, 
-created by passing all parameters as set via the various other methods in the builder to the constructor or method that was annotated with @Builder. 
+The TBuilder class contains 1 method for each parameter of the annotated constructor / method (each field, when annotating a class), which returns the builder itself.
+The builder also has a build() method which returns a completed instance of the original type,
+created by passing all parameters as set via the various other methods in the builder to the constructor or method that was annotated with @Builder.
 The return type of this method will be the same as the relevant class, unless a method has been annotated, in which case it'll be equal to the return type of that method.
 ```
 

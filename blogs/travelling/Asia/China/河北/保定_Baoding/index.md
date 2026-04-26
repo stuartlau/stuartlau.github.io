@@ -5,7 +5,7 @@ title:      "保定"
 subtitle:   "保定"
 date:       2025-01-14
 author:     StuartLau
-header-img: 
+header-img:
 catalog: true
 tags:
     - Hebei

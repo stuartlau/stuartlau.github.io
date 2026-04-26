@@ -9,7 +9,7 @@ name: Document Management
 
 ## 核心流程
 
-1. **自动扫描**: 
+1. **自动扫描**:
    - 检查 `assets/files` 目录中的文件（如 PDF）。
 2. **博客转换**:
    - 运行脚本 `python3 scripts/generate-doc-md/generate_doc.py`。

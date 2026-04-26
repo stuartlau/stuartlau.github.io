@@ -11,7 +11,7 @@ tags:
     - Flask
     - TroubleShooting
 ---
-    
+
 > 最近在使用Flask开发IM中台的运营平台，在解决身份为题时接入了公司的SSO服务，Flask的CSA的实现是插件叫flask-cas，但是这个插件的源码存在bug导致在认证的时候会有异常，本文主要解决flask-cas中源码的异常问题并提供解决方案。
 
 ### 一分钟介绍CAS
@@ -57,5 +57,5 @@ Web 认证系统，企业内部passport
 解决：克隆git中的源码手动安装flask-CAS
 
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

@@ -2,7 +2,7 @@
 layout: modern-home
 title: "Stuart Lau - Full Stack Engineer & Patent Inventor"
 tagline: "Building systems at scale for millions of users"
-image: 
+image:
   feature: home-bg.jpg
 ---
 

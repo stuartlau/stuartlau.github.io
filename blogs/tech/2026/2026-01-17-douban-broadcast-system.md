@@ -37,13 +37,13 @@ flowchart LR
     subgraph 原始数据
         A[豆瓣网页] --> B[手动复制/导出]
     end
-    
+
     subgraph 数据处理
         B --> C[Python清洗脚本]
         C --> D[JSON格式化]
         D --> E[按年份分组]
     end
-    
+
     subgraph 数据存储
         E --> F[_data/douban/]
         F --> G[2021.json]
@@ -53,13 +53,13 @@ flowchart LR
         F --> K[2025.json]
         F --> L[2026.json]
     end
-    
+
     subgraph 前端展示
         M[douban.html] --> N[年份选择器]
         M --> O[Feed列表]
         M --> P[评论集成]
     end
-    
+
     G --> M
     H --> M
     I --> M
@@ -71,7 +71,7 @@ flowchart LR
 ## 页面展示效果
 
 > 📸 **截图位置**：请在此处插入豆瓣广播页面截图
-> 
+>
 > ![Douban Broadcast Page](/images/screenshots/douban-broadcast.png)
 
 如图所示，页面包含：
@@ -155,7 +155,7 @@ flowchart LR
             </div>
         </div>
     </aside>
-    
+
     <!-- 主内容区 -->
     <main class="douban-main">
         <!-- 年份选择器 -->
@@ -164,7 +164,7 @@ flowchart LR
             <a href="#2025" class="year-tab">2025</a>
             ...
         </nav>
-        
+
         <!-- Feed列表 -->
         <div class="feed-list">
             <!-- 广播条目 -->
@@ -227,7 +227,7 @@ function formatTime(timeStr) {
 document.querySelectorAll('.douban-status-item').forEach(item => {
     const itemYear = item.dataset.year;
     const targetYear = getCurrentYearFromHash();
-    
+
     if (itemYear === targetYear || targetYear === 'all') {
         item.style.display = '';
     } else {
@@ -245,7 +245,7 @@ document.querySelectorAll('.douban-status-item').forEach(item => {
 
 ```html
 <!-- 使用Giscus实现GitHub Discussions评论 -->
-<script 
+<script
     src="https://giscus.app/client.js"
     data-repo="stuartlau/stuartlau.github.io"
     data-repo-id="xxx"
@@ -270,7 +270,7 @@ function toggleGiscus(element) {
     const wrapper = element.closest('.douban-status-item')
                        .nextElementSibling
                        .querySelector('.giscus-wrapper');
-    
+
     if (wrapper.style.display === 'none') {
         wrapper.style.display = 'block';
         // Giscus自动加载
@@ -292,7 +292,7 @@ graph LR
     A[原始数据] --> B[数据清洗]
     B --> C[统计计算]
     C --> D[可视化展示]
-    
+
     subgraph 统计维度
         E[总数统计]
         F[图片占比]
@@ -300,13 +300,13 @@ graph LR
         H[月份分布]
         I[互动排行]
     end
-    
+
     C --> E
     C --> F
     C --> G
     C --> H
     C --> I
-    
+
     D --> J[柱状图]
     D --> K[饼图]
     D --> L[时间线]
@@ -315,7 +315,7 @@ graph LR
 ### 统计展示效果
 
 > 📸 **截图位置**：请在此处插入统计卡片截图
-> 
+>
 > ![Douban Stats](/images/screenshots/douban-stats.png)
 
 ## 图片处理优化
@@ -350,7 +350,7 @@ graph LR
 function openLightbox(imageUrl, allImages) {
     currentImages = allImages;
     currentImageIndex = currentImages.indexOf(imageUrl);
-    
+
     const lb = document.getElementById('lightbox');
     document.getElementById('lightbox-img').src = imageUrl;
     lb.style.display = 'flex';
@@ -393,20 +393,20 @@ from datetime import datetime
 def clean_douban_data(raw_text):
     """清洗豆瓣原始数据"""
     records = []
-    
+
     for line in raw_text.strip().split('\n'):
         if not line.strip():
             continue
-            
+
         # 解析时间
         time_match = re.search(r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})', line)
         if time_match:
             time_str = time_match.group(1)
-            
+
             # 提取内容（去除时间和特殊字符）
             content = re.sub(r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]', '', line)
             content = content.strip()
-            
+
             records.append({
                 'time': time_str,
                 'content': content,
@@ -416,7 +416,7 @@ def clean_douban_data(raw_text):
                     'comment_count': '0'
                 }
             })
-    
+
     return records
 
 def group_by_year(records):
@@ -427,7 +427,7 @@ def group_by_year(records):
         if year not in grouped:
             grouped[year] = []
         grouped[year].append(record)
-    
+
     return grouped
 ```
 

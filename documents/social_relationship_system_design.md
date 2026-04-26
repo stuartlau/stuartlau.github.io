@@ -146,7 +146,7 @@ CREATE TABLE `relation_104_0` (
 1.  **普通用户场景 (B 的粉丝数 < 500)**
     *   **策略**：直接加载 B 的粉丝列表。
     *   **操作**：从 Cache/DB 拉取 B 的全量粉丝 ID，在内存中判断 `A in B.fansList`。
-    
+
 2.  **中等规模场景 (500 < B 的粉丝数 < 2000)**
     *   **策略**：利用 Redis 有序集合 (ZSet)。
     *   **操作**：使用 Redis Pipeline 批量调用 `ZSCORE` 或 `ZRANK` 进行判定，避免全量拉取带来网络 IO 压力。

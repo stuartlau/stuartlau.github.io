@@ -7,7 +7,7 @@ date:       2018-11-28
 author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
-tags: 
+tags:
     - MySQL
 ---
 
@@ -38,16 +38,16 @@ MVCC(Multi-Version Concurrency Control多版本并发控制)：
     - `DELETE BIT`位用于标识该记录是否被删除，这里的不是真正的删除数据，而是标志出来的删除。真正意义的删除是在mysql进行数据的GC，清理历史版本数据的时候。
 如[MySQL官方手册](https://dev.mysql.com/doc/refman/5.7/en/innodb-multi-versioning.html)
 
-> Internally, InnoDB adds three fields to each row stored in the database. A 6-byte DB_TRX_ID field 
-> indicates the transaction identifier for the last transaction that inserted or updated the row. Also, a 
-> deletion is treated internally as an update where a special bit in the row is set to mark it as 
-> deleted. Each row also contains a 7-byte DB_ROLL_PTR field called the roll pointer. The roll 
-> pointer points to an undo log record written to the rollback segment. If the row was updated, 
-> the undo log record contains the information necessary to rebuild the content of the row before 
-> it was updated. A 6-byte DB_ROW_ID field contains a row ID that increases monotonically as new 
-> rows are inserted. If InnoDB generates a clustered index automatically, the index contains row 
+> Internally, InnoDB adds three fields to each row stored in the database. A 6-byte DB_TRX_ID field
+> indicates the transaction identifier for the last transaction that inserted or updated the row. Also, a
+> deletion is treated internally as an update where a special bit in the row is set to mark it as
+> deleted. Each row also contains a 7-byte DB_ROLL_PTR field called the roll pointer. The roll
+> pointer points to an undo log record written to the rollback segment. If the row was updated,
+> the undo log record contains the information necessary to rebuild the content of the row before
+> it was updated. A 6-byte DB_ROW_ID field contains a row ID that increases monotonically as new
+> rows are inserted. If InnoDB generates a clustered index automatically, the index contains row
 > ID values. Otherwise, the DB_ROW_ID column does not appear in any index.
-  
+
 以具体的DML举例：
 - `INSERT`：创建一条新数据，`DB_TRX_ID`中的创建时间为当前事务ID，`DB_ROLL_PT`为NULL，即没有需要回滚的数据指向
 - `DELETE`：将当前行的`DB_TRX_ID`中的删除时间设置为当前事务ID，`DELETE BIT`设置为1
@@ -84,7 +84,7 @@ MVCC实现了多个并发事务更新同一行记录会时产生多个记录版�
 - Gap Lock：间隙锁，锁定一个范围，但不包括记录本身。GAP锁的目的，是为了防止同一事务的两次「当前读」，出现幻读的情况
 - Next-Key Lock：前两个锁的加和，锁定一个范围，并且锁定记录本身。对于行的查询，都是采用该方法，主要目的是解决幻读的问题
 
-如果是带排他锁操作（除了`INSERT`/`UPDATE`/`DELETE`这种，还包括`SELECT FOR UPDATE`/`LOCK IN SHARE MODE`等），它们默认都在操作的记录上加了`Next-Key 
+如果是带排他锁操作（除了`INSERT`/`UPDATE`/`DELETE`这种，还包括`SELECT FOR UPDATE`/`LOCK IN SHARE MODE`等），它们默认都在操作的记录上加了`Next-Key
 Lock`。只有使用了这里的操作后才会在相应的记录周围和记录本身加锁，即`Record Lock` + `Gap Lock`，所以会导致有冲突操作的事务阻塞进而超时失败。
 
 ##### 性能
@@ -125,15 +125,15 @@ Lock`。只有使用了这里的操作后才会在相应的记录周围和记录
   ERROR 1205 (HY000):
   Lock wait timeout exceeded;
   try restarting transaction
-  
-但是如果当前事务使用的加锁的条件仅仅是某一个行锁的话最多会在前后加Next-Key Lock，影响范围较小，但仍然可能阻塞其他事务的插入，如恰好新数据的位置被GAP 
+
+但是如果当前事务使用的加锁的条件仅仅是某一个行锁的话最多会在前后加Next-Key Lock，影响范围较小，但仍然可能阻塞其他事务的插入，如恰好新数据的位置被GAP
 Lock锁住了，那只能等待当前事务释放锁了。
 
 说了这么多，有一点要注意，就是这个Next-Key Lock一定是在REPEATABLE-READ下才有，READ-COMMITTED是不存在的。
 
 > To prevent phantoms, InnoDB uses an algorithm called next-key locking that combines index-row locking with gap locking.
   You can use next-key locking to implement a uniqueness check in your application: If you read your data in share mode and do not see a duplicate for a row you are going to insert, then you can safely insert your row and know that the next-key lock set on the successor of your row during the read prevents anyone meanwhile inserting a duplicate for your row. Thus, the next-key locking enables you to “lock” the nonexistence of something in your table.
-  
+
 即InnoDb在REPEATABLE-READ下提供Next-Key Lock机制，但是需要业务自己去加锁，如果不加锁，只是简单的SELECT查询，是无法限制并行事务的插入的。
 
 
@@ -153,7 +153,7 @@ Lock锁住了，那只能等待当前事务释放锁了。
 #### 误解四
 > 如果使用了当前读加了锁，但是锁的行并不存在则不会阻止隔壁事务插入符合条件的数据。
 
-其实记录存在与否和事务加锁成功与否无关，如SELECT * FROM user WHERE id = 5 FOR 
+其实记录存在与否和事务加锁成功与否无关，如SELECT * FROM user WHERE id = 5 FOR
 UPDATE，此时id=5的记录不存在，隔壁事务仍然无法插入记录（假设当前自增的主键id已经是4了）。因为锁定的是索引，故记录实体存在与否没关系。
 
 #### 误解五

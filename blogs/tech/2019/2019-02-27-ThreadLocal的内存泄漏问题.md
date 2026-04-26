@@ -11,7 +11,7 @@ tags:
     - Java
     - ThreadLocal
 ---
-    
+
 > 本文分析`Thread`和`ThreadLocal`的关系以及实现原理和常见的问题，并提供使用`ThreadLocal`的最佳方式。
 
 ### ThreadLocal基础
@@ -36,7 +36,7 @@ protected T initialValue() {
 }
 ```
 
-#### set 
+#### set
 `set` 方法实现了为线程绑定变量的工作：
 ```java
 public void set(T value) {
@@ -60,7 +60,7 @@ ThreadLocalMap getMap(Thread t) {
 ```
 我们来看一下这个`threadLocals` 的定义，它的类是维护在 `ThreadLocal` 类中的，访问权限为`package private`：
 ```java
-    /* ThreadLocal values pertaining to this thread. This map is maintained by the ThreadLocal 
+    /* ThreadLocal values pertaining to this thread. This map is maintained by the ThreadLocal
     class. */
     ThreadLocal.ThreadLocalMap threadLocals = null;
 ```
@@ -73,22 +73,22 @@ ThreadLocalMap getMap(Thread t) {
 `ThreadLocalMap` 的 `Java Doc` 如下：
 
 > ThreadLocalMap is a customized hash map suitable only for maintaining thread local values.
-> 
+>
 > No operations are exported maintaining thread local values. No operations are exported
 >
 > outside of the ThreadLocal class. The class is package private to allow declaration of
-> 
+>
 > fields in class Thread.  To help deal with very large and long-lived usages, the hash
-> 
+>
 > table entries use WeakReferences for keys. However, since reference queues are not
 >
 > used, stale entries are guaranteed to be removed only when the table starts running
-> 
+>
 > out of space.
 
 可知它本质上是一个定制化的哈希表，但是并没有对外暴露任何维护哈希表的方法，如 `remove` 操作。
 
-为了处理大量的、长期存活的数据，默认这个哈希表的 `entries`使用 `WeakReference` 作为 `key` 的类型，但是由于没有使用 `ReferenceQueue` 参数初始化 
+为了处理大量的、长期存活的数据，默认这个哈希表的 `entries`使用 `WeakReference` 作为 `key` 的类型，但是由于没有使用 `ReferenceQueue` 参数初始化
 `key` ，所以即使 `JVM` 因为内存吃紧回收了对应的 `key`的引用的 `ThreadLocal` 对象我们也无法得知并做一些清除工作，这里就埋下一个隐患给我们。
 
 先来看看它的属性：
@@ -114,7 +114,7 @@ ThreadLocalMap getMap(Thread t) {
         /**
          * The next size value at which to resize.
          */
-        private int threshold; // Default to 0        
+        private int threshold; // Default to 0
         ......
     }
 ```
@@ -135,17 +135,17 @@ ThreadLocalMap getMap(Thread t) {
         setThreshold(INITIAL_CAPACITY);
     }
 ```
-可知每个 `Entry` 实例持有了 `key` 为`ThreadLocal`对象实例，`value` 为具体的` ThreadLocal<T>` 泛型 `T` 的实例对象。初始化的数组大小为 
+可知每个 `Entry` 实例持有了 `key` 为`ThreadLocal`对象实例，`value` 为具体的` ThreadLocal<T>` 泛型 `T` 的实例对象。初始化的数组大小为
 `16` 。
 ##### Entry
 > The entries in this hash map extend WeakReference, using its main ref field as the key (which
-> 
+>
 > is always a ThreadLocal object). Note that null keys (i.e. entry.get() == null) mean that
-> 
+>
 > the key is no longer referenced, so the entry can be expunged from table.  Such entries
-> 
+>
 > are referred to as "stale entries" in the code that follows.
-       
+
 ```java
     static class Entry extends WeakReference<ThreadLocal<?>> {
         /** The value associated with this ThreadLocal. */
@@ -157,7 +157,7 @@ ThreadLocalMap getMap(Thread t) {
         }
     }
 ```
-注意到 `Entry` 继承了`WeakReference` 类，而弱引用本身在 `GC` 触发时会被回收，所以 `key` 
+注意到 `Entry` 继承了`WeakReference` 类，而弱引用本身在 `GC` 触发时会被回收，所以 `key`
 可能会变为`null`，即对应的引用对象被回收掉了，但是 `value` 是一个「强引用」。该 `Entry` 在table
 数组中也不会被垃圾回收自动触发「缩容」被删除掉，不过`ThreadLocalMap`为我们提供了很多`expunge
 `机制来清理对应的过期数据，但这个机制「需要显式触发」，这里也就是可能出现内存泄漏的地方！
@@ -167,19 +167,19 @@ ThreadLocalMap getMap(Thread t) {
 ```java
     /**
      * Expunge a stale entry by rehashing any possibly colliding entries
-     * 
+     *
      * lying between staleSlot and the next null slot.  This also expunges
-     * 
+     *
      * any other stale entries encountered before the trailing null.  See
-     * 
+     *
      * Knuth, Section 6.4
      *
      * @param staleSlot index of slot known to have null key
-     * 
+     *
      * @return the index of the next null slot after staleSlot
-     * 
+     *
      * (all between staleSlot and this slot will have been checked
-     * 
+     *
      * for expunging).
      */
     private int expungeStaleEntry(int staleSlot) {
@@ -217,7 +217,7 @@ ThreadLocalMap getMap(Thread t) {
         }
         return i;
     }
-    
+
     /**
      * Expunge all stale entries in the table.
      */
@@ -277,7 +277,7 @@ ThreadLocalMap getMap(Thread t) {
         if (!cleanSomeSlots(i, sz) && sz >= threshold)
             rehash();
     }
-    
+
     /**
      * Re-pack and/or re-size the table. First scan the entire
      * table removing stale entries. If this doesn't sufficiently
@@ -323,7 +323,7 @@ private void exit() {
 > 如果认为`ThreadLocal`是保证每个线程的数据彼此独立互不干扰，则可能会在使用时产生一定危险。
 >
 > 主要体现在如spring的事务管理，包括Hibernate的session管理等都有出现，在web开发中，有时会用来管理用户会话
-> 
+>
 > HttpSession，web交互中这种典型的「一个请求一个线程」的场景似乎比较适合使用ThreadLocal，但是需要特别注意的是，
 >
 > 由于此时session与线程关联，而tomcat这些web服务器多会采用线程池机制，也就是说线程是可复用的，所以在每一次进入的时候都需要重新进行set，或者在结束时及时remove。
@@ -355,5 +355,5 @@ private void exit() {
 - https://www.jianshu.com/p/dde92ec37bd1
 - https://blog.csdn.net/zsfsoftware/article/details/50933151
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

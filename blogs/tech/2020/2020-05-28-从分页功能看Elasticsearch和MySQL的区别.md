@@ -44,7 +44,7 @@ Extra:
 MySQL的特点是查询的表的数据都在一台机器的同一个库的文件夹中，搞不好还在一个文件中（如果表不够大的话），而对于ES来说，由于天生是分布式的，
 所以排序需要统筹全局的数据进行排序。
 
-比如，假如你每页是 10 条数据，你现在要查询第 100 页，实际上是会把每个 shard 上存储的前 1000 
+比如，假如你每页是 10 条数据，你现在要查询第 100 页，实际上是会把每个 shard 上存储的前 1000
 条数据都查到一个*协调节点*上（因为无法确认哪个shard上的数据是真正符合本次条件的），
 如果你有个 5 个 shard，那么就有 5000 条数据，接着协调节点对这 5000 条数据进行一些合并、处理，再获取到最终第 100 页的 10 条数据。
 
@@ -83,9 +83,9 @@ MySQL的特点是查询的表的数据都在一台机器的同一个库的文件
 
 #### scroll
 scroll查询原理是在第一次查询的时候一次性生成一个快照，根据上一次的查询的id来进行下一次的查询，这个就类似于关系型数据库的游标cursor，
-然后每次滑动都是根据产生的游标id进行下一次查询，这种性能比上面说的分页性能要高出很多，基本都是毫秒级的。 
+然后每次滑动都是根据产生的游标id进行下一次查询，这种性能比上面说的分页性能要高出很多，基本都是毫秒级的。
 
-注意：scroll不支持跳页查询。 
+注意：scroll不支持跳页查询。
 
 使用场景：对实时性要求不高的查询，例如微博或者头条滚动查询。
 
@@ -110,8 +110,8 @@ curl -XGET 'localhost:9200/twitter/tweet/_search?scroll=1m' -d '
 ```
 curl -XGET  'localhost:9200/_search/scroll'  -d'
 {
-    "scroll" : "1m", 
-    "scroll_id" : "c2Nhbjs2OzM0NDg1ODpzRlBLc0FXNlNyNm5JWUc1" 
+    "scroll" : "1m",
+    "scroll_id" : "c2Nhbjs2OzM0NDg1ODpzRlBLc0FXNlNyNm5JWUc1"
 }
 '
 ```
@@ -167,5 +167,5 @@ scroll-scan和scroll的区别：
 - [如何跳过es分页这个坑？](https://my.oschina.net/u/1787735/blog/3024051)
 - [search-request-scroll.](https://www.elastic.co/guide/en/elasticsearch/reference/2.0/search-request-scroll.html)
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

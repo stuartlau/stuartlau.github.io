@@ -7,12 +7,12 @@ date:       2018-11-29
 author:     StuartLau
 header-img: img/home-bg-o.jpg
 catalog: true
-tags: 
+tags:
     - Talk
 ---
 ### Background
 
-离开Amazon之前我的大老板跟我做了一次Skip Level的交流，所谓Skip 
+离开Amazon之前我的大老板跟我做了一次Skip Level的交流，所谓Skip
 Level就是直接跳过你的直属上级，跟他的上级进行交流，在国内的互联网公司很显然是没有这种模式的。这次的交流也总结了很多经验。
 
 面对员工的离职，总是有这样那样的原因，但对于一个团队来说，从这些离职人员口中得到他们真实的痛点以及不便言说的苦楚可以使团队得以继续健康、稳定发展，可见这次谈话大Boss也是诚意十足。

@@ -12,15 +12,15 @@ tags:
     - Nginx
     - Tomcat
 ---
-    
+
 > 本文主要梳理在Web开发时遇到的各种超时问题的总结，主要包括熟悉的Tomcat和Nginx的一些常用配置的解答和测试。
 
 ### Tomcat
 #### connectionTimeout
 先来看看[官方文档](https://tomcat.apache.org/tomcat-7.0-doc/config/http.html)的解释：
 > connectionTimeout
->  
-> The number of milliseconds this Connector will wait, after accepting a connection, for the 
+>
+> The number of milliseconds this Connector will wait, after accepting a connection, for the
 request URI line to be presented. Use a value of -1 to indicate no (i.e. infinite) timeout. The default value is 60000 (i.e. 60 seconds) but note that the standard server.xml that ships with Tomcat sets this to 20000 (i.e. 20 seconds). Unless disableUploadTimeout is set to false, this timeout will also be used when reading the request body (if any).
 
 理解起来似乎并不难，但是它有什么作用呢？
@@ -83,7 +83,7 @@ sys	0m0.001s
 ### Nginx
 #### proxy_connect_timeout
 > Defines a timeout for establishing a connection with a proxied server. It should be noted that this timeout cannot usually exceed 75 seconds.
-  
+
 在收到请求头后，会将请求转发到 *upstream* 里面配置的backend server，这个就是与对应的server连接的超时时间，设置时最大值不能超过75s，
 比如我们使用Tomcat和Nginx是放在同一个交换机上的内网，所以将连接时间优化到10s，超过10s连接不上，说明业务有问题了。
 
@@ -91,14 +91,14 @@ sys	0m0.001s
 #### proxy_read_timeout
 
 > Defines a timeout for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. If the proxied server does not transmit anything within this time, the connection is closed.
-  
+
 注意该指令并不是定义Client从Server
 读取数据的耗时时间，而是在两个连续的读操作之间的时间间隔，即有回包之后的下一次回包之间的时间差，如果因为网络原因或者丢包或者速度慢可能会造成两个连续的ACK收到的时间间隔超过这个时间，
 这个时候Nginx就会断开这个连接了。不过一般Nginx可能还没到这个时间就被proxied server给断掉了，这个需要协调两边的超时时间配置。
 
 #### proxy_send_timeout
 > Sets a timeout for transmitting a request to the proxied server. The timeout is set only between two successive write operations, not for the transmission of the whole request. If the proxied server does not receive anything within this time, the connection is closed.
-  
+
 同样，写超时和读超时的意义是一样的，都是用来定义两个连续的写操作之间的时间间隔的最大值，否则会断掉和proxied server的连接。
 
 ### Conclusion
@@ -108,5 +108,5 @@ sys	0m0.001s
 - [tomcat-connector的微调(4): 超时相关的参数](http://hongjiang.info/tomcat-connector-tuning-4/)
 - [Nginx Documentation - HTTP Proxy Module](http://nginx.org/en/docs/http/ngx_http_proxy_module.html)
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

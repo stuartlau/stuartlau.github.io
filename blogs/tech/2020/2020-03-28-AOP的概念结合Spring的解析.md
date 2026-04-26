@@ -12,25 +12,25 @@ tags:
     - Spring
     - AOP
 ---
-    
+
 > AOP是编程中常用的一种方式，以Spring为例我们经常使用spring-aop组件和aspectJ的注解或者配置文件来完成对接口或类中的
 某些方法的执行的拦截，本文对用到的一些概念术语进行解读，方便理解。
 
 ![](https://i.stack.imgur.com/J7Hrh.png)
 ### 概念
 #### Joinpoint
-> A joinpoint is a candidate point in the Program Execution of the application where an aspect can 
-be plugged in. This point could be a method being called, an exception being thrown, or even a field 
-being modified. These are the points where your aspect’s code can be inserted into the normal flow 
+> A joinpoint is a candidate point in the Program Execution of the application where an aspect can
+be plugged in. This point could be a method being called, an exception being thrown, or even a field
+being modified. These are the points where your aspect’s code can be inserted into the normal flow
 of your application to add new behavior.
 
 注意 `Joinpoint` 并不一定只是方法的执行点，还可以是一个异常的抛出点或者一个属性的变更点，在这些变动上我们都可以进行拦截。
 
 下面用一个餐馆的例子来比喻：
-> Join points are the options on the menu and pointcuts are the items you select. A joinpoint is an 
-opportunity within code for you to apply an aspect…just an opportunity. Once you take that 
+> Join points are the options on the menu and pointcuts are the items you select. A joinpoint is an
+opportunity within code for you to apply an aspect…just an opportunity. Once you take that
 opportunity and select one or more joinpoints and apply an aspect to them, you’ve got a pointcut.
-  
+
 `Joinpoint` 就是菜单上的选项，`Pointcut` 就是你选的菜。`Joinpoint` 只是你切面中可以切的那些方法，一旦你选择了要切哪些方法，
 那就是 `Pointcut` 了。
 
@@ -69,15 +69,15 @@ public interface Joinpoint {
 }
 
 ```
-> This interface represents a generic runtime joinpoint (in the AOP terminology). A runtime joinpoint 
-is an <i>event</i> that occurs on a static joinpoint (i.e. a location in a the program). For instance, 
-an invocation is the runtime  joinpoint on a method (static joinpoint). The static part of a given 
+> This interface represents a generic runtime joinpoint (in the AOP terminology). A runtime joinpoint
+is an <i>event</i> that occurs on a static joinpoint (i.e. a location in a the program). For instance,
+an invocation is the runtime  joinpoint on a method (static joinpoint). The static part of a given
 joinpoint can be generically retrieved using the {@link #getStaticPart()} method.
 >
-> In the context of an interception framework, a runtime joinpoint is then the reification of an 
+> In the context of an interception framework, a runtime joinpoint is then the reification of an
 access to an accessible object (a method, a constructor, a field), i.e. the static part of the
 joinpoint. It is passed to the interceptors that are installed on the static joinpoint.
- 
+
 注释里面有一个概念：static joinpoint，比如方法就是一种，可以通过 `getStaticPart` 方法获取一个 *joinpoint* 的
  *static part* 。
 
@@ -98,7 +98,7 @@ public interface Invocation extends Joinpoint {
 
 }
 ```
-> This interface represents an invocation in the program. An invocation is a joinpoint and can be 
+> This interface represents an invocation in the program. An invocation is a joinpoint and can be
 intercepted by an interceptor.
 
 `Invocation` 即「调用」，它也是一种 *jointpoint* ，主要用于 `Interceptor` 拦截器拦截的时候使用。
@@ -127,18 +127,18 @@ A method invocation is a joinpoint and can be intercepted by a method intercepto
 
 关于拦截器 `Interceptor` 下面讲 `Advice` 的时候会再详细介绍。
 #### Pointcut
-> A pointcut defines at what joinpoints, the associated Advice should be applied. 
-Advice can be applied at any joinpoint supported by the AOP framework. Of course, 
-you don’t want to apply all of your aspects at all of the possible joinpoints. 
-Pointcuts allow you to specify where you want your advice to be applied. 
-Often you specify these pointcuts using explicit class and method names or 
-through regular expressions that define matching class and method name patterns. 
-Some AOP frameworks allow you to create dynamic pointcuts that determine whether 
+> A pointcut defines at what joinpoints, the associated Advice should be applied.
+Advice can be applied at any joinpoint supported by the AOP framework. Of course,
+you don’t want to apply all of your aspects at all of the possible joinpoints.
+Pointcuts allow you to specify where you want your advice to be applied.
+Often you specify these pointcuts using explicit class and method names or
+through regular expressions that define matching class and method name patterns.
+Some AOP frameworks allow you to create dynamic pointcuts that determine whether
 to apply advice based on runtime decisions, such as the value of method parameters.
 
 区别如下：
 > Joinpoint - Potential places to apply/run the advice code.
-> 
+>
 > Pointcut - actual chosen joinpoints for executing the advice.
 
 spring-aop中的 `Pointcut` 接口定义如下：
@@ -168,10 +168,10 @@ public interface Pointcut {
 它需要提供 `MethodMatcher` 实现类和 `ClassFilter` 实现类分别用于匹配方法和类，二者要同时满足才会被增强，如我想拦截
 所有Grpc服务类的非 *Object* 方法，或者带有某个类注解的所有方法等。
 #### Advice
-> This is an object which includes API invocations to the system wide concerns 
+> This is an object which includes API invocations to the system wide concerns
 representing the action to perform at a joinpoint specified by a point.
 
-中文翻译为「声明」(也有叫「通知」的，但注解里面也说到了是一个*action to perform*，所以个人认为叫增强更好)， 
+中文翻译为「声明」(也有叫「通知」的，但注解里面也说到了是一个*action to perform*，所以个人认为叫增强更好)，
 *advice* 就是你作用到 *pointcut* 上的方式和行为，如可以使用Before, After或者Around等方式，以及对应的相应的代码逻辑。
 
 spring-aop中的定义如下：
@@ -196,10 +196,10 @@ public interface Interceptor extends Advice {
 }
 ```
 这是一个通用的接口，一般不会直接使用而是使用它的一些子接口（如MethodInterceptor），文档中对它的解释重点如下：
-> A generic interceptor can intercept runtime events that occur within a base program. Those 
+> A generic interceptor can intercept runtime events that occur within a base program. Those
 events are materialized by (reified in) joinpoints. Runtime joinpoints can be invocations, field
  access, exceptions
- 
+
 可以看到它是用来拦截运行时程序中的事件event的，这些事件以 *jointpoint* 的「物化形式」存在，比如调用（Invocations）、
 属性访问（Field Access）和异常（Exceptions）。
 
@@ -222,7 +222,7 @@ public interface MethodInterceptor extends Interceptor {
 
 }
 ```
-可以看到它本质上是抽象了对拦截到的「方法调用」的处理接口，入参是 `MethodInvocation` ，一般在执行 `Jointpoint#proceed()` 
+可以看到它本质上是抽象了对拦截到的「方法调用」的处理接口，入参是 `MethodInvocation` ，一般在执行 `Jointpoint#proceed()`
 之前和之后进行处理，返回结果可以是方法的返回值或hack后的返回值。
 #### Advisor
 *advisor* 就是作用在具体对象上的 *pointcut* 和 *advice* ，把 *pointcut* 和 *advice* 合起来就是 *advisor* 。
@@ -246,11 +246,11 @@ public interface Advisor {
 
 }
 ```
-> Base interface holding AOP <b>advice</b> (action to take at a joinpoint) and a filter determining 
-the applicability of the advice (such as a pointcut). <i>This interface is not for use by Spring 
+> Base interface holding AOP <b>advice</b> (action to take at a joinpoint) and a filter determining
+the applicability of the advice (such as a pointcut). <i>This interface is not for use by Spring
 users, but to allow for commonality in support for different types of advice.
 >
-> Spring AOP is based around <b>around advice</b> delivered via method <b>interception</b>, 
+> Spring AOP is based around <b>around advice</b> delivered via method <b>interception</b>,
 compliant with the AOP Alliance interception API.
 
 乍一看Advice和Advisor接口没有什么大的区别，后者除了包括前者的一个实现类接口外还有一个是否是每个目标对象都会创建一个代理
@@ -267,12 +267,12 @@ public interface PointcutAdvisor extends Advisor {
 
 }
 ```
-> Superinterface for all Advisors that are driven by a pointcut. This covers nearly all advisors 
+> Superinterface for all Advisors that are driven by a pointcut. This covers nearly all advisors
 except introduction advisors, for which method-level matching doesn't apply.
 
-这个接口才是我们要用到的那个接口，它提供一个接口要返回一个 `Pointcut` 对象，这个接口是通过 *pointcut* 来驱动 
-的。比如，我们可以通过实现 `getPointcut` 方法返回一个只 `PointCut` 的实现类，让它的 `ClassFilter` 
-和 `MethodMatcher` 实现的功能是： 对Grpc服务类的自有接口进行拦截的。 然后通过实现 `getAdvice` 方法返回一个 
+这个接口才是我们要用到的那个接口，它提供一个接口要返回一个 `Pointcut` 对象，这个接口是通过 *pointcut* 来驱动
+的。比如，我们可以通过实现 `getPointcut` 方法返回一个只 `PointCut` 的实现类，让它的 `ClassFilter`
+和 `MethodMatcher` 实现的功能是： 对Grpc服务类的自有接口进行拦截的。 然后通过实现 `getAdvice` 方法返回一个
 `MethodInteceptor` 的实现类，默认对执行的方法通过Around的方式进行增强。
 
 所以，Spring AOP中的 *advisor* 都是基于 *pointcut* 来驱动，并需要 *advice* 来完成具体的逻辑的。
@@ -300,7 +300,7 @@ except introduction advisors, for which method-level matching doesn't apply.
     </aop:aspect>
 </aop:config>
 ```
-该配置通过 `<aop:config>` 、 `<aop:pointcut>` 、 `<aop:aspect>`以及它的子标签 `<aop:before>` 、 `<aop:after>` 
+该配置通过 `<aop:config>` 、 `<aop:pointcut>` 、 `<aop:aspect>`以及它的子标签 `<aop:before>` 、 `<aop:after>`
 等将一个类中的各个方法定义为具体的增强的逻辑（当然也可以直接在对应的类中使用各种注解来实现，这里只是用配置的方式做一个讲解）。
 #### Target
 目标对象就是织入 *advice* 的对象，也叫做 *advised object* ，由于Spring是通过运行时代理的方式来实现 *aspect* 的，
@@ -310,7 +310,7 @@ except introduction advisors, for which method-level matching doesn't apply.
 JDK动态代理对象或者一个CGLIB代理对象。
 
 Spring为什么建议基于接口编程？因为它默认使用JDK的动态代理来完成AOP功能，如果是一个普通的类的方法，则只能使用CGLIB来实现。
-但需要引入额外的asm的包。 
+但需要引入额外的asm的包。
 
 如果需要强制使用CGLIB，需要显示通过配置文件的方式设置 `<aop:config>` 标签对应的 `proxy-target-class` 为true：
 ```xml
@@ -326,8 +326,8 @@ Spring为什么建议基于接口编程？因为它默认使用JDK的动态代�
 Spring AOP的目的是提供一个能个Spring IOC紧密集成的代理方式，解决常见的企业及开发应用中的问题，并不像AspectJ那样强大，
 比如细粒度的对象的增强Spring AOP就做不了。
 
-> Spring seamlessly integrates Spring AOP and IoC with AspectJ, to enable all uses of AOP within a 
-consistent Spring-based application architecture. This integration does not affect the Spring AOP 
+> Spring seamlessly integrates Spring AOP and IoC with AspectJ, to enable all uses of AOP within a
+consistent Spring-based application architecture. This integration does not affect the Spring AOP
 API or the AOP Alliance API. Spring AOP remains backward-compatible.
 
 Spring AOP用起来比较简单，虽然它也需要依赖aspectweaver.jar，但是也只是借用了其中的注解和语法。它不需要引入AspectJ
@@ -356,7 +356,7 @@ public class AppConfig{
 除了通过配置文件声明aspects，如使用 `<aop:config>` 或者 `<aop:aspectj-autoproxy>` 之外，还可以通过编程的方式
 创建proxies来完成对目标对象的advised。
 
-一般用AspectJ风格的pointcut表达式我们经常使用，如@Aspect、@Before等这里不再深入，如果用编程的方式实现可以利用 
+一般用AspectJ风格的pointcut表达式我们经常使用，如@Aspect、@Before等这里不再深入，如果用编程的方式实现可以利用
 `ProxyFactory` 类来实现编程方式的AOP功能。比如下面的例子：
 ```java
 import org.springframework.aop.MethodBeforeAdvice;
@@ -447,10 +447,10 @@ import org.aspectj.weaver.tools.ShadowMatch;
 #### exposeProxy属性
 在 `ProxyConfig` 类中有一个 *exposeProxy* 属性， 默认为false，它的含义如下：
 
-> Set whether the proxy should be exposed by the AOP framework as a ThreadLocal for retrieval via 
-the AopContext class. This is useful if an advised object needs to call another advised method on 
-itself. (If it uses {@code this}, the invocation will not be advised). Default is "false", in 
-order to avoid unnecessary extra interception. This means that no guarantees are provided that 
+> Set whether the proxy should be exposed by the AOP framework as a ThreadLocal for retrieval via
+the AopContext class. This is useful if an advised object needs to call another advised method on
+itself. (If it uses {@code this}, the invocation will not be advised). Default is "false", in
+order to avoid unnecessary extra interception. This means that no guarantees are provided that
 AopContext access will work consistently within any method of the advised object.
 
 如果不设置为true，想通过 `AopContext` 类来获取当前代理对象时会报错：
@@ -487,7 +487,7 @@ public class SimplePojo implements Pojo {
     }
 }
 ```
-但是这种方式会强制耦合Spring AOP，入侵性强不说，还让上下文显示的知道当前代码要被用在AOP的上下文中，并且需要设置 
+但是这种方式会强制耦合Spring AOP，入侵性强不说，还让上下文显示的知道当前代码要被用在AOP的上下文中，并且需要设置
 *exposeProxy* 属性为true，否则 `AopContext` 拿不到当前执行的代理对象，也就无法触发植入的逻辑。
 
 Spring AOP通过如下代码将代理对象放入到`Aop`具体代码参考：
@@ -531,5 +531,5 @@ Spring的事务处理为了与数据访问解耦，它提供了一套处理数�
 - https://www.cnblogs.com/duanxz/p/4367362.html
 - https://stackoverflow.com/questions/6222600/transactional-method-calling-another-method-without-transactional-anotation
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

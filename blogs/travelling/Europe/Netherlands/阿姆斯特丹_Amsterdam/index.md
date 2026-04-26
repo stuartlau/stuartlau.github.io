@@ -12,7 +12,7 @@ tags:
     - Amsterdam
     - Netherlands
 location: [4.9041, 52.3676]
----    
+---
 <div class="album-grid">
   <a href="https://www.douban.com/photos/album/1886143283" class="album-card" target="_blank">
     <div class="album-image">

@@ -345,7 +345,7 @@ flowchart TB
 .element {
     /* 好：使用transform */
     transform: translateX(100px);
-    
+
     /* 差：会触发重排 */
     left: 100px;
 }

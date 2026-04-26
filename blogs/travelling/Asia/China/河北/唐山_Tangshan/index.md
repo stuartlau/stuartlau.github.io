@@ -5,7 +5,7 @@ title:      "唐山"
 subtitle:   "唐山"
 date:       2025-01-14
 author:     StuartLau
-header-img: 
+header-img:
 catalog: true
 tags:
     - Hebei

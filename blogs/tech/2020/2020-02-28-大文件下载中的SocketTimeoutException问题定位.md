@@ -12,11 +12,11 @@ tags:
     - Timeout
     - TCP
 ---
-    
+
 > 线上的文件服务器采用Tomcat+Nginx的架构部署对外提供，最近频繁遇到服务器报错SocketTimeoutException的问题，本文主要记录问题的定位过程和解决方案。
 
 ### 问题
-线上的文件服务一直都有ClientAbortException的异常，但是绝大部分都是由于客户端主动断开了连接，即 *Connection reset by peer* 
+线上的文件服务一直都有ClientAbortException的异常，但是绝大部分都是由于客户端主动断开了连接，即 *Connection reset by peer*
 ，所以一直也没特别在意这个问题。
 最近由于在家办公的人增多导致，不同人的网络情况不太一样，服务器相关的异常开始变多，并且有同事反馈下载某大文件时可以必现下载失败的问题。于是开始分析原因，在堆栈中发现了不同的Cause
  —— SocketTimeoutException，这个就有点意思了，于是开始顺着堆栈研究问题。
@@ -110,13 +110,13 @@ tags:
     }
 
 ```
-当超时判断字段为true时抛出了 *SocketTimeoutException* 异常，从代码里可以看到，如果写顺利，每次都会更新 *time* 字段，理论上不会使得 * timeout* 
+当超时判断字段为true时抛出了 *SocketTimeoutException* 异常，从代码里可以看到，如果写顺利，每次都会更新 *time* 字段，理论上不会使得 * timeout*
 为true。所以，一定是写回给Nginx的时候遇到了一些问题，导致很长时间没有更新 *time* 字段并最终超过了配置的超时时间导致的报错。
 
 OK，基本思路已经清晰，那么是什么参数来控制这个超时阈值呢？是否可以改变呢？ *write()* 方法里的参数 *writeTimeout* 又是多少呢？
 
 经过对Tomcat内置参数的修改以及debug，最终确定影响上述时间参数的配置项是 *connectionTimeout* 而不是 *soTimeout* ，这个和Tomcat的官方文档中
-对该字段的解释不是特别的匹配，一直以为这个字段是用来控制建立连接的时长的，这个寻找过程也花了不少时间，因为从*soTimeout*、 *socketTimeout* 和 
+对该字段的解释不是特别的匹配，一直以为这个字段是用来控制建立连接的时长的，这个寻找过程也花了不少时间，因为从*soTimeout*、 *socketTimeout* 和
 *keepAliveTimeout* 这几个参数中一直调试上线观测都没什么效果。
 
 通过调大 *connectionTimeout* 参数发现线上报错时统计的耗时都会大于这个值（这也是为什么确定是这个参数对结果有影响的原因），所以这个思路可以一定程度解决这个问题。
@@ -144,7 +144,7 @@ Nginx在收到数据之后会立刻写给Client而不会进行缓存，这样能
 同时为了加快数据尽快的发送到客户端，Nginx可以开启TCP_NODELAY选项，这样就可以使缓冲区中的数据立刻发出去，这样带来的一个问题就是Tomcat每产生一个包就会被发送出去，
 如果按照一个包拥有一个死结的数据和40个字节的包头（IP数据包包头的大小20Bytes和TCP数据段的包头20Bytes）来算，则产生了4000%的过载，可能会造成网络拥堵，降低带宽利用率并增加了延迟。
 
-> TCP_NODELAY 启用后会禁用 Nagle 算法，尽快发送数据，某些情况下可以节约 200ms（Nagle 算法原理是：在发出去的数据还未被确认之前，新生成的小数据先存起来，凑满一个 
+> TCP_NODELAY 启用后会禁用 Nagle 算法，尽快发送数据，某些情况下可以节约 200ms（Nagle 算法原理是：在发出去的数据还未被确认之前，新生成的小数据先存起来，凑满一个
 MSS（Maximum Segment Size，1460Bytes=1500 - IP头(20) - TCP头(20)） 或者等到收到确认后再发送）。Nginx 只会针对处于 keep-alive 状态的 TCP 连接才会启用。
 
 对于Nginx来说，需要保证它的proxy_connection_timeout/proxy_read_timeout/proxy_write_timeout
@@ -157,5 +157,5 @@ MSS（Maximum Segment Size，1460Bytes=1500 - IP头(20) - TCP头(20)） 或者�
 - [系统调优你所不知道的TIME_WAIT和CLOSE_WAIT](https://zhuanlan.zhihu.com/p/40013724)
 - [Nginx与Tomcat性能调优，前后端KeepAlive不同步引发的问题](https://blog.csdn.net/nimasike/article/details/81129163)
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

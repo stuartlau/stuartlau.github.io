@@ -30,13 +30,13 @@ description: "记录一次针对个人网站社交页面的全面UI优化和性�
         min-width: 70px;
         border-radius: 6px;
     }
-    
+
     .quote-info {
         padding: 0 0 0 10px;
         flex: 1;
         min-width: 0;
     }
-    
+
     .quote-title {
         font-size: 14px;
         white-space: nowrap;
@@ -91,7 +91,7 @@ coverImgEl.onerror = function() {
 
 ```javascript
 function openLightbox(src, imagesArr) {
-    const isMobile = window.innerWidth <= 768 || 
+    const isMobile = window.innerWidth <= 768 ||
         /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     if (isMobile) {
         return; // 移动端不触发放大
@@ -177,14 +177,14 @@ document.body && document.body.classList.add('social-page');
 
 **3. 图片骨架屏**
 ```css
-.lazy-img:not(.loaded) { 
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); 
-    background-size: 200% 100%; 
-    animation: shimmer 1.5s infinite; 
+.lazy-img:not(.loaded) {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
 }
-@keyframes shimmer { 
-    0% { background-position: 200% 0; } 
-    100% { background-position: -200% 0; } 
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 ```
 

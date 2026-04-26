@@ -33,7 +33,7 @@ location: [108.9398, 34.3416]
 
 The inspiration to write about Xi'an came from the song *Fly Me to the Moon* playing in the youth hostel:
 
-> Fly me to the moon  
+> Fly me to the moon
 > And let me play among the stars
 
 The first time I heard this song was in *Triumph in the Skies II*. When "Cool魔" (Mo) hummed these lines casually while flying a plane, he seemed so relaxed—what a carefree moment.

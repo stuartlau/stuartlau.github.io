@@ -58,16 +58,16 @@ graph TD
         E[movies/all.json] --> G
         F[games/all.json] --> G
     end
-    
+
     G --> H[页面渲染]
-    
+
     subgraph 数据类型
         I[Broadcast: 豆瓣广播]
         J[Blogs: 技术博客]
         K[Patents: 专利列表]
         L[Media: 图书/电影/游戏]
     end
-    
+
     H --> I
     H --> J
     H --> K
@@ -139,7 +139,7 @@ flowchart TB
     D -->|否| F{>768px}
     F -->|是| G[隐藏左侧边栏]
     F -->|否| H[单栏移动端]
-    
+
     C --> I[正常显示]
     E --> J[main margin-right: 0]
     G --> K[main margin-left: 80px]
@@ -157,20 +157,20 @@ document.addEventListener('DOMContentLoaded', function() {
         item.addEventListener('click', function(e) {
             e.preventDefault();
             var targetTab = this.getAttribute('data-tab');
-            
+
             // 更新Tab状态
-            tabItems.forEach(function(tab) { 
-                tab.classList.remove('active'); 
+            tabItems.forEach(function(tab) {
+                tab.classList.remove('active');
             });
             this.classList.add('active');
-            
+
             // 切换内容面板
             panels.forEach(function(panel) {
                 panel.classList.remove('active');
             });
             const activePanel = document.getElementById(targetTab + '-panel');
             if (activePanel) activePanel.classList.add('active');
-            
+
             // 更新URL Hash
             history.pushState(null, null, '#' + targetTab);
         });
@@ -187,7 +187,7 @@ graph LR
     A[请求数据] --> B[渲染卡片]
     B --> C[图片网格]
     C --> D[灯箱功能]
-    
+
     subgraph 卡片结构
         E[头像] --> F[用户名]
         F --> G[时间]
@@ -269,12 +269,12 @@ function loadMore(listId) {
     const list = document.getElementById(listId);
     const hiddenItems = Array.from(list.querySelectorAll('.expandable-item'))
         .filter(el => el.style.display === 'none');
-    
+
     // 每次加载10条
     for (let i = 0; i < Math.min(hiddenItems.length, 10); i++) {
         hiddenItems[i].style.display = '';
     }
-    
+
     // 隐藏按钮如果全部加载完成
     const remaining = list.querySelectorAll('.expandable-item[style*="display: none"]');
     if (remaining.length === 0) {
@@ -338,22 +338,22 @@ function loadMore(listId) {
 ```javascript
 // 面板配置
 const panels = {
-    'posts': { 
+    'posts': {
         title: 'Broadcast',
         dataSource: 'douban',
         template: 'feed-item'
     },
-    'blogs': { 
+    'blogs': {
         title: 'Blogs',
         dataSource: 'blogs',
         template: 'blog-card'
     },
-    'patents': { 
+    'patents': {
         title: 'Patents',
         dataSource: 'patents',
         template: 'patent-card'
     },
-    'media': { 
+    'media': {
         title: 'Media',
         dataSource: ['books', 'movies', 'games'],
         template: 'media-grid'

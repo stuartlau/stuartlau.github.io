@@ -58,9 +58,9 @@ future.addListener(new ChannelFutureListener() {
 的扩展功能，可以帮助我们简化异步编程的复杂性，提供了「函数式编程」的能力，可以通过「回调」的方式处理计算结果，并且提供了「转换」和「组合」CompletableFuture的方法。
 #### CompletionStage
 这个是最基础的接口，CompletionFuture是它的一个子接口，来看一下JavaDoc中的介绍：
-``` 
-A stage of a possibly asynchronous computation, that performs an action or computes a value when another 
-CompletionStage completes. A stage completes upon termination of its computation, but this may in turn trigger other dependent stages. 
+```
+A stage of a possibly asynchronous computation, that performs an action or computes a value when another
+CompletionStage completes. A stage completes upon termination of its computation, but this may in turn trigger other dependent stages.
 ```
 所以每一个执行过程都称为一个stage，它的执行以来前面的stage的完成，并可能影响后面的dependent stages，同时每个stage都可以是异步执行的。
 
@@ -123,7 +123,7 @@ public CompletableFuture<T> whenComplete(BiConsumer<? super T,? super Throwable>
 public CompletableFuture<T> whenCompleteAsync(BiConsumer<? super T,? super Throwable> action)
 public CompletableFuture<T> whenCompleteAsync(BiConsumer<? super T,? super Throwable> action, Executor executor)
 ```
-可以看到Action的类型是 `BiConsumer<? super T,? super Throwable>` 
+可以看到Action的类型是 `BiConsumer<? super T,? super Throwable>`
 ，即回调该方法时传入的包括返回结果和可能的异常对象。
 
 方法不以Async结尾，意味着Action使用触发当前计算CompletableFuture执行的相同的线程执行。
@@ -205,7 +205,7 @@ CompletableFuture<String> futureA = CompletableFuture
                 })
                 .exceptionally(e -> {
                     System.out.println("ex"+e.getMessage()); //ex:java.lang.ArithmeticException: / by zero
-　　　　　　　　　　　  return "futureA result: 100"; }); 
+　　　　　　　　　　　  return "futureA result: 100"; });
 System.out.println(futureA.join());//futureA result: 100
 ```
 运行可知，因为Supplier计算方法中出现了异常，导致后续的thenApply并不会被触发，而是直接运行到whenComplete
@@ -300,7 +300,7 @@ System.out.println(f.get()); //1000
 #### combine
 而下面的一组方法thenCombine用来复合另外一个CompletionStage的结果。它的功能类似：
 
-A 
+A
 |
 +------> B
 +------> C
@@ -350,7 +350,7 @@ public static void main(string[] args) throws ExecutionException, InterruptedExc
         }
         futurePrice.complete(23.5);
     }).start();
- 
+
     System.out.println(futurePrice.get());
 }
 ```
@@ -368,10 +368,10 @@ public static void main(String[] args) throws ExecutionException, InterruptedExc
             futurePrice.complete(23.5);
         } catch (Exception ex) {
             // 捕获的异常还会由ExecutionException包裹一下
-            futurePrice.completeExceptionally(ex); 
+            futurePrice.completeExceptionally(ex);
         }
     }).start();
- 
+
      System.out.println(futurePrice.get());
 }
 ```
@@ -397,10 +397,10 @@ applyToEither返回值的计算结果却是要经过fn处理的。
 
 
 ### References
-- [Java CompletableFuture 详解](https://colobu.com/2016/02/29/Java-CompletableFuture/) 
+- [Java CompletableFuture 详解](https://colobu.com/2016/02/29/Java-CompletableFuture/)
 - [Java 8: Definitive guide to CompletableFuture](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwivnI-BwJ7LAhWpg4MKHRr8CB0QFggcMAA&url=http%3A%2F%2Fwww.nurkiewicz.com%2F2013%2F05%2Fjava-8-definitive-guide-to.html&usg=AFQjCNHxOcm4uRrqZGl1ognxfaTtmB5k5A&sig2=A5rXKfQuabGJMHXAhPUIgA&bvm=bv.115339255,d.eWE)
 - [JDK CompletableFuture](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html)
 - [JDK CompletionStage](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletionStage.html)
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.

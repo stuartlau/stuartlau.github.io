@@ -37,7 +37,7 @@ tags:
 * Exception handling is everywhere and hard to extract as extensible component
 * Temp values newed everywhere, not clean code
 * Logging is heavily coupled with business handlers
-* Add new code when data is desired by other component 
+* Add new code when data is desired by other component
 * High maintenance
 * Boundary between components is vague
 
@@ -50,13 +50,13 @@ tags:
 * Supports integration with external systems via declarative adapters(File, FTP, JMS, TCP, HTTP, JDBC, etc)
 * Provides a higher-level of abstraction over Spring's support for remoting, messaging, and scheduling
 
-Spring Integration is motivated by the following goals: 
+Spring Integration is motivated by the following goals:
 
 * Provide a simple model for implementing complex enterprise integration solutions
 * Facilitate asynchronous, message-driven behavior within a Spring-based application
 * Promote intuitive, incremental adoption for existing Spring users
 
-Spring Integration is guided by the following principles: 
+Spring Integration is guided by the following principles:
 
 * Components should be loosely coupled for modularity and testability
 * The framework should enforce separation of concerns between business logic and integration logic
@@ -88,7 +88,7 @@ Spring Integration is guided by the following principles:
 #### 2.Channel
 * *Queue* that holds *Message*
 * Decouple producer and consumer, no need to invoke put() or get(), all encapsulated internally
-* *Point2Point*&*PubSub* 
+* *Point2Point*&*PubSub*
 * *Inbound*&*Outbound*
 ![](http://docs.spring.io/spring-integration/reference/htmlsingle/images/channel.jpg)
 * *Pollable* Channel, enabling buffering and sheduling
@@ -270,7 +270,7 @@ public interface MessagePlacer {
 ![Messaging_Flow](/images/in-post/messaging_flow.jpg)
 
 ## Pro and Con
-* When your problem is broken into lots of small ones, and the boundaries are clear, you need a 
+* When your problem is broken into lots of small ones, and the boundaries are clear, you need a
 standard way to manage them efficiently, use SI
 * When you want other developers get a better and quick whole picture of your complicated message processing system, use SI
 

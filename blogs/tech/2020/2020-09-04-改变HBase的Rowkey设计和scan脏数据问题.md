@@ -53,5 +53,5 @@ tags:
 ### Reference
 - [Rowkey Design](http://archive.cloudera.com/cdh5/cdh/5/hbase-0.98.6-cdh5.2.6/book/rowkey.design.html)
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io),
 转载请保留原文链接.
