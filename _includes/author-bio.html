@@ -4,36 +4,12 @@
 
 <p>{{ site.owner.bio }}</p>
 
-{% if site.owner.email %}<p style="text-indent:0;margin-top:1.5em;"><a href="mailto:{{ site.owner.email }}" target="_blank"><i class="icon-mail"></i> Email</a></p>{% endif %}
+{% if site.owner.email %}<span style="display:inline-block;margin-right:15px;"><a href="mailto:{{ site.owner.email }}" target="_blank" title="Gmail"><svg viewBox="0 0 24 24" width="24" height="24" fill="#EA4335"><path d="M24 4.5v15c0 .85-.65 1.5-1.5 1.5H21V7.39l-9 5.58-9-5.58V21H1.5c-.85 0-1.5-.65-1.5-1.5v-15c0-.85.65-1.5 1.5-1.5H3l9 5.58L21 3h1.5c.85 0 1.5.65 1.5 1.5z"/></svg></a></span>{% endif %}
 
-{% if site.owner.cv %}<p style="text-indent:0;"><a href="{{ site.owner.cv }}"><img src="https://stuartlau.github.io/images/logo/icons8-cv-100.png" width="17" height="17"></i> My CV</a></p>{% endif %}
+{% if site.owner.github %}<span style="display:inline-block;margin-right:15px;"><a href="https://github.com/{{ site.owner.github }}" target="_blank" title="GitHub"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a></span>{% endif %}
 
-{% if site.owner.twitter %}<p style="text-indent:0;"><a href="https://twitter.com/{{ site.owner.twitter }}"><i class="icon-twitter"></i> Twitter</a></p>{% endif %}
+{% if site.owner.linkedin %}<span style="display:inline-block;margin-right:15px;"><a href="https://linkedin.com/in/{{ site.owner.linkedin }}" target="_blank" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a></span>{% endif %}
 
-{% if site.owner.facebook %}<p style="text-indent:0;"><a href="https://facebook.com/{{ site.owner.facebook }}"><i class="icon-facebook"></i> Facebook</a></p>{% endif %}
-
-{% if site.owner.google_plus %}<p style="text-indent:0;"><a href="{{ site.owner.google_plus }}"><i class="icon-google-plus"></i> Google+</a></p>{% endif %}
-
-{% if site.owner.linkedin %}<p style="text-indent:0;"><a href="https://linkedin.com/in/{{ site.owner.linkedin }}"><i class="icon-linkedin"></i> LinkedIn</a></p>{% endif %}
-
-{% if site.owner.instagram %}<p style="text-indent:0;"><a href="https://instagram.com/{{ site.owner.instagram }}"><i class="icon-instagram"></i> Instagram</a></p>{% endif %}
-
-{% if site.owner.github %}<p style="text-indent:0;"><a href="https://github.com/{{ site.owner.github }}"><i class="icon-github"></i> Github</a></p>{% endif %}
-
-{% if site.owner.lastfm %}<p style="text-indent:0;"><a href="https://lastfm.com/{{ site.owner.lastfm }}"><i class="icon-lastfm"></i> Last.fm</a></p>{% endif %}
-
-{% if site.owner.tumblr %}<p style="text-indent:0;"><a href="https://{{ site.owner.tumblr }}.tumblr.com"><i class="icon-tumblr"></i> Tumblr</a></p>{% endif %}
-
-{% if site.owner.scholar%}<p style="text-indent:0;"><a href="{{ site.owner.scholar}}"><i class="ai ai-google-scholar-square"></i> Google Scholar</a></p>{% endif %}
-
-{% if site.owner.researchgate %}<p style="text-indent:0;"><a href="{{ site.owner.researchgate}}"><img src="https://stuartlau.github.io/images/logo/icons8-rg.png" width="13.2" height="13.2"></i> ResearchGate</a></p>{% endif %}
-
-{% if site.owner.zhihu %}<p style="text-indent:0;"><a href="{{ site.owner.zhihu }}"><img src="https://stuartlau.github.io/images/logo/icons8-zhihu-96.png" width="16.8" height="16.8"></i> Zhihu</a></p>{% endif %}
-
-{% if site.owner.xiaohongshu %}<p style="text-indent:0;"><a href="https://www.xiaohongshu.com/user/profile/{{site.owner.xiaohongshu}}"><img src="https://stuartlau.github.io/images/logo/xiaohongshu.png" width="14.6" height="14.6"></i> RedNote</a></p>{% endif %}
-
-{% if site.owner.bilibili %}<p style="text-indent:0;"><a href="https://space.bilibili.com/{{ site.owner.bilibili }}"><img src="https://stuartlau.github.io/images/logo/icons8-retro-tv-100.png" width="14.5" height="14.5"></i> Bilibili</a></p>{% endif %}
-
-{% if site.owner.douban %}<p style="text-indent:0;"><a href="https://www.douban.com/people/{{site.owner.douban}}"><img src="https://stuartlau.github.io/images/logo/douban.png" width="14.6" height="14.6"></i> Douban</a></p>{% endif %}
+{% if site.owner.instagram %}<span style="display:inline-block;margin-right:15px;"><a href="https://instagram.com/{{ site.owner.instagram }}" target="_blank" title="Instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="#E4405F"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678-1.38.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422-.163 1.057-.358 2.227-.412 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 5.775.13 4.903.332 4.145.627c-.783.305-1.447.712-2.108 1.373C1.375 2.661.968 3.325.663 4.11.368 4.867.166 5.738.108 7.016.05 8.295.036 8.703.036 11.962s.014 3.667.072 4.947c.058 1.278.26 2.15.555 2.907.305.783.712 1.447 1.373 2.108.661.661 1.325 1.068 2.11 1.373.757.295 1.628.497 2.906.555 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.278-.058 2.15-.26 2.907-.555.783-.305 1.447-.712 2.108-1.373.661-.661 1.068-1.325 1.373-2.11.295-.757.497-1.628.555-2.906.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.058-1.278-.26-2.15-.555-2.907-.305-.783-.712-1.447-1.373-2.108-.661-.661-1.325-1.068-2.11-1.373-.757-.295-1.628-.497-2.906-.555-1.28-.058-1.688-.072-4.947-.072z"/><path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4.162 4.162 0 1 1 0-8.324 4.162 4.162 0 0 1 0 8.324zM18.406 4.137a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg></a></span>{% endif %}
 
 <!-- Lastly modified by Hanlin CAI in 2023/10/15 -->

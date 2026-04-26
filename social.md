@@ -133,34 +133,34 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p class="profile-handle">@stuartlau</p>
                     <!-- Profile Bio - Category labels removed as requested -->
                     <div class="profile-meta">
-                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Shanghai</span>
-                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg> <a href="mailto:stuart8@126.com">Email</a></span>
-                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> <a href="https://github.com/stuartlau" target="_blank">GitHub</a></span>
-                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg> <a href="https://linkedin.com/in/stuartlau" target="_blank">LinkedIn</a></span>
+                        <span title="Email"><a href="mailto:stuart8@126.com"><svg viewBox="0 0 24 24" width="22" height="22" fill="#EA4335"><path d="M24 4.5v15c0 .85-.65 1.5-1.5 1.5H21V7.39l-9 5.58-9-5.58V21H1.5c-.85 0-1.5-.65-1.5-1.5v-15c0-.85.65-1.5 1.5-1.5H3l9 5.58L21 3h1.5c.85 0 1.5.65 1.5 1.5z"/></svg></a></span>
+                        <span title="GitHub"><a href="https://github.com/stuartlau" target="_blank"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a></span>
+                        <span title="LinkedIn"><a href="https://linkedin.com/in/stuartlau" target="_blank"><svg viewBox="0 0 24 24" width="22" height="22" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a></span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Navigation -->
         <div class="content-tabs">
-            <a href="#posts" class="tab-item active" data-tab="posts">
-                <span class="tab-text">Posts</span>
+            <a href="#posts" class="tab-item active" data-tab="posts" title="Posts">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
             </a>
-            <a href="#blogs" class="tab-item" data-tab="blogs">
-                <span class="tab-text">Articles</span>
+            <a href="#blogs" class="tab-item" data-tab="blogs" title="Articles">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l5 5"></path><path d="M14 11l1 1"></path></svg>
             </a>
-            <a href="#patents" class="tab-item" data-tab="patents">
-                <span class="tab-text">Patents</span>
+            <a href="#patents" class="tab-item" data-tab="patents" title="Patents">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"></path></svg>
             </a>
-            <a href="#douban" class="tab-item" data-tab="douban">
-                <span class="tab-text">Collection</span>
+            <a href="#douban" class="tab-item" data-tab="douban" title="Collection">
+                <!-- A refined person lounging icon -->
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"></path><path d="M5 20l1-5h12l1 5"></path><path d="M10 15v-4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v4"></path><circle cx="12" cy="7" r="2"></circle><path d="M19 15v-5a2 2 0 0 0-2-2h-2"></path><path d="M5 15v-5a2 2 0 0 1 2-2h2"></path></svg>
             </a>
-            <a href="#travel" class="tab-item" data-tab="travel">
-                <span class="tab-text">Travel</span>
+            <a href="#travel" class="tab-item" data-tab="travel" title="Travel">
+                <!-- Balanced, cuter paw icon using circles -->
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><circle cx="12" cy="16" r="3.5"/><circle cx="7.5" cy="11" r="2.2"/><circle cx="10.5" cy="8" r="2.2"/><circle cx="14.5" cy="8" r="2.2"/><circle cx="17.5" cy="11" r="2.2"/></svg>
             </a>
-            <a href="#history" class="tab-item" data-tab="history" style="display:none;">
-                <span class="tab-text" id="otd-tab-label">04/23</span>
+            <a href="#history" class="tab-item" data-tab="history" style="display:none;" title="On This Day">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             </a>
         </div>
 
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <img src="{{ site.url }}/images/douban_avatar.jpg" alt="Stuart Lau" class="lazy-avatar" loading="lazy">
                         </div>
                         <div class="post-author-line">
-                            <span class="feed-meta">{{ item.time }}</span>
+                            <span class="feed-meta" style="font-weight: 400;">{{ item.time }}</span>
                         </div>
                         <div class="feed-content">
                             <p class="feed-text">{{ item.content | strip_html | strip_newlines }}</p>
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px; display: flex; align-items: center; gap: 8px;">
                                 Footprints
-                                <span style="font-size: 11px; font-weight: 500; background: #eff3f4; color: #536471; padding: 2px 8px; border-radius: 99px;">14 Countries · 46 Cities</span>
+                                <span style="font-size: 11px; font-weight: 500; background: #eff3f4; color: #536471; padding: 2px 8px; border-radius: 99px;">13 Countries · 61 Cities</span>
                             </div>
                             <button id="life-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                         </div>
@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="tag-cloud-wrap" style="margin-bottom: 24px; background: #f8f9fa; border: 1px solid #eff3f4; border-radius: 16px; padding: 20px;">
                     <div class="tag-cloud-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <div class="tag-cloud-title" style="font-weight: 700; color: #0f1419; font-size: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;">
-                            Collection Themes
+                            Watching Themes
                             <span style="font-size: 11px; font-weight: 500; background: #f0fff4; color: #1a7f37; border: 1px solid rgba(26,127,55,0.1); padding: 1px 8px; border-radius: 99px;">{{ site.data.movies.all.size }} Movies</span>
                             <span style="font-size: 11px; font-weight: 500; background: #f0f7ff; color: #0969da; border: 1px solid rgba(9,105,218,0.1); padding: 1px 8px; border-radius: 99px;">{{ site.data.books.all.size }} Books</span>
                             <span style="font-size: 11px; font-weight: 500; background: #fff8eb; color: #9a6700; border: 1px solid rgba(154,103,0,0.1); padding: 1px 8px; border-radius: 99px;">{{ site.data.games.all.size }} Games</span>
@@ -375,7 +375,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <button id="collection-tag-cloud-clear" type="button" class="tag-cloud-clear" style="background:none; border:none; color:#1d9bf0; cursor:pointer; font-size:14px;" hidden>Clear Filter</button>
                     </div>
                     <div id="collection-tag-cloud-active" class="tag-cloud-active" style="margin-bottom: 8px; font-size: 14px; color: #536471;" hidden></div>
-                    <div id="collection-tag-cloud" class="tag-cloud-container" style="min-height: 120px; position: relative;">
+                    <div id="collection-tag-cloud" class="tag-cloud-container" style="min-height: 240px; position: relative;">
                         <!-- Word cloud will be rendered here via JS -->
                     </div>
                 </div>
@@ -421,18 +421,15 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
 
             <!-- Social Links -->
-            <div class="social-links-widget">
-                <a href="https://github.com/stuartlau" target="_blank" class="social-link-item">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    <span>GitHub</span>
+            <div class="social-links-widget" style="display: flex; gap: 20px; justify-content: center; padding: 10px 0;">
+                <a href="https://github.com/stuartlau" target="_blank" class="social-link-item" title="GitHub" style="padding: 0; width: auto; border: none;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 </a>
-                <a href="https://www.linkedin.com/in/stuartlau" target="_blank" class="social-link-item">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                    <span>LinkedIn</span>
+                <a href="https://www.linkedin.com/in/stuartlau" target="_blank" class="social-link-item" title="LinkedIn" style="padding: 0; width: auto; border: none;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 </a>
-                <a href="mailto:stuart8@126.com" class="social-link-item">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    <span>Email</span>
+                <a href="mailto:stuart8@126.com" class="social-link-item" title="Email" style="padding: 0; width: auto; border: none;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#EA4335"><path d="M24 4.5v15c0 .85-.65 1.5-1.5 1.5H21V7.39l-9 5.58-9-5.58V21H1.5c-.85 0-1.5-.65-1.5-1.5v-15c0-.85.65-1.5 1.5-1.5H3l9 5.58L21 3h1.5c.85 0 1.5.65 1.5 1.5z"/></svg>
                 </a>
             </div>
         </div>
@@ -1281,6 +1278,49 @@ document.addEventListener('DOMContentLoaded', function() {
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
+}
+
+/* Content Tabs */
+.content-tabs {
+    display: flex;
+    border-bottom: 1px solid #eff3f4;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.tab-item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: #536471;
+    position: relative;
+    text-decoration: none !important;
+}
+
+.tab-item:hover {
+    background: rgba(15, 20, 25, 0.03);
+}
+
+.tab-item.active {
+    color: #1d9bf0;
+}
+
+.tab-item.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    right: 20%;
+    height: 4px;
+    background: #1d9bf0;
+    border-radius: 2px;
 }
 
 /* Scroll Sentinel for Infinite Scroll */
@@ -2503,8 +2543,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!lb || lb.style.display !== 'flex') return;
 
         if (e.key === 'Escape') closeLightbox();
-        else if (e.key === 'ArrowRight') nextLightboxImage();
-        else if (e.key === 'ArrowLeft') prevLightboxImage();
+        else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+            e.preventDefault();
+            nextLightboxImage();
+        }
+        else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+            e.preventDefault();
+            prevLightboxImage();
+        }
     });
 
     // Check text overflow on initial load
@@ -2553,8 +2599,18 @@ function initImageLazyLoading() {
 
 // Load a single lazy image
 function loadLazyImage(img) {
-    const src = img.dataset.src;
+    let src = img.dataset.src;
     if (!src) return;
+
+    // LOCAL DEVELOPMENT FIX: Ensure we don't try to use CDN on localhost
+    const isLocalhost = window.location.hostname === 'localhost' ||
+                        window.location.hostname === '127.0.0.1' ||
+                        window.location.hostname.includes('.local');
+
+    if (isLocalhost && src.includes('cdn.jsdelivr.net')) {
+        // Convert back to local path for dev
+        src = src.split('@main')[1] || src;
+    }
 
     // Set loading state
     img.onload = function() {
@@ -2803,7 +2859,7 @@ function loadHistoryToday() {
                         <img src="/images/douban_avatar.jpg" alt="Stuart Lau" loading="lazy">
                     </div>
                     <div class="post-author-line">
-                        <div style="font-weight:600; color:#536471; font-size:13px;">${dateStr}</div>
+                        <div style="font-weight:400; color:#536471; font-size:13px;">${dateStr}</div>
                     </div>
                     <div class="feed-content">
                         <p class="feed-text">${text}</p>
@@ -2942,13 +2998,26 @@ function loadDoubanContent() {
 
         // Generate Word Cloud Data
         const tagCounts = {};
+        const stopWords = ['出版社', '出版', '有限公司', '著', '编', '译', '书局', '公司', '编辑', '选集', '丛书'];
+
         items.forEach(item => {
             const d = item.data;
-            // Use genres for movies/games, and author/publisher as fallback for books if no tags
-            const tags = (item.type === 'Book' ? (d.tags && d.tags.length > 0 ? d.tags : [d.author, d.publisher].filter(Boolean)) : (d.genres || [])) || [];
+            let tags = [];
+
+            if (item.type === 'Book') {
+                // For books, ONLY use tags, ignore authors/publishers
+                tags = (d.tags && d.tags.length > 0) ? d.tags : [];
+            } else {
+                // For movies/games, use genres as before
+                tags = (d.genres || []);
+            }
+
             tags.forEach(t => {
                 if (t && typeof t === 'string' && t.trim()) {
-                    tagCounts[t] = (tagCounts[t] || 0) + 1;
+                    const isStopWord = stopWords.some(sw => t.includes(sw));
+                    if (!isStopWord) {
+                        tagCounts[t] = (tagCounts[t] || 0) + 1;
+                    }
                 }
             });
         });
@@ -2960,7 +3029,8 @@ function loadDoubanContent() {
 
         window.__COLLECTION_POST_TAGS__ = items.map(item => {
             const d = item.data;
-            return (item.type === 'Book' ? (d.tags && d.tags.length > 0 ? d.tags : [d.author, d.publisher].filter(Boolean)) : (d.genres || []));
+            if (item.type === 'Book') return (d.tags || []);
+            return (d.genres || []);
         });
 
         initCollectionCloud(cloudDataArr);
@@ -3134,13 +3204,15 @@ function updateLightboxImage() {
 }
 
 function nextLightboxImage(e) {
-    if (e) e.stopPropagation();
+    if (e && e.type === 'click') e.stopPropagation();
+    if (currentImages.length <= 1) return;
     currentImageIndex = (currentImageIndex + 1) % currentImages.length;
     updateLightboxImage();
 }
 
 function prevLightboxImage(e) {
-    if (e) e.stopPropagation();
+    if (e && e.type === 'click') e.stopPropagation();
+    if (currentImages.length <= 1) return;
     currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
     updateLightboxImage();
 }
@@ -3241,8 +3313,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Click backdrop → close
     if (backdrop) backdrop.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
 
-    // Click image → close
-    if (lbImg) lbImg.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
+    // Click image → prevent close, but click outside image in content area should close
+    if (lbImg) lbImg.addEventListener('click', function(e) { e.stopPropagation(); });
 
     // Click close button → close
     if (closeBtn) closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
@@ -3268,20 +3340,19 @@ document.addEventListener('DOMContentLoaded', function() {
             touchStartX = e.changedTouches[0].screenX;
         }, {passive: true});
         lb.addEventListener('touchend', function(e) {
+            if (currentImages.length <= 1) return; // No swipe if only 1 image
             const touchEndX = e.changedTouches[0].screenX;
             const diff = touchEndX - touchStartX;
-            if (diff < -50) nextLightboxImage();
-            else if (diff > 50) prevLightboxImage();
-        }, {passive: true});
-    }
-});
 
-document.addEventListener('keydown', function(e) {
-    const lb = document.getElementById('lightbox');
-    if (lb && lb.style.display === 'flex') {
-        if (e.key === 'ArrowRight') nextLightboxImage();
-        if (e.key === 'ArrowLeft') prevLightboxImage();
-        if (e.key === 'Escape') closeLightbox();
+            // Required swipe distance (threshold)
+            if (Math.abs(diff) > 50) {
+                if (diff < 0) {
+                    nextLightboxImage();
+                } else {
+                    prevLightboxImage();
+                }
+            }
+        }, {passive: true});
     }
 });
 
@@ -3552,7 +3623,10 @@ function updatePostGiscusTerm(newTerm) {
 
 <!-- Travel Dependencies -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3@3.5.17/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3-cloud@1/build/d3.layout.cloud.js"></script>
 
@@ -3739,11 +3813,11 @@ function initCollectionCloud(externalData) {
     if (data.length === 0) return;
 
     const width = cloudEl.clientWidth || 600;
-    const height = 160;
+    const height = 240;
 
     const sizeScale = d3.scale.linear()
         .domain([d3.min(data, d => d.size) || 1, d3.max(data, d => d.size) || 1])
-        .range([10, 28]);
+        .range([14, 42]);
 
     const activeTag = window._activeCollectionTag;
 

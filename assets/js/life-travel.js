@@ -218,8 +218,8 @@
     var mapEl = qs('#life-travel-map');
     if (!mapEl) return null;
 
-    if (!window.L) {
-      mapEl.innerHTML = '<div class="travel-map-status">Leaflet not loaded</div>';
+    if (!window.L || !window.L.markerClusterGroup) {
+      mapEl.innerHTML = '<div class="travel-map-status">Leaflet or MarkerCluster not loaded</div>';
       return null;
     }
 
@@ -253,8 +253,8 @@
     };
 
     // Add default layer
-    var currentStyle = localStorage.getItem('map-style') || 'ESRI World Imagery';
-    if (!mapStyles[currentStyle]) currentStyle = 'ESRI World Imagery';
+    var currentStyle = localStorage.getItem('map-style') || 'OpenStreetMap';
+    if (!mapStyles[currentStyle]) currentStyle = 'OpenStreetMap';
     mapStyles[currentStyle].addTo(map);
 
     // Add layer control
