@@ -111,7 +111,17 @@ CITY_NAME_MAP = {
     "马德里": "Madrid",
     "莫斯科": "Moscow",
     "卢加诺": "Lugano",
+    "瑞士Lugano": "Lugano",
     "梵蒂冈": "Vatican",
+    "广州": "Guangzhou",
+    "佛山": "Foshan",
+    "嘉义": "Chiayi",
+    "横店": "Hengdian",
+    "沈荡": "Shendang",
+    "阿姆斯特丹": "Amsterdam",
+    "奈良": "Nara",
+    "环球影城北京": "UniversalBeijing",
+    "台中": "Taichung",
 }
 
 

@@ -269,6 +269,20 @@
     });
 
 
+    var clusterGroup = window.L.markerClusterGroup({
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true,
+      maxClusterRadius: 40,
+      iconCreateFunction: function(cluster) {
+        var count = cluster.getChildCount();
+        return window.L.divIcon({
+          html: '<div class="marker-cluster-paw">🐾<span>' + count + '</span></div>',
+          className: 'marker-cluster-custom',
+          iconSize: window.L.point(40, 40)
+        });
+      }
+    });
+
     var layers = [];
     var markersByTag = Object.create(null);
     var pointsByLocation = Object.create(null);
@@ -291,19 +305,21 @@
 
       // Mobile adjustment
       var isMobile = window.innerWidth < 768;
-      var size = isMobile ? [8, 8] : [14, 14];
+      var size = isMobile ? [18, 18] : [24, 24]; // Paw needs to be slightly larger than a dot
 
-      // If color found, override background using inner div
-      var html = '';
+      // Use a cute paw/footprint icon (🐾 or 👣)
+      // If color found, we can use it for a custom SVG or just use the emoji
+      var html = '<div class="marker-paw">🐾</div>';
       if (color) {
-        html = '<div style="background-color: ' + color + '; width: 100%; height: 100%; border-radius: 50%;"></div>';
-        // We might want to remove the default background of parent if possible, but inner div covering it is fine
-        // Assuming travel-marker has valid border-radius
+        // Apply color filter or wrapper if needed, but emoji usually has its own color.
+        // For custom color, we could use an SVG icon.
+        html = '<div class="marker-paw" style="color: ' + color + '; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">🐾</div>';
       }
 
       return window.L.divIcon({
         className: cls,
         iconSize: size,
+        iconAnchor: [size[0] / 2, size[1] / 2], // Center the paw
         html: html
       });
     }
@@ -378,7 +394,7 @@
         className: 'travel-popup-wrapper'
       });
 
-      marker.addTo(map);
+      marker.addTo(clusterGroup);
       layers.push(marker);
 
       // Add tags from all points at this location
@@ -394,6 +410,8 @@
         });
       });
     });
+
+    map.addLayer(clusterGroup);
 
     if (layers.length) {
       var group = window.L.featureGroup(layers);

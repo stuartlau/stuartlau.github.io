@@ -1,32 +1,43 @@
 ---
 layout:     post
-permalink:  /blogs/travelling/Asia/China/台湾/嘉义_Jiayi/index.html
-title:      "Jiayi"
-subtitle:   "Jiayi"
-date:       2013-09-29
+permalink:  /blogs/travelling/Asia/China/河北/石家庄_Shijiazhuang/index.html
+title:      "石家庄"
+subtitle:   "石家庄"
+date:       2025-01-14
 author:     StuartLau
-header-img: img/in-post/Jiayi-0.jpg
-header-style: text
+header-img:
 catalog: true
 tags:
+    - Hebei
     - Travelling
-    - Jiayi
-    - Taiwan
-location: [120.5, 23.8]
+    - Shijiazhuang
+    - China
+location: [114.5149, 38.0427]
 ---
 
 <div class="album-grid">
-  <a href="https://www.douban.com/photos/album/2109911124" class="album-card" target="_blank">
+  <div class="album-card empty">
     <div class="album-image">
-      <img src="{{ site.url }}/images/in-post/Jiayi-0.jpg" alt="Jiayi Album" class="no-zoom">
+      <span>empty</span>
     </div>
     <div class="album-info">
-      <span class="album-title">Jiayi Album</span>
-      <span class="album-desc">Jiayi</span>
+      <span class="album-title">Shijiazhuang</span>
+      <span class="album-desc">No photos</span>
     </div>
-  </a>
+  </div>
 </div>
 
+
+
+  <ul style="list-style:none; padding:0; margin:0;">
+    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/河北/保定_Baoding/index.html" style="text-decoration: none; color: #2e963d;">保定 Baoding</a></li>
+    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/河北/唐山_Tangshan/index.html" style="text-decoration: none; color: #2e963d;">唐山 Tangshan</a></li>
+    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/河北/张家口_Zhangjiakou/index.html" style="text-decoration: none; color: #2e963d;">张家口 Zhangjiakou</a></li>
+    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/河北/秦皇岛_Qinhuangdao/index.html" style="text-decoration: none; color: #2e963d;">秦皇岛 Qinhuangdao</a></li>
+    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/北京_Beijing/index.html" style="text-decoration: none; color: #2e963d;">北京 Beijing</a></li>
+    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/天津_Tianjin/index.html" style="text-decoration: none; color: #2e963d;">天津 Tianjin</a></li>
+  </ul>
+</div>
 
 <div class="related-travels" style="margin-top:20px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
   <div class="related-title" style="font-weight:bold; margin-bottom:10px; color: #333;">同游此地 (Explore more in this region):</div>
@@ -35,6 +46,7 @@ location: [120.5, 23.8]
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/四川/乐山_Leshan/index.html" style="text-decoration: none; color: #2e963d;">乐山 Leshan</a> <span style="color:#999; font-size:12px; margin-left:5px;">2011-12-31</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/台湾/台北_Taipei/index.html" style="text-decoration: none; color: #2e963d;">台北 Taipei</a> <span style="color:#999; font-size:12px; margin-left:5px;">2013-09-26</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/台湾/台南_Tainan/index.html" style="text-decoration: none; color: #2e963d;">台南 Tainan</a> <span style="color:#999; font-size:12px; margin-left:5px;">2013-09-29</span></li>
+    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/台湾/嘉义_Jiayi/index.html" style="text-decoration: none; color: #2e963d;">嘉义 Jiayi</a> <span style="color:#999; font-size:12px; margin-left:5px;">2013-09-29</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/台湾/高雄_Gaoxiong/index.html" style="text-decoration: none; color: #2e963d;">高雄 Gaoxiong</a> <span style="color:#999; font-size:12px; margin-left:5px;">2013-10-01</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/台湾/垦丁_Kenting/index.html" style="text-decoration: none; color: #2e963d;">垦丁 Kenting</a> <span style="color:#999; font-size:12px; margin-left:5px;">2013-10-02</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/香港/香港_HongKong/index.html" style="text-decoration: none; color: #2e963d;">香港 HongKong</a> <span style="color:#999; font-size:12px; margin-left:5px;">2013-10-04</span></li>
@@ -58,7 +70,6 @@ location: [120.5, 23.8]
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/四川/遂宁_Suining/index.html" style="text-decoration: none; color: #2e963d;">遂宁 Suining</a> <span style="color:#999; font-size:12px; margin-left:5px;">2022-02-12</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/澳门/澳门_Macau/index.html" style="text-decoration: none; color: #2e963d;">澳门 Macau</a> <span style="color:#999; font-size:12px; margin-left:5px;">2022-10-01</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/河北/张家口_Zhangjiakou/index.html" style="text-decoration: none; color: #2e963d;">张家口 Zhangjiakou</a> <span style="color:#999; font-size:12px; margin-left:5px;">2023-05-18</span></li>
-    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/辽宁/沈阳_Shenyang/index.html" style="text-decoration: none; color: #2e963d;">沈阳 Shenyang</a> <span style="color:#999; font-size:12px; margin-left:5px;">2023-12-28</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/海南/三亚_Sanya/index.html" style="text-decoration: none; color: #2e963d;">三亚 Sanya</a> <span style="color:#999; font-size:12px; margin-left:5px;">2024-03-28</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/浙江/嘉兴_Jiaxing/index.html" style="text-decoration: none; color: #2e963d;">嘉兴 Jiaxing</a> <span style="color:#999; font-size:12px; margin-left:5px;">2024-12-20</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/浙江/杭州_Hangzhou/index.html" style="text-decoration: none; color: #2e963d;">杭州 Hangzhou</a> <span style="color:#999; font-size:12px; margin-left:5px;">2025-02-08</span></li>
@@ -66,7 +77,9 @@ location: [120.5, 23.8]
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/福建/福州_Fuzhou/index.html" style="text-decoration: none; color: #2e963d;">福州 Fuzhou</a> <span style="color:#999; font-size:12px; margin-left:5px;">2025-03-28</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/浙江/湖州_Huzhou/index.html" style="text-decoration: none; color: #2e963d;">湖州 Huzhou</a> <span style="color:#999; font-size:12px; margin-left:5px;">2025-05-17</span></li>
     <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/湖南/长沙_Changsha/index.html" style="text-decoration: none; color: #2e963d;">长沙 Changsha</a> <span style="color:#999; font-size:12px; margin-left:5px;">2025-12-25</span></li>
+    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/广东/广州_Guangzhou/index.html" style="text-decoration: none; color: #2e963d;">广州 Guangzhou</a> <span style="color:#999; font-size:12px; margin-left:5px;">2026-02-01</span></li>
+    <li style="margin-bottom: 8px;"><a href="{{ site.url }}/blogs/travelling/Asia/China/广东/佛山_Foshan/index.html" style="text-decoration: none; color: #2e963d;">佛山 Foshan</a> <span style="color:#999; font-size:12px; margin-left:5px;">2026-02-01</span></li>
   </ul>
 </div>
 
-> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 转载请保留原文链接.
+> 本文首次发布于 [StuartLau's Blog](https://stuartlau.github.io), 未经允许不得转载.
