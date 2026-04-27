@@ -1610,6 +1610,8 @@ body.lightbox-open {
     align-items: center;
     z-index: 10000;
     -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+    overflow: hidden;
 }
 
 .lightbox-backdrop {
@@ -1645,15 +1647,17 @@ body.lightbox-open {
 }
 
 #lightbox-img {
-    max-width: 100%;
-    max-height: 80vh;
-    border-radius: 8px;
+    max-width: 95%;
+    max-height: 90vh;
+    border-radius: 4px;
     object-fit: contain;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     cursor: zoom-out;
     opacity: 0;
-    transform: scale(0.98);
-    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.95);
+    transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.2, 0, 0.2, 1);
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 #lightbox-img.loaded {
@@ -3211,7 +3215,7 @@ var _lightboxClosing = false;
 function closeLightbox(e) {
     if (e) {
         e.stopPropagation();
-        e.preventDefault();
+        if (e.cancelable) e.preventDefault();
     }
 
     const lb = document.getElementById('lightbox');
@@ -3225,7 +3229,6 @@ function closeLightbox(e) {
     if (lbImg) {
         lbImg.onload = lbImg.onerror = null;
         lbImg.classList.remove('loaded');
-        // Clear inline styles — let CSS base state (opacity:0) take over naturally
         lbImg.style.cssText = '';
         lbImg.src = '';
     }
@@ -3240,7 +3243,15 @@ function closeLightbox(e) {
     document.body.style.width = '';
     document.documentElement.style.overflow = '';
 
+    // Remove prevent scroll listeners
+    window.removeEventListener('wheel', preventDefault, { passive: false });
+    window.removeEventListener('touchmove', preventDefault, { passive: false });
+
     _lightboxClosing = false;
+}
+
+function preventDefault(e) {
+    if (e.cancelable) e.preventDefault();
 }
 
 function openLightbox(src, galleryImages) {
@@ -3272,6 +3283,10 @@ function openLightbox(src, galleryImages) {
         updateLightboxImage();
         lb.style.display = 'flex';
         document.body.classList.add('lightbox-open');
+
+        // Prevent all scrolling/gestures while open
+        window.addEventListener('wheel', preventDefault, { passive: false });
+        window.addEventListener('touchmove', preventDefault, { passive: false });
     }
 }
 
@@ -3331,16 +3346,20 @@ document.addEventListener('DOMContentLoaded', function() {
         lb.addEventListener('touchstart', function(e) {
             if (e.touches.length > 1) {
                 isMultiTouch = true;
-                return;
+            } else {
+                isMultiTouch = false;
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
             }
-            isMultiTouch = false;
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
         }, {passive: true});
 
         lb.addEventListener('touchend', function(e) {
-            if (currentImages.length <= 1) return; // No swipe if only 1 image
-            if (isMultiTouch || e.touches.length > 0) return; // Skip if zooming or multi-touch
+            if (currentImages.length <= 1) return;
+            if (isMultiTouch || e.touches.length > 0) {
+                // Ensure multi-touch is reset after all fingers are lifted
+                if (e.touches.length === 0) isMultiTouch = false;
+                return;
+            }
 
             const touchEndX = e.changedTouches[0].screenX;
             const touchEndY = e.changedTouches[0].screenY;
@@ -3348,7 +3367,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const diffY = touchEndY - touchStartY;
 
             // Required swipe distance (threshold) and mostly horizontal
-            if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
+            if (Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
                 if (diffX < 0) {
                     nextLightboxImage();
                 } else {
