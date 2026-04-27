@@ -3302,8 +3302,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Click backdrop → close
     if (backdrop) backdrop.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
 
-    // Click image → prevent close, but click outside image in content area should close
-    if (lbImg) lbImg.addEventListener('click', function(e) { e.stopPropagation(); });
+    // Click image → close lightbox (matches cursor: zoom-out)
+    if (lbImg) lbImg.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
 
     // Click close button → close
     if (closeBtn) closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
