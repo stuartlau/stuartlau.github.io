@@ -2526,17 +2526,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load Douban content
     loadDoubanContent();
 
-    // Initialize Lightbox Event Listeners
-    const lbClose = document.getElementById('lb-close');
-    const lbBackdrop = document.getElementById('lb-backdrop');
-    const lbPrev = document.getElementById('lightbox-prev');
-    const lbNext = document.getElementById('lightbox-next');
-
-    if (lbClose) lbClose.addEventListener('click', closeLightbox);
-    if (lbBackdrop) lbBackdrop.addEventListener('click', closeLightbox);
-    if (lbPrev) lbPrev.addEventListener('click', prevLightboxImage);
-    if (lbNext) lbNext.addEventListener('click', nextLightboxImage);
-
     // Keyboard navigation for Lightbox
     document.addEventListener('keydown', function(e) {
         const lb = document.getElementById('lightbox');
@@ -3335,18 +3324,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Touch swipe support for mobile
     let touchStartX = 0;
+    let touchStartY = 0;
+    let isMultiTouch = false;
+
     if (lb) {
         lb.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                isMultiTouch = true;
+                return;
+            }
+            isMultiTouch = false;
             touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
         }, {passive: true});
+
         lb.addEventListener('touchend', function(e) {
             if (currentImages.length <= 1) return; // No swipe if only 1 image
-            const touchEndX = e.changedTouches[0].screenX;
-            const diff = touchEndX - touchStartX;
+            if (isMultiTouch || e.touches.length > 0) return; // Skip if zooming or multi-touch
 
-            // Required swipe distance (threshold)
-            if (Math.abs(diff) > 50) {
-                if (diff < 0) {
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+
+            // Required swipe distance (threshold) and mostly horizontal
+            if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX < 0) {
                     nextLightboxImage();
                 } else {
                     prevLightboxImage();
