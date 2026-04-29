@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       year:
-        description: 'Year to sync (e.g., 2026, or "all")'
+        description: 'Year to sync (e.g., 2026)'
         required: false
-        default: 'all'
+        default: '2026'
   schedule:
     # Run weekly on Sunday at 3:00 UTC
     - cron: '0 3 * * 0'
@@ -32,14 +32,14 @@ jobs:
 
       - name: Run Douban sync script
         run: |
-          python scripts/sync-douban-feed/sync_douban.py --year ${{ github.event.inputs.year || 'all' }}
+          python scripts/sync-douban-feed/sync_douban.py --year ${{ github.event.inputs.year || '2026' }}
         env:
           DOUBAN_COOKIE: ${{ secrets.DOUBAN_COOKIE }}
 
       - name: Check for changes
         id: changes
         run: |
-          if git diff --quiet _data/; then
+          if git diff --quiet _data/ images/; then
             echo "No changes detected"
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
@@ -55,7 +55,7 @@ jobs:
           body: |
             Automated sync of Douban broadcast data.
 
-            - Updated: ${{ github.event.inputs.year || 'all years' }}
+            - Updated: ${{ github.event.inputs.year || '2026' }}
             - Triggered by: ${{ github.actor }}
           branch: douban-sync-$(date +%Y%m%d)
           commit-message: 'data: sync douban data - $(date +%Y-%m-%d)'
