@@ -32,7 +32,7 @@ jobs:
 
       - name: Run Douban sync script
         run: |
-          python scripts/sync_douban.py --year ${{ github.event.inputs.year || 'all' }}
+          python scripts/sync-douban-feed/sync_douban.py --year ${{ github.event.inputs.year || 'all' }}
         env:
           DOUBAN_COOKIE: ${{ secrets.DOUBAN_COOKIE }}
 

@@ -485,9 +485,9 @@ if __name__ == "__main__":
     current_year = datetime.now().year
     parser.add_argument(
         "--year",
-        type=int,
-        default=current_year,
-        help=f"Target year to sync (default: {current_year})",
+        type=str,
+        default=str(current_year),
+        help=f"Target year to sync (default: {current_year}), or 'all'",
     )
 
     # Optional cookie argument, defaults to reading from file
@@ -497,7 +497,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    cookie = args.cookie
+    cookie = args.cookie or os.environ.get("DOUBAN_COOKIE")
     if not cookie:
         cookie_path = os.path.expanduser("~/.douban.cookie")
         if os.path.exists(cookie_path):
@@ -516,46 +516,40 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # Scrape
-    target_year = args.year
-    scrape(target_year, cookie)
+    if args.year == "all":
+        years_to_sync = ["2021", "2022", "2023", "2024", "2025", str(current_year)]
+    else:
+        years_to_sync = [str(args.year)]
 
-    # Git operations
-    # Check if there are changes in data directory and image directory
-    json_file = os.path.join(DATA_DIR, f"{target_year}.json")
+    for target_year in years_to_sync:
+        scrape(target_year, cookie)
 
-    # We should add images too
-
-    if os.path.exists(json_file):
+    # Git operations (skip auto-commit in GH Actions since it has its own PR flow)
+    if not os.environ.get("GITHUB_ACTIONS"):
         try:
             import subprocess
 
             print("Checking for changes to commit...")
+            for target_year in years_to_sync:
+                json_file = os.path.join(DATA_DIR, f"{target_year}.json")
+                if os.path.exists(json_file):
+                    subprocess.run(["git", "add", json_file], check=True)
 
-            # Add json file
-            subprocess.run(["git", "add", json_file], check=True)
-
-            # Add images directory
             if os.path.exists(IMAGE_DIR):
                 subprocess.run(["git", "add", IMAGE_DIR], check=True)
 
-            # Check status
             status = subprocess.run(
                 ["git", "diff", "--staged", "--name-only"],
                 capture_output=True,
                 text=True,
             )
-
             if status.stdout.strip():
-                commit_msg = f"chore: sync douban feed & images for {target_year}"
+                commit_msg = f"chore: sync douban feed & images for {args.year}"
                 subprocess.run(["git", "commit", "-m", commit_msg], check=True)
                 print(f"Committed changes: {commit_msg}")
-
                 print("Pushing to remote...")
                 subprocess.run(["git", "push"], check=True)
             else:
                 print("No changes detected by git.")
-
-        except subprocess.CalledProcessError as e:
-            print(f"Git operation failed: {e}")
         except Exception as e:
             print(f"Error during git operations: {e}")
