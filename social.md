@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </a>
             <a href="#travel" class="tab-item" data-tab="travel" title="Travel">
                 <!-- Balanced, cuter paw icon using circles -->
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><circle cx="12" cy="16" r="3.5"/><circle cx="7.5" cy="11" r="2.2"/><circle cx="10.5" cy="8" r="2.2"/><circle cx="14.5" cy="8" r="2.2"/><circle cx="17.5" cy="11" r="2.2"/></svg>
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="16" r="4"/><circle cx="7" cy="11" r="2.5"/><circle cx="10.5" cy="7" r="2.5"/><circle cx="14.5" cy="7" r="2.5"/><circle cx="18" cy="11" r="2.5"/></svg>
             </a>
             <a href="#history" class="tab-item" data-tab="history" style="display:none;" title="On This Day">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -861,17 +861,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fill: rgba(29, 155, 240, 0.1);
 }
 
-.tab-item.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background: #1d9bf0;
-    border-radius: 2px;
-}
+/* Removed blue line under active tabs */
 
 .tab-label {
     display: block;
@@ -1312,16 +1302,7 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #1d9bf0;
 }
 
-.tab-item.active::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 20%;
-    right: 20%;
-    height: 4px;
-    background: #1d9bf0;
-    border-radius: 2px;
-}
+/* Removed blue line under active tabs */
 
 /* Scroll Sentinel for Infinite Scroll */
 .scroll-sentinel {
@@ -1620,8 +1601,8 @@ body.lightbox-open {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.8);
-    cursor: zoom-out;
+    background: rgba(0,0,0,0.95);
+    cursor: default;
 }
 
 #lightbox.loading::after {
@@ -1643,7 +1624,7 @@ body.lightbox-open {
     position: relative;
     max-width: 85%;
     max-height: 85%;
-    cursor: zoom-out; /* iOS click fix */
+    cursor: default;
 }
 
 #lightbox-img {
@@ -1672,22 +1653,23 @@ body.lightbox-open {
 
 .lightbox-close {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(255,255,255,0.9);
-    color: #333;
+    top: 16px;
+    right: 16px;
+    background: rgba(255,255,255,0.95);
+    color: #0f1419;
     border: none;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 28px;
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.2s;
     z-index: 10002;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .lightbox-close:hover, .lightbox-close:active {
@@ -3243,9 +3225,7 @@ function closeLightbox(e) {
     document.body.style.width = '';
     document.documentElement.style.overflow = '';
 
-    // Remove prevent scroll listeners
-    window.removeEventListener('wheel', preventDefault, { passive: false });
-    window.removeEventListener('touchmove', preventDefault, { passive: false });
+    // Scroll listeners removed to prevent iOS freeze
 
     _lightboxClosing = false;
 }
@@ -3284,9 +3264,7 @@ function openLightbox(src, galleryImages) {
         lb.style.display = 'flex';
         document.body.classList.add('lightbox-open');
 
-        // Prevent all scrolling/gestures while open
-        window.addEventListener('wheel', preventDefault, { passive: false });
-        window.addEventListener('touchmove', preventDefault, { passive: false });
+        // Scroll lock is handled purely via CSS overflow: hidden to avoid iOS Safari freezes
     }
 }
 
@@ -3314,28 +3292,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextBtn = document.getElementById('lightbox-next');
     const closeBtn = document.getElementById('lb-close');
 
-    // Click backdrop → close
-    if (backdrop) backdrop.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
+    // Redesigned Interaction: Only clicking the image or close button closes the lightbox.
+    // Clicking the backdrop/non-image area does NOTHING, to prevent iOS Safari freezing issues.
 
-    // Click image → close lightbox (matches cursor: zoom-out)
+    // Click image → close lightbox
     if (lbImg) lbImg.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
 
     // Click close button → close
     if (closeBtn) closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
 
-    // Click content area (black strips around image) → close
-    const lbContent = document.querySelector('.lightbox-content');
-    if (lbContent) lbContent.addEventListener('click', function(e) {
-        // Only close if not clicking a button inside
-        if (e.target === lbContent) closeLightbox();
-    });
-
-    // Click prev/next → navigate (stopPropagation to prevent close)
+    // Click prev/next → navigate
     if (prevBtn) prevBtn.addEventListener('click', function(e) { e.stopPropagation(); prevLightboxImage(); });
     if (nextBtn) nextBtn.addEventListener('click', function(e) { e.stopPropagation(); nextLightboxImage(); });
-
-    // Click anywhere else on lightbox container → close
-    if (lb) lb.addEventListener('click', function() { closeLightbox(); });
 
     // Touch swipe support for mobile
     let touchStartX = 0;
